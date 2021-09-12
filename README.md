@@ -10,6 +10,8 @@ kubectl create secret generic -n kapp github --from-file=ssh-privatekey=$HOME/.s
 kubectl create secret generic -n kapp pgp-key --from-file=$HOME/.gnupg/my.pk --dry-run=client -oyaml | kubectl apply -f-
 ```
 
+## How to generate GPG keys 
+
 https://carvel.dev/kapp-controller/docs/latest/sops/
 
 ```
@@ -26,6 +28,6 @@ Name-Real: Toshiaki Maki
 Name-Email: makingx@gmail.com
 EOF
 docker run --rm -v $HOME/.gnupg:/root/.gnupg --entrypoint gpg maven:3.8.2 --batch --full-generate-key /root/.gnupg/conf
-docker run --rm -v $HOME/.gnupg:/root/.gnupg --entrypoint gpg maven:3.8.2 --list-secret-keys "Toshiaki Maki" --keyid-format LONG
+docker run --rm -v $HOME/.gnupg:/root/.gnupg --entrypoint gpg maven:3.8.2 --list-secret-keys "Toshiaki Maki"
 docker run --rm -v $HOME/.gnupg:/root/.gnupg --entrypoint gpg maven:3.8.2 --armor --export-secret-keys 3333F31B8FA9804B7A5B46F50C5F49ACBB7EF4E3 > $HOME/.gnupg/my.pk
 ```
