@@ -29,5 +29,5 @@ Name-Email: makingx@gmail.com
 EOF
 docker run --rm -v $HOME/.gnupg:/root/.gnupg --entrypoint gpg maven:3.8.2 --batch --full-generate-key /root/.gnupg/conf
 docker run --rm -v $HOME/.gnupg:/root/.gnupg --entrypoint gpg maven:3.8.2 --list-secret-keys "Toshiaki Maki"
-docker run --rm -v $HOME/.gnupg:/root/.gnupg --entrypoint gpg maven:3.8.2 --armor --export-secret-keys 3333F31B8FA9804B7A5B46F50C5F49ACBB7EF4E3 > $HOME/.gnupg/my.pk
+docker run --rm -v $HOME/.gnupg:/root/.gnupg --entrypoint gpg maven:3.8.2 --armor --export-secret-keys AB2978B9059B0ACD > $HOME/.gnupg/my.pk
 ```
