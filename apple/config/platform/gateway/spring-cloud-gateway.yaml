@@ -1,0 +1,499 @@
+#@ load("@ytt:data", "data")
+#@ image_name = "{}@{}".format(data.values.image_name, data.values.image_digest)
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: gateway
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-cloud-gateway
+  namespace: gateway
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: spring-cloud-gateway
+  template:
+    metadata:
+      labels:
+        app: spring-cloud-gateway
+      annotations:
+        prometheus.io/path: /_management/prometheus
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+    spec:
+      containers:
+      - image: #@ image_name
+        name: spring-cloud-gateway
+        ports:
+        - containerPort: 8080
+        env:
+        - name: LOGGING_LEVEL_WEB
+          value: INFO
+        - name: SERVER_ERROR_INCLUDEMESSAGE
+          value: always
+        - name: JAVA_OPTS
+          value: "-Djava.net.preferIPv4Stack=true -XX:ReservedCodeCacheSize=32M -Xss512k -XX:MaxDirectMemorySize=64M"
+        - name: BPL_JVM_THREAD_COUNT
+          value: "20"
+        - name: BPL_JVM_HEAD_ROOM
+          value: "5"
+        - name: INFO_JAVA_VERSION
+          value: ${java.runtime.version}
+        - name: INFO_JAVA_VENDOR
+          value: ${java.vm.vendor}
+        - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+          value: info,health,prometheus,gateway,env,configprops
+        - name: MANAGEMENT_ENDPOINTS_WEB_BASE_PATH
+          value: /_management
+        - name: MANAGEMENT_INFO_GIT_MODE
+          value: full
+        - name: SPRING_CLOUD_GATEWAY_HTTPCLIENT_SSL_USEINSECURETRUSTMANAGER
+          value: "true"
+        - name: SPRING_CLOUD_GATEWAY_DEFAULTFILTERS
+          value: AccessLog=
+        #### prometheus
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_0_ID
+          value: grafana
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_0_PREDICATES_0_NAME
+          value: Host
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_0_PREDICATES_0_ARGS_PATTERNS
+          value: "prometheus.cf.ik.am"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_0_ORDER
+          value: "-5"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_0_FILTERS_0
+          value: "SetRequestHeader=X-Forwarded-Proto, https"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_0_FILTERS_1
+          value: "SetRequestHeader=X-Forwarded-Port, 443"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_0_URI
+          value: https://prometheus.grape.maki.lol
+        #### VMware Exporter
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_1_ID
+          value: vmware-exporter
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_1_PREDICATES_0_NAME
+          value: Host
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_1_PREDICATES_0_ARGS_PATTERNS
+          value: "vmware-exporter.cf.ik.am*"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_1_ORDER
+          value: "-5"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_1_FILTERS_0
+          value: "SetRequestHeader=X-Forwarded-Proto, https"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_1_FILTERS_1
+          value: "SetRequestHeader=X-Forwarded-Port, 443"
+        #- name: SPRING_CLOUD_GATEWAY_ROUTES_1_FILTERS_2
+        #  value: AccessLog=
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_1_URI
+          value: http://192.168.11.108:9272
+        #### Vault
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_2_ID
+          value: vault
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_2_PREDICATES_0_NAME
+          value: Host
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_2_PREDICATES_0_ARGS_PATTERNS
+          value: "vault.cf.ik.am"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_2_ORDER
+          value: "-5"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_2_FILTERS_0
+          value: "SetRequestHeader=X-Forwarded-Proto, https"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_2_FILTERS_1
+          value: "SetRequestHeader=X-Forwarded-Port, 443"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_2_URI
+          value: http://192.168.11.108:8200
+        #### httpbin
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_3_ID
+          value: httpbin
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_3_PREDICATES_0_NAME
+          value: Path
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_3_PREDICATES_0_ARGS_PATTERNS
+          value: "/get"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_3_ORDER
+          value: "-1"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_3_URI
+          value: https://httpbin.org
+        #### Blog API HTTP
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_4_ID
+          value: blog-api-http
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_4_PREDICATES_0_NAME
+          value: Host
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_4_PREDICATES_0_ARGS_PATTERNS_0
+          value: "blog-api.ik.am*"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_4_ORDER
+          value: "-50"
+#        - name: SPRING_CLOUD_GATEWAY_ROUTES_4_URI
+#          value: http://blog-api.blog.svc.cluster.local:8080
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_4_URI
+          value: http://192.168.11.160:80
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_4_FILTERS_0
+          value: "PreserveHostHeader="
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_4_FILTERS_1
+          value: "SetRequestHeader=Host, blog-api.blog.apple.maki.lol"
+        #### Blog API RSocket
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_5_ID
+          value: blog-api-rsocket
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_5_PREDICATES_0_NAME
+          value: Host
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_5_PREDICATES_0_ARGS_PATTERNS
+          value: "blog.ik.am*"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_5_PREDICATES_1_NAME
+          value: Path
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_5_PREDICATES_1_ARGS_PATTERNS
+          value: "/rsocket"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_5_ORDER
+          value: "-100"
+#        - name: SPRING_CLOUD_GATEWAY_ROUTES_5_URI
+#          value: ws://blog-api.blog.svc.cluster.local:8080
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_5_URI
+          value: ws://192.168.11.160:80
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_5_FILTERS_0
+          value: "PreserveHostHeader="
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_5_FILTERS_1
+          value: "SetRequestHeader=Host, blog-api.blog.apple.maki.lol"
+        #### Blog Frontend
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_6_ID
+          value: blog-frontend
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_6_PREDICATES_0_NAME
+          value: Host
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_6_PREDICATES_0_ARGS_PATTERNS
+          value: "blog.ik.am*"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_6_ORDER
+          value: "-50"
+#        - name: SPRING_CLOUD_GATEWAY_ROUTES_6_URI
+#          value: http://blog-frontend.blog.svc.cluster.local:8080
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_6_URI
+          value: http://192.168.11.160:80
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_6_FILTERS_0
+          value: "Redirect=301, ik.am"
+        #### Feed, Atom, RSS
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_7_ID
+          value: blog-feed
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_7_PREDICATES_0_NAME
+          value: Host
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_7_PREDICATES_0_ARGS_PATTERNS_0
+          value: "feed.ik.am*"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_7_PREDICATES_0_ARGS_PATTERNS_1
+          value: "atom.ik.am*"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_7_PREDICATES_0_ARGS_PATTERNS_2
+          value: "rss.ik.am*"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_7_ORDER
+          value: "-100"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_7_URI
+          value: http://blog-feed.blog.svc.cluster.local:8080
+        #### RSS, Feed path
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_8_ID
+          value: blog-frontend-rss
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_8_PREDICATES_0_NAME
+          value: Host
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_8_PREDICATES_0_ARGS_PATTERNS_0
+          value: "blog.ik.am*"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_8_PREDICATES_0_ARGS_PATTERNS_1
+          value: "ik.am*"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_8_PREDICATES_1_NAME
+          value: Path
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_8_PREDICATES_1_ARGS_PATTERNS_0
+          value: "/feed"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_8_PREDICATES_1_ARGS_PATTERNS_1
+          value: "/rss"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_8_ORDER
+          value: "-70"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_8_URI
+          value: http://blog-feed.blog.svc.cluster.local:8080
+        #### UAA
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_9_ID
+          value: uaa
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_9_PREDICATES_0_NAME
+          value: Host
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_9_PREDICATES_0_ARGS_PATTERNS_0
+          value: "uaa.ik.am*"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_9_ORDER
+          value: "-10"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_9_URI
+          value: http://uaa.uaa.svc.cluster.local:8080
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_9_FILTERS_0
+          value: "PreserveHostHeader="
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_9_FILTERS_1
+          value: "SetRequestHeader=X-Forwarded-Proto, https"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_9_FILTERS_2
+          value: "SetRequestHeader=X-Forwarded-Port, 443"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_9_FILTERS_3
+          value: "SetRequestHeader=X-Forwarded-Host, uaa.ik.am"
+        #### Moneygr
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_10_ID
+          value: moneygr
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_10_PREDICATES_0_NAME
+          value: Host
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_10_PREDICATES_0_ARGS_PATTERNS_0
+          value: "moneygr.ik.am*"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_10_ORDER
+          value: "-10"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_10_URI
+          value: http://moneygr.moneygr.svc.cluster.local:8080
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_10_FILTERS_0
+          value: "PreserveHostHeader="
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_10_FILTERS_1
+          value: "SetRequestHeader=X-Forwarded-Proto, https"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_10_FILTERS_2
+          value: "SetRequestHeader=X-Forwarded-Port, 443"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_10_FILTERS_3
+          value: "SetRequestHeader=X-Forwarded-Host, moneygr.ik.am"
+        #### Synology
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_11_ID
+          value: synology
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_11_PREDICATES_0_NAME
+          value: Host
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_11_PREDICATES_0_ARGS_PATTERNS_0
+          value: "synology.ik.am*"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_11_PREDICATES_1
+          value: "Header=User-Agent, (Photos|Synology|iOS|Moments|AppleCoreMedia).+"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_11_ORDER
+          value: "-10"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_11_URI
+          value: https://192.168.11.108:5001
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_11_FILTERS_0
+          value: "PreserveHostHeader="
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_11_FILTERS_1
+          value: "SetRequestHeader=X-Forwarded-Proto, https"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_11_FILTERS_2
+          value: "SetRequestHeader=X-Forwarded-Port, 443"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_11_FILTERS_3
+          value: "SetRequestHeader=X-Forwarded-Host, synology.ik.am"
+        #### Note
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_12_ID
+          value: note
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_12_PREDICATES_0_NAME
+          value: Host
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_12_PREDICATES_0_ARGS_PATTERNS_0
+          value: "note.dev.ik.am*"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_12_ORDER
+          value: "-10"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_12_URI
+          value: http://note.note.svc.cluster.local:8080
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_12_FILTERS_0
+          value: "PreserveHostHeader="
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_12_FILTERS_1
+          value: "SetRequestHeader=X-Forwarded-Proto, https"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_12_FILTERS_2
+          value: "SetRequestHeader=X-Forwarded-Port, 443"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_12_FILTERS_3
+          value: "SetRequestHeader=X-Forwarded-Host, note.dev.ik.am"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_12_FILTERS_4
+          value: "SetResponseHeader=X-Server, scgw"
+        #### CMS
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_13_ID
+          value: cms
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_13_PREDICATES_0_NAME
+          value: Host
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_13_PREDICATES_0_ARGS_PATTERNS_0
+          value: "note.ik.am*"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_13_ORDER
+          value: "-10"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_13_URI
+          value: http://cms.note.svc.cluster.local:8080
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_13_FILTERS_0
+          value: "PreserveHostHeader="
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_13_FILTERS_1
+          value: "SetRequestHeader=X-Forwarded-Proto, https"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_13_FILTERS_2
+          value: "SetRequestHeader=X-Forwarded-Port, 443"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_13_FILTERS_3
+          value: "SetRequestHeader=X-Forwarded-Host, note.ik.am"
+        #### *.dev.ik.am -> PCFOne
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_14_ID
+          value: pcfone
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_14_PREDICATES_0_NAME
+          value: Host
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_14_PREDICATES_0_ARGS_PATTERNS_0
+          value: "{subdomain}.dev.ik.am*"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_14_ORDER
+          value: "-5"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_14_URI
+          value: https://api.run.pcfone.io
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_14_FILTERS_0
+          value: "PreserveHostHeader="
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_14_FILTERS_1
+          value: "SetRequestHeader=Host, {subdomain}.apps.pcfone.io"
+        #### *.kn.ik.am -> Knative
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_15_ID
+          value: knative
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_15_PREDICATES_0_NAME
+          value: Host
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_15_PREDICATES_0_ARGS_PATTERNS_0
+          value: "{subdomain}.kn.ik.am*"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_15_ORDER
+          value: "-8"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_15_URI
+          value: http://192.168.11.160
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_15_FILTERS_0
+          value: "PreserveHostHeader="
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_15_FILTERS_1
+          value: "SetRequestHeader=Host, {subdomain}.default.apple.maki.lol"
+        #### ik.am -> Knative
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_16_ID
+          value: ik-am
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_16_PREDICATES_0_NAME
+          value: Host
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_16_PREDICATES_0_ARGS_PATTERNS_0
+          value: "ik.am*"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_16_ORDER
+          value: "-120"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_16_URI
+          value: http://192.168.11.160:80
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_16_FILTERS_0
+          value: "PreserveHostHeader="
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_16_FILTERS_1
+          value: "SetRequestHeader=Host, blog-frontend.blog.apple.maki.lol"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_16_FILTERS_2
+          value: "SetRequestHeader=Forwarded, proto=https;host=ik.am"
+        #### ik.am/rsocket -> Knative
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_17_ID
+          value: ik-am-rsocket
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_17_PREDICATES_0_NAME
+          value: Host
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_17_PREDICATES_0_ARGS_PATTERNS_0
+          value: "ik.am*"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_17_PREDICATES_1_NAME
+          value: Path
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_17_PREDICATES_1_ARGS_PATTERNS
+          value: "/rsocket"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_17_ORDER
+          value: "-130"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_17_URI
+          value: http://192.168.11.160:80
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_17_FILTERS_0
+          value: "PreserveHostHeader="
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_17_FILTERS_1
+          value: "SetRequestHeader=Host, blog-api.blog.apple.maki.lol"
+        #### api.ik.am -> Knative
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_18_ID
+          value: api-ik-am
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_18_PREDICATES_0_NAME
+          value: Host
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_18_PREDICATES_0_ARGS_PATTERNS_0
+          value: "api.ik.am*"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_18_ORDER
+          value: "-120"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_18_URI
+          value: http://192.168.11.160:80
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_18_FILTERS_0
+          value: "PreserveHostHeader="
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_18_FILTERS_1
+          value: "SetRequestHeader=Host, blog-api.blog.apple.maki.lol"
+#        #### Blog API HTTP (Actuator)
+#        - name: SPRING_CLOUD_GATEWAY_ROUTES_15_ID
+#          value: blog-api-actuator
+#        - name: SPRING_CLOUD_GATEWAY_ROUTES_15_PREDICATES_0_NAME
+#          value: Host
+#        - name: SPRING_CLOUD_GATEWAY_ROUTES_15_PREDICATES_0_ARGS_PATTERNS_0
+#          value: "blog-api.ik.am*"
+#        - name: SPRING_CLOUD_GATEWAY_ROUTES_15_PREDICATES_1_NAME
+#          value: Path
+#        - name: SPRING_CLOUD_GATEWAY_ROUTES_15_PREDICATES_1_ARGS_PATTERNS_0
+#          value: "/actuator/info"
+#        - name: SPRING_CLOUD_GATEWAY_ROUTES_15_PREDICATES_1_ARGS_PATTERNS_1
+#          value: "/actuator/health"
+#        - name: SPRING_CLOUD_GATEWAY_ROUTES_15_ORDER
+#          value: "-100"
+#        - name: SPRING_CLOUD_GATEWAY_ROUTES_15_URI
+#          value: http://blog-api.blog.svc.cluster.local:8081
+#        #### Blog Frontend (Actuator)
+#        - name: SPRING_CLOUD_GATEWAY_ROUTES_16_ID
+#          value: blog-frontend-actuator
+#        - name: SPRING_CLOUD_GATEWAY_ROUTES_16_PREDICATES_0_NAME
+#          value: Host
+#        - name: SPRING_CLOUD_GATEWAY_ROUTES_16_PREDICATES_0_ARGS_PATTERNS
+#          value: "blog.ik.am*"
+#        - name: SPRING_CLOUD_GATEWAY_ROUTES_16_PREDICATES_1_NAME
+#          value: Path
+#        - name: SPRING_CLOUD_GATEWAY_ROUTES_16_PREDICATES_1_ARGS_PATTERNS_0
+#          value: "/actuator/info"
+#        - name: SPRING_CLOUD_GATEWAY_ROUTES_16_PREDICATES_1_ARGS_PATTERNS_1
+#          value: "/actuator/health"
+#        - name: SPRING_CLOUD_GATEWAY_ROUTES_16_ORDER
+#          value: "-100"
+#        - name: SPRING_CLOUD_GATEWAY_ROUTES_16_URI
+#          value: http://blog-frontend.blog.svc.cluster.local:8081
+        ####
+        - name: SPRING_SLEUTH_ENABLED
+          value: "true"
+        - name: SPRING_ZIPKIN_SERVICE_NAME
+          value: "apple:gateway"
+        - name: SPRING_ZIPKIN_ENABLED
+          value: "true"
+        - name: SPRING_ZIPKIN_BASE_URL
+          value: http://otel-collector.otel.svc.cluster.local:9411
+        - name: SPRING_SLEUTH_SAMPLER_RATE
+          value: "30"
+        - name: SPRING_SLEUTH_WEB_ADDITIONAL_SKIP_PATTERN
+          value: "/actuator.*|/proxy.*|/_management.*|/zipkin.*|/api/v2/spans|/metrics/.*|/api/v1/read/.*|/v1/sys/.*|/v1/concourse/.*|/static.*|/manifest.json"
+        - name: INFO_K8S_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: INFO_K8S_POD
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: INFO_K8S_APP
+          value: "${spring.application.name}"
+        - name: MANAGEMENT_METRICS_EXPORT_PROMETHEUS_RSOCKET_ENABLED
+          value: "false"
+        - name: MANAGEMENT_METRICS_TAGS_ORGANIZATION
+          value: apple
+        resources:
+          limits:
+            memory: "256Mi"
+          requests:
+            memory: "256Mi"
+        readinessProbe:
+          httpGet:
+            path: /_management/health
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+          periodSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /_management/info
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 10
+          timeoutSeconds: 1
+          periodSeconds: 10
+          failureThreshold: 1
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: "app"
+                operator: In
+                values:
+                - spring-cloud-gateway
+            topologyKey: "kubernetes.io/hostname"
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: spring-cloud-gateway
+  namespace: gateway
+spec:
+  type: ClusterIP
+  selector:
+    app: spring-cloud-gateway
+  ports:
+  - protocol: TCP
+    port: 8080
+---
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  name: spring-cloud-gateway
+  namespace: gateway
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: spring-cloud-gateway

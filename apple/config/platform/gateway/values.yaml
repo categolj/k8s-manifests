@@ -1,0 +1,26 @@
+#@data/values
+#@overlay/match-child-defaults missing_ok=True
+---
+git_repo: https://github.com/making/vanilla-gateway
+git_commit: 3e7a1896fa28b183afa2443d8c8846bf213bb8dd
+image_name: ghcr.io/making/vanilla-gateway
+image_digest: sha256:cd2741003e03ae42f30ea08ffaf00ea11ff7dbe7df294381ff72b5cd554cefde
+base_image:
+  reference: gopivotal-build-service-private.jfrog.io/shipyard/run@sha256:c6e071ac324b948037be8f950199e765a6b9eccce4e0b74f83f38755d528f534
+  top_layer: sha256:68ddcb152750ec030933e14ab0e4cfd759a97b1d9b4742f7606584d685cc6f71
+run_image: gopivotal-build-service-private.jfrog.io/shipyard/run@sha256:9cb1909dbe23818f37f91cf9f3cd7d0c2748b6e07c2093169b3fd15591feff27
+buildpacks:
+- id: paketo-buildpacks/ca-certificates
+  version: 2.4.0
+- id: paketo-buildpacks/bellsoft-liberica
+  version: 8.4.0
+- id: paketo-buildpacks/maven
+  version: 5.4.0
+- id: paketo-buildpacks/executable-jar
+  version: 5.2.0
+- id: paketo-buildpacks/apache-tomcat
+  version: 6.1.0
+- id: paketo-buildpacks/dist-zip
+  version: 4.2.0
+- id: paketo-buildpacks/spring-boot
+  version: 4.5.0

@@ -1,0 +1,40 @@
+apiVersion: kappctrl.k14s.io/v1alpha1
+kind: App
+metadata:
+  name: uaa
+  namespace: kapp
+spec:
+  serviceAccountName: kapp
+  fetch:
+  - git:
+      url: https://github.com/cloudfoundry/uaa.git
+      ref: 3f5c7fe17771388882a19f3d0dc1f270ef812a62 #! v75.7.0
+      subPath: k8s/templates
+  - git:
+      url: git@github.com:categolj/k8s-manifests.git
+      ref: origin/main
+      secretRef:
+        name: github
+  syncPeriod: 1h
+  template:
+  - sops:
+      pgp:
+        privateKeysSecretRef:
+          name: pgp-key
+  - ytt:
+      paths:
+      - 0/
+      - 1/apple/config/platform/uaa/namespace.yaml
+      - 1/apple/config/platform/uaa/uaa.yaml
+      valuesFrom:
+        - path: 1/common/credentials.yaml
+        - path: 1/apple/config/platform/uaa/credentials.yaml
+  deploy:
+  - kapp:
+      rawOptions:
+      - --wait-timeout=5m
+      - --diff-changes=true
+      - --diff-mask=true
+      inspect:
+        rawOptions:
+        - --tree=true

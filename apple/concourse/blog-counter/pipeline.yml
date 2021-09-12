@@ -1,0 +1,119 @@
+resource_types:
+- name: maven-resource
+  type: registry-image
+  source:
+    repository: nulldriver/maven-resource
+    tag: latest
+resources:
+- name: image
+  type: registry-image
+  source:
+    repository: ghcr.io/making/blog-counter
+    tag: 0.0.1-SNAPSHOT
+jobs:
+- name: vulnerability-scan
+  plan:
+  - in_parallel:
+    - get: image
+      trigger: true
+  - task: trivy-fs
+    config:
+      platform: linux
+      image_resource:
+        type: registry-image
+        source:
+          repository: aquasec/trivy
+      inputs:
+      - name: image
+      caches:
+      - path: trivy-cache
+      run:
+        path: sh
+        args:
+        - -cex
+        - |
+          trivy --cache-dir trivy-cache fs --severity HIGH,CRITICAL --vuln-type library,os --ignore-unfixed --exit-code 1 image/rootfs
+- name: update-config
+  plan:
+  - in_parallel:
+    - get: image
+      trigger: true
+      passed:
+      - vulnerability-scan
+      params:
+        format: oci
+  - task: update-config
+    timeout: 5m
+    attempts: 3
+    params:
+      APP_NAME: blog-counter
+      REPOSITORY: categolj/k8s-manifests
+      GIT_EMAIL: ((git_email))
+      GIT_NAME: ((git_name))
+      GIT_SSH_KEY: ((update_config_ssh_key))
+      ACCESS_TOKEN: ((github_api_token))
+      BASE: main
+      TERM: xterm
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source:
+          repository: maven
+      inputs:
+      - name: image
+      run:
+        path: bash
+        args:
+        - -ce
+        - |
+          DIR=$(pwd)
+          tar xf ${DIR}/image/image.tar
+          tar xzf $(ls -S ${DIR}/*.tar.gz | head -n 1)
+
+          GIT_REPO=$(strings ${DIR}/workspace/am.ik.blog.CounterApplication | grep git.remote.origin.url= | awk -F '=' '{print $2}' | sed 's/\\//')
+          GIT_REV=$(strings ${DIR}/workspace/am.ik.blog.CounterApplication | grep git.commit.id= | awk -F '=' '{print $2}')
+          curl -sL https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 > jq
+          curl -sL https://github.com/sclevine/yj/releases/download/v5.0.0/yj-linux > yj
+          install jq /usr/local/bin/jq
+          install yj /usr/local/bin/yj
+          cat ${DIR}/sha256* | jq -r '.config.Labels["io.buildpacks.lifecycle.metadata"]' > metadata.json
+          cat <<EOF > ${DIR}/values.yaml
+          #@data/values
+          #@overlay/match-child-defaults missing_ok=True
+          ---
+          git_repo: ${GIT_REPO}
+          git_commit: ${GIT_REV}
+          image_name: $(cat image/repository)
+          image_digest: $(cat image/digest)
+          base_image:
+            reference: $(cat metadata.json | jq -r .runImage.reference)
+            top_layer: $(cat metadata.json | jq -r .runImage.topLayer)
+          run_image: $(cat metadata.json | jq -r .stack.runImage.image)
+          buildpacks:
+          $(cat metadata.json | jq -r '.buildpacks | map({"id": .key, "version": .version})' | yj -jy)
+          EOF
+
+          cat ${DIR}/values.yaml
+
+          mkdir -p ~/.ssh
+          cat > ~/.ssh/config <<EOF
+          StrictHostKeyChecking no
+          LogLevel quiet
+          EOF
+          cat > ~/.ssh/id_rsa <<EOF
+          ${GIT_SSH_KEY}
+          EOF
+          chmod 0600 ~/.ssh/*
+
+          git config --global user.email "${GIT_EMAIL}"
+          git config --global user.name "${GIT_NAME}"
+          git clone git@github.com:${REPOSITORY}.git
+          cd $(echo ${REPOSITORY} | awk -F '/' '{print $2}')
+
+          COMMIT_MESSAGE="Bump to categolj/${APP_NAME}@${GIT_REV}"
+          cp ${DIR}/values.yaml apple/config/app/${APP_NAME}/values.yaml
+          git --no-pager diff --color=always
+          git add -A
+          git commit -m "${COMMIT_MESSAGE}"
+          git push origin ${BASE}

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cnr-values
+  annotations:
+    kapp.k14s.io/change-group: cnr.vmware.com/cnr-config
+  labels:
+    app.kubernetes.io/part-of: cloud-native-runtimes
+stringData:
+  values.yml: |
+    #@data/values
+    ---
+    local_dns:
+      enable: false
+      domain: example.com

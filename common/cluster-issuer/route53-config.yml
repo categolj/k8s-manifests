@@ -1,0 +1,8 @@
+#@ load("@ytt:data", "data")
+kind: Secret
+apiVersion: v1
+metadata:
+  name: route53-config
+  namespace: cert-manager
+stringData:
+  secret-access-key: #@ data.values.aws.secret_access_key

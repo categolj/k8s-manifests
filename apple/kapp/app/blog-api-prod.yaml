@@ -1,0 +1,39 @@
+apiVersion: kappctrl.k14s.io/v1alpha1
+kind: App
+metadata:
+  name: blog-api-prod
+  namespace: kapp
+spec:
+  serviceAccountName: kapp
+  fetch:
+  - git:
+      url: git@github.com:categolj/k8s-manifests.git
+      ref: origin/main
+      secretRef:
+        name: github
+  syncPeriod: 1m
+  template:
+  - sops:
+      pgp:
+        privateKeysSecretRef:
+          name: pgp-key
+  - ytt:
+      paths:
+      - common/ksvc-kapp-config.yaml
+      - apple/config/app/blog-common/namespace.yaml
+      - apple/config/app/blog-common/values.yaml
+      - apple/config/app/blog-api/prod
+      - apple/config/app/blog-api/secret.yaml
+      - apple/config/app/blog-api/ksvc.yaml
+      - apple/config/app/blog-common/min-scale.yaml
+      valuesFrom:
+      - path: apple/config/app/blog-common/credentials.yaml
+  deploy:
+  - kapp:
+      rawOptions:
+      - --wait-timeout=5m
+      - --diff-changes=true
+      - --diff-mask=true
+      inspect:
+        rawOptions:
+        - --tree=true

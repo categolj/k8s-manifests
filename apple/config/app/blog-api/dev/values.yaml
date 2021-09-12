@@ -1,0 +1,14 @@
+#@data/values
+#@overlay/match-child-defaults missing_ok=True
+---
+git_repo: https://github.com/categolj/blog-api
+git_commit: bb432e5e259f1e266fbc4f97d0d270aab59a1fe0
+image_name: harbor.orange.maki.lol/library/blog-api
+image_digest: sha256:a5b7254032055d36ca8f9dea1c76ae3464ceda1657575f87c5ebfc85d25455cd
+base_image:
+  reference: harbor.orange.maki.lol/tanzu-build-service/build-service/run@sha256:c7cceda622d7cc84e85b61a4f4d243b28f7ebe9e12bb2dde705c36c6be9bf7db
+  top_layer: sha256:32f84f253f14e0d72f8d2ce16efa776c6050ac3ba9f78dc4e45b7a7471953ee0
+run_image: harbor.orange.maki.lol/tanzu-build-service/build-service/run@sha256:3198b043485bcffc7ce884346b2b7bee79d2057c2d114bdcfae0117e14f6dbe0
+buildpacks:
+- id: paketo-buildpacks/procfile
+  version: 4.3.0

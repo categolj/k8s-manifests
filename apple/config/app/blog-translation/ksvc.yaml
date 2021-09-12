@@ -1,0 +1,92 @@
+#@ load("@ytt:data", "data")
+
+#@ namespace = "blog{}".format(data.values.namespace_suffix)
+#@ image_name = "{}@{}".format(data.values.image_name.split(":")[0], data.values.image_digest)
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: blog-translation
+  namespace: #@ namespace
+spec:
+  template:
+    metadata:
+      annotations:
+        client.knative.dev/user-image: #@ image_name
+        prometheus.io/path: /actuator/prometheus
+        prometheus.io/port: "8080"
+        prometheus.io/scrape: "true"
+    spec:
+      containers:
+      - name: blog-translation
+        image: #@ image_name
+        env:
+        - name: SERVER_PORT
+          value: "8080"
+        - name: SPRING_PROFILES_ACTIVE
+          value: kubernetes
+        - name: SPRING_DATASOURCE_HIKARI_DATASOURCEPROPERTIES_SSLMODE
+          value: verify-full
+        - name: SPRING_DATASOURCE_HIKARI_DATASOURCEPROPERTIES_SSLFACTORY
+          value: org.postgresql.ssl.DefaultJavaSSLFactory
+        - name: SERVICE_BINDING_ROOT
+          value: /bindings
+        - name: JAVA_TOOL_OPTIONS
+          value: "-XX:ReservedCodeCacheSize=32M -Xss512k -Duser.timezone=Asia/Tokyo -Duser.language=ja -Duser.country=JP -Dfile.encoding=UTF-8"
+        - name: BPL_JVM_THREAD_COUNT
+          value: "28"
+        - name: BPL_JVM_HEADROOM
+          value: "5"
+        - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+          value: "info,health,prometheus"
+        - name: SPRING_ZIPKIN_SERVICE_NAME
+          value: "${INFO_K8S_NAMESPACE}:translation"
+        - name: SPRING_SLEUTH_OTEL_EXPORTER_OTLP_ENDPOINT
+          value: http://otel-collector.otel.svc.cluster.local:55680
+        - name: SPRING_SLEUTH_OTEL_CONFIG_TRACEIDRATIOBASED
+          value: "1.0"
+        - name: TRANSLATOR_BLOGAPIURL
+          value: https://blog-api.blog.apple.maki.lol
+        - name: TRANSLATOR_GOOGLEAPIKEY
+          valueFrom:
+            secretKeyRef:
+              name: translation-config
+              key: google-api-key
+        - name: INFO_K8S_NAMESPACE
+          value: #@ namespace
+        - name: INFO_K8S_POD
+          value: "${HOSTNAME}"
+        - name: INFO_K8S_APP
+          value: "${spring.application.name}"
+        - name: INFO_JAVA_VERSION
+          value: "${java.vm.version} / ${java.vm.name}"
+        - name: INFO_JAVA_VENDOR
+          value: "${java.vm.vendor}"
+        - name: MANAGEMENT_METRICS_TAGS_ORGANIZATION
+          value: #@ data.values.organization
+        - name: MANAGEMENT_METRICS_EXPORT_WAVEFRONT_ENABLED
+          value: "false"
+        volumeMounts:
+        - name: translation-db
+          mountPath: /bindings/translation-db
+          readOnly: true
+        - name: translation-trusted-certs
+          mountPath: /bindings/translation-trusted-certs
+          readOnly: true
+        resources:
+          limits:
+            memory: "256Mi"
+          requests:
+            memory: "256Mi"
+        readinessProbe:
+          httpGet:
+            path: /actuator/health/readiness
+        livenessProbe:
+          httpGet:
+            path: /actuator/health/liveness
+      volumes:
+      - name: translation-db
+        secret:
+          secretName: translation-db
+      - name: translation-trusted-certs
+        secret:
+          secretName: translation-trusted-certs

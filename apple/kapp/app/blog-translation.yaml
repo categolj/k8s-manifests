@@ -1,0 +1,43 @@
+apiVersion: kappctrl.k14s.io/v1alpha1
+kind: App
+metadata:
+  name: blog-translation
+  namespace: kapp
+spec:
+  serviceAccountName: kapp
+  fetch:
+  - git:
+      url: git@github.com:categolj/k8s-manifests.git
+      ref: origin/main
+      secretRef:
+        name: github
+  syncPeriod: 1m
+  template:
+  - sops:
+      pgp:
+        privateKeysSecretRef:
+          name: pgp-key
+  - ytt:
+      paths:
+      - common/ksvc-kapp-config.yaml
+      - apple/config/app/blog-translation
+      - apple/config/app/blog-common/min-scale.yaml
+      - apple/config/app/blog-common/values.yaml
+      valuesFrom:
+      - path: apple/config/app/blog-common/credentials.yaml
+      inline:
+        paths:
+          values.yaml: |
+            #@data/values
+            ---
+            cluster_issuer_name: letsencrypt-maki-lol
+            subdomain: apple.maki.lol
+  deploy:
+  - kapp:
+      rawOptions:
+      - --wait-timeout=5m
+      - --diff-changes=true
+      - --diff-mask=true
+      inspect:
+        rawOptions:
+        - --tree=true
