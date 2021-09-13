@@ -4,10 +4,10 @@
 git_repo: https://github.com/making/vanilla-gateway
 git_commit: 3e7a1896fa28b183afa2443d8c8846bf213bb8dd
 image_name: ghcr.io/making/vanilla-gateway
-image_digest: sha256:d5d4971f6c0a5a9de36a4b9302cf8fd0efbf399f582416914f5889c4402f7049
+image_digest: sha256:a0d691d9826745435c4484d6d4dbb12c92863900a14133486a76b2145c523280
 base_image:
-  reference: gopivotal-build-service-private.jfrog.io/shipyard/run@sha256:c6e071ac324b948037be8f950199e765a6b9eccce4e0b74f83f38755d528f534
-  top_layer: sha256:68ddcb152750ec030933e14ab0e4cfd759a97b1d9b4742f7606584d685cc6f71
+  reference: gopivotal-build-service-private.jfrog.io/shipyard/run@sha256:4a464d8cba60f5c5c6885fa619ea6ce9d3201e1fb0684aaa1d4514b326006b22
+  top_layer: sha256:c75ebc468efa660f7bb0f16f9583cf03382c9397bc6b4f328eef134283223c8c
 run_image: gopivotal-build-service-private.jfrog.io/shipyard/run@sha256:c6e071ac324b948037be8f950199e765a6b9eccce4e0b74f83f38755d528f534
 buildpacks:
 - id: paketo-buildpacks/ca-certificates
