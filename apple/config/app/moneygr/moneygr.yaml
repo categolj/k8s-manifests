@@ -30,7 +30,7 @@ spec:
         - name: BPL_JVM_THREAD_COUNT
           value: "32"
         - name: SPRING_ZIPKIN_BASE_URL
-          value: http://otel-collector.otel.svc.cluster.local:9411
+          value: http://opentelemetry-collector.opentelemetry.svc.cluster.local:9411
         - name: SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_UAA_CLIENT_ID
           value: moneygr
         - name: SPRING_ZIPKIN_ENABLED
