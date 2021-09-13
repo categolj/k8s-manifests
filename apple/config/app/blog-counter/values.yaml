@@ -4,19 +4,19 @@
 git_repo: https://github.com/categolj/blog-counter
 git_commit: ef5531c85301a3446eb11fde7ade0ea1e04ebb3d
 image_name: ghcr.io/making/blog-counter
-image_digest: sha256:606d537b19b6767b0e638866313381642ff8f6670349a25855fa2370eccfdb0c
+image_digest: sha256:f935d6c451452532a5448c18fe6de3ce3bcd7f8234f3a4077c1bd828d17d9dfd
 base_image:
   reference: gopivotal-build-service-private.jfrog.io/shipyard/run@sha256:c7cceda622d7cc84e85b61a4f4d243b28f7ebe9e12bb2dde705c36c6be9bf7db
   top_layer: sha256:32f84f253f14e0d72f8d2ce16efa776c6050ac3ba9f78dc4e45b7a7471953ee0
-run_image: gopivotal-build-service-private.jfrog.io/shipyard/run@sha256:3198b043485bcffc7ce884346b2b7bee79d2057c2d114bdcfae0117e14f6dbe0
+run_image: gopivotal-build-service-private.jfrog.io/shipyard/run@sha256:c7cceda622d7cc84e85b61a4f4d243b28f7ebe9e12bb2dde705c36c6be9bf7db
 buildpacks:
 - id: paketo-buildpacks/ca-certificates
-  version: 2.4.0
+  version: 2.4.1
 - id: paketo-buildpacks/graalvm
-  version: 6.4.0
+  version: 6.4.2
 - id: paketo-buildpacks/executable-jar
-  version: 5.2.0
+  version: 5.2.1
 - id: paketo-buildpacks/spring-boot
-  version: 4.5.0
+  version: 4.6.0
 - id: paketo-buildpacks/native-image
-  version: 4.3.0
+  version: 4.3.1
