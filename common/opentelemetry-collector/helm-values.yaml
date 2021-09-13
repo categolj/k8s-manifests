@@ -2,6 +2,10 @@ agentCollector:
   enabled: false
 standaloneCollector:
   enabled: true
+  resources:
+    requests:
+      cpu: 0.2
+      memory: 0.3Gi
 image:
   repository: otel/opentelemetry-collector-contrib
 command:
