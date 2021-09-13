@@ -60,7 +60,7 @@ spec:
               #@overlay/match missing_ok=True
               autoTLS: Enabled
               #@overlay/match missing_ok=True
-              httpProtocol: Enabled
+              httpProtocol: Redirected
           remove-rabbitmq.yaml: |
             #@ load("@ytt:overlay", "overlay")
             #@overlay/match by=overlay.subset({"kind":"Deployment", "metadata":{"name":"rabbitmq-broker-controller","namespace":"knative-eventing"}})
