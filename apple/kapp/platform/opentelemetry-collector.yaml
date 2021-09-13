@@ -29,6 +29,8 @@ spec:
       - path: 1/helm-values.yaml
   - ytt:
       ignoreUnknownComments: true
+      paths:
+      - "-"
       inline:
         paths:
           overlay.yaml: |
