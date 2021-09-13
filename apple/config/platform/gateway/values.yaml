@@ -4,23 +4,23 @@
 git_repo: https://github.com/making/vanilla-gateway
 git_commit: 3e7a1896fa28b183afa2443d8c8846bf213bb8dd
 image_name: ghcr.io/making/vanilla-gateway
-image_digest: sha256:cd2741003e03ae42f30ea08ffaf00ea11ff7dbe7df294381ff72b5cd554cefde
+image_digest: sha256:d5d4971f6c0a5a9de36a4b9302cf8fd0efbf399f582416914f5889c4402f7049
 base_image:
   reference: gopivotal-build-service-private.jfrog.io/shipyard/run@sha256:c6e071ac324b948037be8f950199e765a6b9eccce4e0b74f83f38755d528f534
   top_layer: sha256:68ddcb152750ec030933e14ab0e4cfd759a97b1d9b4742f7606584d685cc6f71
-run_image: gopivotal-build-service-private.jfrog.io/shipyard/run@sha256:9cb1909dbe23818f37f91cf9f3cd7d0c2748b6e07c2093169b3fd15591feff27
+run_image: gopivotal-build-service-private.jfrog.io/shipyard/run@sha256:c6e071ac324b948037be8f950199e765a6b9eccce4e0b74f83f38755d528f534
 buildpacks:
 - id: paketo-buildpacks/ca-certificates
-  version: 2.4.0
+  version: 2.4.1
 - id: paketo-buildpacks/bellsoft-liberica
-  version: 8.4.0
+  version: 8.5.0
 - id: paketo-buildpacks/maven
-  version: 5.4.0
+  version: 5.5.0
 - id: paketo-buildpacks/executable-jar
-  version: 5.2.0
+  version: 5.2.1
 - id: paketo-buildpacks/apache-tomcat
-  version: 6.1.0
+  version: 6.2.0
 - id: paketo-buildpacks/dist-zip
-  version: 4.2.0
+  version: 4.2.1
 - id: paketo-buildpacks/spring-boot
-  version: 4.5.0
+  version: 4.6.0
