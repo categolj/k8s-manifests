@@ -5,7 +5,7 @@ standaloneCollector:
   resources:
     requests:
       cpu: 0.2
-      memory: 0.3Gi
+      memory: 256Mi
 image:
   repository: otel/opentelemetry-collector-contrib
 command:
