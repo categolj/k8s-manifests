@@ -12,7 +12,7 @@ spec:
       subPath: apple/config/app/note
       secretRef:
         name: github
-  syncPeriod: 1h
+  syncPeriod: 1m
   template:
   - sops:
       pgp:
