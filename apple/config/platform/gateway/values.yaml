@@ -4,11 +4,11 @@
 git_repo: https://github.com/making/vanilla-gateway
 git_commit: 3e7a1896fa28b183afa2443d8c8846bf213bb8dd
 image_name: ghcr.io/making/vanilla-gateway
-image_digest: sha256:a0d691d9826745435c4484d6d4dbb12c92863900a14133486a76b2145c523280
+image_digest: sha256:a0d4f3542e61ec742c4b4c5d56c13ee0670bb6d06f0ed2a494fc2723e1b2b0c0
 base_image:
   reference: gopivotal-build-service-private.jfrog.io/shipyard/run@sha256:4a464d8cba60f5c5c6885fa619ea6ce9d3201e1fb0684aaa1d4514b326006b22
   top_layer: sha256:c75ebc468efa660f7bb0f16f9583cf03382c9397bc6b4f328eef134283223c8c
-run_image: gopivotal-build-service-private.jfrog.io/shipyard/run@sha256:c6e071ac324b948037be8f950199e765a6b9eccce4e0b74f83f38755d528f534
+run_image: gopivotal-build-service-private.jfrog.io/shipyard/run@sha256:4a464d8cba60f5c5c6885fa619ea6ce9d3201e1fb0684aaa1d4514b326006b22
 buildpacks:
 - id: paketo-buildpacks/ca-certificates
   version: 2.4.1
@@ -19,7 +19,7 @@ buildpacks:
 - id: paketo-buildpacks/executable-jar
   version: 5.2.1
 - id: paketo-buildpacks/apache-tomcat
-  version: 6.2.0
+  version: 6.3.0
 - id: paketo-buildpacks/dist-zip
   version: 4.2.1
 - id: paketo-buildpacks/spring-boot
