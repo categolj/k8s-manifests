@@ -2,21 +2,21 @@
 #@overlay/match-child-defaults missing_ok=True
 ---
 git_repo: https://github.com/categolj/blog-translation
-git_commit: fa9b2a602ee6d3d4222546af70d88bbeb65a8c5d
+git_commit: 93893b76c323c7a34a9b5511f2e895929ec13b15
 image_name: ghcr.io/making/blog-translation
-image_digest: sha256:b3819adbe513e3add569863e8dcfdcf7d078bcdc8afa8189a82b14d0013a347f
+image_digest: sha256:f16a6268e5d304f522757755a8f120e7e715b5788ae7b6ffb624e618db2d318f
 base_image:
-  reference: gopivotal-build-service-private.jfrog.io/shipyard/run@sha256:a285e73bc3697bc58c228b22938bc81e9b11700e087fd9d44da5f42f14861812
-  top_layer: sha256:10dd4d5e8186feb5b6ab2a877c80e1616e426ed383b7f19358b7703686fa4f9a
-run_image: gopivotal-build-service-private.jfrog.io/shipyard/run@sha256:7132773488dbcecdc0df19d7a677d7d6356bcabb17647e2589d1696735714c72
+  reference: gopivotal-build-service-private.jfrog.io/shipyard/run@sha256:64e37b972ee65672ada65f2e49d2be0d0d47b87d868201965794b6c89fb6cd44
+  top_layer: sha256:0f509d58baf321a0143b8fbeaeebcd8e20e2dffe98c34451bce976b36d9c6e1b
+run_image: gopivotal-build-service-private.jfrog.io/shipyard/run@sha256:64e37b972ee65672ada65f2e49d2be0d0d47b87d868201965794b6c89fb6cd44
 buildpacks:
 - id: paketo-buildpacks/ca-certificates
-  version: 2.3.2
+  version: 2.4.1
 - id: paketo-buildpacks/bellsoft-liberica
-  version: 8.1.2
+  version: 8.5.0
 - id: paketo-buildpacks/executable-jar
-  version: 5.1.2
+  version: 5.2.1
 - id: paketo-buildpacks/dist-zip
-  version: 4.1.2
+  version: 4.2.1
 - id: paketo-buildpacks/spring-boot
-  version: 4.4.2
+  version: 4.6.0
