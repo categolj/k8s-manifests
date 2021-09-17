@@ -2,13 +2,13 @@
 #@overlay/match-child-defaults missing_ok=True
 ---
 git_repo: https://github.com/categolj/blog-frontend
-git_commit: 1386d8f101a6d962d478c59050f72a0fa4e1195e
+git_commit: c0b8338a9a62f19d9c56946d93e885da1fdcfc7c
 image_name: harbor.orange.maki.lol/library/blog-frontend
-image_digest: sha256:4fabbc44b1e700e169f0a109777fa8dfaebaea0b26b62d4e196b5b6439e4c381
+image_digest: sha256:01c15970f5112ebd1e22115f02eb49275304cd616885c069a8b0f33e4c8d0ff0
 base_image:
-  reference: harbor.orange.maki.lol/tanzu-build-service/build-service/run@sha256:ed3fd7c99ba573a273fabbab52d81ef38f3c7a869133eb6e6fffd7dfe54a3467
-  top_layer: sha256:67f1784028f8acb5fb84ff6ea4228b9d7fb1b3a627b37890a04e3a0392704f46
-run_image: harbor.orange.maki.lol/tanzu-build-service/build-service/run@sha256:ed3fd7c99ba573a273fabbab52d81ef38f3c7a869133eb6e6fffd7dfe54a3467
+  reference: harbor.orange.maki.lol/tanzu-build-service/build-service/run@sha256:1d6c243ce4082c7b1fe595774fe5c11576ec9fdfec3a503d9a7af7d8e72701f9
+  top_layer: sha256:0bc84b5085f3f1aae8a8eb957dc793e5191399cb111da3d5f65efb9f04d70021
+run_image: harbor.orange.maki.lol/tanzu-build-service/build-service/run@sha256:1d6c243ce4082c7b1fe595774fe5c11576ec9fdfec3a503d9a7af7d8e72701f9
 buildpacks:
 - id: paketo-buildpacks/procfile
   version: 4.3.1
