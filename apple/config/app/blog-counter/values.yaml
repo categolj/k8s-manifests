@@ -1,19 +1,21 @@
 #@data/values
 #@overlay/match-child-defaults missing_ok=True
 ---
-git_repo: https://github.com/categolj/blog-counter
-git_commit: ef5531c85301a3446eb11fde7ade0ea1e04ebb3d
+git_repo: https://github.com/categolj/blog-counter.git
+git_commit: 91f1adf995d95c15d59e1a4be0f7ab6d16f6a346
 image_name: ghcr.io/making/blog-counter
-image_digest: sha256:8ef5e3649ffa4f5318b331f702ceead2c2c8feffe35d31597cc19c6c35b8d5d4
+image_digest: sha256:210fdcfcd69f73f5d6cac3d8b79130b2ca97ab463e5d3b055322323c0b5b3346
 base_image:
   reference: gopivotal-build-service-private.jfrog.io/shipyard/run@sha256:1d6c243ce4082c7b1fe595774fe5c11576ec9fdfec3a503d9a7af7d8e72701f9
   top_layer: sha256:0bc84b5085f3f1aae8a8eb957dc793e5191399cb111da3d5f65efb9f04d70021
-run_image: gopivotal-build-service-private.jfrog.io/shipyard/run@sha256:c7cceda622d7cc84e85b61a4f4d243b28f7ebe9e12bb2dde705c36c6be9bf7db
+run_image: gopivotal-build-service-private.jfrog.io/shipyard/run@sha256:1d6c243ce4082c7b1fe595774fe5c11576ec9fdfec3a503d9a7af7d8e72701f9
 buildpacks:
 - id: paketo-buildpacks/ca-certificates
   version: 2.4.1
 - id: paketo-buildpacks/graalvm
   version: 6.4.2
+- id: paketo-buildpacks/maven
+  version: 5.5.0
 - id: paketo-buildpacks/executable-jar
   version: 5.2.1
 - id: paketo-buildpacks/spring-boot
