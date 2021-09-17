@@ -1,10 +1,10 @@
 #@data/values
 #@overlay/match-child-defaults missing_ok=True
 ---
-git_repo: https://github.com/categolj/blog-translation
-git_commit: d9752fad8d1ddaaa2a32622d156ea4c3e4b2da98
+git_repo: https://github.com/categolj/blog-translation.git
+git_commit: 5f92e5127fbb74c7765aa011ea15b74caec3224a
 image_name: ghcr.io/making/blog-translation
-image_digest: sha256:3c09729e97302a66045a63a2be137d8313fae4765deee574c14660945497c662
+image_digest: sha256:748043889d8fd1733505cd6176c45197aea21770cd7bd90b323d8568776500aa
 base_image:
   reference: gopivotal-build-service-private.jfrog.io/shipyard/run@sha256:a3070c608e0dff29261f7debffeb13a4a62f8f5199bd53584176a05171b3731a
   top_layer: sha256:f6f8b33b60e61ce5dd469b4b03edbeb1f4860842bc5c0cc439a3cda4a7405474
@@ -14,8 +14,12 @@ buildpacks:
   version: 2.4.1
 - id: paketo-buildpacks/bellsoft-liberica
   version: 8.5.0
+- id: paketo-buildpacks/maven
+  version: 5.5.0
 - id: paketo-buildpacks/executable-jar
   version: 5.2.1
+- id: paketo-buildpacks/apache-tomcat
+  version: 6.3.0
 - id: paketo-buildpacks/dist-zip
   version: 4.2.1
 - id: paketo-buildpacks/spring-boot
