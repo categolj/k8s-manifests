@@ -88,8 +88,6 @@ spec:
           mountPath: /bindings/spring/r2dbc
           readOnly: true
         securityContext:
-          fsGroup: 1000
-          runAsGroup: 1000
           runAsUser: 1000
       volumes:
       - name: blog-db
