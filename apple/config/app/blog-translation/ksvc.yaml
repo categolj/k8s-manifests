@@ -83,6 +83,10 @@ spec:
         livenessProbe:
           httpGet:
             path: /actuator/health/liveness
+      securityContext:
+        fsGroup: 1000
+        runAsGroup: 1000
+        runAsUser: 1000
       volumes:
       - name: translation-db
         secret:
