@@ -79,10 +79,8 @@ spec:
         - name: counter-db
           mountPath: /bindings/spring/data/mongodb
           readOnly: true
-      securityContext:
-        fsGroup: 1000
-        runAsGroup: 1000
-        runAsUser: 1000
+        securityContext:
+          runAsUser: 1000
       volumes:
       - name: counter-db
         secret:
