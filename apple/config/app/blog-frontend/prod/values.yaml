@@ -3,7 +3,7 @@
 ---
 git_repo: https://github.com/categolj/blog-frontend
 git_commit: c0b8338a9a62f19d9c56946d93e885da1fdcfc7c
-image_name: harbor.orange.maki.lol/library/blog-frontend
+image_name: ghcr.io/making/blog-frontend
 image_digest: sha256:01c15970f5112ebd1e22115f02eb49275304cd616885c069a8b0f33e4c8d0ff0
 base_image:
   reference: harbor.orange.maki.lol/tanzu-build-service/build-service/run@sha256:1d6c243ce4082c7b1fe595774fe5c11576ec9fdfec3a503d9a7af7d8e72701f9
