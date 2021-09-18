@@ -5,12 +5,76 @@ resource_types:
     repository: nulldriver/maven-resource
     tag: latest
 resources:
+- name: jar
+  type: maven-resource
+  source:
+    url: https://oss.sonatype.org/content/repositories/snapshots
+    snapshot_url: https://oss.sonatype.org/content/repositories/snapshots
+    artifact: am.ik.blog:blog-translation:jar
+    username: ((sonatype_username))
+    password: ((sonatype_password))
+- name: kp
+  type: github-release
+  source:
+    owner: vmware-tanzu
+    repository: kpack-cli
+    access_token: ((github_api_token))
+  check_every: 24h
 - name: image
   type: registry-image
   source:
     repository: ghcr.io/making/blog-translation
-    tag: 0.0.1-SNAPSHOT
+    tag: latest
 jobs:
+- name: build-image
+  plan:
+  - in_parallel:
+    - get: jar
+      trigger: true
+    - get: kp
+      params:
+        globs:
+        - kp-linux-*
+  - task: build-image
+    params:
+      APP_NAME: blog-translation
+      REGISTRY_HOST: ((docker_host))
+      REGISTRY_USER: ((docker_user))
+      REGISTRY_PASSWORD: ((docker_password))
+      IMAGE_NAME: ((docker_host))/((docker_user))/blog-translation
+      KUBECONFIG: /tmp/kubeconfig
+      KUBECONFIG_FILE: ((kubeconfig))
+      BLOB_BASE_URL: https://oss.sonatype.org/content/repositories/snapshots/am/ik/blog/blog-translation/0.0.1-SNAPSHOT
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source:
+          repository: bitnami/kubectl
+          tag: 1.19.9-debian-10-r4
+      inputs:
+      - name: jar
+      - name: kp
+      run:
+        path: bash
+        args:
+        - -ce
+        - |
+          mkdir -p ~/.docker
+          cat <<EOF > ~/.docker/config.json
+          {"auths":{"${REGISTRY_HOST}":{"username":"${REGISTRY_USER}","password":"${REGISTRY_PASSWORD}"}}}
+          EOF
+          cat <<EOF > ${KUBECONFIG}
+          ${KUBECONFIG_FILE}
+          EOF
+          install kp/kp-* /usr/local/bin/kp
+          set -x
+          kp image save ${APP_NAME} \
+            --tag ${IMAGE_NAME} \
+            --wait \
+            --env BP_JVM_VERSION=17 \
+            --blob ${BLOB_BASE_URL}/$(basename $(ls jar/*.jar | head -n 1))
+          kp build list ${APP_NAME}
 - name: vulnerability-scan
   plan:
   - in_parallel:
