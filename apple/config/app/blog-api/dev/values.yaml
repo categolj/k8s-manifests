@@ -3,12 +3,12 @@
 ---
 git_repo: https://github.com/categolj/blog-api
 git_commit: d4028dc53d996619c7fe0805af99e4c75b581410
-image_name: harbor.orange.maki.lol/library/blog-api
-image_digest: sha256:2824bb78ed42027d49b3c3fc869e7757c2fa9f05ac29e02abd69d6ee7a94f352
+image_name: ghcr.io/making/blog-api
+image_digest: sha256:a6ffcd0d1758bf2c652558cab6cbc2e6c7c7b9a8f2e7c82148732c8629cc7d13
 base_image:
   reference: harbor.orange.maki.lol/tanzu-build-service/build-service/run@sha256:1d6c243ce4082c7b1fe595774fe5c11576ec9fdfec3a503d9a7af7d8e72701f9
   top_layer: sha256:0bc84b5085f3f1aae8a8eb957dc793e5191399cb111da3d5f65efb9f04d70021
-run_image: harbor.orange.maki.lol/tanzu-build-service/build-service/run@sha256:ed3fd7c99ba573a273fabbab52d81ef38f3c7a869133eb6e6fffd7dfe54a3467
+run_image: harbor.orange.maki.lol/tanzu-build-service/build-service/run@sha256:1d6c243ce4082c7b1fe595774fe5c11576ec9fdfec3a503d9a7af7d8e72701f9
 buildpacks:
 - id: paketo-buildpacks/procfile
   version: 4.3.1
