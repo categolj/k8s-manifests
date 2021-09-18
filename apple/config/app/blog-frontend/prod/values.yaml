@@ -2,9 +2,9 @@
 #@overlay/match-child-defaults missing_ok=True
 ---
 git_repo: https://github.com/categolj/blog-frontend
-git_commit: ec6b7a1c733b2be09eb5a9fa8e833f6bf9886a54
+git_commit: eb526c789f9da474823ab5d76348ac22beb62a9f
 image_name: ghcr.io/making/blog-frontend
-image_digest: sha256:5f3e41950c2be27c1ff6a30c80677840c59db5ea9295444b9ab12b594e494349
+image_digest: sha256:ad6c51e2b8bd7522d0de3d89f3be5022e71d7ab6f0b8e9295988bdacc7635c6e
 base_image:
   reference: harbor.orange.maki.lol/tanzu-build-service/build-service/run@sha256:1d6c243ce4082c7b1fe595774fe5c11576ec9fdfec3a503d9a7af7d8e72701f9
   top_layer: sha256:0bc84b5085f3f1aae8a8eb957dc793e5191399cb111da3d5f65efb9f04d70021
