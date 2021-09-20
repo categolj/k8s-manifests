@@ -1,0 +1,40 @@
+apiVersion: kappctrl.k14s.io/v1alpha1
+kind: App
+metadata:
+  name: blog-db-prod
+  namespace: kapp
+spec:
+  serviceAccountName: kapp
+  fetch:
+  - git:
+      url: git@github.com:categolj/k8s-manifests.git
+      ref: origin/main
+      secretRef:
+        name: github
+  syncPeriod: 1m
+  template:
+  - sops:
+      pgp:
+        privateKeysSecretRef:
+          name: pgp-key
+  - ytt:
+      paths:
+      - common/tanzunet-regsecret.yaml
+      - apple/config/app/blog-db
+      inline:
+        paths:
+          overlay.yaml: |
+            #@ load("@ytt:overlay", "overlay")
+            #@overlay/match by=overlay.subset({"kind":"Secret", "metadata": {"name": "regsecret"}})
+            ---
+            metadata:
+              namespace: blog
+  deploy:
+  - kapp:
+      rawOptions:
+      - --wait-timeout=5m
+      - --diff-changes=true
+      - --diff-mask=true
+      inspect:
+        rawOptions:
+        - --tree=true
