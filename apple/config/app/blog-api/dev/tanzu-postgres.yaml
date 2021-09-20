@@ -1,0 +1,27 @@
+#@ load("@ytt:overlay", "overlay")
+
+#@overlay/match by=overlay.subset({"kind": "Service", "apiVersion": "serving.knative.dev/v1", "metadata": {"name": "blog-api"}})
+---
+spec:
+  template:
+    spec:
+      containers:
+      #@overlay/match by="name"
+      - name: blog-api
+        env:
+        #@overlay/match by="name"
+        - name: SPRING_R2DBC_URL
+          value: "r2dbc:postgresql://${spring.datasource.instancename}.${spring.datasource.namespace}.svc.cluster.local:5432/${spring.datasource.dbname}?sslMode=VERIFY_FULL&sslRootCert=/blog-tls/ca.crt"
+        volumeMounts:
+        - name: blog-tls
+          mountPath: /blog-tls
+          readOnly: true
+      volumes:
+      #@overlay/match by="name"
+      - name: blog-db
+        secret:
+          secretName: blog-db-db-secret
+      #@overlay/append
+      - name: blog-tls
+        secret:
+          secretName: blog-db-internal-ssl-secret
