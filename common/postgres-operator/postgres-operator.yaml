@@ -340,7 +340,7 @@ spec:
             - name: OPERATOR_IMAGE_TAG
               value: v1.2.0
             - name: DOCKER_REGISTRY_SECRET_NAME
-              value: tanzunet-regsecret
+              value: regsecret
           readinessProbe:
             exec:
               command:
@@ -357,7 +357,7 @@ spec:
               name: postgres-operator-webhook-server-cert-secret
               readOnly: true
       imagePullSecrets:
-        - name: tanzunet-regsecret
+        - name: regsecret
       volumes:
         - name: postgres-operator-webhook-server-cert-secret
           secret:
