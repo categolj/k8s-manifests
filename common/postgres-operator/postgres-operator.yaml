@@ -1,0 +1,490 @@
+---
+# Source: crds/postgres-instance.yaml
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.4.0
+  creationTimestamp: null
+  name: postgres.sql.tanzu.vmware.com
+  labels:
+    app: postgres-operator
+spec:
+  group: sql.tanzu.vmware.com
+  names:
+    categories:
+      - all
+    kind: Postgres
+    listKind: PostgresList
+    plural: postgres
+    shortNames:
+      - pg
+    singular: postgres
+  scope: Namespaced
+  preserveUnknownFields: false
+  versions:
+  - name: v1
+    additionalPrinterColumns:
+    - description: The postgres instance status
+      jsonPath: .status.currentState
+      name: Status
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      description: The postgres instance age
+      name: Age
+      type: date
+    schema:
+      openAPIV3Schema:
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: PostgresSpec defines the desired state of Postgres
+            properties:
+              backupLocationSecret:
+                properties:
+                  name:
+                    type: string
+                type: object
+              certificateSecretName:
+                description: CertificateSecretName is the name of the secret that
+                  will be used to configure TLS for the postgres instances
+                type: string
+              cpu:
+                type: string
+              highAvailability:
+                properties:
+                  enabled:
+                    type: boolean
+                type: object
+              logLevel:
+                description: 'LogLevel is used for debugging purposes for extended instance logs. Only Debug is supported'
+                type: string
+              memory:
+                type: string
+              monitorStorageClassName:
+                description: 'MonitorStorageClassName is the name of storage class used by postgres monitor'
+                type: string
+              monitorStorageSize:
+                anyOf:
+                  - type: integer
+                  - type: string
+                description: MonitorStorageSize specifies the size of monitor persistent
+                  volume claims
+                pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                x-kubernetes-int-or-string: true
+              pgConfig:
+                properties:
+                  dbname:
+                    type: string
+                  username:
+                    type: string
+                type: object
+              resources:
+                description: 'Resource requests and limits for pgsql pods'
+                properties:
+                  monitor:
+                    description: 'ResourceRequirements describes the compute resource requirements.'
+                    properties:
+                      limits:
+                        additionalProperties:
+                          anyOf:
+                          - type: integer
+                          - type: string
+                          pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                          x-kubernetes-int-or-string: true
+                        description: 'Limits describes the maximum amount of compute
+                          resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/'
+                        type: object
+                      requests:
+                        additionalProperties:
+                          anyOf:
+                          - type: integer
+                          - type: string
+                          pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                          x-kubernetes-int-or-string: true
+                        description: 'Requests describes the minimum amount of compute
+                          resources required. If Requests is omitted for a container,
+                          it defaults to Limits if that is explicitly specified, otherwise
+                          to an implementation-defined value. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/'
+                        type: object
+                    type: object
+                type: object
+              serviceType:
+                description: 'Service Type string describes ingress methods for a service. Only ClusterIP and LoadBalancer are supported'
+                type: string
+              storageClassName:
+                type: string
+              storageSize:
+                type: string
+            type: object
+          status:
+            description: PostgresStatus defines the observed state of Postgres
+            properties:
+              currentState:
+                type: string
+              instanceImage:
+                type: string
+              operatorVersion:
+                type: string
+            required:
+              - currentState
+              - instanceImage
+              - operatorVersion
+            type: object
+        type: object
+    served: true
+    storage: true
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+
+---
+# Source: postgres-operator/templates/postgres-operator-service-account.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: postgres-operator-service-account
+  labels:
+    app: postgres-operator
+---
+# Source: postgres-operator/templates/postgres-editor-role.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    rbac.authorization.k8s.io/aggregate-to-edit: "true"
+    app: postgres-operator
+  name: postgres-editor
+rules:
+  - apiGroups:
+      - sql.tanzu.vmware.com
+    resources:
+      - postgres
+    verbs:
+      - create
+      - delete
+      - deletecollection
+      - patch
+      - update
+---
+# Source: postgres-operator/templates/postgres-operator-cluster-role.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: postgres-operator-cluster-role
+  labels:
+    app: postgres-operator
+rules:
+- apiGroups: [apiextensions.k8s.io]
+  resources: [customresourcedefinitions]
+  verbs: ['*']
+- apiGroups: [certificates.k8s.io]
+  resources: [certificatesigningrequests]
+  verbs: ['*']
+- apiGroups: [certificates.k8s.io]
+  resources: [certificatesigningrequests/approval]
+  verbs: ['*']
+- apiGroups: [ cert-manager.io ]
+  resources: [ certificates ]
+  verbs: [ '*' ]
+- apiGroups: [admissionregistration.k8s.io]
+  resources: [validatingwebhookconfigurations]
+  verbs: ['*']
+- apiGroups: [ rbac.authorization.k8s.io ]
+  resources:
+    - roles
+    - rolebindings
+  verbs: [ '*' ]
+- apiGroups: [sql.tanzu.vmware.com]
+  resources: [postgres]
+  verbs: ['*']
+- apiGroups: [apps]
+  resources: [deployments]
+  verbs: ['*']
+- apiGroups: [apps]
+  resources: [statefulsets]
+  verbs: ['*']
+- apiGroups: [""]
+  resources:
+  - configmaps
+  - secrets
+  verbs: ['*']
+- apiGroups: [""]
+  resources:
+  - statefulsets
+  - pods
+  - nodes
+  - services
+  - endpoints
+  - persistentvolumeclaims
+  - events
+  - serviceaccounts
+  verbs: ['*']
+- apiGroups: [""]
+  resources:
+  - services
+  - endpoints
+  verbs:
+  - get
+  - create
+  - update
+- apiGroups: [""]
+  resources: [nodes]
+  verbs:
+  - list
+  - watch
+- apiGroups: [""]
+  resources: [namespaces]
+  verbs:
+  - list
+  - watch
+- apiGroups: [""]
+  resources: ["pods/exec"]
+  verbs: ["create"]
+---
+# Source: postgres-operator/templates/postgres-viewer-role.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    rbac.authorization.k8s.io/aggregate-to-view: "true"
+    rbac.authorization.k8s.io/aggregate-to-edit: "true"
+    app: postgres-operator
+  name: postgres-viewer
+rules:
+  - apiGroups:
+      - sql.tanzu.vmware.com
+    resources:
+      - postgres
+    verbs:
+      - get
+      - list
+      - watch
+---
+# Source: postgres-operator/templates/postgres-operator-cluster-role-binding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: postgres-operator-cluster-role-binding
+  labels:
+    app: postgres-operator
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: postgres-operator-cluster-role
+subjects:
+- kind: ServiceAccount
+  name: postgres-operator-service-account
+  namespace: postgres-operator
+---
+# Source: postgres-operator/templates/postgres-operator-webhook-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-operator-webhook-service
+  labels:
+    app: postgres-operator
+spec:
+  ports:
+    - port: 443
+      targetPort: 9443
+  selector:
+    app: postgres-operator
+---
+# Source: postgres-operator/templates/postgres-operator.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-operator
+  labels:
+    app: postgres-operator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-operator
+  template:
+    metadata:
+      labels:
+        app: postgres-operator
+    spec:
+      serviceAccountName: postgres-operator-service-account
+      containers:
+        - name: postgres-operator
+          image: registry.pivotal.io/tanzu-sql-postgres/postgres-operator:v1.2.0
+          command: [ "./manager", "--webhook-cert-directory", "/tmp/postgres-operator-webhook-server-cert-secret", "--cert-manager-cluster-issuer-name", "" ]
+          imagePullPolicy: IfNotPresent
+          terminationMessagePolicy: "FallbackToLogsOnError"
+          env:
+            - name: POSTGRES_IMAGE_REPO
+              value: registry.pivotal.io/tanzu-sql-postgres/postgres-instance
+            - name: POSTGRES_IMAGE_TAG
+              value: v1.2.0
+            - name: OPERATOR_IMAGE_REPO
+              value: registry.pivotal.io/tanzu-sql-postgres/postgres-operator
+            - name: OPERATOR_IMAGE_TAG
+              value: v1.2.0
+            - name: DOCKER_REGISTRY_SECRET_NAME
+              value: tanzunet-regsecret
+          readinessProbe:
+            exec:
+              command:
+                - cat
+                - /tmp/operatorReady
+            initialDelaySeconds: 3
+            periodSeconds: 2
+          ports:
+            - containerPort: 9443
+              name: webhook-server
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /tmp/postgres-operator-webhook-server-cert-secret
+              name: postgres-operator-webhook-server-cert-secret
+              readOnly: true
+      imagePullSecrets:
+        - name: tanzunet-regsecret
+      volumes:
+        - name: postgres-operator-webhook-server-cert-secret
+          secret:
+            defaultMode: 420
+            secretName: postgres-operator-webhook-server-cert
+---
+# Source: postgres-operator/templates/postgres-operator-self-signed-clusterissuer.yaml
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: postgres-operator-self-signed-ca-certificate
+  namespace: cert-manager
+  labels:
+    app: postgres-operator
+spec:
+  isCA: true
+  commonName: postgres-operator-ca-certificate
+  secretName: postgres-operator-ca-certificate
+  issuerRef:
+    name: postgres-operator-selfsigned-clusterissuer
+    kind: ClusterIssuer
+---
+# Source: postgres-operator/templates/postgres-operator-serving-cert.yaml
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: postgres-operator-serving-cert
+  labels:
+    app: postgres-operator
+spec:
+  dnsNames:
+    - postgres-operator-webhook-service.postgres-operator.svc
+    - postgres-operator-webhook-service.postgres-operator.svc.cluster.local
+  issuerRef:
+    kind: ClusterIssuer
+    name: postgres-operator-selfsigned-clusterissuer
+  secretName: postgres-operator-webhook-server-cert
+---
+# Source: postgres-operator/templates/postgres-operator-self-signed-clusterissuer.yaml
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: postgres-operator-selfsigned-clusterissuer
+  labels:
+    app: postgres-operator
+spec:
+  selfSigned: {}
+---
+# Source: postgres-operator/templates/postgres-operator-self-signed-clusterissuer.yaml
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: postgres-operator-ca-certificate-cluster-issuer
+spec:
+  ca:
+    secretName: postgres-operator-ca-certificate
+---
+# Source: postgres-operator/templates/postgres-operator-mutating-webhook-configuration.yaml
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+  annotations:
+    # these annotations populate the clientConfig.caBundle field
+    # under the webhooks key
+    cert-manager.io/inject-ca-from: postgres-operator/postgres-operator-serving-cert
+  creationTimestamp: null
+  name: postgres-operator-mutating-webhook-configuration
+  labels:
+    app: postgres-operator
+webhooks:
+- admissionReviewVersions:
+  - v1beta1
+  - v1
+  clientConfig:
+    # unset, will be set by cert-manager
+    # see cert-manager.io/inject-ca-from annotation above
+    caBundle: ""
+    service:
+      name: postgres-operator-webhook-service
+      namespace: postgres-operator
+      path: /mutate-sql-tanzu-vmware-com-v1-postgres
+  failurePolicy: Fail
+  name: mpostgres.kb.io
+  rules:
+    - apiGroups:
+        - sql.tanzu.vmware.com
+      apiVersions:
+        - v1
+      operations:
+        - CREATE
+        - UPDATE
+      resources:
+        - postgres
+  sideEffects: NoneOnDryRun
+---
+# Source: postgres-operator/templates/postgres-operator-validating-webhook-configuration.yaml
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  annotations:
+    cert-manager.io/inject-ca-from: postgres-operator/postgres-operator-serving-cert
+  creationTimestamp: null
+  name: postgres-operator-validating-webhook-configuration
+  labels:
+    app: postgres-operator
+webhooks:
+- admissionReviewVersions:
+  - v1beta1
+  - v1
+  clientConfig:
+    # unset, will be set by cert-manager
+    # see cert-manager.io/inject-ca-from annotation above
+    caBundle: ""
+    service:
+      name: postgres-operator-webhook-service
+      namespace: postgres-operator
+      path: /validate-sql-tanzu-vmware-com-v1-postgres
+  failurePolicy: Fail
+  name: vpostgres.kb.io
+  rules:
+    - apiGroups:
+        - sql.tanzu.vmware.com
+      apiVersions:
+        - v1
+      operations:
+        - CREATE
+        - UPDATE
+      resources:
+        - postgres
+  sideEffects: None
