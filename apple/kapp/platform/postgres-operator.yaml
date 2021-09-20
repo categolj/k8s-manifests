@@ -12,7 +12,7 @@ spec:
       subPath: common
       secretRef:
         name: github
-  syncPeriod: 3m
+  syncPeriod: 1h
   template:
   - sops:
       pgp:
