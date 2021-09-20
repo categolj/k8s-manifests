@@ -1,0 +1,26 @@
+apiVersion: sql.tanzu.vmware.com/v1
+kind: Postgres
+metadata:
+  name: blog-db
+  namespace: blog
+spec:
+  storageClassName: default
+  storageSize: 1G
+  cpu: "0.25"
+  memory: 256Mi
+  monitorStorageClassName: default
+  monitorStorageSize: 1G
+  resources:
+    monitor:
+      limits:
+        cpu: 256m
+        memory: 256Mi
+      requests:
+        cpu: 128m
+        memory: 128Mi
+  pgConfig:
+    dbname: blog
+    username: blog
+  serviceType: ClusterIP
+  highAvailability:
+    enabled: true
