@@ -5,11 +5,11 @@ metadata:
   namespace: blog
 spec:
   storageClassName: default
-  storageSize: 1G
+  storageSize: 1Gi
   cpu: "0.25"
   memory: 256Mi
   monitorStorageClassName: default
-  monitorStorageSize: 1G
+  monitorStorageSize: 1Gi
   resources:
     monitor:
       limits:
