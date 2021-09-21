@@ -24,12 +24,14 @@ spec:
           value: "8080"
         - name: SPRING_PROFILES_ACTIVE
           value: kubernetes
+        - name: SPRING_CONFIG_IMPORT
+          value: configtree:/workspace/config/
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:postgresql://${spring.datasource.instancename}.${spring.datasource.namespace}.svc.cluster.local:5432/translation
         - name: SPRING_DATASOURCE_HIKARI_DATASOURCEPROPERTIES_SSLMODE
           value: verify-full
         - name: SPRING_DATASOURCE_HIKARI_DATASOURCEPROPERTIES_SSLFACTORY
-          value: org.postgresql.ssl.DefaultJavaSSLFactory
-        - name: SERVICE_BINDING_ROOT
-          value: /bindings
+          value: org.postgresql.ssl.LibPQFactory
         - name: JAVA_TOOL_OPTIONS
           value: "-XX:ReservedCodeCacheSize=32M -Xss512k -Duser.timezone=Asia/Tokyo -Duser.language=ja -Duser.country=JP -Dfile.encoding=UTF-8"
         - name: BPL_JVM_THREAD_COUNT
@@ -66,11 +68,12 @@ spec:
         - name: MANAGEMENT_METRICS_EXPORT_WAVEFRONT_ENABLED
           value: "false"
         volumeMounts:
-        - name: translation-db
-          mountPath: /bindings/translation-db
+        - name: blog-db
+          mountPath: /workspace/config/spring/datasource
           readOnly: true
-        - name: translation-trusted-certs
-          mountPath: /bindings/translation-trusted-certs
+        - name: blog-db-cert
+          mountPath: /home/cnb/.postgresql/root.crt
+          subPath: ca.crt
           readOnly: true
         resources:
           limits:
@@ -86,9 +89,9 @@ spec:
         securityContext:
           runAsUser: 1000
       volumes:
-      - name: translation-db
+      - name: blog-db
         secret:
-          secretName: translation-db
-      - name: translation-trusted-certs
+          secretName: blog-db-db-secret
+      - name: blog-db-cert
         secret:
-          secretName: translation-trusted-certs
+          secretName: blog-db-internal-ssl-secret
