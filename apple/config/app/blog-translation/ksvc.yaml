@@ -24,14 +24,12 @@ spec:
           value: "8080"
         - name: SPRING_PROFILES_ACTIVE
           value: kubernetes
-        - name: SPRING_CONFIG_IMPORT
-          value: configtree:/workspace/config/
-        - name: SPRING_DATASOURCE_URL
-          value: jdbc:postgresql://${spring.datasource.instancename}.${spring.datasource.namespace}.svc.cluster.local:5432/${spring.datasource.dbname}
         - name: SPRING_DATASOURCE_HIKARI_DATASOURCEPROPERTIES_SSLMODE
           value: verify-full
         - name: SPRING_DATASOURCE_HIKARI_DATASOURCEPROPERTIES_SSLFACTORY
-          value: org.postgresql.ssl.LibPQFactory
+          value: org.postgresql.ssl.DefaultJavaSSLFactory
+        - name: SERVICE_BINDING_ROOT
+          value: /bindings
         - name: JAVA_TOOL_OPTIONS
           value: "-XX:ReservedCodeCacheSize=32M -Xss512k -Duser.timezone=Asia/Tokyo -Duser.language=ja -Duser.country=JP -Dfile.encoding=UTF-8"
         - name: BPL_JVM_THREAD_COUNT
@@ -69,11 +67,10 @@ spec:
           value: "false"
         volumeMounts:
         - name: translation-db
-          mountPath: /workspace/config/spring/datasource
+          mountPath: /bindings/translation-db
           readOnly: true
-        - name: translation-db-cert
-          mountPath: /home/cnb/.postgresql/root.crt
-          subPath: ca.crt
+        - name: translation-trusted-certs
+          mountPath: /bindings/translation-trusted-certs
           readOnly: true
         resources:
           limits:
@@ -91,7 +88,7 @@ spec:
       volumes:
       - name: translation-db
         secret:
-          secretName: translation-db-db-secret
-      - name: translation-db-cert
+          secretName: translation-db
+      - name: translation-trusted-certs
         secret:
-          secretName: translation-db-internal-ssl-secret
+          secretName: translation-trusted-certs
