@@ -29,7 +29,7 @@ spec:
         - name: SPRING_PROFILES_ACTIVE
           value: kubernetes
         - name: SPRING_R2DBC_URL
-          value: "r2dbc:postgresql://${spring.r2dbc.host}:${spring.r2dbc.port}/${spring.r2dbc.database}?sslMode=VERIFY_FULL&sslRootCert=/bindings/spring/r2dbc/certificates"
+          value: r2dbc:postgresql://${spring.r2dbc.instancename}.${spring.r2dbc.namespace}.svc.cluster.local:5432/${spring.r2dbc.dbname}?sslMode=VERIFY_FULL&sslRootCert=/blog-tls/ca.crt
         - name: SPRING_ZIPKIN_ENABLED
           value: "true"
         - name: SPRING_ZIPKIN_SERVICE_NAME
@@ -87,9 +87,15 @@ spec:
         - name: blog-db
           mountPath: /bindings/spring/r2dbc
           readOnly: true
+        - name: blog-tls
+          mountPath: /blog-tls
+          readOnly: true
         securityContext:
           runAsUser: 1000
       volumes:
       - name: blog-db
         secret:
-          secretName: blog-db
+          secretName: blog-db-db-secret
+      - name: blog-tls
+        secret:
+          secretName: blog-db-internal-ssl-secret
