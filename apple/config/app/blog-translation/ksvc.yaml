@@ -27,7 +27,9 @@ spec:
         - name: SPRING_DATASOURCE_HIKARI_DATASOURCEPROPERTIES_SSLMODE
           value: verify-full
         - name: SPRING_DATASOURCE_HIKARI_DATASOURCEPROPERTIES_SSLFACTORY
-          value: org.postgresql.ssl.DefaultJavaSSLFactory
+          value: org.postgresql.ssl.LibPQFactory
+        - name: SPRING_SQL_INIT_MODE
+          value: always
         - name: SERVICE_BINDING_ROOT
           value: /bindings
         - name: JAVA_TOOL_OPTIONS
@@ -66,11 +68,12 @@ spec:
         - name: MANAGEMENT_METRICS_EXPORT_WAVEFRONT_ENABLED
           value: "false"
         volumeMounts:
-        - name: translation-db
+        - name: translation-db-secret
           mountPath: /bindings/translation-db
           readOnly: true
-        - name: translation-trusted-certs
-          mountPath: /bindings/translation-trusted-certs
+        - name: translation-db-tls
+          mountPath: /home/cnb/.postgresql/root.crt
+          subPath: ca.crt
           readOnly: true
         resources:
           limits:
@@ -86,9 +89,9 @@ spec:
         securityContext:
           runAsUser: 1000
       volumes:
-      - name: translation-db
+      - name: translation-db-secret
         secret:
-          secretName: translation-db
-      - name: translation-trusted-certs
+          secretName: translation-db-secret
+      - name: translation-db-tls
         secret:
-          secretName: translation-trusted-certs
+          secretName: translation-db-tls
