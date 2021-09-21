@@ -38,6 +38,9 @@ spec:
   - translation-db-postgresql.blog.svc.cluster.local
   - translation-db-postgresql.blog
   - translation-db-postgresql
+  - translation-db-postgresql-headless.blog.svc.cluster.local
+  - translation-db-postgresql-headless.blog
+  - translation-db-postgresql-headless
   - 127.0.0.1
   - localhost
   issuerRef:
