@@ -8,6 +8,8 @@ spec:
   storageSize: 1Gi
   cpu: "0.1"
   memory: 128Mi
+  monitorStorageClassName: default
+  monitorStorageSize: 1Gi
   pgConfig:
     dbname: translation
     username: blog
