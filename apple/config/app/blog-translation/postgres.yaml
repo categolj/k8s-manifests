@@ -1,0 +1,18 @@
+apiVersion: sql.tanzu.vmware.com/v1
+kind: Postgres
+metadata:
+  name: translation-db
+  namespace: blog
+spec:
+  storageClassName: default
+  storageSize: 1Gi
+  cpu: "0.1"
+  memory: 128Mi
+  monitorStorageClassName: default
+  monitorStorageSize: 1Gi
+  pgConfig:
+    dbname: translation
+    username: blog
+  serviceType: ClusterIP
+  highAvailability:
+    enabled: false
