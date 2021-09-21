@@ -24,10 +24,10 @@ spec:
           value: "8080"
         - name: SPRING_PROFILES_ACTIVE
           value: kubernetes
-        - name: SPRING_DATASOURCE_HIKARI_DATASOURCEPROPERTIES_SSLMODE
-          value: verify-full
-        - name: SPRING_DATASOURCE_HIKARI_DATASOURCEPROPERTIES_SSLFACTORY
-          value: org.postgresql.ssl.LibPQFactory
+#!        - name: SPRING_DATASOURCE_HIKARI_DATASOURCEPROPERTIES_SSLMODE
+#!          value: verify-full
+#!        - name: SPRING_DATASOURCE_HIKARI_DATASOURCEPROPERTIES_SSLFACTORY
+#!          value: org.postgresql.ssl.LibPQFactory
         - name: SPRING_SQL_INIT_MODE
           value: always
         - name: SERVICE_BINDING_ROOT
