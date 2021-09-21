@@ -14,3 +14,4 @@ tls:
   certCAFilename: ca.crt
 volumePermissions:
   enabled: true
+postgresqlPghbaRemoveFilters: hostssl
