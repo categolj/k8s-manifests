@@ -11,8 +11,11 @@ spec:
         env:
         #@overlay/match by="name"
         - name: SPRING_R2DBC_URL
-          value: "r2dbc:postgresql://${spring.datasource.instancename}.${spring.datasource.namespace}.svc.cluster.local:5432/${spring.datasource.dbname}?sslMode=VERIFY_FULL&sslRootCert=/blog-tls/ca.crt"
+          value: "r2dbc:postgresql://${blog-db.instancename}.${blog-db.namespace}.svc.cluster.local:5432/${blog-db.dbname}?sslMode=VERIFY_FULL&sslRootCert=/blog-tls/ca.crt"
         volumeMounts:
+        #@overlay/match by="name"
+        - name: blog-db
+          mountPath: /bindings/blog-db
         - name: blog-tls
           mountPath: /blog-tls
           readOnly: true
