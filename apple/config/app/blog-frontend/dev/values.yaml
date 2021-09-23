@@ -4,10 +4,10 @@
 git_repo: https://github.com/categolj/blog-frontend
 git_commit: 83c3940f03bae8d657af325b1df0d77a6ae498fc
 image_name: ghcr.io/making/blog-frontend
-image_digest: sha256:06687f2664328a07c8985c531b921a92ee3b27ff6c605afa0dcda8fb346a137f
+image_digest: sha256:17e2e717e44a9f0ee17fdfbe07cbc517d897eb8280c14cf93306546e93a0181c
 base_image:
-  reference: ghcr.io/making/build-service/run@sha256:813aff25d268620701c0fff49de75124d45414d01c54ecf06ebb0e6d79a2ecf1
-  top_layer: sha256:c660492455a39a46ff8698acb5c46f131264007635b312f9645021a5a5b0ef5d
+  reference: ghcr.io/making/build-service/run@sha256:551f0adcedc2a26467485a6842f393c01403fd71810333219af7918278030b42
+  top_layer: sha256:7ff5f6a33c1d62eebe063cc275ef7881de67a3e5f9d4ccd2f59d89972d6cdea4
 run_image: ghcr.io/making/build-service/run@sha256:813aff25d268620701c0fff49de75124d45414d01c54ecf06ebb0e6d79a2ecf1
 buildpacks:
 - id: paketo-buildpacks/procfile
