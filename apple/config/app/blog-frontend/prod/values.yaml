@@ -2,13 +2,13 @@
 #@overlay/match-child-defaults missing_ok=True
 ---
 git_repo: https://github.com/categolj/blog-frontend
-git_commit: c8b37fac369f906c851b5504bfac317a7ee75c70
+git_commit: 1a0fbe1ccc297971620e9accf8d285d0bb06f072
 image_name: ghcr.io/making/blog-frontend
-image_digest: sha256:fe88c306ef9e332b97a3a6d74d4ebaecf4026893c1fa4cf9216d32c9a7d9844c
+image_digest: sha256:f192f8baec175df0af13e6b3275fff1fb0cd3a4a498c1cde918a375dffdd4fe0
 base_image:
   reference: ghcr.io/making/build-service/run@sha256:813aff25d268620701c0fff49de75124d45414d01c54ecf06ebb0e6d79a2ecf1
   top_layer: sha256:c660492455a39a46ff8698acb5c46f131264007635b312f9645021a5a5b0ef5d
-run_image: ghcr.io/making/build-service/run@sha256:1d6c243ce4082c7b1fe595774fe5c11576ec9fdfec3a503d9a7af7d8e72701f9
+run_image: ghcr.io/making/build-service/run@sha256:813aff25d268620701c0fff49de75124d45414d01c54ecf06ebb0e6d79a2ecf1
 buildpacks:
 - id: paketo-buildpacks/procfile
   version: 4.3.1
