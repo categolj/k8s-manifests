@@ -4,7 +4,7 @@
 git_repo: https://github.com/categolj/blog-counter.git
 git_commit: bde1051c6a07357af7efe45eacabd8487bfe1223
 image_name: ghcr.io/making/blog-counter
-image_digest: sha256:6fc89b1aa5122ad24a94efc925fc2bb31015cfeb45a0fbd8a9b1952c88ec0109
+image_digest: sha256:139814c0440d07c4571de23673217cf1f70664dcbb15b4c2f7f82732489358de
 base_image:
   reference: gopivotal-build-service-private.jfrog.io/shipyard/run@sha256:551f0adcedc2a26467485a6842f393c01403fd71810333219af7918278030b42
   top_layer: sha256:7ff5f6a33c1d62eebe063cc275ef7881de67a3e5f9d4ccd2f59d89972d6cdea4
@@ -15,9 +15,9 @@ buildpacks:
 - id: paketo-buildpacks/graalvm
   version: 6.4.2
 - id: paketo-buildpacks/maven
-  version: 5.5.0
+  version: 5.6.0
 - id: paketo-buildpacks/executable-jar
-  version: 5.2.1
+  version: 5.3.0
 - id: paketo-buildpacks/spring-boot
   version: 4.6.0
 - id: paketo-buildpacks/native-image
