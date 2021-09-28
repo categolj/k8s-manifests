@@ -24,9 +24,9 @@ spec:
         imagePullPolicy: Always
         resources:
           limits:
-            memory: "200Mi"
+            memory: "256Mi"
           requests:
-            memory: "200Mi"
+            memory: "256Mi"
         env:
         - name: SPRING_CONFIG_IMPORT
           value: configtree:/config/
