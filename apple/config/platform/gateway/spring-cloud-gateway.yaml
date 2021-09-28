@@ -337,7 +337,7 @@ spec:
           value: Host
         - name: SPRING_CLOUD_GATEWAY_ROUTES_16_PREDICATES_0_ARGS_PATTERNS_0
           value: "ik.am*"
-        - name: SPRING_CLOUD_GATEWAY_ROUTES_8_PREDICATES_0_ARGS_PATTERNS_1
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_16_PREDICATES_0_ARGS_PATTERNS_1
           value: "tsunagu.ik.am*"
         - name: SPRING_CLOUD_GATEWAY_ROUTES_16_ORDER
           value: "-120"
@@ -356,7 +356,7 @@ spec:
           value: Host
         - name: SPRING_CLOUD_GATEWAY_ROUTES_17_PREDICATES_0_ARGS_PATTERNS_0
           value: "ik.am*"
-        - name: SPRING_CLOUD_GATEWAY_ROUTES_8_PREDICATES_0_ARGS_PATTERNS_1
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_17_PREDICATES_0_ARGS_PATTERNS_1
           value: "tsunagu.ik.am*"
         - name: SPRING_CLOUD_GATEWAY_ROUTES_17_PREDICATES_1_NAME
           value: Path
