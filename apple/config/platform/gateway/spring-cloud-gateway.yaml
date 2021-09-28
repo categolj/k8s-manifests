@@ -109,7 +109,7 @@ spec:
         - name: SPRING_CLOUD_GATEWAY_ROUTES_3_PREDICATES_0_ARGS_PATTERNS
           value: "/get"
         - name: SPRING_CLOUD_GATEWAY_ROUTES_3_ORDER
-          value: "-1"
+          value: "-1000"
         - name: SPRING_CLOUD_GATEWAY_ROUTES_3_URI
           value: https://httpbin.org
         #### Blog API HTTP
