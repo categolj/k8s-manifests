@@ -20,13 +20,7 @@ spec:
       containers:
       #@overlay/match by="name", missing_ok=True
       - name: tsunagu-client
-        image: ghcr.io/making/tsunagu-client
-        imagePullPolicy: Always
-        resources:
-          limits:
-            memory: "256Mi"
-          requests:
-            memory: "256Mi"
+        image: ghcr.io/making/tsunagu-client@sha256:f6232585c0c8478b7236fb2230988efcd6f0655612ba73ca0db7ac5d21f93695
         env:
         - name: SPRING_CONFIG_IMPORT
           value: configtree:/config/
@@ -36,6 +30,19 @@ spec:
           value: http://localhost:8080
         - name: TSUNAGU_PRESERVE_HOST
           value: "true"
+        resources:
+          limits:
+            memory: "256Mi"
+          requests:
+            memory: "256Mi"
+        readinessProbe:
+          httpGet:
+            path: /actuator/health/readiness
+            port: 8084
+        livenessProbe:
+          httpGet:
+            path: /actuator/health/liveness
+            port: 8084
         volumeMounts:
         - name: tsunagu
           mountPath: /config/tsunagu
