@@ -34,6 +34,8 @@ spec:
           value: wss://tsunagu.ik.am/tsunagu
         - name: TSUNAGU_UPSTREAM
           value: http://localhost:8080
+        - name: TSUNAGU_PRESERVE_HOST
+          value: "true"
         volumeMounts:
         - name: tsunagu
           mountPath: /config/tsunagu
