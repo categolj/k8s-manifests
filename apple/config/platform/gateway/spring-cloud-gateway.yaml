@@ -398,8 +398,8 @@ spec:
           value: "-10"
         - name: SPRING_CLOUD_GATEWAY_ROUTES_19_URI
           value: https://192.168.11.108:5001
-#        - name: SPRING_CLOUD_GATEWAY_ROUTES_19_FILTERS_0
-#          value: "PreserveHostHeader="
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_19_FILTERS_0
+          value: "PreserveHostHeader="
         - name: SPRING_CLOUD_GATEWAY_ROUTES_19_FILTERS_0
           value: "SetRequestHeader=X-Forwarded-Proto, https"
         - name: SPRING_CLOUD_GATEWAY_ROUTES_19_FILTERS_1
