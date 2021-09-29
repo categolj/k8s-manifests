@@ -246,8 +246,8 @@ spec:
           value: Host
         - name: SPRING_CLOUD_GATEWAY_ROUTES_11_PREDICATES_0_ARGS_PATTERNS_0
           value: "synology.ik.am*"
-        - name: SPRING_CLOUD_GATEWAY_ROUTES_11_PREDICATES_1
-          value: "Header=User-Agent, (Photos|Synology|iOS|Moments|AppleCoreMedia).+"
+#        - name: SPRING_CLOUD_GATEWAY_ROUTES_11_PREDICATES_1
+#          value: "Header=User-Agent, (Photos|Synology|iOS|Moments|AppleCoreMedia).+"
         - name: SPRING_CLOUD_GATEWAY_ROUTES_11_ORDER
           value: "-10"
         - name: SPRING_CLOUD_GATEWAY_ROUTES_11_URI
