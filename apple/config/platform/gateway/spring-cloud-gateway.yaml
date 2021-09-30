@@ -408,6 +408,8 @@ spec:
           value: "SetRequestHeader=X-Forwarded-Host, synology2.ik.am"
         - name: SPRING_CLOUD_GATEWAY_ROUTES_19_FILTERS_3
           value: "RequestHeadersDump="
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_19_FILTERS_4
+          value: "ResponseHeadersDump="
         #### Synology3
         - name: SPRING_CLOUD_GATEWAY_ROUTES_20_ID
           value: synology3
@@ -431,6 +433,8 @@ spec:
           value: "SetRequestHeader=X-Forwarded-Host, synology3.ik.am"
         - name: SPRING_CLOUD_GATEWAY_ROUTES_20_FILTERS_3
           value: "RequestHeadersDump="
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_20_FILTERS_4
+          value: "ResponseHeadersDump="
 #        #### Blog API HTTP (Actuator)
 #        - name: SPRING_CLOUD_GATEWAY_ROUTES_15_ID
 #          value: blog-api-actuator
