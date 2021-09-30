@@ -397,7 +397,7 @@ spec:
         - name: SPRING_CLOUD_GATEWAY_ROUTES_19_ORDER
           value: "-10"
         - name: SPRING_CLOUD_GATEWAY_ROUTES_19_URI
-          value: https://httpbin.org
+          value: https://192.168.11.108:5001
         - name: SPRING_CLOUD_GATEWAY_ROUTES_19_FILTERS_0
           value: "PreserveHostHeader="
         - name: SPRING_CLOUD_GATEWAY_ROUTES_19_FILTERS_0
@@ -418,7 +418,7 @@ spec:
         - name: SPRING_CLOUD_GATEWAY_ROUTES_20_ORDER
           value: "-10"
         - name: SPRING_CLOUD_GATEWAY_ROUTES_20_URI
-          value: https://httpbin.org
+          value: https://192.168.11.108:5001
         - name: SPRING_CLOUD_GATEWAY_ROUTES_20_FILTERS_0
           value: "PreserveHostHeader="
         - name: SPRING_CLOUD_GATEWAY_ROUTES_20_FILTERS_0
