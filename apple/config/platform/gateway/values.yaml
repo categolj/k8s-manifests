@@ -2,9 +2,9 @@
 #@overlay/match-child-defaults missing_ok=True
 ---
 git_repo: https://github.com/making/vanilla-gateway
-git_commit: 4f47cbf927dfebc7d9840c3d1b5a4ac459c2d4ab
+git_commit: eca409d5c355d7000344ae33ac7893cfbd755024
 image_name: ghcr.io/making/vanilla-gateway
-image_digest: sha256:77e520180e1c7a594963a68e707c6e089db0ff333f73bbe42d46222f5cdac5f0
+image_digest: sha256:8eac326840b66e734505a1524ef74de7e914ddbfca557d0f3334e25745c61461
 base_image:
   reference: gopivotal-build-service-private.jfrog.io/shipyard/run@sha256:e763a7b4c29479eb5b9a25d976f7152fd881c693c0530f335a6b20bc49c3034e
   top_layer: sha256:d96a2766d91a2a779ba0ef6545b97edef762e3ae745a26ec04a2113cc6fa8010
