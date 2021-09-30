@@ -2,22 +2,22 @@
 #@overlay/match-child-defaults missing_ok=True
 ---
 git_repo: https://github.com/making/vanilla-gateway
-git_commit: 3e7a1896fa28b183afa2443d8c8846bf213bb8dd
+git_commit: 4f47cbf927dfebc7d9840c3d1b5a4ac459c2d4ab
 image_name: ghcr.io/making/vanilla-gateway
-image_digest: sha256:58ab8cf7d848e26f514e03c9b213dca974e6b4767286973939c8026370bb4f62
+image_digest: sha256:77e520180e1c7a594963a68e707c6e089db0ff333f73bbe42d46222f5cdac5f0
 base_image:
-  reference: gopivotal-build-service-private.jfrog.io/shipyard/run@sha256:a3070c608e0dff29261f7debffeb13a4a62f8f5199bd53584176a05171b3731a
-  top_layer: sha256:f6f8b33b60e61ce5dd469b4b03edbeb1f4860842bc5c0cc439a3cda4a7405474
-run_image: gopivotal-build-service-private.jfrog.io/shipyard/run@sha256:4a464d8cba60f5c5c6885fa619ea6ce9d3201e1fb0684aaa1d4514b326006b22
+  reference: gopivotal-build-service-private.jfrog.io/shipyard/run@sha256:e763a7b4c29479eb5b9a25d976f7152fd881c693c0530f335a6b20bc49c3034e
+  top_layer: sha256:d96a2766d91a2a779ba0ef6545b97edef762e3ae745a26ec04a2113cc6fa8010
+run_image: gopivotal-build-service-private.jfrog.io/shipyard/run@sha256:e763a7b4c29479eb5b9a25d976f7152fd881c693c0530f335a6b20bc49c3034e
 buildpacks:
 - id: paketo-buildpacks/ca-certificates
   version: 2.4.1
 - id: paketo-buildpacks/bellsoft-liberica
-  version: 8.5.0
+  version: 8.7.0
 - id: paketo-buildpacks/maven
-  version: 5.5.0
+  version: 5.6.0
 - id: paketo-buildpacks/executable-jar
-  version: 5.2.1
+  version: 5.3.0
 - id: paketo-buildpacks/apache-tomcat
   version: 6.3.0
 - id: paketo-buildpacks/dist-zip
