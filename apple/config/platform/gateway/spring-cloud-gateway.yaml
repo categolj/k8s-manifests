@@ -406,7 +406,27 @@ spec:
           value: "SetRequestHeader=X-Forwarded-Port, 443"
         - name: SPRING_CLOUD_GATEWAY_ROUTES_19_FILTERS_2
           value: "SetRequestHeader=X-Forwarded-Host, synology2.ik.am"
-
+        #### Synology3
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_20_ID
+          value: synology3
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_20_PREDICATES_0_NAME
+          value: Host
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_20_PREDICATES_0_ARGS_PATTERNS_0
+          value: "synology3.ik.am*"
+        #        - name: SPRING_CLOUD_GATEWAY_ROUTES_20_PREDICATES_1
+        #          value: "Header=User-Agent, (Photos|Synology|iOS|Moments|AppleCoreMedia).+"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_20_ORDER
+          value: "-10"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_20_URI
+          value: https://192.168.11.108:5001
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_20_FILTERS_0
+          value: "PreserveHostHeader="
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_20_FILTERS_0
+          value: "SetRequestHeader=X-Forwarded-Proto, https"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_20_FILTERS_1
+          value: "SetRequestHeader=X-Forwarded-Port, 443"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_20_FILTERS_2
+          value: "SetRequestHeader=X-Forwarded-Host, synology3.ik.am"
 #        #### Blog API HTTP (Actuator)
 #        - name: SPRING_CLOUD_GATEWAY_ROUTES_15_ID
 #          value: blog-api-actuator
