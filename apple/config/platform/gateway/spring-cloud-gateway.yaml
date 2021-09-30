@@ -385,6 +385,10 @@ spec:
           value: "PreserveHostHeader="
         - name: SPRING_CLOUD_GATEWAY_ROUTES_18_FILTERS_1
           value: "SetRequestHeader=Host, blog-api.blog.apple.maki.lol"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_18_FILTERS_3
+          value: "RequestHeadersDump="
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_18_FILTERS_4
+          value: "ResponseHeadersDump="
         #### Synology2
         - name: SPRING_CLOUD_GATEWAY_ROUTES_19_ID
           value: synology2
@@ -406,6 +410,10 @@ spec:
           value: "SetRequestHeader=X-Forwarded-Port, 443"
         - name: SPRING_CLOUD_GATEWAY_ROUTES_19_FILTERS_2
           value: "SetRequestHeader=X-Forwarded-Host, synology2.ik.am"
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_19_FILTERS_3
+          value: "RequestHeadersDump="
+        - name: SPRING_CLOUD_GATEWAY_ROUTES_19_FILTERS_4
+          value: "ResponseHeadersDump="
         #### Synology3
         - name: SPRING_CLOUD_GATEWAY_ROUTES_20_ID
           value: synology3
