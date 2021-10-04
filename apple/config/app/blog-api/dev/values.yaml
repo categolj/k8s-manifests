@@ -4,11 +4,11 @@
 git_repo: https://github.com/categolj/blog-api
 git_commit: 62b252f8d0299d6c0bf9b36954db386eb7fbf976
 image_name: ghcr.io/making/blog-api
-image_digest: sha256:92a2b2be56904f82f4043c90dd9334991b95e6397202e24a31518368ea3447fe
+image_digest: sha256:c512fe1b1d5e2332f0eadb3678cf45855ed74cea8c57caf3899f9f5db39495bd
 base_image:
   reference: ghcr.io/making/build-service/run@sha256:297ee184c7489643806d6f0892e3403b0deb960e40ad2dfa4ad8644b06bad7cd
   top_layer: sha256:65166565aa7322448c5274adcf51d1a253541128e45c1cf30b90c7e8765b1acf
 run_image: ghcr.io/making/build-service/run@sha256:297ee184c7489643806d6f0892e3403b0deb960e40ad2dfa4ad8644b06bad7cd
 buildpacks:
 - id: paketo-buildpacks/procfile
-  version: 4.4.0
+  version: 4.3.1
