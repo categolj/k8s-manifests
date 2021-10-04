@@ -4,7 +4,7 @@
 git_repo: https://github.com/making/vanilla-gateway
 git_commit: eca409d5c355d7000344ae33ac7893cfbd755024
 image_name: ghcr.io/making/vanilla-gateway
-image_digest: sha256:8eac326840b66e734505a1524ef74de7e914ddbfca557d0f3334e25745c61461
+image_digest: sha256:a7400597217d86708251935894f7ab95015686731829a03551137be637f52676
 base_image:
   reference: gopivotal-build-service-private.jfrog.io/shipyard/run@sha256:e763a7b4c29479eb5b9a25d976f7152fd881c693c0530f335a6b20bc49c3034e
   top_layer: sha256:d96a2766d91a2a779ba0ef6545b97edef762e3ae745a26ec04a2113cc6fa8010
@@ -13,7 +13,7 @@ buildpacks:
 - id: paketo-buildpacks/ca-certificates
   version: 2.4.1
 - id: paketo-buildpacks/bellsoft-liberica
-  version: 8.7.0
+  version: 8.7.1
 - id: paketo-buildpacks/maven
   version: 5.6.0
 - id: paketo-buildpacks/executable-jar
