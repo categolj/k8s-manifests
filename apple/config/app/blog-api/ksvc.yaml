@@ -24,6 +24,8 @@ spec:
           value: "-Duser.timezone=Asia/Tokyo -Duser.language=ja -Duser.country=JP"
         - name: SERVER_PORT
           value: "${PORT}"
+        - name: SPRING_RSOCKET_SERVER_FRAGMENTSIZE
+          value: 16MB
         - name: SPRING_CONFIG_IMPORT
           value: configtree:/bindings/
         - name: SPRING_PROFILES_ACTIVE
