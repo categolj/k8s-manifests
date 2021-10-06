@@ -53,7 +53,7 @@ spec:
         - name: SPRING_CLOUD_GATEWAY_HTTPCLIENT_SSL_USEINSECURETRUSTMANAGER
           value: "true"
         - name: SPRING_CLOUD_GATEWAY_HTTPCLIENT_WEBSOCKET_MAXFRAMEPAYLOADLENGTH
-          value: "655350"
+          value: "16777216"
         - name: SPRING_CLOUD_GATEWAY_DEFAULTFILTERS
           value: AccessLog=
         #### prometheus
