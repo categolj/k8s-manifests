@@ -20,7 +20,7 @@ spec:
       containers:
       #@overlay/match by="name", missing_ok=True
       - name: tsunagu-client
-        image: ghcr.io/making/tsunagu-client@sha256:d882bea72a9b1fb1c2cea697ddc64cf2e665e4fb0976affa184f6e2440bf70f6
+        image: ghcr.io/making/tsunagu-client@sha256:1b7c8f1c26e9b8846a6fcc729dfd66bdaa377c24dc00f55ad5c7a218db2c585a
         env:
         - name: SPRING_CONFIG_IMPORT
           value: configtree:/config/
