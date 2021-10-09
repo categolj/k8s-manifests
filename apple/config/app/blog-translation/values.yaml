@@ -4,19 +4,19 @@
 git_repo: https://github.com/categolj/blog-translation
 git_commit: 8f524fd6fb45fe105f68c2d2f9af6690e9484ed2
 image_name: ghcr.io/making/blog-translation
-image_digest: sha256:ee5b5eba6d47aca810d4507f22bf854a9092294f3e94f15863ada8fb7ddc042c
+image_digest: sha256:40210c7cae5eb408edca0287a743504c05d0188a4e6d9f27b44cc93e6fa658d5
 base_image:
   reference: ghcr.io/making/build-service/run@sha256:c380a7b01bb93840201271fe9ea0911c4add2af9da54e50b19ef5d6b54829fae
   top_layer: sha256:6555d062ae96f8cf230cff44d1f970e9b53e2906236bca97f1d3e0ba80266f8e
-run_image: ghcr.io/making/build-service/run@sha256:e763a7b4c29479eb5b9a25d976f7152fd881c693c0530f335a6b20bc49c3034e
+run_image: ghcr.io/making/build-service/run@sha256:c380a7b01bb93840201271fe9ea0911c4add2af9da54e50b19ef5d6b54829fae
 buildpacks:
 - id: paketo-buildpacks/ca-certificates
-  version: 2.4.1
+  version: 2.4.2
 - id: paketo-buildpacks/bellsoft-liberica
-  version: 8.7.1
+  version: 8.8.0
 - id: paketo-buildpacks/executable-jar
-  version: 5.3.0
+  version: 5.3.1
 - id: paketo-buildpacks/dist-zip
-  version: 4.2.1
+  version: 4.3.0
 - id: paketo-buildpacks/spring-boot
-  version: 4.6.0
+  version: 4.7.0
