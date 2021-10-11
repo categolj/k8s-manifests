@@ -1,0 +1,28 @@
+#@ load("@ytt:overlay", "overlay")
+
+#@overlay/match by=overlay.subset({"kind":"DaemonSet", "metadata": {"name": "telegraf-ds"}})
+---
+spec:
+  template:
+    spec:
+      containers:
+      #@overlay/match by="name"
+      - name: telegraf-ds
+        volumeMounts:
+        #@overlay/match by="name"
+        #@overlay/remove
+        - name: docker-socket
+      volumes:
+      #@overlay/match by="name"
+      #@overlay/remove
+      - name: docker-socket
+
+#@overlay/match by=overlay.subset({"kind":"DaemonSet"}), expects="1+"
+---
+#@overlay/match-child-defaults missing_ok=True
+spec:
+  template:
+    spec:
+      tolerations:
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/master

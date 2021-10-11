@@ -1,0 +1,40 @@
+apiVersion: kappctrl.k14s.io/v1alpha1
+kind: App
+metadata:
+  name: telegraf
+  namespace: kapp
+spec:
+  syncPeriod: 3h
+  serviceAccountName: kapp
+  fetch:
+  - helmChart:
+      name: telegraf
+      version: "1.0.22"
+      repository:
+        url: https://helm.influxdata.com
+  - git:
+      url: git@github.com:categolj/k8s-manifests.git
+      ref: origin/main
+      subPath:
+      secretRef:
+        name: github
+  template:
+  - helmTemplate:
+      namespace: telegraf
+      path: 0/
+      valuesFrom:
+      - path: 1/common/telegraf/helm-values.yaml
+  - ytt:
+      ignoreUnknownComments: true
+      paths:
+      - "-"
+      - 1/common/telegraf/namespace.yaml
+      - 1/common/telegraf/overlay.yaml
+      - 1/common/telegraf/remove-resource-requirements.yaml
+  deploy:
+  - kapp:
+      rawOptions:
+      - --diff-changes=true
+      inspect:
+        rawOptions:
+        - --tree=true
