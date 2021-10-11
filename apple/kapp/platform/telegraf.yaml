@@ -15,7 +15,7 @@ spec:
   - git:
       url: git@github.com:categolj/k8s-manifests.git
       ref: origin/main
-      subPath:
+      subPath: common/telegraf
       secretRef:
         name: github
   template:
@@ -24,14 +24,14 @@ spec:
       namespace: telegraf
       path: 0/
       valuesFrom:
-      - path: 1/common/telegraf/helm-values.yaml
+      - path: 1/helm-values.yaml
   - ytt:
       ignoreUnknownComments: true
       paths:
       - "-"
-      - 1/common/telegraf/namespace.yaml
-      - 1/common/telegraf/overlay.yaml
-      - 1/common/telegraf/remove-resource-requirements.yaml
+      - 1/namespace.yaml
+      - 1/overlay.yaml
+      - 1/remove-resource-requirements.yaml
   deploy:
   - kapp:
       rawOptions:
