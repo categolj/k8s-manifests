@@ -4,21 +4,21 @@
 git_repo: https://github.com/categolj/blog-counter.git
 git_commit: 956e0d5fe8650154fb9b50433659cb64355eacaf
 image_name: ghcr.io/making/blog-counter
-image_digest: sha256:757d5e8739ad2c4bd7ad21b373ed78ed014d248d248e5741bae961d65cfe63ca
+image_digest: sha256:0843260df20044d87d1bbc7aa678e00ebe1d7476322862872ae3228caaf68825
 base_image:
-  reference: gopivotal-build-service-private.jfrog.io/shipyard/run@sha256:297ee184c7489643806d6f0892e3403b0deb960e40ad2dfa4ad8644b06bad7cd
-  top_layer: sha256:65166565aa7322448c5274adcf51d1a253541128e45c1cf30b90c7e8765b1acf
-run_image: gopivotal-build-service-private.jfrog.io/shipyard/run@sha256:551f0adcedc2a26467485a6842f393c01403fd71810333219af7918278030b42
+  reference: gopivotal-build-service-private.jfrog.io/shipyard@sha256:4ab27a1ce530d91e03c27dc4f2e8576110fb8d8c7b05fb35716d4f226cffdf45
+  top_layer: sha256:bb709918d58a7ebcca68e699bdd7eef499ec313aa761e66797be84399bf93787
+run_image: gopivotal-build-service-private.jfrog.io/shipyard@sha256:4ab27a1ce530d91e03c27dc4f2e8576110fb8d8c7b05fb35716d4f226cffdf45
 buildpacks:
 - id: paketo-buildpacks/ca-certificates
-  version: 2.4.1
+  version: 2.4.2
 - id: paketo-buildpacks/graalvm
-  version: 6.4.2
+  version: 6.5.0
 - id: paketo-buildpacks/maven
-  version: 5.6.0
+  version: 5.7.0
 - id: paketo-buildpacks/executable-jar
-  version: 5.3.0
+  version: 5.3.1
 - id: paketo-buildpacks/spring-boot
-  version: 4.6.0
+  version: 4.7.0
 - id: paketo-buildpacks/native-image
-  version: 4.3.1
+  version: 4.3.2
