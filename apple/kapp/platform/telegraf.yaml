@@ -8,7 +8,7 @@ spec:
   serviceAccountName: kapp
   fetch:
   - helmChart:
-      name: telegraf
+      name: telegraf-ds
       version: "1.0.22"
       repository:
         url: https://helm.influxdata.com
