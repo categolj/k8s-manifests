@@ -4,7 +4,7 @@ metadata:
   name: wavefront
   namespace: kapp
 spec:
-  syncPeriod: 3m
+  syncPeriod: 3h
   serviceAccountName: kapp
   fetch:
   - helmChart:
@@ -24,14 +24,17 @@ spec:
         privateKeysSecretRef:
           name: pgp-key
   - helmTemplate:
+      namespace: wavefront
       path: 0/
       valuesFrom:
       - path: 1/common/wavefront/helm-values.yaml
       - path: 1/apple/config/platform/wavefront/helm-values.yaml
   - ytt:
+      ignoreUnknownComments: true
       paths:
-      - '-'
-      - 1/common/wavefront
+      - "-"
+      - 1/common/wavefront/namespace.yaml
+      - 1/common/wavefront/remove-resource-requirements.yaml
   deploy:
   - kapp:
       rawOptions:
