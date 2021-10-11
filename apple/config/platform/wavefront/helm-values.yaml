@@ -1,0 +1,4 @@
+#! https://github.com/wavefrontHQ/helm/tree/master/wavefront
+clusterName: apple
+proxy:
+  zipkinPort: 9411

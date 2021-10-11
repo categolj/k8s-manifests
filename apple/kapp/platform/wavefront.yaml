@@ -1,0 +1,41 @@
+apiVersion: kappctrl.k14s.io/v1alpha1
+kind: App
+metadata:
+  name: wavefront
+  namespace: kapp
+spec:
+  syncPeriod: 3m
+  serviceAccountName: kapp
+  fetch:
+  - helmChart:
+      name: wavefront
+      version: "1.7.1"
+      repository:
+        url: https://wavefronthq.github.io/helm
+  - git:
+      url: git@github.com:categolj/k8s-manifests.git
+      ref: origin/main
+      subPath:
+      secretRef:
+        name: github
+  template:
+  - sops:
+      pgp:
+        privateKeysSecretRef:
+          name: pgp-key
+  - helmTemplate:
+      path: 0/
+      valuesFrom:
+      - path: 1/common/wavefront/helm-values.yaml
+      - path: 1/apple/config/platform/wavefront/helm-values.yaml
+  - ytt:
+      paths:
+      - '-'
+      - 1/common/wavefront
+  deploy:
+  - kapp:
+      rawOptions:
+      - --diff-changes=true
+      inspect:
+        rawOptions:
+        - --tree=true
