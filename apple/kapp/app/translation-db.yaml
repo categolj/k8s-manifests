@@ -1,0 +1,41 @@
+apiVersion: kappctrl.k14s.io/v1alpha1
+kind: App
+metadata:
+  name: translation-db
+  namespace: kapp
+spec:
+  serviceAccountName: kapp
+  fetch:
+  - helmChart:
+      name: postgresql
+      version: "10.10.1"
+      repository:
+        url: https://charts.bitnami.com/bitnami
+  - git:
+      url: git@github.com:categolj/k8s-manifests.git
+      ref: origin/main
+      subPath: apple/config/app/translation-db
+      secretRef:
+        name: github
+  syncPeriod: 1m
+  template:
+  - helmTemplate:
+      namespace: blog
+      path: 0/
+      valuesFrom:
+      - path: 1/helm-values.yaml
+  - ytt:
+      ignoreUnknownComments: true
+      paths:
+      - "-"
+      - 1/password.yaml
+      - 1/certificate.yaml
+  deploy:
+  - kapp:
+      rawOptions:
+      - --wait-timeout=5m
+      - --diff-changes=true
+      - --diff-mask=true
+      inspect:
+        rawOptions:
+        - --tree=true
