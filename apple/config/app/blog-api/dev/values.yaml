@@ -2,9 +2,9 @@
 #@overlay/match-child-defaults missing_ok=True
 ---
 git_repo: https://github.com/categolj/blog-api
-git_commit: 4760795839b0346f095d2b2773a7538f992dede0
+git_commit: 079f74ae932f102ae324244628a12ddb0a7f56e0
 image_name: ghcr.io/making/blog-api
-image_digest: sha256:5f3421573dec2f74739f8fbd0d5913e7cd9824b0d57e806ed9f600c97968581f
+image_digest: sha256:1be9513cbf553555c6c9264667c1b78d70c830a17f813ab73e4c4f5b6643a879
 base_image:
   reference: ghcr.io/making/build-service@sha256:b6ad0692d9a9cbe5478753c3cc53e8b340cdd3ba865f76600a56d677eff451a7
   top_layer: sha256:5cfb61e9e2f35e83de677f446ece63e9428c4499fa86eb9f29e0e52bcc670c37
