@@ -4,7 +4,7 @@
 git_repo: https://github.com/categolj/blog-translation
 git_commit: bb0450e0a99b5ca602edf78b084a4ec02f36d55f
 image_name: ghcr.io/making/blog-translation
-image_digest: sha256:4573947d06577675172ce5ece231ed81cef20e872f35f7c6c7778589c3e400dc
+image_digest: sha256:22189c3982c5c1296338e07f4b08505292a9b0e6e3343c5a57ff287bccf04d4b
 base_image:
   reference: ghcr.io/making/build-service@sha256:845c08a5fe7305417cb5214b239ae2b367a892c60284371b6aecae5b1f6cb577
   top_layer: sha256:5e2147aa054fb1c219c780c161d43d5cfa970dc45ef1169304bc7fe85f3ff77f
@@ -13,7 +13,7 @@ buildpacks:
 - id: paketo-buildpacks/ca-certificates
   version: 2.4.2
 - id: paketo-buildpacks/bellsoft-liberica
-  version: 8.8.0
+  version: 8.9.0
 - id: paketo-buildpacks/executable-jar
   version: 5.3.1
 - id: paketo-buildpacks/dist-zip
