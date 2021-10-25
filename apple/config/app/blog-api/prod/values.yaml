@@ -2,13 +2,13 @@
 #@overlay/match-child-defaults missing_ok=True
 ---
 git_repo: https://github.com/categolj/blog-api
-git_commit: 9a52f14fe0fa8054a89dbc20c25b64cb7cd50251
+git_commit: 85bf1db56e9a8cfef4dec1fafdbfe23eb96ca8d8
 image_name: ghcr.io/making/blog-api
-image_digest: sha256:a936a207bab4a805871e36e652e291465b91f6340c2248189f807c8631e137f6
+image_digest: sha256:365f2d43b3c1372cbf0bf1ca594360769f40e99f3b85352c03106b9cb362cc32
 base_image:
-  reference: ghcr.io/making/build-service@sha256:4ab27a1ce530d91e03c27dc4f2e8576110fb8d8c7b05fb35716d4f226cffdf45
-  top_layer: sha256:bb709918d58a7ebcca68e699bdd7eef499ec313aa761e66797be84399bf93787
-run_image: ghcr.io/making/build-service@sha256:4ab27a1ce530d91e03c27dc4f2e8576110fb8d8c7b05fb35716d4f226cffdf45
+  reference: ghcr.io/making/build-service@sha256:b6ad0692d9a9cbe5478753c3cc53e8b340cdd3ba865f76600a56d677eff451a7
+  top_layer: sha256:5cfb61e9e2f35e83de677f446ece63e9428c4499fa86eb9f29e0e52bcc670c37
+run_image: ghcr.io/making/build-service@sha256:b6ad0692d9a9cbe5478753c3cc53e8b340cdd3ba865f76600a56d677eff451a7
 buildpacks:
 - id: paketo-buildpacks/procfile
   version: 4.4.1
