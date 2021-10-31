@@ -2,3 +2,4 @@
 clusterName: apple
 proxy:
   zipkinPort: 9411
+  args: "--customTracingListenerPorts 30001"
