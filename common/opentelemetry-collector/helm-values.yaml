@@ -34,6 +34,13 @@ config:
       check_interval: 5s
   exporters:
     logging: { }
+    tanzuobservability:
+      traces:
+        endpoint: "http://wavefront-proxy.wavefront.svc.cluster.local:30001"
+      retry_on_failure:
+        max_elapsed_time: 3m
+      sending_queue:
+        queue_size: 10000
   extensions:
     health_check: { }
     zpages: { }
@@ -53,3 +60,4 @@ config:
         - batch
         exporters:
         - logging
+        - tanzuobservability
