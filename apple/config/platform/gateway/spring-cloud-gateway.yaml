@@ -500,9 +500,9 @@ spec:
           value: apple
         resources:
           limits:
-            memory: "256Mi"
+            memory: "300Mi"
           requests:
-            memory: "256Mi"
+            memory: "300Mi"
         readinessProbe:
           httpGet:
             path: /_management/health
