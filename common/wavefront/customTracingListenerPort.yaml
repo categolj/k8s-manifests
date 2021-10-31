@@ -1,6 +1,6 @@
 #@ load("@ytt:overlay", "overlay")
 
-#@overlay/match by=overlay.subset({"kind": Deployment}),expects="1+"
+#@overlay/match by=overlay.subset({"kind": "Deployment"})
 ---
 spec:
   template:
@@ -12,7 +12,7 @@ spec:
         - containerPort: 30001
           protocol: TCP
 
-#@overlay/match by=overlay.subset({"kind": Service}),expects="1+"
+#@overlay/match by=overlay.subset({"kind": "Service"})
 ---
 spec:
   ports:
