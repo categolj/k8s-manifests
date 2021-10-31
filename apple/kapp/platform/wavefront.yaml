@@ -35,6 +35,7 @@ spec:
       - "-"
       - 1/common/wavefront/namespace.yaml
       - 1/common/wavefront/remove-resource-requirements.yaml
+      - 1/common/wavefront/customTracingListenerPort.yaml
   deploy:
   - kapp:
       rawOptions:
