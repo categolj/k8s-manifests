@@ -1,8 +1,8 @@
 #@data/values
 #@overlay/match-child-defaults missing_ok=True
 ---
-git_repo: 
-git_commit: 
+git_repo: https://github.com/categolj/blog-api
+git_commit: e0c5d5ce32ac38b070b653404908585d3445b6fa
 image_name: ghcr.io/making/blog-api
 image_digest: sha256:de830fc3897eea338938d228b4e3f698ad01082d6de84ac89fc5e78a2c3a9334
 base_image:
