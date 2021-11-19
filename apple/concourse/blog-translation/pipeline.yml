@@ -123,7 +123,7 @@ jobs:
       image_resource:
         type: docker-image
         source:
-          repository: maven
+          repository: ghcr.io/making/maven
       inputs:
       - name: image
       run:
