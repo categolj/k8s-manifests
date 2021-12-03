@@ -2,9 +2,9 @@
 #@overlay/match-child-defaults missing_ok=True
 ---
 git_repo: https://github.com/categolj/blog-translation
-git_commit: 0771b5139facdc27bc3d2ec61cb49f5bcee0fd58
+git_commit: 11cf449a742455134eba3be0ca7daf97dab5fb44
 image_name: ghcr.io/making/blog-translation
-image_digest: sha256:4abd2fb918342157cc21528edc0a3a46ad9be2cdd5e4a843c60ea55a4eb97e50
+image_digest: sha256:27126f05dceada47b2e66b261a1282b5e0a20207347cf55cd636b99a99851b20
 base_image:
   reference: ghcr.io/making/build-service@sha256:53e900797c8da768c2a254aca3ec1f3f4b5afd131d62787323e4f0374a6e7ad0
   top_layer: sha256:a7c5ba339543cb16a73db57a416090f17d3af832a0ace211c6d3a108f7f17d7f
