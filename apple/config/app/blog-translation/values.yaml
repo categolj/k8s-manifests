@@ -4,19 +4,21 @@
 git_repo: https://github.com/categolj/blog-translation
 git_commit: ad90331d381b73adec687da7b3b6d415cc435b83
 image_name: ghcr.io/making/blog-translation
-image_digest: sha256:b6844c8d812fa21173d5cbde8ee2c2505837ade263c204f25f832c9657e58344
+image_digest: sha256:b1c62aaa13792a80533100a4ad9cf46da64b2f79e9e55083a27930485865d3c4
 base_image:
-  reference: ghcr.io/making/build-service@sha256:53e900797c8da768c2a254aca3ec1f3f4b5afd131d62787323e4f0374a6e7ad0
-  top_layer: sha256:a7c5ba339543cb16a73db57a416090f17d3af832a0ace211c6d3a108f7f17d7f
-run_image: ghcr.io/making/build-service@sha256:53e900797c8da768c2a254aca3ec1f3f4b5afd131d62787323e4f0374a6e7ad0
+  reference: ghcr.io/making/build-service@sha256:b1e8add4fc569e37085342cd05186d17cb81e128ee60fd9fd633337e25ac7808
+  top_layer: sha256:7fbc62127aa9948953ae6198f318430cac235d6646fe33b65ea2e0acdbcd88c1
+run_image: ghcr.io/making/build-service@sha256:b1e8add4fc569e37085342cd05186d17cb81e128ee60fd9fd633337e25ac7808
 buildpacks:
 - id: paketo-buildpacks/ca-certificates
-  version: 2.4.2
+  version: 3.0.1
 - id: paketo-buildpacks/bellsoft-liberica
-  version: 8.9.0
+  version: 9.0.1
+- id: paketo-buildpacks/syft
+  version: 1.0.1
 - id: paketo-buildpacks/executable-jar
-  version: 5.3.1
+  version: 6.0.1
 - id: paketo-buildpacks/dist-zip
-  version: 4.3.0
+  version: 5.0.1
 - id: paketo-buildpacks/spring-boot
-  version: 4.7.0
+  version: 5.1.0
