@@ -171,7 +171,7 @@ spec:
         env:
         #@overlay/match by="name"
         - name: JAVA_OPTS
-          #@overlay/replace via=lambda left,right: left.replace("postgresql", "postgresql,ldap")
+          #@overlay/replace via=lambda left,right: left.replace("postgresql", "postgresql,ldap") + " -Dlog4j2.formatMsgNoLookups=true"
           value:
         volumeMounts:
         #@overlay/match by="name", missing_ok=True
