@@ -8,7 +8,7 @@ spec:
   fetch:
   - git:
       url: https://github.com/cloudfoundry/uaa.git
-      ref: 3f5c7fe17771388882a19f3d0dc1f270ef812a62 #! v75.7.0
+      ref: a04e905e69ad8f6339f040989b6862a6148b37da #! v75.11.0
       subPath: k8s/templates
   - git:
       url: git@github.com:categolj/k8s-manifests.git
