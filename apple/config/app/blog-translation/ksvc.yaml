@@ -44,6 +44,8 @@ spec:
           value: "true"
         - name: MANAGEMENT_INFO_JAVA_ENABLED
           value: "true"
+        - name: MANAGEMENT_ENDPOINT_HEALTH_SHOWDETAILS
+          value: always
         - name: SPRING_ZIPKIN_SERVICE_NAME
           value: "${INFO_K8S_NAMESPACE}:translation"
         - name: SPRING_SLEUTH_OTEL_EXPORTER_OTLP_ENDPOINT
