@@ -2,13 +2,13 @@
 #@overlay/match-child-defaults missing_ok=True
 ---
 git_repo: https://github.com/categolj/blog-counter.git
-git_commit: 1ff36f810f371bce0dea76167d72879be10b36d0
+git_commit: 5dae6c7d1fd6a430d443989d96a61999bff40c54
 image_name: ghcr.io/making/blog-counter
-image_digest: sha256:3a3956a84fe67e3a429cde99aac09fe7aeeca36fd85a23a19d5e8a8345f046ce
+image_digest: sha256:243e82c2710c860040a80ee2926185cb3c02fca8e67b71578f88bf0469a1f35d
 base_image:
   reference: gopivotal-build-service-private.jfrog.io/shipyard@sha256:0cf9c51a1f948f82085b56ac104b1568fcd9359cb52ef28ab36899afd7894407
   top_layer: sha256:b8510fbe691a228199a5357bf278d7de2da4c2621fba144bfc9d212c1143ca13
-run_image: gopivotal-build-service-private.jfrog.io/shipyard@sha256:96af77e0a85029f588aa63524dd4f6f678c451c3d675472275510a93238c5d2f
+run_image: gopivotal-build-service-private.jfrog.io/shipyard@sha256:0cf9c51a1f948f82085b56ac104b1568fcd9359cb52ef28ab36899afd7894407
 buildpacks:
 - id: paketo-buildpacks/ca-certificates
   version: 3.0.1
