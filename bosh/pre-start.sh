@@ -3,6 +3,13 @@ set -euox pipefail
 
 apt-get update
 
+mkdir -p /var/vcap/store/docker
+mkdir -p /var/vcap/store/containerd
+set +e
+ln -s /var/vcap/store/docker /var/lib/docker
+ln -s /var/vcap/store/containerd /var/lib/containerd
+set -e
+
 ########## Install Docker
 
 apt-get install ca-certificates curl gnupg lsb-release -y
@@ -138,4 +145,20 @@ if [ ! -f ${INSTALLATION}/rec/vault-${VAULT_VERSION} ];then
   rm -f /tmp/vault.zip
   chmod +x ${INSTALLATION}/bin/vault
   touch ${INSTALLATION}/rec/vault-${VAULT_VERSION}
+fi
+
+KIND_VERSION=0.11.1
+if [ ! -f ${INSTALLATION}/rec/kind-${KIND_VERSION} ];then
+  wget -O- https://kind.sigs.k8s.io/dl/v${KIND_VERSION}/kind-linux-amd64 > /tmp/kind
+  mv /tmp/kind ${INSTALLATION}/bin/kind
+  chmod +x ${INSTALLATION}/bin/kind
+  touch ${INSTALLATION}/rec/kind-${KIND_VERSION}
+fi
+
+KP_VERSION=0.4.2
+if [ ! -f ${INSTALLATION}/rec/kp-${KP_VERSION} ];then
+  wget -O- https://github.com/vmware-tanzu/kpack-cli/releases/download/v${KP_VERSION}/kp-linux-${KP_VERSION} > /tmp/kp
+  mv /tmp/kp ${INSTALLATION}/bin/kp
+  chmod +x ${INSTALLATION}/bin/kp
+  touch ${INSTALLATION}/rec/kp-${KP_VERSION}
 fi

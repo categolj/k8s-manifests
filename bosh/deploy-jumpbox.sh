@@ -11,9 +11,10 @@ bosh create-env ${DIR}/jumpbox.yml \
      -l ${DIR}/jumpbox-values.yml \
      --var-file=pre-start-script=${DIR}/pre-start.sh  \
      --vars-store ${DIR}/jumpbox-creds.yml \
-     --var-file jumpbox_ssh.public_key=${HOME}/.ssh/id_rsa.pub --recreate
+     --var-file jumpbox_ssh.public_key=${HOME}/.ssh/id_rsa.pub \
+     --recreate
 
 ${DIR}/../encrypt.sh ${DIR}/jumpbox-creds.yml
 ${DIR}/../encrypt.sh ${DIR}/jumpbox-values.yml
 
-git checkout HEAD ${DIR}/jumpbox-creds.sops.yml ${DIR}/jumpbox-values.sops.yml
+#git checkout HEAD ${DIR}/jumpbox-creds.sops.yml ${DIR}/jumpbox-values.sops.yml
