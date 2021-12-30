@@ -2,9 +2,9 @@
 #@overlay/match-child-defaults missing_ok=True
 ---
 git_repo: https://github.com/categolj/blog-frontend
-git_commit: 278f4bc747e539ad099b7561021b36c52773e7a5
+git_commit: 61893084bab2e66a9a8031ec1ad73c363542197d
 image_name: ghcr.io/making/blog-frontend
-image_digest: sha256:6d51a9f483b7ea7ed3894d235df1e156ed4f489f8a40e0461554674451b43043
+image_digest: sha256:a4d85cbdfb2743892db4fc01c9738f2c2d2930a16937c4fda3d6a2c17c5b26aa
 base_image:
   reference: ghcr.io/making/build-service@sha256:0cf9c51a1f948f82085b56ac104b1568fcd9359cb52ef28ab36899afd7894407
   top_layer: sha256:b8510fbe691a228199a5357bf278d7de2da4c2621fba144bfc9d212c1143ca13
