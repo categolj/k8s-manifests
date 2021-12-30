@@ -1,18 +1,18 @@
 {
-    "director_id": "fa4589e5-a811-4c41-72b3-cc6edbdd4ce9",
-    "installation_id": "e0cf8542-4d7f-4514-4973-f7d0f8444fe4",
-    "current_vm_cid": "vm-9df03aca-abd5-453e-98b8-949b9eb45d0b",
-    "current_stemcell_id": "1fa70642-4118-409f-73af-8e7ccb0d4bdb",
-    "current_disk_id": "c9f8c473-cb91-4b48-512c-239f8452779d",
+    "director_id": "a4ce6c72-aff8-44cb-5725-57c91a4d9b6c",
+    "installation_id": "8d518886-d02f-4ecc-7369-6f40e3296af7",
+    "current_vm_cid": "vm-60bbdb5f-88c8-49cd-b8d7-9c53e0cae21f",
+    "current_stemcell_id": "7112ba5e-9e98-44eb-41d5-37479c7cecf5",
+    "current_disk_id": "43ba756b-ceff-4af9-5ff4-b9df0d5a168a",
     "current_release_ids": [
-        "7d53f75d-5de5-46a4-67f0-49bb25b3ff61",
-        "8e9a0b0a-f04d-4bcc-5af3-d4c3f5eceec0"
+        "b4d8c302-ef4d-4dd9-5d1f-a03bb1040f96",
+        "7a3e2c77-039b-416f-68ee-d0f0063d2e93"
     ],
-    "current_manifest_sha": "82c8beb3c6a65488790a5492655ea6f73e5e28e6ddd077397bda311359ea7f882971804347f9835717bd00c47f3b006186bf406c5e0107736d321a1349dd2989",
+    "current_manifest_sha": "9c881b81854d400be581b06bd5c151d0fa178848860c530215f83c05e787b33b9fae71d9ad8f6bfc4187f24ae0165e13b122a30b86560877838c126fa1a9c7c8",
     "disks": [
         {
-            "id": "c9f8c473-cb91-4b48-512c-239f8452779d",
-            "cid": "disk-f3782597-95cc-43ef-91e6-a55a0b539cfb",
+            "id": "43ba756b-ceff-4af9-5ff4-b9df0d5a168a",
+            "cid": "disk-b45a6c29-1925-4f17-9f16-d6fe757c341b",
             "size": 51200,
             "cloud_properties": {
                 "type": "thin"
@@ -21,21 +21,21 @@
     ],
     "stemcells": [
         {
-            "id": "1fa70642-4118-409f-73af-8e7ccb0d4bdb",
+            "id": "7112ba5e-9e98-44eb-41d5-37479c7cecf5",
             "name": "bosh-vsphere-esxi-ubuntu-bionic-go_agent",
             "version": "1.41",
             "api_version": 3,
-            "cid": "sc-e6cc9dde-cef6-443e-bd15-0f76d3f60889"
+            "cid": "sc-ad41995f-7684-4e2a-a1c3-8bcefbb544e8"
         }
     ],
     "releases": [
         {
-            "id": "7d53f75d-5de5-46a4-67f0-49bb25b3ff61",
+            "id": "b4d8c302-ef4d-4dd9-5d1f-a03bb1040f96",
             "name": "os-conf",
             "version": "22.1.2"
         },
         {
-            "id": "8e9a0b0a-f04d-4bcc-5af3-d4c3f5eceec0",
+            "id": "7a3e2c77-039b-416f-68ee-d0f0063d2e93",
             "name": "bosh-vsphere-cpi",
             "version": "72"
         }

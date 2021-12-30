@@ -1,27 +1,11 @@
 #!/bin/bash
 set -euox pipefail
 
-apt-get update
-
 mkdir -p /var/vcap/store/docker
 mkdir -p /var/vcap/store/containerd
 set +e
 ln -s /var/vcap/store/docker /var/lib/docker
 ln -s /var/vcap/store/containerd /var/lib/containerd
-set -e
-
-########## Install Docker
-
-apt-get install ca-certificates curl gnupg lsb-release -y
-rm -f /usr/share/keyrings/docker-archive-keyring.gpg
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-apt-get update
-apt-get install docker-ce docker-ce-cli containerd.io -y
-
-set +e
-groupadd docker
-usermod -aG docker jumpbox
 set -e
 
 ########## Install CLI from internet
@@ -31,6 +15,24 @@ cat <<'EOF' > /etc/profile.d/00-installation.sh
 export INSTALLATION=/var/vcap/store/installation
 export PATH=${PATH}:${INSTALLATION}/bin
 EOF
+
+CONTAINERD_VERSION=1.4.12-1
+if [ ! -f ${INSTALLATION}/rec/containerd-${CONTAINERD_VERSION} ];then
+  wget -O- https://download.docker.com/linux/ubuntu/dists/bionic/pool/stable/amd64/containerd.io_${CONTAINERD_VERSION}_amd64.deb > /tmp/containerd.io_${CONTAINERD_VERSION}_amd64.deb
+  dpkg -i /tmp/containerd.io_${CONTAINERD_VERSION}_amd64.deb
+  rm -f /tmp/containerd.io_${CONTAINERD_VERSION}_amd64.deb
+  touch ${INSTALLATION}/rec/containerd-${CONTAINERD_VERSION}
+fi
+
+DOCKER_VERSION=20.10.12~3-0
+if [ ! -f ${INSTALLATION}/rec/docker-${DOCKER_VERSION} ];then
+  wget -O- https://download.docker.com/linux/ubuntu/dists/bionic/pool/stable/amd64/docker-ce-cli_${DOCKER_VERSION}~ubuntu-bionic_amd64.deb > /tmp/docker-ce-cli_${DOCKER_VERSION}~ubuntu-bionic_amd64.deb
+  wget -O- https://download.docker.com/linux/ubuntu/dists/bionic/pool/stable/amd64/docker-ce_${DOCKER_VERSION}~ubuntu-bionic_amd64.deb > /tmp/docker-ce_${DOCKER_VERSION}~ubuntu-bionic_amd64.deb
+  dpkg -i /tmp/docker-ce-cli_${DOCKER_VERSION}~ubuntu-bionic_amd64.deb /tmp/docker-ce_${DOCKER_VERSION}~ubuntu-bionic_amd64.deb
+  rm -f /tmp/docker-ce-cli_${DOCKER_VERSION}~ubuntu-bionic_amd64.deb /tmp/docker-ce_${DOCKER_VERSION}~ubuntu-bionic_amd64.deb
+  usermod -aG docker jumpbox
+  touch ${INSTALLATION}/rec/docker-${DOCKER_VERSION}
+fi
 
 JDK_VERSION=17.0.1+12
 if [ ! -f ${INSTALLATION}/rec/jdk-${JDK_VERSION} ];then
