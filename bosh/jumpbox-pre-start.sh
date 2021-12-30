@@ -17,21 +17,23 @@ export PATH=${PATH}:${INSTALLATION}/bin
 EOF
 
 CONTAINERD_VERSION=1.4.12-1
-if [ ! -f ${INSTALLATION}/rec/containerd-${CONTAINERD_VERSION} ];then
-  wget -O- https://download.docker.com/linux/ubuntu/dists/bionic/pool/stable/amd64/containerd.io_${CONTAINERD_VERSION}_amd64.deb > /tmp/containerd.io_${CONTAINERD_VERSION}_amd64.deb
-  dpkg -i /tmp/containerd.io_${CONTAINERD_VERSION}_amd64.deb
-  rm -f /tmp/containerd.io_${CONTAINERD_VERSION}_amd64.deb
-  touch ${INSTALLATION}/rec/containerd-${CONTAINERD_VERSION}
-fi
+wget -O- https://download.docker.com/linux/ubuntu/dists/bionic/pool/stable/amd64/containerd.io_${CONTAINERD_VERSION}_amd64.deb > /tmp/containerd.io_${CONTAINERD_VERSION}_amd64.deb
+dpkg -i /tmp/containerd.io_${CONTAINERD_VERSION}_amd64.deb
+rm -f /tmp/containerd.io_${CONTAINERD_VERSION}_amd64.deb
 
 DOCKER_VERSION=20.10.12~3-0
-if [ ! -f ${INSTALLATION}/rec/docker-${DOCKER_VERSION} ];then
-  wget -O- https://download.docker.com/linux/ubuntu/dists/bionic/pool/stable/amd64/docker-ce-cli_${DOCKER_VERSION}~ubuntu-bionic_amd64.deb > /tmp/docker-ce-cli_${DOCKER_VERSION}~ubuntu-bionic_amd64.deb
-  wget -O- https://download.docker.com/linux/ubuntu/dists/bionic/pool/stable/amd64/docker-ce_${DOCKER_VERSION}~ubuntu-bionic_amd64.deb > /tmp/docker-ce_${DOCKER_VERSION}~ubuntu-bionic_amd64.deb
-  dpkg -i /tmp/docker-ce-cli_${DOCKER_VERSION}~ubuntu-bionic_amd64.deb /tmp/docker-ce_${DOCKER_VERSION}~ubuntu-bionic_amd64.deb
-  rm -f /tmp/docker-ce-cli_${DOCKER_VERSION}~ubuntu-bionic_amd64.deb /tmp/docker-ce_${DOCKER_VERSION}~ubuntu-bionic_amd64.deb
-  usermod -aG docker jumpbox
-  touch ${INSTALLATION}/rec/docker-${DOCKER_VERSION}
+wget -O- https://download.docker.com/linux/ubuntu/dists/bionic/pool/stable/amd64/docker-ce-cli_${DOCKER_VERSION}~ubuntu-bionic_amd64.deb > /tmp/docker-ce-cli_${DOCKER_VERSION}~ubuntu-bionic_amd64.deb
+wget -O- https://download.docker.com/linux/ubuntu/dists/bionic/pool/stable/amd64/docker-ce_${DOCKER_VERSION}~ubuntu-bionic_amd64.deb > /tmp/docker-ce_${DOCKER_VERSION}~ubuntu-bionic_amd64.deb
+dpkg -i /tmp/docker-ce-cli_${DOCKER_VERSION}~ubuntu-bionic_amd64.deb /tmp/docker-ce_${DOCKER_VERSION}~ubuntu-bionic_amd64.deb
+rm -f /tmp/docker-ce-cli_${DOCKER_VERSION}~ubuntu-bionic_amd64.deb /tmp/docker-ce_${DOCKER_VERSION}~ubuntu-bionic_amd64.deb
+usermod -aG docker jumpbox
+
+DOCKER_COMPOSE_VERSION=2.2.2
+if [ ! -f ${INSTALLATION}/rec/docker-compose-${DOCKER_COMPOSE_VERSION} ];then
+  wget -O- https://github.com/docker/compose/releases/download/v${DOCKER_COMPOSE_VERSION}/docker-compose-linux-x86_64 > /tmp/docker-compose
+  mv /tmp/docker-compose ${INSTALLATION}/bin/docker-compose
+  chmod +x ${INSTALLATION}/bin/docker-compose
+  touch ${INSTALLATION}/rec/docker-compose-${DOCKER_COMPOSE_VERSION}
 fi
 
 JDK_VERSION=17.0.1+12
