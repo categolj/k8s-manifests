@@ -24,10 +24,14 @@ spec:
           value: "8080"
         - name: SPRING_PROFILES_ACTIVE
           value: kubernetes
+        - name: LOGGING_LEVEL_COM_ZAXXER_HIKARI_POOL_HIKARIPOOL
+          value: DEBUG
         - name: SPRING_DATASOURCE_HIKARI_DATASOURCEPROPERTIES_SSLMODE
           value: verify-full
         - name: SPRING_DATASOURCE_HIKARI_DATASOURCEPROPERTIES_SSLFACTORY
           value: org.postgresql.ssl.LibPQFactory
+        - name: SPRING_DATASOURCE_HIKARI_LEAKDETECTIONTHRESHOLD
+          value: "2000"
         - name: SPRING_SQL_INIT_MODE
           value: always
         - name: SERVICE_BINDING_ROOT
