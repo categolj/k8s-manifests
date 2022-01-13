@@ -24,3 +24,5 @@ spec:
   serviceType: ClusterIP
   highAvailability:
     enabled: true
+  backupLocationSecret:
+    name: s3-secret
