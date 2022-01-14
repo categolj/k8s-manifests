@@ -2,6 +2,7 @@ apiVersion: kappctrl.k14s.io/v1alpha1
 kind: App
 metadata:
   name: cloud-native-runtimes
+  namespace: cloud-native-runtimes
   annotations:
     kapp.k14s.io/change-rule.upsert_cnr_sa: upsert after upserting cnr.vmware.com/cnr-sa
     kapp.k14s.io/change-rule.delete_cnr_sa: delete before deleting cnr.vmware.com/cnr-sa
