@@ -8,7 +8,7 @@ spec:
   fetch:
   - helmChart:
       name: postgresql
-      version: "10.10.1"
+      version: "10.13.14"
       repository:
         url: https://charts.bitnami.com/bitnami
   - git:
