@@ -4,10 +4,10 @@
 git_repo: https://github.com/categolj/blog-translation
 git_commit: 6eb49182b56e68af95c49a8a08dff537402ac7d9
 image_name: ghcr.io/making/blog-translation
-image_digest: sha256:e7a9be2671ca9f2e7f1d08242a69a9f788fe5dd9f71349fe75dc906cea61303e
+image_digest: sha256:a8bd7a5fef95e543159be3f1a451698cffaca0efa0ea437ddd1aa75504d8aaf5
 base_image:
-  reference: ghcr.io/making/build-service@sha256:0f5c4717bd2b51e5131e2278dbaa5405fdc64ed65f4d88cb997777225de11818
-  top_layer: sha256:f06eb1c5ea184498710f8b1063fea5953a5d80723926219d786989f2bd0d36e0
+  reference: ghcr.io/making/build-service@sha256:b69b4f654e6a2d2d69d1cca1a51638401127b6fb3556faa6304cab1575ef7c16
+  top_layer: sha256:bfc836903ac1b9d7791e37f6d714c36c53063cec12795d77d2f338696879d78d
 run_image: ghcr.io/making/build-service@sha256:0f5c4717bd2b51e5131e2278dbaa5405fdc64ed65f4d88cb997777225de11818
 buildpacks:
 - id: paketo-buildpacks/ca-certificates
