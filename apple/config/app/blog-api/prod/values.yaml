@@ -4,11 +4,11 @@
 git_repo: https://github.com/categolj/blog-api
 git_commit: 75fe983472ea5f6132ee840e443b7c1817143ed1
 image_name: ghcr.io/making/blog-api
-image_digest: sha256:e1e436030fbaf4880c68e57b4524286b6625a3354a8969c5a36ce96b06d37e59
+image_digest: sha256:7c440100f767bc46d36f8e1362f6458c65b8c57f4e737f9b316fd63cd4cfd273
 base_image:
-  reference: ghcr.io/making/build-service@sha256:036b4209d3b7cb61439c2178065d6726b39dd096df2eae4ba6c9138270166643
+  reference: harbor.maki.lol/library/build-service@sha256:036b4209d3b7cb61439c2178065d6726b39dd096df2eae4ba6c9138270166643
   top_layer: sha256:d3fea79f63b21ace348c01856da9bc88b452fe7663374e8cd5a1476573e1413d
-run_image: ghcr.io/making/build-service@sha256:0cf9c51a1f948f82085b56ac104b1568fcd9359cb52ef28ab36899afd7894407
+run_image: harbor.maki.lol/library/build-service@sha256:036b4209d3b7cb61439c2178065d6726b39dd096df2eae4ba6c9138270166643
 buildpacks:
 - id: paketo-buildpacks/procfile
-  version: 5.0.1
+  version: 5.0.2
