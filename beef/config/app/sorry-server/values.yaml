@@ -3,7 +3,8 @@
 ---
 git_repo: https://github.com/making/sorry-server.git
 git_commit: 8e2e99f20d40e11d5d5147ab2b4cc27d2402b1b3
-image_name: ghcr.io/making/sorry-server:latest@sha256:38b1c748c9f62b861f3ac57231fe8504f45874b7ed7d29c0fad9caa4d9a90928
+image_name: (echo ghcr.io/making/sorry-server:latest@sha256:38b1c748c9f62b861f3ac57231fe8504f45874b7ed7d29c0fad9caa4d9a90928 | awk -F '@' '{print }')
+image_digest: (echo ghcr.io/making/sorry-server:latest@sha256:38b1c748c9f62b861f3ac57231fe8504f45874b7ed7d29c0fad9caa4d9a90928 | awk -F '@' '{print }')
 base_image:
   reference: gopivotal-build-service-private.jfrog.io/shipyard@sha256:b69b4f654e6a2d2d69d1cca1a51638401127b6fb3556faa6304cab1575ef7c16
   top_layer: sha256:bfc836903ac1b9d7791e37f6d714c36c53063cec12795d77d2f338696879d78d
