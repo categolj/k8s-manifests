@@ -1,0 +1,23 @@
+#@data/values
+#@overlay/match-child-defaults missing_ok=True
+---
+image_name: ghcr.io/making/sorry-server:latest@sha256:48880b2f75e3c3d29e493b6b777bed8bd7800b3115c22f4d760e6a0769e1097e
+base_image:
+  reference: gopivotal-build-service-private.jfrog.io/shipyard@sha256:b69b4f654e6a2d2d69d1cca1a51638401127b6fb3556faa6304cab1575ef7c16
+  top_layer: sha256:bfc836903ac1b9d7791e37f6d714c36c53063cec12795d77d2f338696879d78d
+run_image: gopivotal-build-service-private.jfrog.io/shipyard@sha256:b69b4f654e6a2d2d69d1cca1a51638401127b6fb3556faa6304cab1575ef7c16
+buildpacks:
+- id: paketo-buildpacks/ca-certificates
+  version: 2.4.2
+- id: paketo-buildpacks/bellsoft-liberica
+  version: 8.9.0
+- id: paketo-buildpacks/maven
+  version: 5.7.0
+- id: paketo-buildpacks/executable-jar
+  version: 5.3.1
+- id: paketo-buildpacks/apache-tomcat
+  version: 6.4.0
+- id: paketo-buildpacks/dist-zip
+  version: 4.3.0
+- id: paketo-buildpacks/spring-boot
+  version: 4.7.0
