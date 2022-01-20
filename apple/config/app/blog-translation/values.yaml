@@ -3,7 +3,8 @@
 ---
 git_repo: https://github.com/categolj/blog-translation
 git_commit: 6eb49182b56e68af95c49a8a08dff537402ac7d9
-image_name: ghcr.io/making/blog-translation:latest@sha256:dc2c5f77ae606967b1d75c5e5d5f580eb4fc22419dc403450ca2cff8cd0911c3
+image_name: (echo ghcr.io/making/blog-translation:latest@sha256:dc2c5f77ae606967b1d75c5e5d5f580eb4fc22419dc403450ca2cff8cd0911c3 | awk -F '@' '{print }')
+image_digest: (echo ghcr.io/making/blog-translation:latest@sha256:dc2c5f77ae606967b1d75c5e5d5f580eb4fc22419dc403450ca2cff8cd0911c3 | awk -F '@' '{print }')
 base_image:
   reference: harbor.maki.lol/library/build-service@sha256:b69b4f654e6a2d2d69d1cca1a51638401127b6fb3556faa6304cab1575ef7c16
   top_layer: sha256:bfc836903ac1b9d7791e37f6d714c36c53063cec12795d77d2f338696879d78d
