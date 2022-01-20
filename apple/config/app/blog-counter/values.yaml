@@ -3,7 +3,7 @@
 ---
 git_repo: https://github.com/categolj/blog-counter.git
 git_commit: 177a7f79ff5bc79f8fab5bf4c230e371495f7dda
-image_name: ghcr.io/making/blog-counter
+image_name: ghcr.io/making/blog-counter:0.0.1-SNAPSHOT
 image_digest: sha256:9af11ce8c094e998ce5e41bc7d0bd64aaa424be3e21f10d90bf6bc785da18499
 base_image:
   reference: gopivotal-build-service-private.jfrog.io/shipyard@sha256:036b4209d3b7cb61439c2178065d6726b39dd096df2eae4ba6c9138270166643
