@@ -20,7 +20,7 @@ spec:
       containers:
       #@overlay/match by="name", missing_ok=True
       - name: tsunagu-client
-        image: ghcr.io/making/tsunagu-client@sha256:1b7c8f1c26e9b8846a6fcc729dfd66bdaa377c24dc00f55ad5c7a218db2c585a
+        image: ghcr.io/making/tsunagu-client@sha256:5f2ad5e15bc720662c43c10b7629e59630cd65d563b5d3eeda82cb4075025086
         env:
         - name: SPRING_CONFIG_IMPORT
           value: configtree:/config/
@@ -28,8 +28,6 @@ spec:
           value: wss://tsunagu.ik.am/tsunagu
         - name: TSUNAGU_UPSTREAM
           value: http://localhost:8080
-        - name: TSUNAGU_WEBSOCKETMAXFRAMEPAYLOADLENGTH
-          value: "16777216"
         - name: TSUNAGU_PRESERVE_HOST
           value: "true"
         resources:
