@@ -1,0 +1,11 @@
+apiVersion: packaging.carvel.dev/v1alpha1
+kind: PackageInstall
+metadata:
+  name: tanzu-source-controller
+  namespace: kapp
+spec:
+  serviceAccountName: kapp
+  packageRef:
+    refName: controller.source.apps.tanzu.vmware.com
+    versionSelection:
+      constraints: 0.2.0
