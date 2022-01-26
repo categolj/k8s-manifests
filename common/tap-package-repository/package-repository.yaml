@@ -5,4 +5,4 @@ metadata:
 spec:
   fetch:
     imgpkgBundle:
-      image: "registry.tanzu.vmware.com/tanzu-application-platform/tap-packages:1.0.0"
+      image: "ghcr.io/making/hello-tap-demo:1.0.0"
