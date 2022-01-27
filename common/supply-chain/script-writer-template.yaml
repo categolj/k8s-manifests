@@ -74,7 +74,7 @@ spec:
         COMMIT_MESSAGE="[Prod] ${COMMIT_MESSAGE_BASE}"
         git --no-pager diff --color=always
         git add (@= data.values.params.gitops_prod_path @)/(@= data.values.params.gitops_file @)
-        git commit --allow-empty -m "${COMMIT_MESSAGE}"
+        git commit -m "${COMMIT_MESSAGE}"
         git push origin ${BRANCH_NAME}
-        curl --fail -u (@= data.values.params.gitops_user_name @):${ACCESS_TOKEN} -H "Content-Type: application/json" -X POST -d "{\"title\":\"${COMMIT_MESSAGE}\",\"body\":\"See ${GIT_REPO}/commit/${GIT_REV}\\nCorresponding commit to dev env is ${DEV_REV}\",\"head\":\"${BRANCH_NAME}\",\"base\":\"(@= data.values.params.gitops_branch @)\"}" https://api.github.com/repos/$(echo (@= data.values.params.gitops_url @) | awk -F ':' '{print $2}' | sed 's/.git//')/pulls
+        curl -s --fail -u (@= data.values.params.gitops_user_name @):${ACCESS_TOKEN} -H "Content-Type: application/json" -X POST -d "{\"title\":\"${COMMIT_MESSAGE}\",\"body\":\"See ${GIT_REPO}/commit/${GIT_REV}\\nCorresponding commit to dev env is ${DEV_REV}\",\"head\":\"${BRANCH_NAME}\",\"base\":\"(@= data.values.params.gitops_branch @)\"}" https://api.github.com/repos/$(echo (@= data.values.params.gitops_url @) | awk -F ':' '{print $2}' | sed 's/.git//')/pulls
         (@- end @)
