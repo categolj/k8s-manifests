@@ -1,6 +1,6 @@
 #@ load("@ytt:data", "data")
 #@ namespace = "blog{}".format(data.values.namespace_suffix)
-frontendVersion: carto.run/v1alpha1
+apiVersion: carto.run/v1alpha1
 kind: Workload
 metadata:
   name: update-config-blog-frontend
