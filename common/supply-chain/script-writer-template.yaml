@@ -8,7 +8,7 @@ spec:
     apiVersion: v1
     kind: ConfigMap
     metadata:
-      name: #@ "update-config-" + data.values.workload.metadata.name
+      name: data.values.workload.metadata.name
     data:
       #@yaml/text-templated-strings
       update-config.sh: |

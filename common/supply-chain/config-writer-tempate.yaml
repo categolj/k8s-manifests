@@ -8,7 +8,7 @@ spec:
     apiVersion: carto.run/v1alpha1
     kind: Runnable
     metadata:
-      name: #@ "update-config-" + data.values.workload.metadata.name
+      name: #@ data.values.workload.metadata.name
     spec:
       serviceAccountName: #@ data.values.workload.spec.serviceAccountName
       runTemplateRef:
