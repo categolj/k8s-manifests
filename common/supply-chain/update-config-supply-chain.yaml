@@ -24,7 +24,7 @@ spec:
     default: makingx+bot@gmail.com
   - name: gitops_commit_message
     default: Bump to
-  - name: gitops_ssh_secret
+  - name: gitops_secret
     default: gitops
   - name: gitops_git_repo_command
     default: ""
