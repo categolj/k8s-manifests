@@ -1,0 +1,53 @@
+apiVersion: carto.run/v1alpha1
+kind: ClusterSupplyChain
+metadata:
+  name: update-config
+spec:
+  selector:
+    apps.tanzu.vmware.com/workload-type: update-config
+  params:
+  - name: image
+    default: ""
+  - name: interval
+    default: "1m0s"
+  - name: gitops_branch
+    default: main
+  - name: gitops_url
+    default: ""
+  - name: gitops_path
+    default: ""
+  - name: gitops_file
+    default: values.yaml
+  - name: gitops_user_name
+    default: making-bot
+  - name: gitops_user_email
+    default: makingx+bot@gmail.com
+  - name: gitops_commit_message
+    default: Bump to
+  - name: gitops_ssh_secret
+    default: gitops
+  - name: gitops_git_repo_command
+    default: ""
+  - name: gitops_git_rev_command
+    default: ""
+  - name: gitops_prod_path
+    default: ""
+  resources:
+  - name: image-provider
+    templateRef:
+      kind: ClusterImageTemplate
+      name: image-repository-template
+  - name: script-writer
+    templateRef:
+      kind: ClusterTemplate
+      name: script-writer-template
+    images:
+    - resource: image-provider
+      name: image
+  - name: config-writer
+    templateRef:
+      kind: ClusterTemplate
+      name: config-writer-template
+    images:
+    - resource: image-provider
+      name: image

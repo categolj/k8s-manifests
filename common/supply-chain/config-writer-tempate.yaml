@@ -1,0 +1,18 @@
+apiVersion: carto.run/v1alpha1
+kind: ClusterTemplate
+metadata:
+  name: config-writer-template
+spec:
+  ytt: |
+    #@ load("@ytt:data", "data")
+    apiVersion: carto.run/v1alpha1
+    kind: Runnable
+    metadata:
+      name: #@ "update-config-" + data.values.workload.metadata.name
+    spec:
+      serviceAccountName: #@ data.values.workload.spec.serviceAccountName
+      runTemplateRef:
+        name: job-run-template
+      inputs:
+        image: #@ data.values.image
+        gitops_secret: #@ data.values.params.gitops_secret
