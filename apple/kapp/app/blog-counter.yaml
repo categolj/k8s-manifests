@@ -23,6 +23,7 @@ spec:
       - apple/config/app/blog-counter/ksvc.yaml
       - apple/config/app/blog-counter/secret.yaml
       - apple/config/app/blog-counter/values.yaml
+      - apple/config/app/blog-counter/update-config.yaml
       - apple/config/app/blog-common/min-scale.yaml
       - apple/config/app/blog-common/values.yaml
       valuesFrom:
