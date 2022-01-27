@@ -21,6 +21,7 @@ spec:
       paths:
       - common/ksvc-kapp-config.yaml
       - apple/config/app/blog-common/namespace.yaml
+      - apple/config/app/blog-common/rbac.yaml
       - apple/config/app/blog-common/values.yaml
       - apple/config/app/blog-api/prod
       - apple/config/app/blog-api/secret.yaml
