@@ -27,6 +27,7 @@ spec:
       - apple/config/app/blog-api/prod
       - apple/config/app/blog-api/secret.yaml
       - apple/config/app/blog-api/ksvc.yaml
+      - apple/config/app/blog-api/update-config.yaml
       - apple/config/app/blog-common/min-scale.yaml
       valuesFrom:
       - path: apple/config/app/blog-common/credentials.yaml
