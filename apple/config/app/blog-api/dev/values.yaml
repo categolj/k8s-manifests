@@ -3,7 +3,7 @@
 ---
 git_repo: https://github.com/categolj/blog-api
 git_commit: 75fe983472ea5f6132ee840e443b7c1817143ed1
-image_name: ghcr.io/making/blog-api:latest
+image_name: ghcr.io/making/blog-api
 image_digest: sha256:7c440100f767bc46d36f8e1362f6458c65b8c57f4e737f9b316fd63cd4cfd273
 base_image:
   reference: harbor.maki.lol/library/build-service@sha256:036b4209d3b7cb61439c2178065d6726b39dd096df2eae4ba6c9138270166643
