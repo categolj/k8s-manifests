@@ -16,7 +16,7 @@ spec:
             image: ghcr.io/making/maven
             command:
             - bash
-            - -ex
+            - -e
             - /script/update-config.sh
             env:
             - name: IMAGE_NAME
