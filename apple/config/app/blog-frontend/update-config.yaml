@@ -1,0 +1,25 @@
+#@ load("@ytt:data", "data")
+#@ namespace = "blog{}".format(data.values.namespace_suffix)
+frontendVersion: carto.run/v1alpha1
+kind: Workload
+metadata:
+  name: update-config-blog-frontend
+  namespace: #@ namespace
+  labels:
+    apps.tanzu.vmware.com/workload-type: update-config
+spec:
+  image: ghcr.io/making/blog-frontend
+  serviceAccountName: cluster-admin-sa
+  params:
+  - name: gitops_url
+    value: git@github.com:categolj/k8s-manifests.git
+  - name: gitops_path
+    value: apple/config/app/blog-frontend/dev
+  - name: gitops_prod_path
+    value: apple/config/app/blog-frontend/prod
+  - name: gitops_git_repo_command
+    value: |
+      strings workspace/am.ik.blog.App | grep git.remote.origin.url= | awk -F '=' '{print $2}' | sed 's/\\//'
+  - name: gitops_git_rev_command
+    value: |
+      strings workspace/am.ik.blog.App | grep git.commit.id= | awk -F '=' '{print $2}'

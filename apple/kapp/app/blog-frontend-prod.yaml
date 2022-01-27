@@ -19,6 +19,7 @@ spec:
       - apple/config/app/blog-common/values.yaml
       - apple/config/app/blog-frontend/prod
       - apple/config/app/blog-frontend/ksvc.yaml
+      - apple/config/app/blog-frontend/update-config.yaml
       - apple/config/app/blog-common/min-scale.yaml
   deploy:
   - kapp:
