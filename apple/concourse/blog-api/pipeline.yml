@@ -197,4 +197,4 @@ jobs:
           git add -A
           git commit --allow-empty -m "${COMMIT_MESSAGE}"
           git push origin ${BRANCH_NAME}
-          curl -u ${GIT_NAME}:${ACCESS_TOKEN} -H "Content-Type: application/json" -X POST -d "{\"title\":\"${COMMIT_MESSAGE}\",\"body\":\"See https://github.com/categolj/${APP_NAME}/commit/${GIT_REV}\nCorresponding commit to dev env is ${DEV_REV}\",\"head\":\"${BRANCH_NAME}\",\"base\":\"${BASE}\"}" https://api.github.com/repos/${REPOSITORY}/pulls
+          curl --fail -u ${GIT_NAME}:${ACCESS_TOKEN} -H "Content-Type: application/json" -X POST -d "{\"title\":\"${COMMIT_MESSAGE}\",\"body\":\"See https://github.com/categolj/${APP_NAME}/commit/${GIT_REV}\nCorresponding commit to dev env is ${DEV_REV}\",\"head\":\"${BRANCH_NAME}\",\"base\":\"${BASE}\"}" https://api.github.com/repos/${REPOSITORY}/pulls
