@@ -3,7 +3,7 @@
 ---
 git_repo: https://github.com/making/vanilla-gateway
 git_commit: 106f7a711bfc411ba559cbb171b80df572a703f1
-image_name: ghcr.io/making/vanilla-gateway
+image_name: ghcr.io/making/vanilla-gateway:latest
 image_digest: sha256:a3d8d8cdbe628915456d7b919a090ac0644adf37efeef1c2de4ad3ad513f276f
 base_image:
   reference: gopivotal-build-service-private.jfrog.io/shipyard@sha256:b69b4f654e6a2d2d69d1cca1a51638401127b6fb3556faa6304cab1575ef7c16
