@@ -11,6 +11,6 @@ spec:
     metadata:
       name: #@ data.values.workload.metadata.name
     spec:
-      image: #@ data.values.params.image
+      image: #@ data.values.workload.spec.image
       interval: #@ data.values.params.interval
       serviceAccountName: #@ data.values.workload.spec.serviceAccountName
