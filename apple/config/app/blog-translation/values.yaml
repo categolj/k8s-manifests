@@ -2,13 +2,13 @@
 #@overlay/match-child-defaults missing_ok=True
 ---
 git_repo: https://github.com/categolj/blog-translation
-git_commit: 6eb49182b56e68af95c49a8a08dff537402ac7d9
-image_name: ghcr.io/making/blog-translation:latest
-image_digest: sha256:dc2c5f77ae606967b1d75c5e5d5f580eb4fc22419dc403450ca2cff8cd0911c3
+git_commit: 536b0fd5e29882b72d34e5b0e0f8d1e975d0a4d7
+image_name: ghcr.io/making/blog-translation:0.0.1-SNAPSHOT
+image_digest: sha256:49008de72b26a658d9cf55837030057b835ea9d15d2e4169c487bf6fee39e6d3
 base_image:
-  reference: harbor.maki.lol/library/build-service@sha256:b69b4f654e6a2d2d69d1cca1a51638401127b6fb3556faa6304cab1575ef7c16
+  reference: gopivotal-build-service-private.jfrog.io/shipyard@sha256:b69b4f654e6a2d2d69d1cca1a51638401127b6fb3556faa6304cab1575ef7c16
   top_layer: sha256:bfc836903ac1b9d7791e37f6d714c36c53063cec12795d77d2f338696879d78d
-run_image: harbor.maki.lol/library/build-service@sha256:b69b4f654e6a2d2d69d1cca1a51638401127b6fb3556faa6304cab1575ef7c16
+run_image: gopivotal-build-service-private.jfrog.io/shipyard@sha256:b69b4f654e6a2d2d69d1cca1a51638401127b6fb3556faa6304cab1575ef7c16
 buildpacks:
 - id: paketo-buildpacks/ca-certificates
   version: 2.4.2
