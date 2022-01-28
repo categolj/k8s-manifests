@@ -2,13 +2,13 @@
 #@overlay/match-child-defaults missing_ok=True
 ---
 git_repo: https://github.com/categolj/blog-frontend
-git_commit: 61893084bab2e66a9a8031ec1ad73c363542197d
-image_name: ghcr.io/making/blog-frontend:latest
-image_digest: sha256:4b9199ee392f25f1885eb977698a066211d08dfaa563a078c6dab25c880a4d73
+git_commit: d0cee6f60bc9617b75de1ff104535fb2897ae6fb
+image_name: ghcr.io/categolj/blog-frontend:5.0.0-SNAPSHOT
+image_digest: sha256:0902a8418f5d5364cb593c1edbe82796c7fe41fb94c2de10274b8577148566e9
 base_image:
-  reference: harbor.maki.lol/library/build-service@sha256:036b4209d3b7cb61439c2178065d6726b39dd096df2eae4ba6c9138270166643
-  top_layer: sha256:d3fea79f63b21ace348c01856da9bc88b452fe7663374e8cd5a1476573e1413d
-run_image: harbor.maki.lol/library/build-service@sha256:036b4209d3b7cb61439c2178065d6726b39dd096df2eae4ba6c9138270166643
+  reference: gopivotal-build-service-private.jfrog.io/shipyard@sha256:b69b4f654e6a2d2d69d1cca1a51638401127b6fb3556faa6304cab1575ef7c16
+  top_layer: sha256:bfc836903ac1b9d7791e37f6d714c36c53063cec12795d77d2f338696879d78d
+run_image: gopivotal-build-service-private.jfrog.io/shipyard@sha256:b69b4f654e6a2d2d69d1cca1a51638401127b6fb3556faa6304cab1575ef7c16
 buildpacks:
 - id: paketo-buildpacks/procfile
   version: 5.0.2
