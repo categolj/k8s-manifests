@@ -8,7 +8,7 @@ metadata:
   labels:
     apps.tanzu.vmware.com/workload-type: update-config
 spec:
-  image: ghcr.io/making/blog-counter:0.0.1-SNAPSHOT
+  image: ghcr.io/categolj/blog-counter:0.0.1-SNAPSHOT
   serviceAccountName: cluster-admin-sa
   params:
   - name: gitops_url
