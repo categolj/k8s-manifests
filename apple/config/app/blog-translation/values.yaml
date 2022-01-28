@@ -4,7 +4,7 @@
 git_repo: https://github.com/categolj/blog-translation
 git_commit: ea14b95935caef960b5648fb5ca465d6624a9c80
 image_name: ghcr.io/making/blog-translation:0.0.1-SNAPSHOT
-image_digest: sha256:cdce5ccf1287cc3622aee5e8d2731c58d6f6e007e22d0496f9db177dbc9c337e
+image_digest: sha256:87aa1ddd20cebb624fd6ac0b17b7a2e58ee59a4f34e2beac2b88c689bf05dc9e
 base_image:
   reference: gopivotal-build-service-private.jfrog.io/shipyard@sha256:b69b4f654e6a2d2d69d1cca1a51638401127b6fb3556faa6304cab1575ef7c16
   top_layer: sha256:bfc836903ac1b9d7791e37f6d714c36c53063cec12795d77d2f338696879d78d
