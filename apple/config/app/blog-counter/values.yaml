@@ -2,9 +2,9 @@
 #@overlay/match-child-defaults missing_ok=True
 ---
 git_repo: https://github.com/categolj/blog-counter.git
-git_commit: 50acfb478bbdd8424b399c0beb18429439079040
+git_commit: 0fe7f27393b5c789135d8dc3e5d39b3a20446db9
 image_name: ghcr.io/making/blog-counter:0.0.1-SNAPSHOT
-image_digest: sha256:011b419b5bcac48ea01e441d5f2972a5763e8909cd903345632a6b5626d4d55f
+image_digest: sha256:fa3f4e93127a4d59ff5c1ec6e0426ee25f62d28b1d29cea87566cc88fee6e854
 base_image:
   reference: gopivotal-build-service-private.jfrog.io/shipyard@sha256:036b4209d3b7cb61439c2178065d6726b39dd096df2eae4ba6c9138270166643
   top_layer: sha256:d3fea79f63b21ace348c01856da9bc88b452fe7663374e8cd5a1476573e1413d
