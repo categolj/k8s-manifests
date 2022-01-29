@@ -1,0 +1,31 @@
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
+metadata:
+  name: vault-cf-ik-am
+  namespace: tsunagu
+spec:
+  virtualhost:
+    fqdn: vault.cf.ik.am
+    tls:
+      secretName: vault-cf-ik-am-tls
+  routes:
+  - services:
+    - name: tsunagu-server
+      port: 80
+      weight: 100
+    - name: sorry-server
+      port: 8080
+      weight: 0
+---
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: vault-cf-ik-am
+  namespace: tsunagu
+spec:
+  secretName: vault-cf-ik-am-tls
+  issuerRef:
+    name: letsencrypt-ik-am
+    kind: ClusterIssuer
+  dnsNames:
+  - vault.cf.ik.am

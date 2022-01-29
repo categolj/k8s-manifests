@@ -1,0 +1,63 @@
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
+metadata:
+  name: feed-ik-am
+  namespace: tsunagu
+spec:
+  virtualhost:
+    fqdn: feed.ik.am
+    tls:
+      secretName: feed-ik-am-tls
+  routes:
+  - services:
+    - name: tsunagu-server
+      port: 80
+      weight: 100
+    - name: sorry-server
+      port: 8080
+      weight: 0
+---
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
+metadata:
+  name: rss-ik-am
+  namespace: tsunagu
+spec:
+  virtualhost:
+    fqdn: rss.ik.am
+    tls:
+      secretName: feed-ik-am-tls
+  routes:
+  - services:
+    - name: tsunagu-server
+      port: 80
+---
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
+metadata:
+  name: atom-ik-am
+  namespace: tsunagu
+spec:
+  virtualhost:
+    fqdn: atom.ik.am
+    tls:
+      secretName: feed-ik-am-tls
+  routes:
+  - services:
+    - name: tsunagu-server
+      port: 80
+---
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: feed-ik-am
+  namespace: tsunagu
+spec:
+  secretName: feed-ik-am-tls
+  issuerRef:
+    name: letsencrypt-ik-am
+    kind: ClusterIssuer
+  dnsNames:
+  - feed.ik.am
+  - atom.ik.am
+  - rss.ik.am
