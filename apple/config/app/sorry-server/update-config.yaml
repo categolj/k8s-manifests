@@ -1,0 +1,21 @@
+apiVersion: carto.run/v1alpha1
+kind: Workload
+metadata:
+  name: update-config-sorry-server
+  namespace: blog
+  labels:
+    apps.tanzu.vmware.com/workload-type: update-config
+spec:
+  image: ghcr.io/making/sorry-server
+  serviceAccountName: cluster-admin-sa
+  params:
+  - name: gitops_url
+    value: git@github.com:categolj/k8s-manifests.git
+  - name: gitops_path
+    value: beef/config/app/sorry-server
+  - name: gitops_git_repo_command
+    value: |
+      grep git.remote.origin.url= workspace/BOOT-INF/classes/git.properties | awk -F '=' '{print $2}' | sed 's/\\//'
+  - name: gitops_git_rev_command
+    value: |
+      grep git.commit.id= workspace/BOOT-INF/classes/git.properties | awk -F '=' '{print $2}'
