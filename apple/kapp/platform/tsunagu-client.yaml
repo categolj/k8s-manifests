@@ -1,0 +1,34 @@
+apiVersion: kappctrl.k14s.io/v1alpha1
+kind: App
+metadata:
+  name: tsunagu-client
+  namespace: kapp
+spec:
+  serviceAccountName: kapp
+  fetch:
+  - git:
+      url: git@github.com:categolj/k8s-manifests.git
+      ref: origin/main
+      secretRef:
+        name: github
+  syncPeriod: 1m
+  template:
+  - sops:
+      pgp:
+        privateKeysSecretRef:
+          name: pgp-key
+  - ytt:
+      ignoreUnknownComments: true
+      paths:
+      - apple/config/platform/tsunagu-client
+      valuesFrom:
+      - path: common/credentials.yaml
+  deploy:
+  - kapp:
+      rawOptions:
+      - --wait-timeout=5m
+      - --diff-changes=true
+      - --diff-mask=true
+      inspect:
+        rawOptions:
+        - --tree=true
