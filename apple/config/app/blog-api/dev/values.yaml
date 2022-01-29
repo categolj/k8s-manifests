@@ -2,9 +2,9 @@
 #@overlay/match-child-defaults missing_ok=True
 ---
 git_repo: https://github.com/categolj/blog-api
-git_commit: 59169705bf0d075da7f1f17e0122f46161a54a95
+git_commit: c996adadd120b013b6cc2c2db6ec012d4e84a123
 image_name: ghcr.io/categolj/blog-api:5.0.0-SNAPSHOT
-image_digest: sha256:4adc8066b76b90364845c7dcc8367a36de62ac002606653eff73576988baf97e
+image_digest: sha256:9bb2c3f86e43f0e7793cf75008a775c717f268c3bc48adfe5c601aa5d56c3ce3
 base_image:
   reference: gopivotal-build-service-private.jfrog.io/shipyard@sha256:b69b4f654e6a2d2d69d1cca1a51638401127b6fb3556faa6304cab1575ef7c16
   top_layer: sha256:bfc836903ac1b9d7791e37f6d714c36c53063cec12795d77d2f338696879d78d
