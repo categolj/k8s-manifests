@@ -4,10 +4,10 @@
 git_repo: https://github.com/categolj/blog-counter.git
 git_commit: ff70cd5a91f586bb54af8f321e98d6044ee22f25
 image_name: ghcr.io/categolj/blog-counter:0.0.1-SNAPSHOT
-image_digest: sha256:b0ba239ff25aaa7c5c3d95631bfae46c5416029fbfb9c7ef2cf4c4b873be7963
+image_digest: sha256:940edc307941388d8d3795b166d2a4854875e78710368b72492318dccb46d290
 base_image:
-  reference: gopivotal-build-service-private.jfrog.io/shipyard@sha256:036b4209d3b7cb61439c2178065d6726b39dd096df2eae4ba6c9138270166643
-  top_layer: sha256:d3fea79f63b21ace348c01856da9bc88b452fe7663374e8cd5a1476573e1413d
+  reference: gopivotal-build-service-private.jfrog.io/shipyard@sha256:52997e80dafc8927eec36ca30b69ce41fefdae53e933c4cb8e27e8b61e71a3f6
+  top_layer: sha256:4cd67e06d6dae417d8d6d8f99e7a2552a787b14a80fc73a56a625bf3dd7c2ffb
 run_image: gopivotal-build-service-private.jfrog.io/shipyard@sha256:036b4209d3b7cb61439c2178065d6726b39dd096df2eae4ba6c9138270166643
 buildpacks:
 - id: paketo-buildpacks/ca-certificates
