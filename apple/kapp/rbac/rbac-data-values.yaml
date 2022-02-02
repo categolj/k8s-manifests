@@ -15,4 +15,11 @@ stringData:
         - name: toshiaki
         groups: []
         serviceaccounts: []
+      - role: cluster-info-view
+        namespaces:
+        - name: kube-system
+        users:
+        - name: toshiaki
+        groups: []
+        serviceaccounts: []
       clusterrolebindings: []
