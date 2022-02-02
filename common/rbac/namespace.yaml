@@ -1,0 +1,29 @@
+#@ load("@ytt:data", "data")
+#@ namespaces = []
+#@ for rolebinding in data.values.rbac.rolebindings:
+#@   for namespace in rolebinding.namespaces:
+#@     namespaces.append(namespace)
+#@   end
+#@   for serviceaccount in rolebinding.serviceaccounts:
+#@     if hasattr(serviceaccount, "namespaces"):
+#@        for namespace in serviceaccount.namespaces:
+#@          namespaces.append(namespace)
+#@        end
+#@     end
+#@   end
+#@ end
+#@ for clusterrolebinding in data.values.rbac.clusterrolebindings:
+#@   for serviceaccount in clusterrolebinding.serviceaccounts:
+#@     if hasattr(serviceaccount, "namespaces"):
+#@        for namespace in serviceaccount.namespaces:
+#@          namespaces.append(namespace)
+#@        end
+#@     end
+#@   end
+#@ end
+#@ for/end name in [ namespace.name for namespace in namespaces if (hasattr(namespace, "create") and namespace.create) ]:
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: #@ name

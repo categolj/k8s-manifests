@@ -1,0 +1,29 @@
+#@ load("@ytt:data", "data")
+#@ for rolebinding in data.values.rbac.rolebindings:
+#@ for namespace in rolebinding.namespaces:
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: #@ "{}-binding".format(rolebinding.role)
+  namespace: #@ namespace.name
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: #@ rolebinding.role
+subjects:
+#@ for serviceaccount in rolebinding.serviceaccounts:
+#@ for target_ns in (serviceaccount.namespaces if hasattr(serviceaccount, "namespaces") else [ namespace ]):
+- kind: ServiceAccount
+  name: #@ serviceaccount.name
+  namespace: #@ target_ns.name
+#@ end
+#@ end
+#@ for/end user in rolebinding.users:
+- kind: User
+  name: #@ user.name
+#@ for/end group in rolebinding.groups:
+- kind: Group
+  name: #@ group.name
+#@ end
+#@ end

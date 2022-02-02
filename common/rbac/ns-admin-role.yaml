@@ -1,0 +1,24 @@
+#@ load("@ytt:data", "data")
+
+#@ def target_rolebinding(role, rolebindings):
+#@   for rolebinding in rolebindings:
+#@     if rolebinding.role == role:
+#@       return rolebinding
+#@     end
+#@   end
+#@   return None
+#@ end
+
+#@ role = "ns-admin"
+#@ rolebinding = target_rolebinding(role, data.values.rbac.rolebindings)
+#@ for/end namespace in rolebinding.namespaces:
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: #@ role
+  namespace: #@ namespace.name
+rules:
+- apiGroups: [ "*" ]
+  resources: [ "*" ]
+  verbs: [ "*" ]

@@ -1,7 +1,7 @@
 apiVersion: kappctrl.k14s.io/v1alpha1
 kind: App
 metadata:
-  name: apps
+  name: rbac
   namespace: kapp
 spec:
   serviceAccountName: kapp
@@ -15,9 +15,10 @@ spec:
   template:
   - ytt:
       paths:
-      - apple/kapp/app
-      - apple/kapp/platform
-      - apple/kapp/rbac
+      - common/rbac
+      valuesFrom:
+      - secretRef:
+          name: rbac-data-values
   deploy:
   - kapp:
       rawOptions:
