@@ -5,6 +5,7 @@ metadata:
   namespace: kapp
 spec:
   serviceAccountName: kapp
+  syncPeriod: 1h
   fetch:
   - git:
       url: git@github.com:categolj/k8s-manifests.git
@@ -12,7 +13,6 @@ spec:
       subPath: common
       secretRef:
         name: github
-  syncPeriod: 1m
   template:
   - ytt:
       paths:
