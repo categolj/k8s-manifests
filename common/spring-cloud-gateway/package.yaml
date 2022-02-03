@@ -1,0 +1,42 @@
+apiVersion: data.packaging.carvel.dev/v1alpha1
+kind: Package
+metadata:
+  name: spring-cloud-gateway.tanzu.vmware.com.1.1.0-beta.1
+  namespace: tanzu-package-repo-global
+spec:
+  refName: spring-cloud-gateway.tanzu.vmware.com
+  version: 1.1.0-beta.1
+  template:
+    spec:
+      fetch:
+      - imgpkgBundle:
+          image: ghcr.io/making/scgw-pkg:1.1.0-beta.1
+      template:
+      - ytt:
+          inline:
+            paths:
+              overlay.yaml: |
+                #@ load("@ytt:overlay", "overlay")
+                #@ load("@ytt:data", "data")
+
+                #@ if/end hasattr(data.values.deployment, "create_namespace") and data.values.deployment.create_namespace:
+                ---
+                apiVersion: v1
+                kind: Namespace
+                metadata:
+                 name: #@ data.values.deployment.namespace
+
+                #@ for kind in [ "Deployment", "Service", "Secret", "ServiceAccount" ]:
+                #@overlay/match by=overlay.subset({"kind":kind}),expects="1+"
+                ---
+                metadata:
+                 #@overlay/match missing_ok=True
+                 namespace: #@ data.values.deployment.namespace
+                #@ end
+          paths:
+          - config
+          - values.yaml
+      - kbld:
+          paths:
+          - '-'
+          - .imgpkg/images.yml

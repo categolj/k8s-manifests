@@ -1,0 +1,28 @@
+apiVersion: kappctrl.k14s.io/v1alpha1
+kind: App
+metadata:
+  name: scgw-package
+  namespace: kapp
+spec:
+  serviceAccountName: kapp
+  fetch:
+  - git:
+      url: git@github.com:categolj/k8s-manifests.git
+      ref: origin/main
+      subPath: common
+      secretRef:
+        name: github
+  syncPeriod: 24h
+  template:
+  - ytt:
+      paths:
+      - spring-cloud-gateway
+  deploy:
+  - kapp:
+      rawOptions:
+      - --wait-timeout=5m
+      - --diff-changes=true
+      - --diff-mask=true
+      inspect:
+        rawOptions:
+        - --tree=true
