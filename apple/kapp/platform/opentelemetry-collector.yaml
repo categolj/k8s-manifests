@@ -17,7 +17,7 @@ spec:
       subPath: common/opentelemetry-collector
       secretRef:
         name: github
-  syncPeriod: 3m
+  syncPeriod: 3h
   template:
   - sops:
       pgp:
