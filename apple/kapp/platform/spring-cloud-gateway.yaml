@@ -9,6 +9,7 @@ spec:
     refName: spring-cloud-gateway.tanzu.vmware.com
     versionSelection:
       constraints: 1.1.0-beta.1
+      prereleases: {}
   values:
   - secretRef:
       name: spring-cloud-gateway-data-values
