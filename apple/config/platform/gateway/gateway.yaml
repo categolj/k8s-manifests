@@ -5,6 +5,15 @@ metadata:
   namespace: gateway
 spec:
   count: 1
+  tls:
+  - hosts:
+    - gateway
+    - gateway.gateway
+    - gateway.gateway.svc.cluster.local
+    - gateway-headless
+    - gateway-headless.gateway
+    - gateway-headless.gateway.svc.cluster.local
+    secretName: gateway-tls
   resources:
     requests:
       memory: "300Mi"
@@ -51,3 +60,51 @@ spec:
     targetPort: 8090
   selector:
     app: gateway
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: gateway-selfsigned-issuer
+  namespace: gateway
+spec:
+  selfSigned: { }
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: gateway-ca
+  namespace: gateway
+spec:
+  commonName: gateway-ca
+  isCA: true
+  issuerRef:
+    kind: Issuer
+    name: gateway-selfsigned-issuer
+  secretName: gateway-ca
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: gateway-ca-issuer
+  namespace: gateway
+spec:
+  ca:
+    secretName: gateway-ca
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: gateway-tls
+  namespace: gateway
+spec:
+  dnsNames:
+  - gateway
+  - gateway.gateway
+  - gateway.gateway.svc.cluster.local
+  - gateway-headless
+  - gateway-headless.gateway
+  - gateway-headless.gateway.svc.cluster.local
+  issuerRef:
+    kind: Issuer
+    name: gateway-ca-issuer
+  secretName: gateway-tls
