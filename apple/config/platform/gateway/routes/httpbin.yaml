@@ -1,0 +1,26 @@
+apiVersion: tanzu.vmware.com/v1
+kind: SpringCloudGatewayRouteConfig
+metadata:
+  name: httpbin
+  namespace: gateway
+spec:
+  routes:
+  - uri: https://httpbin.org
+    order: -1000
+    predicates:
+    - Path=/get
+    filters:
+    - StripPrefix=0
+    - PreserveHostHeader=
+    - AddRequestParameter=show_env, 1
+---
+apiVersion: tanzu.vmware.com/v1
+kind: SpringCloudGatewayMapping
+metadata:
+  name: httpbin
+  namespace: gateway
+spec:
+  gatewayRef:
+    name: gateway
+  routeConfigRef:
+    name: httpbin
