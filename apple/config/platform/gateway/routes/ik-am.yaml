@@ -1,0 +1,24 @@
+apiVersion: tanzu.vmware.com/v1
+kind: SpringCloudGatewayRouteConfig
+metadata:
+  name: ik-am
+  namespace: gateway
+spec:
+  routes:
+  - uri: https://blog-frontend.blog.apple.maki.lol
+    order: -120
+    predicates:
+    - Host=ik.am*
+    filters:
+    - StripPrefix=0
+---
+apiVersion: tanzu.vmware.com/v1
+kind: SpringCloudGatewayMapping
+metadata:
+  name: ik-am
+  namespace: gateway
+spec:
+  gatewayRef:
+    name: gateway
+  routeConfigRef:
+    name: ik-am
