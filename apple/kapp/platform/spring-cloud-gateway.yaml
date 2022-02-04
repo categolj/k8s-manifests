@@ -31,5 +31,7 @@ stringData:
     resources:
       requests:
         memory: "300Mi"
+        cpu: "0.2"
       limits:
         memory: "512Mi"
+        cpu: "0.5"
