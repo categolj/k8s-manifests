@@ -30,3 +30,24 @@ spec:
     value: "16777216"
   - name: SPRING_CLOUD_GATEWAY_HTTPCLIENT_CONNECTTIMEOUT
     value: "3000"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: gateway
+    app.kubernetes.io/part-of: spring-cloud-gateway
+    gateway.name: gateway
+  name: gateway-external
+  namespace: gateway
+spec:
+  type: LoadBalancer
+  ports:
+  - name: http-gateway
+    port: 80
+    targetPort: 8080
+  - name: actuator
+    port: 8090
+    targetPort: 8090
+  selector:
+    app: gateway
