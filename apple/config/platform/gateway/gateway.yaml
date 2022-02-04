@@ -16,9 +16,9 @@ spec:
     secretName: gateway-tls
   resources:
     requests:
-      memory: "300Mi"
+      memory: "384Mi"
     limits:
-      memory: "512Mi"
+      memory: "384Mi"
   observability:
     metrics:
       prometheus:
