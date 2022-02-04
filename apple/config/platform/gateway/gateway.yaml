@@ -4,7 +4,7 @@ metadata:
   name: gateway
   namespace: gateway
 spec:
-  count: 1
+  count: 2
   tls:
   - hosts:
     - gateway
