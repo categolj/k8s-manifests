@@ -4,10 +4,10 @@
 git_repo: https://github.com/making/sorry-server.git
 git_commit: a0efebcda2d8bd73f66c5a8f8545fc155bdbb902
 image_name: ghcr.io/making/sorry-server:latest
-image_digest: sha256:cd02b14302be20c6002f74b27640cf3a674f969a26cfcb95b0e49de89f7e7936
+image_digest: sha256:9425efa5128efa9bdd5c81d377332e0a5244f6da8ad11489b2a994da0865bf00
 base_image:
-  reference: gopivotal-build-service-private.jfrog.io/shipyard@sha256:e0e2447f581422507ea5236732d324d0deaf719c5137ca0fe96d81bc9069b08c
-  top_layer: sha256:a4d0fed1a961486fe06540509e8433a04a1137b04edecb859e9075b263f5f2b1
+  reference: gopivotal-build-service-private.jfrog.io/shipyard@sha256:dc6a55b81d2f8adef4b8e509e1f3e182b2f7b1dafe4d0fdede8c4195c8c39de3
+  top_layer: sha256:276013591aa484c742b9736c076ff6ef8d34a220993906399de7223ecf82eb8f
 run_image: gopivotal-build-service-private.jfrog.io/shipyard@sha256:b69b4f654e6a2d2d69d1cca1a51638401127b6fb3556faa6304cab1575ef7c16
 buildpacks:
 - id: paketo-buildpacks/ca-certificates
