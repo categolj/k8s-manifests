@@ -1,0 +1,24 @@
+apiVersion: tanzu.vmware.com/v1
+kind: SpringCloudGatewayRouteConfig
+metadata:
+  name: feed-ik-am
+  namespace: gateway
+spec:
+  routes:
+  - uri: http://blog-feed.blog.svc.cluster.local:8080
+    order: -100
+    predicates:
+    - Host=feed.ik.am*, atom.ik.am*, rss.ik.am*
+    filters:
+    - StripPrefix=0
+---
+apiVersion: tanzu.vmware.com/v1
+kind: SpringCloudGatewayMapping
+metadata:
+  name: feed-ik-am
+  namespace: gateway
+spec:
+  gatewayRef:
+    name: gateway
+  routeConfigRef:
+    name: feed-ik-am
