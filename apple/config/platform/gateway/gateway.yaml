@@ -13,6 +13,8 @@ spec:
     - gateway-headless
     - gateway-headless.gateway
     - gateway-headless.gateway.svc.cluster.local
+    - ik.am
+    - "*.ik.am"
     secretName: gateway-tls
   resources:
     requests:
@@ -106,6 +108,8 @@ spec:
   - gateway-headless
   - gateway-headless.gateway
   - gateway-headless.gateway.svc.cluster.local
+  - ik.am
+  - "*.ik.am"
   issuerRef:
     kind: Issuer
     name: gateway-ca-issuer
