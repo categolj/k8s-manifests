@@ -1,0 +1,32 @@
+apiVersion: tanzu.vmware.com/v1
+kind: SpringCloudGateway
+metadata:
+  name: gateway
+  namespace: gateway
+spec:
+  count: 1
+  resources:
+    requests:
+      memory: "300Mi"
+    limits:
+      memory: "512Mi"
+  observability:
+    metrics:
+      prometheus:
+        enabled: true
+        annotations:
+          enabled: true
+  java-opts: "-XX:ReservedCodeCacheSize=32M -Xss512k -XX:MaxDirectMemorySize=64M"
+  env:
+  - name: SERVER_ERROR_INCLUDEMESSAGE
+    value: always
+  - name: BPL_JVM_THREAD_COUNT
+    value: "20"
+  - name: MANAGEMENT_INFO_JAVA_ENABLED
+    value: "true"
+  - name: SPRING_CLOUD_GATEWAY_HTTPCLIENT_SSL_USEINSECURETRUSTMANAGER
+    value: "true"
+  - name: SPRING_CLOUD_GATEWAY_HTTPCLIENT_WEBSOCKET_MAXFRAMEPAYLOADLENGTH
+    value: "16777216"
+  - name: SPRING_CLOUD_GATEWAY_HTTPCLIENT_CONNECTTIMEOUT
+    value: "5s"
