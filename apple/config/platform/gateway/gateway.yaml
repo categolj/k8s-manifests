@@ -52,9 +52,9 @@ metadata:
 spec:
   type: LoadBalancer
   ports:
-  - name: http-gateway
-    port: 80
-    targetPort: 8080
+  - name: https-gateway
+    port: 443
+    targetPort: 8443
   - name: actuator
     port: 8090
     targetPort: 8090
