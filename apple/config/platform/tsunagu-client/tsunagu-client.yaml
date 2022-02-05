@@ -39,7 +39,7 @@ spec:
         - name: TSUNAGU_REMOTE
           value: wss://tsunagu.ik.am/tsunagu
         - name: TSUNAGU_UPSTREAM
-          value: http://spring-cloud-gateway.gateway.svc.cluster.local:8080
+          value: https://gateway.gateway.svc.cluster.local:443
         - name: TSUNAGU_PRESERVE_HOST
           value: "true"
         resources:
