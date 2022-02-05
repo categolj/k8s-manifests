@@ -39,12 +39,6 @@ spec:
           value: "true"
         - name: MANAGEMENT_METRICS_TAGS_ORGANIZATION
           value: apple
-        - name: SERVER_TOMCAT_REMOTE_IP_HEADER
-          value: x-forwarded-for
-        - name: SERVER_TOMCAT_PROTOCOL_HEADER
-          value: x-forwarded-proto
-        - name: SERVER_TOMCAT_INTERNAL_PROXIES
-          value: 100\.\d{1,3}\.\d{1,3}\.\d{1,3}
         - name: LOGGING_LEVEL_org_apache_http_wire
           value: INFO
         - name: LOGGING_LEVEL_org_hibernate_SQL
@@ -53,12 +47,6 @@ spec:
           value: INFO
         - name: LOGGING_LEVEL_org_springframework_web_client_RestTemplate
           value: INFO
-        - name: LOGGING_EXCEPTION_CONVERSION_WORD
-          value: "\t%replace(%replace(%xEx){'\n','@n@'}){'\t','    '}%nopex"
-        - name: LOGGING_PATTERN_CONSOLE
-          value: |-
-            %clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${logging.pattern.level:%5p}) %clr(${PID: }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %replace(%m){'
-            ','@n@'}${logging.exception-conversion-word:%wEx}%n
         - name: SPRING_DATASOURCE_URL
           valueFrom:
             secretKeyRef:
