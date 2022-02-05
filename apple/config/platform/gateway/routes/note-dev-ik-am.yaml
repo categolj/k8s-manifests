@@ -14,7 +14,7 @@ spec:
     - PreserveHostHeader=
     - AddResponseHeader=Access-Control-Allow-Credentials, true
     - AddResponseHeader=Access-Control-Allow-Headers, *
-    - AddResponseHeader=Access-Control-Allow-Methods, *
+    - AddResponseHeader=Access-Control-Allow-Methods, GET,POST,OPTIONS
     - AddResponseHeader=Access-Control-Allow-Origin, https://ik.am
     - AddResponseHeader=Access-Control-Max-Age, 3600
     - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Headers Access-Control-Allow-Methods Access-Control-Allow-Origin Access-Control-Max-Age
