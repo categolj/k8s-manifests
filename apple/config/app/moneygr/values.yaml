@@ -2,5 +2,5 @@
 #@overlay/match-child-defaults missing_ok=True
 ---
 git_repo: https://github.com/maki-home/moneygr2
-git_commit: 8f831ddf4287adefb99cca8149fbe5c8685d5399
-image_digest: sha256:f403566fa46cd476d852cc1cf35d94d534732c1f58e3997b418c7df79318b8a3
+git_commit: 44407528a6d26037633ecdde95037d3bc098bba8
+image_digest: sha256:0032a63e1dcf943aba683b6fa768555e8e5c98a5cb8f961033d5d82c910a2113
