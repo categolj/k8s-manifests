@@ -540,13 +540,13 @@ spec:
   - protocol: TCP
     port: 8080
 ---
-apiVersion: policy/v1beta1
-kind: PodDisruptionBudget
-metadata:
-  name: spring-cloud-gateway
-  namespace: gateway
-spec:
-  minAvailable: 1
-  selector:
-    matchLabels:
-      app: spring-cloud-gateway
+#apiVersion: policy/v1beta1
+#kind: PodDisruptionBudget
+#metadata:
+#  name: spring-cloud-gateway
+#  namespace: gateway
+#spec:
+#  minAvailable: 1
+#  selector:
+#    matchLabels:
+#      app: spring-cloud-gateway
