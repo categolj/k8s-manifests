@@ -1,17 +1,12 @@
 #@ load("@ytt:data", "data")
 #@ image_name = "{}@{}".format(data.values.image_name, data.values.image_digest)
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: gateway
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: spring-cloud-gateway
   namespace: gateway
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: spring-cloud-gateway

@@ -1,17 +1,34 @@
 #@ load("@ytt:data", "data")
 #@ load("@ytt:overlay", "overlay")
-
-#@overlay/match by=overlay.subset({"kind":"Deployment","metadata":{"name":"spring-cloud-gateway"}})
 ---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: inlets-token
+  namespace: gateway
+type: Opaque
+stringData:
+  token: #@ data.values.inlets.token
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inlets-client
+  namespace: gateway
 spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: inlets-client
   template:
+    metadata:
+      labels:
+        app: inlets-client
     spec:
       containers:
-      #@overlay/match by="name", missing_ok=True
       - name: inlets-client
         image: ghcr.io/making/inlets:2.7.6
-        imagePullPolicy: Always
-        command: ["inlets"]
+        command: [ "inlets" ]
         args:
         - client
         - --remote=$(INLETS_REMOTE)
@@ -21,13 +38,11 @@ spec:
         - name: INLETS_REMOTE
           value: #@ data.values.inlets.remote
         - name: INLETS_UPSTREAM
-          value: #@ data.values.inlets.upstream
+          value: https://gateway.gateway.svc.cluster.local:443
         volumeMounts:
         - name: inlets-token-volume
           mountPath: /var/inlets/
-      #@overlay/match missing_ok=True
       volumes:
-      #@overlay/append
       - name: inlets-token-volume
         secret:
           secretName: inlets-token
