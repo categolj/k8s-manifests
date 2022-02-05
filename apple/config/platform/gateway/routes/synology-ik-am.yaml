@@ -1,0 +1,25 @@
+apiVersion: tanzu.vmware.com/v1
+kind: SpringCloudGatewayRouteConfig
+metadata:
+  name: synology-ik-am
+  namespace: gateway
+spec:
+  routes:
+  - uri: https://192.168.11.108:5001
+    order: -10
+    predicates:
+    - Host=synology.ik.am*
+    filters:
+    - StripPrefix=0
+    - PreserveHostHeader=
+---
+apiVersion: tanzu.vmware.com/v1
+kind: SpringCloudGatewayMapping
+metadata:
+  name: synology-ik-am
+  namespace: gateway
+spec:
+  gatewayRef:
+    name: gateway
+  routeConfigRef:
+    name: synology-ik-am
