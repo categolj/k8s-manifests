@@ -13,10 +13,17 @@ spec:
     filters:
     - StripPrefix=0
   - uri: http://blog-feed.blog.svc.cluster.local:8080
-    order: -125
+    order: -130
     predicates:
     - Host=ik.am*
     - Path=/feed, /rss
+    filters:
+    - StripPrefix=0
+  - uri: http://gateway-headless.gateway.svc.cluster.local:8090
+    order: -130
+    predicates:
+    - Host=ik.am*
+    - Path=/_management/health
     filters:
     - StripPrefix=0
   - uri: https://blog-frontend.blog.apple.maki.lol
