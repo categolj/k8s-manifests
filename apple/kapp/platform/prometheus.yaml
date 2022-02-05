@@ -45,6 +45,11 @@ stringData:
   overlay.yml: |
     #@ load("@ytt:data", "data")
     #@ load("@ytt:overlay", "overlay")
+    #@overlay/match by=overlay.subset({"kind":"HTTPProxy"}), expects="1+"
+    ---
+    spec:
+      #@overlay/match missing_ok=True
+      ingressClassName: contour-external
     #@overlay/match by=overlay.subset({"kind":"Certificate", "metadata": {"name": "prometheus-tls-cert"}})
     ---
     #@overlay/replace
