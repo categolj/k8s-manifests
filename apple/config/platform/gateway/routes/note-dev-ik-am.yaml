@@ -14,7 +14,7 @@ spec:
     - PreserveHostHeader=
     - SetResponseHeader=Access-Control-Allow-Credentials, true
     - SetResponseHeader=Access-Control-Allow-Headers, *
-    - SetResponseHeader=Access-Control-Allow-Methods, GET,POST,OPTIONS
+    - SetResponseHeader=Access-Control-Allow-Methods, "GET,POST,OPTIONS"
     - SetResponseHeader=Access-Control-Allow-Origin, https://ik.am
     - SetResponseHeader=Access-Control-Max-Age, 3600
 ---
