@@ -37,6 +37,8 @@ spec:
           value: "false"
         - name: SERVER_USE_FORWARD_HEADERS
           value: "true"
+        - name: SERVER_FORWARDHEADERSSTRATEGY
+          value: native
         - name: MANAGEMENT_METRICS_TAGS_ORGANIZATION
           value: apple
         - name: LOGGING_LEVEL_org_apache_http_wire
