@@ -6,7 +6,7 @@ metadata:
   name: spring-cloud-gateway
   namespace: gateway
 spec:
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       app: spring-cloud-gateway
