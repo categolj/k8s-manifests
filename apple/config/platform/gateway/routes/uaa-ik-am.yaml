@@ -1,0 +1,25 @@
+apiVersion: tanzu.vmware.com/v1
+kind: SpringCloudGatewayRouteConfig
+metadata:
+  name: uaa-ik-am
+  namespace: gateway
+spec:
+  routes:
+  - uri: http://uaa.uaa.svc.cluster.local:8080
+    order: -10
+    predicates:
+    - Host=uaa.ik.am*
+    filters:
+    - StripPrefix=0
+    - PreserveHostHeader=
+---
+apiVersion: tanzu.vmware.com/v1
+kind: SpringCloudGatewayMapping
+metadata:
+  name: uaa-ik-am
+  namespace: gateway
+spec:
+  gatewayRef:
+    name: gateway
+  routeConfigRef:
+    name: uaa-ik-am
