@@ -52,7 +52,7 @@ spec:
         - name: LOGGING_LEVEL_org_hibernate_type_descriptor_sql_BasicBinder
           value: INFO
         - name: LOGGING_LEVEL_org_springframework_web_client_RestTemplate
-          value: INFO
+          value: DEBUG
         - name: SPRING_DATASOURCE_URL
           valueFrom:
             secretKeyRef:
