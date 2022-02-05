@@ -1,0 +1,25 @@
+apiVersion: tanzu.vmware.com/v1
+kind: SpringCloudGatewayRouteConfig
+metadata:
+  name: note-dev-ik-am
+  namespace: gateway
+spec:
+  routes:
+  - uri: http://note.note.svc.cluster.local:8080
+    order: -10
+    predicates:
+    - Host=note.dev.ik.am*
+    filters:
+    - StripPrefix=0
+    - PreserveHostHeader=
+---
+apiVersion: tanzu.vmware.com/v1
+kind: SpringCloudGatewayMapping
+metadata:
+  name: note-dev-ik-am
+  namespace: gateway
+spec:
+  gatewayRef:
+    name: gateway
+  routeConfigRef:
+    name: note-dev-ik-am
