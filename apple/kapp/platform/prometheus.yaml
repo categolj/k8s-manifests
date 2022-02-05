@@ -1,0 +1,66 @@
+apiVersion: packaging.carvel.dev/v1alpha1
+kind: PackageInstall
+metadata:
+  name: prometheus
+  namespace: kapp
+  annotations:
+    ext.packaging.carvel.dev/ytt-paths-from-secret-name.0: prometheus-overlay
+spec:
+  serviceAccountName: kapp
+  packageRef:
+    refName: prometheus.tanzu.vmware.com
+    versionSelection:
+      constraints: 2.27.0+vmware.1-tkg.1
+      prereleases: { }
+  values:
+  - secretRef:
+      name: prometheus-data-values
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: prometheus-data-values
+  namespace: kapp
+type: Opaque
+stringData:
+  values.yml: |
+    ---
+    ingress:
+      enabled: true
+      virtual_host_fqdn: prometheus.apple.maki.lol
+    prometheus:
+      pvc:
+        storage: "10Gi"
+    pushgateway:
+      deployment:
+        replicas: 0
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: prometheus-overlay
+  namespace: kapp
+type: Opaque
+stringData:
+  overlay.yml: |
+    #@ load("@ytt:data", "data")
+    #@ load("@ytt:overlay", "overlay")
+    #@overlay/match by=overlay.subset({"kind":"Certificate", "metadata": {"name": "prometheus-tls-cert"}})
+    ---
+    #@overlay/replace
+    spec:
+      secretName: prometheus-tls
+      issuerRef:
+        name: letsencrypt-maki-lol
+        kind: ClusterIssuer
+      dnsNames:
+      - #@ data.values.ingress.virtual_host_fqdn
+    #@overlay/match by=overlay.subset({"kind":"Issuer", "metadata": {"name": "prometheus-self-signed-ca-issuer"}})
+    #@overlay/remove
+    ---
+    #@overlay/match by=overlay.subset({"kind":"Certificate", "metadata": {"name": "prometheus-ca"}})
+    #@overlay/remove
+    ---
+    #@overlay/match by=overlay.subset({"kind":"Issuer", "metadata": {"name": "prometheus-ca-issuer"}})
+    #@overlay/remove
+    ---
