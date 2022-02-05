@@ -28,7 +28,7 @@ spec:
         enabled: true
         annotations:
           enabled: true
-  java-opts: "-XX:ReservedCodeCacheSize=32M -Xss512k -XX:MaxDirectMemorySize=64M -XX:+HeapDumpOnOutOfMemoryError"
+  java-opts: "-XX:ReservedCodeCacheSize=32M -Xss512k -XX:MaxDirectMemorySize=64M -XX:+HeapDumpOnOutOfMemoryError -Dreactor.netty.http.server.accessLogEnabled=true"
   env:
   - name: SERVER_ERROR_INCLUDEMESSAGE
     value: always
