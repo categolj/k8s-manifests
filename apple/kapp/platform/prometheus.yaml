@@ -69,24 +69,6 @@ stringData:
               regex: ([^:]+)(?::\d+)?;(\d+)
               replacement: $1:$2
               target_label: __address__
-            - action: labelmap
-              regex: __meta_kubernetes_pod_label_(.+)
-            - action: labeldrop
-              regex: kapp_k14s_io.+
-            - action: labeldrop
-              regex: serving_knative_dev.+
-            - action: labeldrop
-              regex: messaging_knative_dev.+
-            - action: labeldrop
-              regex: eventing_knative_dev.+
-            - action: labeldrop
-              regex: app_kubernetes_io.+
-            - action: labeldrop
-              regex: statefulset_kubernetes_io.+
-            - action: labeldrop
-              regex: pod_template.+
-            - action: labeldrop
-              regex: .+_hash
             - source_labels: [__meta_kubernetes_namespace]
               action: replace
               target_label: kubernetes_namespace
