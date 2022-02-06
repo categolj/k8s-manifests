@@ -4,7 +4,7 @@ metadata:
   name: prometheus
   namespace: kapp
   annotations:
-    ext.packaging.carvel.dev/ytt-paths-from-secret-name.0: prometheus-overlay-v3
+    ext.packaging.carvel.dev/ytt-paths-from-secret-name.0: prometheus-overlay-v4
 spec:
   serviceAccountName: kapp
   packageRef:
@@ -38,7 +38,7 @@ stringData:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: prometheus-overlay-v3
+  name: prometheus-overlay-v4
   namespace: kapp
 type: Opaque
 stringData:
@@ -48,9 +48,10 @@ stringData:
 
     #@overlay/match by=overlay.subset({"kind":"HTTPProxy"}), expects="1+"
     ---
-    spec:
-      #@overlay/match missing_ok=True
-      ingressClassName: contour-external
+    metadata:
+      annotations:
+        #@overlay/match missing_ok=True
+        kubernetes.io/ingress.class: contour-external
 
     #@overlay/match by=overlay.subset({"kind":"Certificate", "metadata": {"name": "prometheus-tls-cert"}})
     ---
