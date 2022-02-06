@@ -71,6 +71,10 @@ stringData:
               target_label: __address__
             - action: labelmap
               regex: __meta_kubernetes_pod_label_(.+)
+            - action: labeldrop
+              regex: kapp_k14s_io.+
+            - action: labeldrop
+              regex: pod_template.+
             - source_labels: [__meta_kubernetes_namespace]
               action: replace
               target_label: kubernetes_namespace
