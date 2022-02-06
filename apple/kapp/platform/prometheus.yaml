@@ -76,7 +76,13 @@ stringData:
             - action: labeldrop
               regex: serving_knative_dev.+
             - action: labeldrop
-              regex: statefulset_kubernetes_io
+              regex: messaging_knative_dev.+
+            - action: labeldrop
+              regex: eventing_knative_dev.+
+            - action: labeldrop
+              regex: app_kubernetes_io.+
+            - action: labeldrop
+              regex: statefulset_kubernetes_io.+
             - action: labeldrop
               regex: pod_template.+
             - action: labeldrop
