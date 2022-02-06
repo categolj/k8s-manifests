@@ -4,7 +4,7 @@ metadata:
   name: prometheus
   namespace: kapp
   annotations:
-    ext.packaging.carvel.dev/ytt-paths-from-secret-name.0: prometheus-overlay
+    ext.packaging.carvel.dev/ytt-paths-from-secret-name.0: prometheus-overlay-v2
 spec:
   serviceAccountName: kapp
   packageRef:
@@ -38,7 +38,7 @@ stringData:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: prometheus-overlay
+  name: prometheus-overlay-v2
   namespace: kapp
 type: Opaque
 stringData:
