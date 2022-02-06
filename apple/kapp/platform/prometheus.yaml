@@ -38,7 +38,7 @@ metadata:
   name: prometheus
   namespace: kapp
   annotations:
-    ext.packaging.carvel.dev/ytt-paths-from-secret-name.0: prometheus-overlay
+    ext.packaging.carvel.dev/ytt-paths-from-secret-name.0: prometheus-overlay-v5
 spec:
   serviceAccountName: kapp
   packageRef:
@@ -74,13 +74,6 @@ stringData:
             evaluation_interval: 1m
             scrape_interval: 1m
             scrape_timeout: 10s
-          remote_write:
-          - url: https://prometheus-us-central1.grafana.net/api/prom/push
-            basic_auth:
-              username: 25066
-              password_file: /etc/grafana-cloud/api-token
-            tls_config:
-              insecure_skip_verify: true
           rule_files:
           - /etc/config/alerting_rules.yml
           - /etc/config/recording_rules.yml
@@ -168,7 +161,7 @@ stringData:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: prometheus-overlay
+  name: prometheus-overlay-v5
   namespace: kapp
 type: Opaque
 stringData:
@@ -205,31 +198,5 @@ stringData:
     ---
 
     #@overlay/match by=overlay.subset({"kind":"Issuer", "metadata": {"name": "prometheus-ca-issuer"}})
-    #@overlay/remove
-    ---
-
-    #@overlay/match by=overlay.subset({"kind":"Deployment","metadata":{"name":"prometheus-server"}})
-    ---
-    spec:
-      template:
-        spec:
-          containers:
-          #@overlay/match by="name", missing_ok=True
-          - name: prometheus-server
-            volumeMounts:
-            #@overlay/match by="name", missing_ok=True
-            - name: grafana-cloud
-              mountPath: /etc/grafana-cloud
-          volumes:
-          #@overlay/match by="name"
-          #@overlay/replace
-          - name: storage-volume
-            emptyDir: {}
-          #@overlay/match by="name", missing_ok=True
-          - name: grafana-cloud
-            secret:
-              secretName: grafana-cloud
-
-    #@overlay/match by=overlay.subset({"kind":"PersistentVolumeClaim", "metadata": {"name": "prometheus-server"}})
     #@overlay/remove
     ---
