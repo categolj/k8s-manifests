@@ -4,7 +4,7 @@ metadata:
   name: prometheus
   namespace: kapp
   annotations:
-    ext.packaging.carvel.dev/ytt-paths-from-secret-name.0: prometheus-overlay-v2
+    ext.packaging.carvel.dev/ytt-paths-from-secret-name.0: prometheus-overlay-v3
 spec:
   serviceAccountName: kapp
   packageRef:
@@ -38,18 +38,20 @@ stringData:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: prometheus-overlay-v2
+  name: prometheus-overlay-v3
   namespace: kapp
 type: Opaque
 stringData:
   overlay.yml: |
     #@ load("@ytt:data", "data")
     #@ load("@ytt:overlay", "overlay")
+
     #@overlay/match by=overlay.subset({"kind":"HTTPProxy"}), expects="1+"
     ---
     spec:
       #@overlay/match missing_ok=True
       ingressClassName: contour-external
+
     #@overlay/match by=overlay.subset({"kind":"Certificate", "metadata": {"name": "prometheus-tls-cert"}})
     ---
     #@overlay/replace
@@ -58,14 +60,18 @@ stringData:
       issuerRef:
         name: letsencrypt-maki-lol
         kind: ClusterIssuer
+      commonName: #@ data.values.ingress.virtual_host_fqdn
       dnsNames:
       - #@ data.values.ingress.virtual_host_fqdn
+
     #@overlay/match by=overlay.subset({"kind":"Issuer", "metadata": {"name": "prometheus-self-signed-ca-issuer"}})
     #@overlay/remove
     ---
+
     #@overlay/match by=overlay.subset({"kind":"Certificate", "metadata": {"name": "prometheus-ca"}})
     #@overlay/remove
     ---
+
     #@overlay/match by=overlay.subset({"kind":"Issuer", "metadata": {"name": "prometheus-ca-issuer"}})
     #@overlay/remove
     ---
