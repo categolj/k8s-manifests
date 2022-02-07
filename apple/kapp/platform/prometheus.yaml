@@ -238,6 +238,10 @@ stringData:
     #@overlay/match by=overlay.subset({"kind":"Deployment","metadata":{"name":"prometheus-server"}})
     ---
     spec:
+      #@overlay/match missing_ok=True
+      strategy:
+        #@overlay/match missing_ok=True
+        type: Recreate
       template:
         spec:
           containers:
