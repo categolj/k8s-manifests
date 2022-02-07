@@ -1,5 +1,5 @@
 #@ load("@ytt:data", "data")
-apiVersion: cert-manager.io/v1alpha2
+apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
   name: #@ "letsencrypt-{}".format(data.values.aws.dns_zone.replace(".", "-"))
@@ -10,13 +10,14 @@ spec:
     privateKeySecretRef:
       name: #@ "letsencrypt-{}".format(data.values.aws.dns_zone.replace(".", "-"))
     solvers:
-    - selector:
-        dnsZones:
-        - #@ data.values.aws.dns_zone
-      dns01:
-        route53:
-          region: #@ data.values.aws.region
-          accessKeyID: #@ data.values.aws.access_key_id
-          secretAccessKeySecretRef:
-            name: route53-config
-            key: secret-access-key
+    - dns01:
+        azureDNS:
+          clientID: #@ data.values.azure.client_id
+          clientSecretSecretRef:
+            name: azuredns-config
+            key: client-secret
+          subscriptionID: #@ data.values.azure.subscription_id
+          tenantID: #@ data.values.azure.tenant_id
+          resourceGroupName: #@ data.values.aws.dns_zone.replace(".", "-")
+          hostedZoneName: #@ data.values.aws.dns_zone
+          environment: #@ data.values.azure.environment

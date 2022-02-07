@@ -1,5 +1,5 @@
 #@ load("@ytt:data", "data")
-apiVersion: cert-manager.io/v1alpha2
+apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
   name: #@ "letsencrypt-{}".format(data.values.azure.hosted_zone_name.replace(".", "-"))
@@ -11,13 +11,13 @@ spec:
       name: #@ "letsencrypt-{}".format(data.values.azure.hosted_zone_name.replace(".", "-"))
     solvers:
     - dns01:
-        azuredns:
+        azureDNS:
           clientID: #@ data.values.azure.client_id
           clientSecretSecretRef:
             name: azuredns-config
             key: client-secret
           subscriptionID: #@ data.values.azure.subscription_id
           tenantID: #@ data.values.azure.tenant_id
-          resourceGroupName: #@ data.values.azure.resource_group_name
+          resourceGroupName: #@ data.values.azure.hosted_zone_name.replace(".", "-")
           hostedZoneName: #@ data.values.azure.hosted_zone_name
           environment: #@ data.values.azure.environment
