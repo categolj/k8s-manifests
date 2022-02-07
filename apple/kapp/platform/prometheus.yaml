@@ -228,3 +228,21 @@ stringData:
     #@overlay/match by=overlay.subset({"kind":"Issuer", "metadata": {"name": "prometheus-ca-issuer"}})
     #@overlay/remove
     ---
+
+    #@overlay/match by=overlay.subset({"kind":"Deployment","metadata":{"name":"prometheus-server"}})
+    ---
+    spec:
+      template:
+        spec:
+          containers:
+          #@overlay/match by="name", missing_ok=True
+          - name: prometheus-server
+            volumeMounts:
+            #@overlay/match by="name", missing_ok=True
+            - name: grafana-cloud
+              mountPath: /etc/grafana-cloud
+          volumes:
+          #@overlay/match by="name", missing_ok=True
+          - name: grafana-cloud
+            secret:
+              secretName: grafana-cloud
