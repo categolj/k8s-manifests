@@ -29,6 +29,10 @@ spec:
     metadata:
       labels:
         app: tsunagu-client
+      annotations:
+        prometheus.io/path: /actuator/prometheus
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8084"
     spec:
       containers:
       - name: tsunagu-client
@@ -42,6 +46,8 @@ spec:
           value: https://gateway.gateway.svc.cluster.local:443
         - name: TSUNAGU_PRESERVE_HOST
           value: "true"
+        - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+          value: info,health,prometheus
         resources:
           limits:
             memory: "256Mi"
