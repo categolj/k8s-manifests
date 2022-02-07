@@ -74,8 +74,6 @@ stringData:
             evaluation_interval: 1m
             scrape_interval: 1m
             scrape_timeout: 10s
-            external_labels:
-              cluster: apple
           rule_files:
           - /etc/config/alerting_rules.yml
           - /etc/config/recording_rules.yml
@@ -86,13 +84,24 @@ stringData:
             scrape_interval: 5s
             static_configs:
             - targets: ['localhost:9090']
+            relabel_configs:
+            - source_labels: [__address__]
+              target_label: cluster
+              replacement: apple
           - job_name: 'kube-state-metrics'
             static_configs:
             - targets: ['prometheus-kube-state-metrics.tanzu-system-monitoring.svc.cluster.local:8080']
+            relabel_configs:
+            - source_labels: [__address__]
+              target_label: cluster
+              replacement: apple
           - job_name: 'kubernetes-pods'
             kubernetes_sd_configs:
             - role: pod
             relabel_configs:
+            - source_labels: [__address__]
+              target_label: cluster
+              replacement: apple
             - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
               action: keep
               regex: true
@@ -118,6 +127,9 @@ stringData:
             kubernetes_sd_configs:
             - role: node
             relabel_configs:
+            - source_labels: [__address__]
+              target_label: cluster
+              replacement: apple
             - action: labelmap
               regex: __meta_kubernetes_node_label_(.+)
             - replacement: kubernetes.default.svc:443
@@ -136,6 +148,9 @@ stringData:
             kubernetes_sd_configs:
             - role: endpoints
             relabel_configs:
+            - source_labels: [__address__]
+              target_label: cluster
+              replacement: apple
             - action: keep
               regex: default;kubernetes;https
               source_labels:
@@ -153,6 +168,10 @@ stringData:
             static_configs:
             - targets:
               - 192.168.11.108:9100
+            relabel_configs:
+            - source_labels: [__address__]
+              target_label: cluster
+              replacement: apple
           - job_name: vmware
             honor_timestamps: true
             scrape_interval: 3m
@@ -162,6 +181,10 @@ stringData:
             static_configs:
             - targets:
               - 192.168.11.108:9272
+            relabel_configs:
+            - source_labels: [__address__]
+              target_label: cluster
+              replacement: apple
 ---
 apiVersion: v1
 kind: Secret
