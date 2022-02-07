@@ -116,19 +116,16 @@ stringData:
               target_label: __address__
             - source_labels: [__meta_kubernetes_namespace]
               action: replace
-              target_label: kubernetes_namespace
-            - source_labels: [__meta_kubernetes_pod_name]
-              action: replace
-              target_label: kubernetes_pod_name
-            - source_labels: [__meta_kubernetes_node_name]
-              action: replace
-              target_label: kubernetes_node_name
-            - source_labels: [__meta_kubernetes_pod_label_app]
-              action: replace
-              target_label: application
+              target_label: namespace
             - source_labels: [__meta_kubernetes_pod_name]
               action: replace
               target_label: instance
+            - source_labels: [__meta_kubernetes_pod_label_app]
+              action: replace
+              target_label: application
+            - source_labels: [__meta_kubernetes_node_name]
+              action: replace
+              target_label: node_name
             - source_labels: [__meta_kubernetes_pod_label_gateway_name]
               action: replace
               target_label: gateway_name
