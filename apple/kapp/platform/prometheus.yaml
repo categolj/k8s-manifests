@@ -256,3 +256,11 @@ stringData:
           - name: grafana-cloud
             secret:
               secretName: grafana-cloud
+
+    #@overlay/match by=overlay.subset({"kind":"Deployment","metadata":{"name":"alertmanager"}})
+    ---
+    spec:
+      #@overlay/match missing_ok=True
+      strategy:
+        #@overlay/match missing_ok=True
+        type: Recreate
