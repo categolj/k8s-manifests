@@ -1,0 +1,24 @@
+apiVersion: tanzu.vmware.com/v1
+kind: SpringCloudGatewayRouteConfig
+metadata:
+  name: minio-ik-am
+  namespace: gateway
+spec:
+  routes:
+  - uri: https://minio.maki.lol
+    order: -10
+    predicates:
+    - Host=minio.ik.am*
+    filters:
+    - StripPrefix=0
+---
+apiVersion: tanzu.vmware.com/v1
+kind: SpringCloudGatewayMapping
+metadata:
+  name: minio-ik-am
+  namespace: gateway
+spec:
+  gatewayRef:
+    name: gateway
+  routeConfigRef:
+    name: minio-ik-am

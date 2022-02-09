@@ -1,0 +1,31 @@
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
+metadata:
+  name: minio-ik-am
+  namespace: tsunagu
+spec:
+  virtualhost:
+    fqdn: minio.ik.am
+    tls:
+      secretName: minio-ik-am-tls
+  routes:
+  - services:
+    - name: tsunagu-server
+      port: 80
+      weight: 100
+    - name: sorry-server
+      port: 8080
+      weight: 0
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: minio-ik-am
+  namespace: tsunagu
+spec:
+  secretName: minio-ik-am-tls
+  issuerRef:
+    name: letsencrypt-ik-am
+    kind: ClusterIssuer
+  dnsNames:
+  - minio.ik.am
