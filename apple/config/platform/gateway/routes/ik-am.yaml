@@ -39,7 +39,6 @@ spec:
     - Host=blog.ik.am*
     filters:
     - StripPrefix=0
-    - Redirect=301, ik.am
 ---
 apiVersion: tanzu.vmware.com/v1
 kind: SpringCloudGatewayMapping
