@@ -8,14 +8,14 @@ spec:
   - uri: wss://blog-api.blog.apple.maki.lol
     order: -130
     predicates:
-    - Host=ik.am*
+    - Host=ik.am*, blog.ik.am*
     - Path=/rsocket
     filters:
     - StripPrefix=0
   - uri: http://blog-feed.blog.svc.cluster.local:8080
     order: -130
     predicates:
-    - Host=ik.am*
+    - Host=ik.am*, blog.ik.am*
     - Path=/feed, /rss
     filters:
     - StripPrefix=0
@@ -30,13 +30,7 @@ spec:
   - uri: https://blog-frontend.blog.apple.maki.lol
     order: -120
     predicates:
-    - Host=ik.am*
-    filters:
-    - StripPrefix=0
-  - uri: https://blog-frontend.blog.apple.maki.lol
-    order: -50
-    predicates:
-    - Host=blog.ik.am*
+    - Host=ik.am*, blog.ik.am*
     filters:
     - StripPrefix=0
 ---
