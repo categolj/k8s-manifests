@@ -10,6 +10,9 @@ metadata:
   namespace: gateway
 spec:
   count: 2
+  extensions:
+    custom:
+    - gateway-filters
   tls:
   - hosts:
     - gateway
