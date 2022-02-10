@@ -2,13 +2,13 @@
 #@overlay/match-child-defaults missing_ok=True
 ---
 git_repo: https://github.com/categolj/blog-frontend
-git_commit: 001bcf016d874f0d88badb0932c872172a5ecd05
+git_commit: cdf416486ad0847cfa25d06d89970fef06eb16f7
 image_name: ghcr.io/categolj/blog-frontend:5.0.0-SNAPSHOT
-image_digest: sha256:1d5b585dbbaec393520450c015df846a0787be7dd505175daac082e766df1977
+image_digest: sha256:628f023747a25d6411aac5e2e7831cb0f7b062fcbf1bc5b9b3c620ee11352eec
 base_image:
   reference: gopivotal-build-service-private.jfrog.io/shipyard@sha256:dc6a55b81d2f8adef4b8e509e1f3e182b2f7b1dafe4d0fdede8c4195c8c39de3
   top_layer: sha256:276013591aa484c742b9736c076ff6ef8d34a220993906399de7223ecf82eb8f
-run_image: gopivotal-build-service-private.jfrog.io/shipyard@sha256:b69b4f654e6a2d2d69d1cca1a51638401127b6fb3556faa6304cab1575ef7c16
+run_image: gopivotal-build-service-private.jfrog.io/shipyard@sha256:dc6a55b81d2f8adef4b8e509e1f3e182b2f7b1dafe4d0fdede8c4195c8c39de3
 buildpacks:
 - id: paketo-buildpacks/procfile
   version: 5.0.2
