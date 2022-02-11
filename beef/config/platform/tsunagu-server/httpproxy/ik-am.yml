@@ -15,17 +15,17 @@ spec:
     services:
     - name: tsunagu-server
       port: 80
-      weight: 100
+      weight: 0
     - name: sorry-server
       port: 8080
-      weight: 0
+      weight: 100
   - services:
     - name: tsunagu-server
       port: 80
-      weight: 100
+      weight: 0
     - name: sorry-server
       port: 8080
-      weight: 0
+      weight: 100
 ---
 apiVersion: cert-manager.io/v1alpha2
 kind: Certificate
