@@ -26,6 +26,9 @@ spec:
       weight: 0
     - name: sorry-server
       port: 8080
+      weight: 0
+    - name: note
+      port: 8080
       weight: 100
 ---
 apiVersion: cert-manager.io/v1
