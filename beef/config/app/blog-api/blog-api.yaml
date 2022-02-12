@@ -71,3 +71,16 @@ spec:
       - name: blog-db
         secret:
           secretName: blog-db-secret
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: blog-api
+  namespace: tsunagu
+spec:
+  type: ClusterIP
+  selector:
+    app: blog-api
+  ports:
+  - protocol: TCP
+    port: 8080
