@@ -18,6 +18,9 @@ spec:
       weight: 0
     - name: sorry-server
       port: 8080
+      weight: 0
+    - name: blog-api
+      port: 8080
       weight: 100
   - services:
     - name: tsunagu-server
@@ -25,9 +28,12 @@ spec:
       weight: 0
     - name: sorry-server
       port: 8080
+      weight: 0
+    - name: blog-frontend
+      port: 8080
       weight: 100
 ---
-apiVersion: cert-manager.io/v1alpha2
+apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: ik-am
