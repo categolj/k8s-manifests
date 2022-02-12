@@ -1,0 +1,49 @@
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: blog-db-selfsigned-issuer
+  namespace: tsunagu
+spec:
+  selfSigned: {}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: blog-db-ca
+  namespace: tsunagu
+spec:
+  commonName: blog-db-ca
+  isCA: true
+  issuerRef:
+    kind: Issuer
+    name: blog-db-selfsigned-issuer
+  secretName: blog-db-ca
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: blog-db-ca-issuer
+  namespace: tsunagu
+spec:
+  ca:
+    secretName: blog-db-ca
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: blog-db-tls
+  namespace: tsunagu
+spec:
+  dnsNames:
+  - blog-db-postgresql.tsunagu.svc.cluster.local
+  - blog-db-postgresql.tsunagu
+  - blog-db-postgresql
+  - blog-db-postgresql-headless.tsunagu.svc.cluster.local
+  - blog-db-postgresql-headless.tsunagu
+  - blog-db-postgresql-headless
+  - 127.0.0.1
+  - localhost
+  issuerRef:
+    kind: Issuer
+    name: blog-db-ca-issuer
+  secretName: blog-db-tls
