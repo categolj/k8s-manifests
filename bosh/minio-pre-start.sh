@@ -8,7 +8,7 @@ EOF
 
 MINIO_VERSION=RELEASE.2021-12-29T06-49-06Z
 if [ ! -f ${INSTALLATION}/rec/minio-${MINIO_VERSION} ];then
-  wget -O- https://dl.min.io/server/minio/release/linux-amd64/minio.RELEASE.2021-12-29T06-49-06Z > /tmp/minio
+  wget -O- https://dl.min.io/server/minio/release/linux-amd64/minio > /tmp/minio
   mv /tmp/minio ${INSTALLATION}/bin/minio
   chmod +x ${INSTALLATION}/bin/minio
   setcap cap_net_bind_service=+ep ${INSTALLATION}/bin/minio
