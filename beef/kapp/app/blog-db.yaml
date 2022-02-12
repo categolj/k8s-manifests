@@ -29,7 +29,6 @@ spec:
       paths:
       - "-"
       - 1/password.yaml
-      - 1/certificate.yaml
   deploy:
   - kapp:
       rawOptions:

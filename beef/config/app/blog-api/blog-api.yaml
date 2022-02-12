@@ -31,7 +31,7 @@ spec:
         - name: SPRING_CONFIG_IMPORT
           value: configtree:/bindings/
         - name: SPRING_R2DBC_URL
-          value: r2dbc:postgresql://${spring.r2dbc.host}:${spring.r2dbc.port}/${spring.r2dbc.database}?sslMode=VERIFY_FULL&sslRootCert=/blog-tls/ca.crt
+          value: r2dbc:postgresql://${spring.r2dbc.host}:${spring.r2dbc.port}/${spring.r2dbc.database}
         - name: BLOG_GITHUB_ACCESS_TOKEN
           valueFrom:
             secretKeyRef:
@@ -65,15 +65,9 @@ spec:
         - name: blog-db
           mountPath: /bindings/spring/r2dbc
           readOnly: true
-        - name: blog-tls
-          mountPath: /blog-tls
-          readOnly: true
         securityContext:
           runAsUser: 1000
       volumes:
       - name: blog-db
         secret:
           secretName: blog-db-secret
-      - name: blog-tls
-        secret:
-          secretName: blog-db-tls

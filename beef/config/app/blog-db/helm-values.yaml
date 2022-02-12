@@ -7,11 +7,7 @@ existingSecret: blog-db-secret
 persistence:
   size: 1Gi
 tls:
-  enabled: true
-  certificatesSecret: blog-db-tls
-  certFilename: tls.crt
-  certKeyFilename: tls.key
-  certCAFilename: ca.crt
+  enabled: false
 volumePermissions:
   enabled: true
 postgresqlPghbaRemoveFilters: hostssl
