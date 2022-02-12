@@ -25,3 +25,16 @@ spec:
     kind: ClusterIssuer
   dnsNames:
   - synology.ik.am
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: synology-maki-lol
+  namespace: inlets
+spec:
+  secretName: synology-maki-lol-tls
+  issuerRef:
+    name: letsencrypt-maki-lol
+    kind: ClusterIssuer
+  dnsNames:
+  - synology.maki.lol
