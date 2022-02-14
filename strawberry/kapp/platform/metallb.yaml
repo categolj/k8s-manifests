@@ -1,0 +1,27 @@
+apiVersion: packaging.carvel.dev/v1alpha1
+kind: PackageInstall
+metadata:
+  name: metallb
+  namespace: kapp
+spec:
+  serviceAccountName: kapp
+  packageRef:
+    refName: metallb.extra.tanzu.vmware.com
+    versionSelection:
+      constraints: 0.11.0
+  values:
+  - secretRef:
+      name: metallb-data-velues
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: metallb-data-velues
+  namespace: kapp
+type: Opaque
+stringData:
+  values.yml: |
+    ---
+    metallb:
+      addresses:
+      - 192.168.11.150-192.168.11.154
