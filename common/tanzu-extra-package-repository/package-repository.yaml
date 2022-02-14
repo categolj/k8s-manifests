@@ -1,0 +1,8 @@
+apiVersion: packaging.carvel.dev/v1alpha1
+kind: PackageRepository
+metadata:
+  name: tanzu-extra
+spec:
+  fetch:
+    imgpkgBundle:
+      image: "ghcr.io/alexandreroman/tanzu-extra-repo:stable"

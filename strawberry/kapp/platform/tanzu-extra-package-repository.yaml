@@ -1,0 +1,38 @@
+apiVersion: kappctrl.k14s.io/v1alpha1
+kind: App
+metadata:
+  name: tanzu-standard-package-repository
+  namespace: kapp
+spec:
+  serviceAccountName: kapp
+  fetch:
+  - git:
+      url: git@github.com:categolj/k8s-manifests.git
+      ref: origin/main
+      subPath: common
+      secretRef:
+        name: github
+  syncPeriod: 24h
+  template:
+  - ytt:
+      ignoreUnknownComments: true
+      paths:
+      - tanzu-extra-package-repository
+      inline:
+        paths:
+          overlay.yaml: |
+            #@ load("@ytt:overlay", "overlay")
+            #@overlay/match by=overlay.all, expects="1+"
+            ---
+            metadata:
+              #@overlay/match missing_ok=True
+              namespace: kapp
+  deploy:
+  - kapp:
+      rawOptions:
+      - --wait-timeout=5m
+      - --diff-changes=true
+      - --diff-mask=true
+      inspect:
+        rawOptions:
+        - --tree=true
