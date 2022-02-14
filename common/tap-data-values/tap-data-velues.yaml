@@ -34,6 +34,7 @@ stringData:
     - name: cnrs
       secrets:
       - name: cnrs-overlay-auto-tls
+      - name: cnrs-overlay-slim
     excluded_packages:
     - api-portal.tanzu.vmware.com
     - accelerator.apps.tanzu.vmware.com
