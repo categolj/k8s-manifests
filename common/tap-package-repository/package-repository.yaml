@@ -5,4 +5,4 @@ metadata:
 spec:
   fetch:
     imgpkgBundle:
-      image: "ghcr.io/making/hello-tap-demo:1.0.0"
+      image: "ghcr.io/making/hello-tap-demo:1.0.1"
