@@ -1,0 +1,44 @@
+apiVersion: packaging.carvel.dev/v1alpha1
+kind: PackageInstall
+metadata:
+  name: tap
+  namespace: kapp
+  annotations:
+    ext.packaging.carvel.dev/ytt-paths-from-secret-name.0: tap-overlay-namespace
+spec:
+  serviceAccountName: kapp
+  packageRef:
+    refName: tap.tanzu.vmware.com
+    versionSelection:
+      constraints: 1.0.1
+  values:
+  - secretRef:
+      name: tap-data-velues
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: tap-overlay-namespace
+  namespace: kapp
+type: Opaque
+stringData:
+  tap-overlay-namespace.yaml: |
+    ---
+    #@ load("@ytt:overlay", "overlay")
+    #@ for kind in ["PackageInstall", "Secret", "ServiceAccount"]:
+    #@overlay/match by=overlay.subset({"kind": kind}), expects="1+"
+    ---
+    metadata:
+      #@overlay/match missing_ok=True
+      namespace: kapp
+    #@ end
+    #@overlay/match by=overlay.subset({"kind":"ClusterRoleBinding", "metadata":{"name":"tap-install-cluster-admin-role-binding"}})
+    ---
+    subjects:
+    #@overlay/match by="name"
+    - kind: ServiceAccount
+      name: tap-install-sa
+      namespace: kapp
+    #@overlay/match by=overlay.subset({"kind":"PackageInstall", "metadata":{"name":"tap-telemetry"}})
+    #@overlay/remove
+    ---
