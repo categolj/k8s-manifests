@@ -21,8 +21,7 @@ spec:
   - ytt:
       ignoreUnknownComments: true
       paths:
-      - tap-package-repository
-      - tanzunet-regsecret.yaml
+      - tap-package-repository/package-repository.yaml
       inline:
         paths:
           overlay.yaml: |
