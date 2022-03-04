@@ -1,0 +1,32 @@
+apiVersion: packaging.carvel.dev/v1alpha1
+kind: PackageInstall
+metadata:
+  name: contour
+  namespace: kapp
+spec:
+  serviceAccountName: kapp
+  packageRef:
+    refName: contour.tanzu.vmware.com
+    versionSelection:
+      constraints: 1.18.2+vmware.1-tkg.1
+  values:
+  - secretRef:
+      name: contour-data-values
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: contour-data-values
+  namespace: kapp
+type: Opaque
+stringData:
+  values.yml: |
+    ---
+    infrastructure_provider: "vsphere"
+    namespace: tanzu-system-ingress
+    contour:
+      replicas: 1
+    envoy:
+      service:
+        type: LoadBalancer
+        externalTrafficPolicy: Local
