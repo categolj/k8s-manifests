@@ -29,6 +29,7 @@ spec:
       - path: 1/strawberry/config/app/blog-api/blog-db-helm-values.yaml
   - ytt:
       paths:
+      - "-"
       - 1/strawberry/config/app/blog-common/namespace.yaml
       - 1/strawberry/config/app/blog-common/values.yaml
       - 1/strawberry/config/app/blog-api/dev
