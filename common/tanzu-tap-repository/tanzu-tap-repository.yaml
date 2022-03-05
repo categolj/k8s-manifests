@@ -1,3 +1,4 @@
+#@ load("@ytt:data", "data")
 apiVersion: packaging.carvel.dev/v1alpha1
 kind: PackageRepository
 metadata:
@@ -5,4 +6,4 @@ metadata:
 spec:
   fetch:
     imgpkgBundle:
-      image: "ghcr.io/making/hello-tap-demo:1.0.1"
+      image: "registry.tanzu.vmware.com/tanzu-application-platform/tap-packages:1.0.1"
