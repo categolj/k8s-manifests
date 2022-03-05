@@ -1,7 +1,7 @@
 apiVersion: kappctrl.k14s.io/v1alpha1
 kind: App
 metadata:
-  name: tanzu-standard-package-repository
+  name: tanzu-extra-package-repository
   namespace: kapp
 spec:
   serviceAccountName: kapp
