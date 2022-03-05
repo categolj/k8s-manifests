@@ -1,0 +1,14 @@
+#@ load("@ytt:data", "data")
+
+#@ namespace = "blog{}".format(data.values.namespace_suffix)
+apiVersion: v1
+stringData:
+  github-access-token: #@ data.values.github_access_token
+  github-webhook-secret: #@ data.values.github_webhook_secret
+  ops-username: #@ data.values.ops_username
+  ops-password: #@ data.values.ops_password
+kind: Secret
+metadata:
+  name: blog-config
+  namespace: #@ namespace
+type: Opaque

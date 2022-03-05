@@ -1,0 +1,8 @@
+#@ load("@ytt:data", "data")
+
+#@ namespace = "blog{}".format(data.values.namespace_suffix)
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: #@ namespace
