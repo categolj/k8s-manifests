@@ -22,7 +22,8 @@ spec:
       ignoreUnknownComments: true
       paths:
       - tanzu-tap-repository
-      - credentials.yaml
+      valuesFrom:
+      - path: credentials.yaml
       inline:
         paths:
           overlay.yaml: |
