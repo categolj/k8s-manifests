@@ -1,0 +1,32 @@
+#@ load("@ytt:data", "data")
+#@ if data.values.keycloak.create_issuer:
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: keycloak-selfsigned-issuer
+  namespace: #@ data.values.keycloak.namespace
+spec:
+  selfSigned: { }
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: keycloak-ca
+  namespace: #@ data.values.keycloak.namespace
+spec:
+  commonName: keycloak-ca
+  isCA: true
+  issuerRef:
+    kind: Issuer
+    name: keycloak-selfsigned-issuer
+  secretName: keycloak-ca
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: keycloak-ca-issuer
+  namespace: #@ data.values.keycloak.namespace
+spec:
+  ca:
+    secretName: keycloak-ca
+#@ end

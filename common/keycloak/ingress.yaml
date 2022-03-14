@@ -1,0 +1,30 @@
+#@ load("@ytt:data", "data")
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: keycloak
+  namespace: #@ data.values.keycloak.namespace
+  annotations:
+    #@ if/end data.values.keycloak.issuer_name != None:
+    cert-manager.io/issuer: #@ data.values.keycloak.issuer_name
+    #@ if/end data.values.keycloak.cluster_issuer_name != None:
+    cert-manager.io/cluster-issuer: #@ data.values.keycloak.cluster_issuer_name
+    #@ if/end data.values.keycloak.ingress_class != None:
+    kubernetes.io/ingress.class: #@ data.values.keycloak.ingress_class
+    ingress.kubernetes.io/force-ssl-redirect: "true"
+spec:
+  tls:
+  - hosts:
+    - #@ data.values.keycloak.hostname
+    secretName: keycloak-tls
+  rules:
+  - host: #@ data.values.keycloak.hostname
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: keycloak
+            port:
+              number: 8080

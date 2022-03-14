@@ -1,0 +1,82 @@
+#@ load("@ytt:data", "data")
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: keycloak-db
+  namespace: #@ data.values.keycloak.namespace
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloak-db
+  namespace: #@ data.values.keycloak.namespace
+spec:
+  selector:
+    matchLabels:
+      app: keycloak-db
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: keycloak-db
+    spec:
+      initContainers:
+      - name: remove-lost-found
+        image: busybox
+        command:
+        - sh
+        - -c
+        - |
+          rm -fr /var/lib/postgresql/data/lost+found
+        volumeMounts:
+        - name: keycloak-db
+          mountPath: /var/lib/postgresql/data
+      containers:
+      - image: postgres:11
+        name: postgres
+        env:
+        - name: POSTGRES_INITDB_ARGS
+          value: "--encoding=UTF-8 --locale=C"
+        - name: POSTGRES_DB
+          valueFrom:
+            secretKeyRef:
+              name: keycloak-db
+              key: name
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: keycloak-db
+              key: username
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: keycloak-db
+              key: password
+        ports:
+        - containerPort: 5432
+          name: keycloak-db
+        volumeMounts:
+        - name: keycloak-db
+          mountPath: /var/lib/postgresql/data
+      volumes:
+      - name: keycloak-db
+        persistentVolumeClaim:
+          claimName: keycloak-db
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: keycloak-db
+  namespace: #@ data.values.keycloak.namespace
+spec:
+  ports:
+  - port: 5432
+  selector:
+    app: keycloak-db

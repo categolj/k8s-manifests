@@ -1,0 +1,191 @@
+#@ load("@ytt:data", "data")
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: keycloak-config-dataflow
+  namespace: #@ data.values.keycloak.namespace
+spec:
+  template:
+    metadata:
+      generateName: keycloak-config-dataflow
+    spec:
+      containers:
+      - image: quay.io/adorsys/keycloak-config-cli:v4.8.0-17.0.0
+        name: keycloak-config-cli
+        env:
+        - name: LOGGING_LEVEL_WEB
+          value: DEBUG
+        - name: IMPORT_PATH
+          value: /config
+        - name: KEYCLOAK_URL
+          value: #@ "https://{}".format(data.values.keycloak.hostname)
+        - name: KEYCLOAK_USER
+          valueFrom:
+            secretKeyRef:
+              name: keycloak-admin
+              key: username
+        - name: KEYCLOAK_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: keycloak-admin
+              key: password
+
+        volumeMounts:
+        - name: config
+          mountPath: /config
+      restartPolicy: Never
+      volumes:
+      - name: config
+        configMap:
+          name: keycloak-config-dataflow-script
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: keycloak-config-dataflow-script
+  namespace: #@ data.values.keycloak.namespace
+data:
+  00_create_dataflow_realm.json: |
+    {
+      "realm": "dataflow",
+      "enabled": true
+    }
+  #@yaml/text-templated-strings
+  01_add_dataflow_client.json: |
+    {
+      "realm": "dataflow",
+      "clients": [
+        {
+          "clientId": "dataflow",
+          "enabled": true,
+          "secret": "secret",
+          "redirectUris": [
+            "(@= data.values.dataflow.url @)/*"
+          ],
+          "directAccessGrantsEnabled": true,
+          "serviceAccountsEnabled": true,
+          "authorizationServicesEnabled": true,
+          "publicClient": false,
+          "protocol": "openid-connect",
+          "attributes": {
+            "access.token.lifespan": "600"
+          }
+        }
+      ]
+    }
+  02_add_client_admin_role.json: |
+    {
+      "realm": "dataflow",
+      "roles": {
+        "client": {
+          "dataflow": [
+            {
+              "name": "ADMIN",
+              "composite": false,
+              "clientRole": true
+            }
+          ]
+        }
+      }
+    }
+  03_add_client_protocol_mapper.json: |
+    {
+      "realm": "dataflow",
+      "clients": [
+        {
+          "clientId": "dataflow",
+          "protocolMappers": [
+            {
+              "name": "Username",
+              "protocol": "openid-connect",
+              "protocolMapper": "oidc-usermodel-property-mapper",
+              "consentRequired": false,
+              "config": {
+                "userinfo.token.claim": "true",
+                "user.attribute": "username",
+                "id.token.claim": "true",
+                "access.token.claim": "true",
+                "claim.name": "user_name",
+                "jsonType.label": "String"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  #@yaml/text-templated-strings
+  04_add_user.json: |
+    {
+      "realm": "dataflow",
+      "users": [
+        {
+          "username": "(@= data.values.dataflow.username @)",
+          "enabled": true,
+          "credentials": [
+            {
+              "type": "password",
+              "value": "(@= data.values.dataflow.password @)"
+            }
+          ]
+        }
+      ]
+    }
+  05_create_client_scopes.json: |
+    {
+      "realm": "dataflow",
+      "clientScopes": [
+        {
+          "name": "dataflow.create",
+          "protocol": "openid-connect"
+        },
+        {
+          "name": "dataflow.deploy",
+          "protocol": "openid-connect"
+        },
+        {
+          "name": "dataflow.destroy",
+          "protocol": "openid-connect"
+        },
+        {
+          "name": "dataflow.manage",
+          "protocol": "openid-connect"
+        },
+        {
+          "name": "dataflow.modify",
+          "protocol": "openid-connect"
+        },
+        {
+          "name": "dataflow.schedule",
+          "protocol": "openid-connect"
+        },
+        {
+          "name": "dataflow.view",
+          "protocol": "openid-connect"
+        }
+      ]
+    }
+  06_configure_role_mappings.json: |
+    {
+      "realm": "dataflow"
+    }
+  07_assign_scopes_to_client.json: |
+    {
+      "realm": "dataflow",
+      "clients": [
+        {
+          "clientId": "dataflow",
+          "optionalClientScopes": [
+            "dataflow.view",
+            "dataflow.manage",
+            "address",
+            "dataflow.destroy",
+            "phone",
+            "dataflow.schedule",
+            "dataflow.create",
+            "offline_access",
+            "dataflow.deploy",
+            "dataflow.modify"
+          ]
+        }
+      ]
+    }
