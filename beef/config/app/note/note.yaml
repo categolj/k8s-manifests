@@ -118,7 +118,7 @@ spec:
           value: file:///note-jwt-key/private_key.pem
         - name: JWT_VERIFIER_KEY
           value: file:///note-jwt-key/public.pem
-        image: index.docker.io/making/note@sha256:53de811d3b12c3f9da4b8cfd1e640a55c339f4fa13b16db565a9a46445c6c70d
+        image: index.docker.io/making/note@sha256:ea920639facb303373fd0fad5a7888399725f6d136097037da90dcb3a1f901a7
         imagePullPolicy: Always
         livenessProbe:
           failureThreshold: 3
