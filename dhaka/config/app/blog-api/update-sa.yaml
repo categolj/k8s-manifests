@@ -1,0 +1,25 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: update-sa
+  namespace: tmaki
+  labels:
+    app: update-sa
+spec:
+  schedule: "* * * * *"
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 5
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          serviceAccountName: kapp
+          containers:
+          - name: kubectl
+            image: bitnami/kubectl:1.21.11
+            command:
+            - bash
+            - -c
+            - |-
+              kubectl patch serviceaccount default -p "{\"secrets\":[{\"name\":\"git-ssh\"}]}"

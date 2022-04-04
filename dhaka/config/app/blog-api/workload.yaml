@@ -1,0 +1,40 @@
+apiVersion: carto.run/v1alpha1
+kind: Workload
+metadata:
+  labels:
+    app.kubernetes.io/part-of: blog-api
+    apps.tanzu.vmware.com/workload-type: web
+  name: blog-api
+  namespace: tmaki
+spec:
+  env:
+  - name: JAVA_TOOL_OPTIONS
+    value: "-XX:ReservedCodeCacheSize=32M -Xss512k -Duser.timezone=Asia/Tokyo -Duser.language=ja -Duser.country=JP -Dfile.encoding=UTF-8"
+  - name: BPL_JVM_THREAD_COUNT
+    value: "28"
+  params:
+  - name: annotations
+    value:
+      autoscaling.knative.dev/minScale: "1"
+  - name: gitops_branch
+    value: blog-api
+  - name: gitops_commit_message
+    value: Bump
+  - name: gitops_repository
+    value: ssh://git@github.com/categolj/tap-gitops.git
+  - name: gitops_user_email
+    value: makingx+bot@gmail.com
+  - name: gitops_user_name
+    value: making-bot
+  - name: gitops_ssh_secret
+    value: git-ssh
+  resources:
+    limits:
+      memory: 256Mi
+    requests:
+      memory: 256Mi
+  source:
+    git:
+      ref:
+        branch: rsocket
+      url: https://github.com/categolj/blog-api
