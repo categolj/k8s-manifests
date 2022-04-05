@@ -15,6 +15,20 @@ spec:
     value: "-XX:ReservedCodeCacheSize=32M -Xss512k -Duser.timezone=Asia/Tokyo -Duser.language=ja -Duser.country=JP -Dfile.encoding=UTF-8"
   - name: BPL_JVM_THREAD_COUNT
     value: "28"
+  - name: SPRING_RSOCKET_SERVER_FRAGMENTSIZE
+    value: 16MB
+  - name: SPRING_PROFILES_ACTIVE
+    value: kubernetes
+  - name: BLOG_GITHUB_ACCESS_TOKEN
+    valueFrom:
+      secretKeyRef:
+        name: blog-config
+        key: github-access-token
+  - name: BLOG_GITHUB_WEBHOOK_SECRET
+    valueFrom:
+      secretKeyRef:
+        name: blog-config
+        key: github-webhook-secret
   params:
   - name: annotations
     value:

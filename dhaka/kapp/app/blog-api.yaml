@@ -31,6 +31,8 @@ spec:
       paths:
       - "-"
       - 1/dhaka/config/app/blog-api
+      valuesFrom:
+      - path: 1/dhaka/config/app/blog-common/credentials.yaml
   deploy:
   - kapp:
       rawOptions:
