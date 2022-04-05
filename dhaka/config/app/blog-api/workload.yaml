@@ -36,6 +36,12 @@ spec:
       memory: 256Mi
     requests:
       memory: 256Mi
+  serviceClaims:
+  - name: blog-db
+    ref:
+      apiVersion: v1
+      kind: Secret
+      name: blog-db
   source:
     git:
       ref:
