@@ -5,6 +5,9 @@ metadata:
   namespace: tmaki
   labels:
     app: update-sa
+  annotations:
+    kapp.k14s.io/change-rule.upsert: "upsert after upserting git-ssh"
+    kapp.k14s.io/change-rule.delete: "delete before deleting git-ssh"
 spec:
   schedule: "* * * * *"
   successfulJobsHistoryLimit: 3

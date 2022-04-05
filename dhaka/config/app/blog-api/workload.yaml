@@ -4,6 +4,9 @@ metadata:
   labels:
     app.kubernetes.io/part-of: blog-api
     apps.tanzu.vmware.com/workload-type: web
+  annotations:
+    kapp.k14s.io/change-rule.upsert: "upsert after upserting git-ssh"
+    kapp.k14s.io/change-rule.delete: "delete before deleting git-ssh"
   name: blog-api
   namespace: tmaki
 spec:
