@@ -1,0 +1,17 @@
+postgresqlDatabase: blog
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+existingSecret: blog-db
+persistence:
+  size: 1Gi
+tls:
+  enabled: true
+  certificatesSecret: blog-db-tls
+  certFilename: tls.crt
+  certKeyFilename: tls.key
+  certCAFilename: ca.crt
+volumePermissions:
+  enabled: true
+postgresqlPghbaRemoveFilters: hostssl

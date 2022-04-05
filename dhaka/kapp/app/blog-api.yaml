@@ -6,6 +6,11 @@ metadata:
 spec:
   serviceAccountName: kapp
   fetch:
+  - helmChart:
+      name: postgresql
+      version: "10.16.1"
+      repository:
+        url: https://charts.bitnami.com/bitnami
   - git:
       url: git@github.com:categolj/k8s-manifests.git
       ref: origin/main
@@ -17,15 +22,25 @@ spec:
       pgp:
         privateKeysSecretRef:
           name: pgp-key
+  - helmTemplate:
+      path: 0/
+      name: blog-db
+      valuesFrom:
+      - path: 1/dhaka/helm/app/blog-db.yaml
   - ytt:
       paths:
-      - dhaka/config/app/blog-api
+      - "-"
+      - 1/dhaka/config/app/blog-api
   deploy:
   - kapp:
       rawOptions:
       - --wait-timeout=5m
       - --diff-changes=true
       - --diff-mask=true
+      delete:
+        # Force delete PVCs, since StatefulSet does not delete them
+        rawOptions:
+        - --apply-ignored=true
       inspect:
         rawOptions:
         - --tree=true
