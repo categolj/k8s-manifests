@@ -14,6 +14,10 @@ spec:
     env:
     - name:  BP_MAVEN_BUILT_ARTIFACT
       value: blog-frontend-server/target/*.jar
+    - name: REACT_APP_BLOG_API
+      value: auto
+    - name: REACT_APP_BLOG_UI
+      value: auto
   env:
   - name: JAVA_TOOL_OPTIONS
     value: "-XX:ReservedCodeCacheSize=32M -Xss512k -Duser.timezone=Asia/Tokyo -Duser.language=ja -Duser.country=JP -Dfile.encoding=UTF-8"
