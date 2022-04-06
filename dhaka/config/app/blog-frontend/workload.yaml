@@ -14,8 +14,6 @@ spec:
     env:
     - name: BP_MAVEN_BUILT_ARTIFACT
       value: blog-frontend-server/target/*.jar
-    - name: BP_MAVEN_BUILD_ARGUMENTS
-      value: -X -Dmaven.test.skip=true package
     - name: REACT_APP_BLOG_API
       value: auto
     - name: REACT_APP_BLOG_UI
