@@ -21,8 +21,6 @@ spec:
     value: "28"
   - name: SPRING_PROFILES_ACTIVE
     value: kubernetes
-  - name: SPRING_CONFIG_IMPORT
-    value: configtree:/bindings/
   params:
   - name: annotations
     value:
