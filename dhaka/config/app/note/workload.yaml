@@ -43,6 +43,10 @@ spec:
     value: "false"
   - name: MANAGEMENT_METRICS_EXPORT_PROMETHEUS_RSOCKET_ENABLED
     value: "false"
+  - name: INFO_JAVA_VERSION
+    value: "${java.vm.version} / ${java.vm.name}"
+  - name: INFO_JAVA_VENDOR
+    value: ${java.vm.vendor}
   params:
   - name: annotations
     value:
