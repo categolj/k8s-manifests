@@ -1,0 +1,14 @@
+#@ load("@ytt:data", "data")
+apiVersion: v1
+kind: Secret
+metadata:
+  name: note-db
+  namespace: tmaki
+type: servicebinding.io/mysql
+stringData:
+  type: mysql
+  host: #@ data.values.db_host
+  port: #@ "{}".format(data.values.db_port)
+  username: #@ data.values.db_username
+  password: #@ data.values.db_password
+  database: #@ data.values.db_database
