@@ -1,0 +1,40 @@
+apiVersion: kappctrl.k14s.io/v1alpha1
+kind: App
+metadata:
+  name: tsunagu-client
+  namespace: tmaki
+spec:
+  serviceAccountName: kapp
+  fetch:
+  - http:
+      url: https://raw.githubusercontent.com/making/tsunagu/main/carvel/bundle/tsunagu-client/tsunagu-client.yaml
+  - http:
+      url: https://raw.githubusercontent.com/making/tsunagu/main/carvel/bundle/tsunagu-client/values.yaml
+  - git:
+      url: git@github.com:categolj/k8s-manifests.git
+      ref: origin/main
+      subPath: dhaka/kapp/platform
+      secretRef:
+        name: github
+  syncPeriod: 1h
+  template:
+  - sops:
+      pgp:
+        privateKeysSecretRef:
+          name: pgp-key
+  - ytt:
+      ignoreUnknownComments: true
+      paths:
+      - 0/tsunagu-client.yaml
+      - 1/values.yaml
+      valuesFrom:
+      - path: 2/tsunagu-client-credentials.yaml
+  deploy:
+  - kapp:
+      rawOptions:
+      - --wait-timeout=5m
+      - --diff-changes=true
+      - --diff-mask=true
+      inspect:
+        rawOptions:
+        - --tree=true
