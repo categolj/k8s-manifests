@@ -23,6 +23,10 @@ spec:
     value: "${k8s.bindings.blog-config.github-access-token}"
   - name: BLOG_GITHUB_WEBHOOK_SECRET
     value: "${k8s.bindings.blog-config.github-webhook-secret}"
+  - name: MANAGEMENT_ENDPOINT_HEAPDUMP_ENABLED
+    value: "false"
+  - name: MANAGEMENT_ENDPOINT_THREADDUMP_ENABLED
+    value: "false"
   params:
   - name: annotations
     value:

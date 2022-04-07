@@ -25,6 +25,10 @@ spec:
     value: "28"
   - name: SPRING_PROFILES_ACTIVE
     value: kubernetes
+  - name: MANAGEMENT_ENDPOINT_HEAPDUMP_ENABLED
+    value: "false"
+  - name: MANAGEMENT_ENDPOINT_THREADDUMP_ENABLED
+    value: "false"
   params:
   - name: annotations
     value:

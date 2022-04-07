@@ -43,6 +43,10 @@ spec:
     value: "false"
   - name: MANAGEMENT_METRICS_EXPORT_PROMETHEUS_RSOCKET_ENABLED
     value: "false"
+  - name: MANAGEMENT_ENDPOINT_HEAPDUMP_ENABLED
+    value: "false"
+  - name: MANAGEMENT_ENDPOINT_THREADDUMP_ENABLED
+    value: "false"
   - name: INFO_JAVA_VERSION
     value: "${java.vm.version} / ${java.vm.name}"
   - name: INFO_JAVA_VENDOR
