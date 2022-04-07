@@ -19,12 +19,10 @@ spec:
     value: 16MB
   - name: SPRING_PROFILES_ACTIVE
     value: kubernetes
-  - name: SPRING_CONFIG_IMPORT
-    value: configtree:/bindings/
   - name: BLOG_GITHUB_ACCESS_TOKEN
-    value: "${blog-config.github-access-token}"
+    value: "${k8s.bindings.blog-config.github-access-token}"
   - name: BLOG_GITHUB_WEBHOOK_SECRET
-    value: "${blog-config.github-webhook-secret}"
+    value: "${k8s.bindings.blog-config.github-webhook-secret}"
   params:
   - name: annotations
     value:
