@@ -16,7 +16,7 @@ spec:
       subPath: dhaka/kapp/platform
       secretRef:
         name: github
-  syncPeriod: 1h
+  syncPeriod: 1m
   template:
   - sops:
       pgp:
