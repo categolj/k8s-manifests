@@ -19,6 +19,8 @@ spec:
     - name: REACT_APP_BLOG_UI
       value: auto
   env:
+  - name: BLOGAPI_URL
+    value: https://api.ik.am
   - name: JAVA_TOOL_OPTIONS
     value: "-XX:ReservedCodeCacheSize=32M -Xss512k -Duser.timezone=Asia/Tokyo -Duser.language=ja -Duser.country=JP -Dfile.encoding=UTF-8"
   - name: BPL_JVM_THREAD_COUNT
