@@ -7,4 +7,5 @@ metadata:
   namespace: tmaki
 type: Opaque
 stringData:
+  type: translation
   google-api-key: #@ data.values.google_api_token or assert.fail("'google_api_token' is required!")
