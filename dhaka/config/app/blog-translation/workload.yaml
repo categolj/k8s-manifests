@@ -22,6 +22,10 @@ spec:
     value: "${k8s.bindings.translation-config.google-api-key}"
   - name: JAVA_TOOL_OPTIONS
     value: "-XX:ReservedCodeCacheSize=32M -Xss512k -Duser.timezone=Asia/Tokyo -Duser.language=ja -Duser.country=JP -Dfile.encoding=UTF-8"
+  - name: SERVER_PORT
+    value: "${PORT}"
+  - name: BPL_JVM_THREAD_COUNT
+    value: "28"
   - name: SPRING_SQL_INIT_MODE
     value: always
   - name: SPRING_PROFILES_ACTIVE
