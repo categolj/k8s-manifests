@@ -1,0 +1,10 @@
+#@ load("@ytt:data", "data")
+#@ load("@ytt:assert", "assert")
+apiVersion: v1
+kind: Secret
+metadata:
+  name: translation-config
+  namespace: tmaki
+type: Opaque
+stringData:
+  google-api-key: #@ data.values.google_api_token or assert.fail("'google_api_token' is required!")
