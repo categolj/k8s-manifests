@@ -21,6 +21,8 @@ spec:
   env:
   - name: BLOGAPI_URL
     value: https://api.ik.am
+  - name: PRERENDER_URL
+    value: http://prerender:3000
   - name: JAVA_TOOL_OPTIONS
     value: "-XX:ReservedCodeCacheSize=32M -Xss512k -Duser.timezone=Asia/Tokyo -Duser.language=ja -Duser.country=JP -Dfile.encoding=UTF-8"
   - name: BPL_JVM_THREAD_COUNT
