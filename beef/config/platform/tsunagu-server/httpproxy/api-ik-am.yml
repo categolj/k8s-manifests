@@ -8,6 +8,16 @@ spec:
     fqdn: api.ik.am
     tls:
       secretName: api-ik-am-tls
+    corsPolicy:
+      allowCredentials: true
+      allowOrigin:
+      - "*"
+      allowMethods:
+      - GET
+      - OPTIONS
+      allowHeaders:
+      - "*"
+      maxAge: "60m"
   routes:
   - services:
     - name: tsunagu-server
