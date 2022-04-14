@@ -5,6 +5,7 @@ tsunagu:
   preserve_host: true
   host_map:
     ik.am: blog-frontend.tmaki.svc.cluster.local
+    beta.ik.am: blog-ui.tmaki.svc.cluster.local
     blog.ik.am: blog-frontend.tmaki.svc.cluster.local
     api.ik.am: blog-api.tmaki.svc.cluster.local
     note.dev.ik.am: note.tmaki.svc.cluster.local
