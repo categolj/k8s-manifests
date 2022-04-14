@@ -28,6 +28,7 @@ spec:
       - 0/tsunagu-client.yaml
       - 1/values.yaml
       valuesFrom:
+      - path: 2/values.yaml
       - path: 2/tsunagu-client-credentials.yaml
   deploy:
   - kapp:
