@@ -10,6 +10,8 @@ spec:
       url: https://raw.githubusercontent.com/making/tsunagu/main/carvel/bundle/tsunagu-client/tsunagu-client.yaml
   - http:
       url: https://raw.githubusercontent.com/making/tsunagu/main/carvel/bundle/tsunagu-client/values.yaml
+  - http:
+      url: https://raw.githubusercontent.com/making/tsunagu/main/carvel/bundle/tsunagu-client/.imgpkg/images.yml
   - git:
       url: git@github.com:categolj/k8s-manifests.git
       ref: origin/main
@@ -28,8 +30,12 @@ spec:
       - 0/tsunagu-client.yaml
       - 1/values.yaml
       valuesFrom:
-      - path: 2/values.yaml
-      - path: 2/tsunagu-client-credentials.yaml
+      - path: 3/values.yaml
+      - path: 3/tsunagu-client-credentials.yaml
+  - kbld:
+      paths:
+      - 2/images.yml
+      - "-"
   deploy:
   - kapp:
       rawOptions:
