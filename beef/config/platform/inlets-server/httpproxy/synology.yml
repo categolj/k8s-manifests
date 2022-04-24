@@ -10,6 +10,7 @@ spec:
       secretName: synology-ik-am-tls
   routes:
   - services:
+    enableWebsockets: true
     - name: inlets-exit
       port: 6868
 ---
