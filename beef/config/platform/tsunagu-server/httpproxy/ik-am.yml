@@ -19,9 +19,9 @@ spec:
     - name: sorry-server
       port: 8080
       weight: 0
-    - name: blog-api
-      port: 8080
-      weight: 0
+#    - name: blog-api
+#      port: 8080
+#      weight: 0
   - services:
     - name: tsunagu-server
       port: 80
@@ -29,9 +29,9 @@ spec:
     - name: sorry-server
       port: 8080
       weight: 0
-    - name: blog-frontend
-      port: 8080
-      weight: 0
+#    - name: blog-frontend
+#      port: 8080
+#      weight: 0
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
