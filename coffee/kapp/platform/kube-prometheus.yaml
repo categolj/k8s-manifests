@@ -1,0 +1,228 @@
+apiVersion: kappctrl.k14s.io/v1alpha1
+kind: App
+metadata:
+  name: kube-prometheus
+  namespace: kapp
+spec:
+  serviceAccountName: kapp
+  fetch:
+  - git:
+      url: https://github.com/prometheus-operator/kube-prometheus.git
+      ref: v0.8.0
+      subPath: manifests
+  - http:
+      url: https://github.com/making/prometheus-kustomize/raw/master/base/grafana-system.yml
+  syncPeriod: 10m
+  template:
+  - ytt:
+      ignoreUnknownComments: true
+      paths:
+      - .
+      inline:
+        paths:
+          ingress.yaml: |
+            apiVersion: networking.k8s.io/v1
+            kind: Ingress
+            metadata:
+              annotations:
+                cert-manager.io/cluster-issuer: letsencrypt-maki-lol
+              name: prometheus-k8s
+              namespace: monitoring
+            spec:
+              rules:
+              - host: prometheus.monitoring.coffee.maki.lol
+                http:
+                  paths:
+                  - backend:
+                      service:
+                        name: prometheus-k8s
+                        port:
+                          number: 9090
+                    path: /
+                    pathType: Prefix
+              tls:
+              - hosts:
+                - prometheus.monitoring.coffee.maki.lol
+                secretName: prometheus-k8s-tls
+            ---
+            apiVersion: networking.k8s.io/v1
+            kind: Ingress
+            metadata:
+              annotations:
+                cert-manager.io/cluster-issuer: letsencrypt-maki-lol
+              name: alertmanager-main
+              namespace: monitoring
+            spec:
+              rules:
+              - host: alertmanager.monitoring.coffee.maki.lol
+                http:
+                  paths:
+                  - backend:
+                      service:
+                        name: alertmanager-main
+                        port:
+                          number: 9093
+                    path: /
+                    pathType: Prefix
+              tls:
+              - hosts:
+                - alertmanager.monitoring.coffee.maki.lol
+                secretName: alertmanager-main-tls
+            ---
+            apiVersion: networking.k8s.io/v1
+            kind: Ingress
+            metadata:
+              annotations:
+                cert-manager.io/cluster-issuer: letsencrypt-maki-lol
+              name: grafana
+              namespace: monitoring
+            spec:
+              rules:
+              - host: grafana.monitoring.coffee.maki.lol
+                http:
+                  paths:
+                  - backend:
+                      service:
+                        name: grafana
+                        port:
+                          number: 3000
+                    path: /
+                    pathType: Prefix
+              tls:
+              - hosts:
+                - grafana.monitoring.coffee.maki.lol
+                secretName: grafana-main-tls
+          prometheus.yaml: |
+            #@ load("@ytt:overlay", "overlay")
+            #@overlay/match by=overlay.subset({"kind": "Prometheus", "metadata": {"name": "k8s"}})
+            ---
+            spec:
+              replicas: 1
+              #@overlay/match missing_ok=True
+              retention: 7d
+              #@overlay/match missing_ok=True
+              externalUrl: https://prometheus.monitoring.coffee.maki.lol
+              #@overlay/match missing_ok=True
+              storage:
+                volumeClaimTemplate:
+                  spec:
+                    resources:
+                      requests:
+                        storage: 8Gi
+          alertmanager.yaml: |
+            #@ load("@ytt:overlay", "overlay")
+            #@overlay/match by=overlay.subset({"kind": "Alertmanager", "metadata": {"name": "main"}})
+            ---
+            spec:
+              replicas: 1
+              #@overlay/match missing_ok=True
+              externalUrl: https://alertmanager.monitoring.coffee.maki.lol
+              #@overlay/match missing_ok=True
+              storage:
+                volumeClaimTemplate:
+                  spec:
+                    resources:
+                      requests:
+                        storage: 1Gi
+          grafana.yaml: |
+            apiVersion: secretgen.k14s.io/v1alpha1
+            kind: Password
+            metadata:
+              name: grafana-password
+              namespace: monitoring
+            
+            #@ load("@ytt:overlay", "overlay")
+            #@overlay/match by=overlay.subset({"kind": "Deployment", "metadata": {"name": "grafana"}})
+            ---
+            spec:
+              template:
+                spec:
+                  containers:
+                  #@overlay/match by="name"
+                  - name: grafana
+                    #@overlay/match missing_ok=True
+                    env:
+                    #@overlay/match by="name", missing_ok=True
+                    - name: GF_SECURITY_ADMIN_PASSWORD
+                      valueFrom:
+                        secretKeyRef:
+                          name: grafana-password
+                          key: password
+                    volumeMounts:
+                    #@overlay/match by="name", missing_ok=True
+                    - name: grafana-dashboard-system
+                      mountPath: /grafana-dashboard-definitions/0/system                        
+                  volumes:
+                  #@overlay/match by="name", missing_ok=True
+                  - name: grafana-dashboard-system
+                    configMap:
+                      name: grafana-dashboard-system
+          disable-original.yaml: |
+            #@ load("@ytt:overlay", "overlay")
+            #@overlay/match by=overlay.subset({"kind": "CustomResourceDefinition"}), expects="1+"
+            ---
+            #! https://carvel.dev/kapp/docs/v0.46.0/diff/#kappk14siodisable-original
+            #@overlay/match missing_ok=True
+            metadata:
+              #@overlay/match missing_ok=True
+              annotations:
+                #@overlay/match missing_ok=True
+                kapp.k14s.io/disable-original: ""
+          fix-diff.yaml: |
+            #@ load("@ytt:overlay", "overlay")
+            #@overlay/match by=overlay.subset({"kind": "CustomResourceDefinition"}), expects="1+"
+            ---
+            #! https://github.com/vmware-tanzu/carvel-kapp/issues/395
+            #@overlay/remove
+            status:
+            
+            #@overlay/match by=overlay.subset({"kind": "CustomResourceDefinition"}), expects="1+"
+            ---
+            spec:
+              #@overlay/match missing_ok=True
+              conversion:
+                strategy: None
+          disable-default-label-scoping-rules.yaml: |
+            #@ load("@ytt:overlay", "overlay")
+            #@overlay/match by=overlay.subset({"kind": "Service"}), expects="1+"
+            ---
+            metadata:
+              #@overlay/match missing_ok=True
+              annotations:
+                #@overlay/match missing_ok=True
+                kapp.k14s.io/disable-default-label-scoping-rules: ""
+          disable-host-network-node-exporter.yaml: |
+            #@ load("@ytt:overlay", "overlay")
+            #@overlay/match by=overlay.subset({"kind": "DaemonSet", "metadata": {"name": "node-exporter"}}), expects="1+"
+            ---
+            #! https://vividcode.io/fix-context-deadline-exceeded-error-in-prometheus-operator
+            spec:
+              template:
+                spec:
+                  #@overlay/remove
+                  hostNetwork:
+          tweak.yaml: |
+            #@ load("@ytt:overlay", "overlay")
+            #@overlay/match by=overlay.subset({"kind": "ConfigMap", "metadata": {"name": "grafana-dashboard-system"}})
+            ---
+            data:
+              #@overlay/replace via=lambda a, b: a.replace("/^(.*):[0-9]+/", "")
+              system-disk-performance.json:
+              #@overlay/replace via=lambda a, b: a.replace("/^(.*):[0-9]+/", "")
+              system-disk-space.json:
+              #@overlay/replace via=lambda a, b: a.replace("/^(.*):[0-9]+/", "")
+              system-overview.json:
+  deploy:
+  - kapp:
+      rawOptions:
+      - --wait-timeout=5m
+      - --diff-changes=true
+      - --diff-mask=true
+      - --app-changes-max-to-keep=3
+      delete:
+        #! Force delete PVCs, since StatefulSet does not delete them
+        rawOptions:
+        - --apply-ignored=true
+      inspect:
+        rawOptions:
+        - --tree=true
