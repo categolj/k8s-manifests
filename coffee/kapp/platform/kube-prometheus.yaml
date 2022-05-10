@@ -216,7 +216,7 @@ spec:
   - kapp:
       rawOptions:
       - --wait-timeout=5m
-      - --diff-changes=true
+      - --diff-changes=false
       - --diff-mask=true
       - --app-changes-max-to-keep=3
       delete:
