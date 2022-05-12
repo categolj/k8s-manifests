@@ -6,6 +6,11 @@ metadata:
 spec:
   serviceAccountName: kapp
   fetch:
+  - helmChart:
+      name: postgresql
+      version: "10.16.1"
+      repository:
+        url: https://charts.bitnami.com/bitnami
   - git:
       url: https://github.com/categolj/k8s-manifests.git
       ref: origin/main
@@ -15,11 +20,17 @@ spec:
       pgp:
         privateKeysSecretRef:
           name: pgp-key
+  - helmTemplate:
+      path: 0/
+      name: blog-db
+      valuesFrom:
+      - path: 1/jaguchi/helm/app/blog-db.yaml
   - ytt:
       paths:
-      - jaguchi/config/app/blog-api
+      - "-"
+      - 1/jaguchi/config/app/blog-api
       valuesFrom:
-      - path: jaguchi/config/app/blog-common/credentials.yaml
+      - path: 1/jaguchi/config/app/blog-common/credentials.yaml
   deploy:
   - kapp:
       rawOptions:

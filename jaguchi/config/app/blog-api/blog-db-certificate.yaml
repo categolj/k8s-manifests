@@ -1,0 +1,47 @@
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: blog-db-selfsigned-issuer
+  namespace: making
+spec:
+  selfSigned: { }
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: blog-db-ca
+  namespace: making
+spec:
+  commonName: blog-db-ca
+  isCA: true
+  issuerRef:
+    kind: Issuer
+    name: blog-db-selfsigned-issuer
+  secretName: blog-db-ca
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: blog-db-ca-issuer
+  namespace: making
+spec:
+  ca:
+    secretName: blog-db-ca
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: blog-db-tls
+  namespace: making
+spec:
+  dnsNames:
+  - blog-db-postgresql.making.svc.cluster.local
+  - blog-db-postgresql.making
+  - blog-db-postgresql
+  - blog-db-postgresql-headless.making.svc.cluster.local
+  - blog-db-postgresql-headless.making
+  - blog-db-postgresql-headless
+  issuerRef:
+    kind: Issuer
+    name: blog-db-ca-issuer
+  secretName: blog-db-tls
