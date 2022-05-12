@@ -1,0 +1,64 @@
+apiVersion: carto.run/v1alpha1
+kind: Workload
+metadata:
+  labels:
+    app.kubernetes.io/part-of: blog-api
+    apps.tanzu.vmware.com/workload-type: web
+    #! networking.knative.dev/visibility: cluster-local
+  name: blog-api
+  namespace: making
+spec:
+  env:
+  - name: JAVA_TOOL_OPTIONS
+    value: "-XX:ReservedCodeCacheSize=32M -Xss512k -Duser.timezone=Asia/Tokyo -Duser.language=ja -Duser.country=JP -Dfile.encoding=UTF-8"
+  - name: BPL_JVM_THREAD_COUNT
+    value: "28"
+  - name: SPRING_RSOCKET_SERVER_FRAGMENTSIZE
+    value: 16MB
+  - name: SPRING_PROFILES_ACTIVE
+    value: kubernetes
+  - name: BLOG_GITHUB_ACCESS_TOKEN
+    value: "${k8s.bindings.blog-config.github-access-token}"
+  - name: BLOG_GITHUB_WEBHOOK_SECRET
+    value: "${k8s.bindings.blog-config.github-webhook-secret}"
+  - name: MANAGEMENT_ENDPOINT_HEAPDUMP_ENABLED
+    value: "false"
+  - name: MANAGEMENT_ENDPOINT_THREADDUMP_ENABLED
+    value: "false"
+  params:
+  - name: annotations
+    value:
+      autoscaling.knative.dev/minScale: "1"
+  - name: gitops_branch
+    value: blog-api
+  - name: gitops_commit_message
+    value: Bump
+  - name: gitops_repository
+    value: ssh://git@github.com/categolj/jaguchi-making-gitops.git
+  - name: gitops_user_email
+    value: makingx+bot@gmail.com
+  - name: gitops_user_name
+    value: making-bot
+  - name: gitops_ssh_secret
+    value: git-ssh
+  resources:
+    limits:
+      memory: 256Mi
+    requests:
+      memory: 256Mi
+  serviceClaims:
+  - name: blog-db
+    ref:
+      apiVersion: v1
+      kind: Secret
+      name: blog-db
+  - name: blog-config
+    ref:
+      apiVersion: v1
+      kind: Secret
+      name: blog-config
+  source:
+    git:
+      ref:
+        branch: rsocket
+      url: https://github.com/categolj/blog-api
