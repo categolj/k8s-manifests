@@ -1,0 +1,25 @@
+apiVersion: kappctrl.k14s.io/v1alpha1
+kind: App
+metadata:
+  name: apps
+  namespace: making
+spec:
+  serviceAccountName: kapp
+  fetch:
+  - git:
+      url: https://github.com/categolj/k8s-manifests.git
+      ref: origin/main
+  syncPeriod: 1m
+  template:
+  - ytt:
+      paths:
+      - jaguchi/kapp/app
+  deploy:
+  - kapp:
+      rawOptions:
+      - --wait-timeout=5m
+      - --diff-changes=true
+      - --diff-mask=true
+      inspect:
+        rawOptions:
+        - --tree=true
