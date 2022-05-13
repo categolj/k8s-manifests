@@ -1,0 +1,10 @@
+persistence:
+  size: 8Gi
+auth:
+  usernames:
+  - blog
+  databases:
+  - counter
+  existingSecret: counter-db
+updateStrategy:
+  type: Recreate

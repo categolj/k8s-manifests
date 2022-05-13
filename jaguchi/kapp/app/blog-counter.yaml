@@ -6,6 +6,11 @@ metadata:
 spec:
   serviceAccountName: kapp
   fetch:
+  - helmChart:
+      name: mongodb
+      version: "12.1.4"
+      repository:
+        url: https://charts.bitnami.com/bitnami
   - git:
       url: https://github.com/categolj/k8s-manifests.git
       ref: origin/main
@@ -15,12 +20,18 @@ spec:
       pgp:
         privateKeysSecretRef:
           name: pgp-key
+  - helmTemplate:
+      path: 0/
+      name: counter-db
+      valuesFrom:
+      - path: 1/jaguchi/helm/app/counter-db.yaml
   - ytt:
       paths:
-      - jaguchi/config/app/blog-counter/workload.yaml
-      - jaguchi/config/app/blog-counter/counter-db.yaml
+      - "-"
+      - 1/jaguchi/config/app/blog-counter/workload.yaml
+      - 1/jaguchi/config/app/blog-counter/counter-db-password.yaml
       valuesFrom:
-      - path: jaguchi/config/app/blog-counter/credentials.yaml
+      - path: 1/jaguchi/config/app/blog-counter/credentials.yaml
   deploy:
   - kapp:
       rawOptions:
