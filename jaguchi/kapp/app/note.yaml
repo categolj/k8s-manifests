@@ -28,9 +28,12 @@ spec:
   - ytt:
       paths:
       - "-"
-      - 1/jaguchi/config/app/note
+      - 1/jaguchi/config/app/note/workload.yaml
+      - 1/jaguchi/config/app/note/note-db-password.yaml
+      - 1/jaguchi/config/app/note/note-config.yaml
       valuesFrom:
       - path: 1/jaguchi/config/app/blog-common/credentials.yaml
+      - path: 1/jaguchi/config/app/note/credentials.yaml
   deploy:
   - kapp:
       rawOptions:
