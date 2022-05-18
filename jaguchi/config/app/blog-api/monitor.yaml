@@ -1,0 +1,33 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: blog-api-management
+  namespace: making
+  labels:
+    app.kubernetes.io/part-of: blog-api
+    role: management
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/part-of: blog-api
+    app.kubernetes.io/component: run
+  ports:
+  - protocol: TCP
+    port: 8081
+    name: management
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: blog-api
+  namespace: making
+spec:
+  jobLabel: app.kubernetes.io/part-of
+  selector:
+    matchLabels:
+      app.kubernetes.io/part-of: blog-api
+      role: management
+  endpoints:
+  - path: /actuator/prometheus
+    port: management
+    interval: 30s
