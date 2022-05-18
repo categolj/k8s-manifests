@@ -29,6 +29,7 @@ spec:
       paths:
       - "-"
       - 1/jaguchi/config/app/blog-counter/workload.yaml
+      - 1/jaguchi/config/app/blog-counter/monitor.yaml
       - 1/jaguchi/config/app/blog-counter/counter-db-password.yaml
       valuesFrom:
       - path: 1/jaguchi/config/app/blog-counter/credentials.yaml
