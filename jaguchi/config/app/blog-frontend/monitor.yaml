@@ -31,3 +31,6 @@ spec:
   - path: /actuator/prometheus
     port: management
     interval: 30s
+    relabelings:
+    - sourceLabels: [ job ]
+      targetLabel: application
