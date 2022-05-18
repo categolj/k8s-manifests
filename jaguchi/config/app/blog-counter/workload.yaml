@@ -33,6 +33,9 @@ spec:
   - name: annotations
     value:
       autoscaling.knative.dev/minScale: "1"
+      prometheus.io/path: /actuator/prometheus
+      prometheus.io/port: "8081"
+      prometheus.io/scrape: "true"
   - name: gitops_branch
     value: blog-counter
   - name: gitops_commit_message
