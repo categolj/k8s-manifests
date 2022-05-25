@@ -14,6 +14,7 @@ spec:
   - ytt:
       paths:
       - jaguchi/kapp/app
+      - jaguchi/kapp/platform
   deploy:
   - kapp:
       rawOptions:
