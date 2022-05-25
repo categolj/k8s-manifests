@@ -1,0 +1,25 @@
+#@ load("@ytt:data", "data")
+apiVersion: v1
+kind: Secret
+metadata:
+  name: tsunagu-client-values
+  namespace: making
+  annotations:
+    kapp.k14s.io/change-group: "{name}"
+type: Opaque
+stringData:
+  #@yaml/text-templated-strings
+  tsunagu-client-values.yml: |
+    tsunagu:
+      namespace: making
+      create_namespace: false
+      remote: (@= data.values.tsunagu.remote @)    
+      token: (@= data.values.tsunagu.token @)
+      preserve_host: true
+      upstream: http://envoy.tanzu-system-ingress.svc.cluster.local
+      host_map:
+        ik.am: blog-frontend.making.svc.cluster.local
+        blog.ik.am: blog-frontend.making.svc.cluster.local
+        api.ik.am: blog-api.making.svc.cluster.local
+      path_to_host_map:
+        /rsocket: blog-api.making.svc.cluster.local

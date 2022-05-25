@@ -3,6 +3,8 @@ kind: PackageRepository
 metadata:
   name: tsunagu-repository
   namespace: making
+  annotations:
+    kapp.k14s.io/change-group: "{name}"
 spec:
   fetch:
     imgpkgBundle:
