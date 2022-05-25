@@ -8,3 +8,4 @@ auth:
   existingSecret: counter-db
 updateStrategy:
   type: Recreate
+disableSystemLog: true
