@@ -34,3 +34,5 @@ spec:
     relabelings:
     - sourceLabels: [ job ]
       targetLabel: application
+    - sourceLabels: [ __meta_kubernetes_pod_name ]
+      targetLabel: instance
