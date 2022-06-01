@@ -24,6 +24,7 @@ spec:
       paths:
       - tsunagu-client.yaml
       - tsunagu-client-values.yaml
+      - monitor.yaml
       valuesFrom:
       - path: tsunagu-client-credentials.yaml
   deploy:
