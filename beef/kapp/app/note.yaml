@@ -12,7 +12,7 @@ spec:
       subPath: beef/config/app/note
       secretRef:
         name: github
-  syncPeriod: 1m
+  syncPeriod: 168h
   template:
   - sops:
       pgp:

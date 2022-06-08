@@ -4,6 +4,7 @@ metadata:
   name: contour
   namespace: kapp
 spec:
+  syncPeriod: 168h
   serviceAccountName: kapp
   packageRef:
     refName: contour.tanzu.vmware.com

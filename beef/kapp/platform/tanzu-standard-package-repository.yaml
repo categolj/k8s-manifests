@@ -12,7 +12,7 @@ spec:
       subPath: common
       secretRef:
         name: github
-  syncPeriod: 24h
+  syncPeriod: 168h
   template:
   - ytt:
       ignoreUnknownComments: true
