@@ -50,9 +50,9 @@ spec:
     value: git-ssh
   resources:
     limits:
-      memory: 256Mi
+      memory: 256M
     requests:
-      memory: 256Mi
+      memory: 256M
   serviceClaims:
   - name: blog-db
     ref:
