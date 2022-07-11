@@ -3,6 +3,8 @@ kind: App
 metadata:
   name: tanzu-standard-package-repository
   namespace: kapp
+  annotations:
+    kapp.k14s.io/change-group: "{name}"
 spec:
   serviceAccountName: kapp
   fetch:
