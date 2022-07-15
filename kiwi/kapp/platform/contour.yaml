@@ -29,6 +29,7 @@ stringData:
       replicas: 1
     envoy:
       service:
+        type: LoadBalancer
         externalTrafficPolicy: Local
         nodePorts:
           http: 31080
