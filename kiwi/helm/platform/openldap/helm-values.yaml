@@ -1,0 +1,51 @@
+replicaCount: 1
+customTLS:
+  enabled: true
+  secret: openldap-tls
+service:
+  #! type: LoadBalancer
+  type: NodePort
+  ldapPortNodePort: 30389
+  sslLdapPortNodePort: 30636
+persistence:
+  size: 10Gi
+logLevel: info
+env:
+  LDAP_DOMAIN: ik.am
+  LDAP_ORGANISATION: IK.AM
+ltb-passwd:
+  ingress:
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-ik-am
+    hosts:
+    - ltb-passwd.kiwi.ik.am
+    tls:
+    - secretName: ltb-passwd-tls
+      hosts:
+      - ltb-passwd.kiwi.ik.am
+  ldap:
+    server: ldaps://ldap.kiwi.ik.am:636
+    searchBase: ou=people,dc=ik,dc=am
+    bindDN: cn=admin,dc=ik,dc=am
+customLdifFiles:
+  01-groups.ldif: |-
+    dn: ou=people,dc=ik,dc=am
+    objectClass: organizationalUnit
+    ou: people
+
+    dn: ou=groups,dc=ik,dc=am
+    objectClass: organizationalUnit
+    ou: groups
+phpldapadmin:
+  ingress:
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-ik-am
+    hosts:
+    - phpldapadmin.kiwi.ik.am
+    tls:
+    - secretName: phpldapadmin-tls
+      hosts:
+      - phpldapadmin.kiwi.ik.am
+  env:
+    PHPLDAPADMIN_HTTPS: "false"
+    PHPLDAPADMIN_LDAP_HOSTS: openldap-stack-ha
