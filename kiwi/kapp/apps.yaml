@@ -11,7 +11,7 @@ spec:
       ref: origin/main
       secretRef:
         name: github
-  syncPeriod: 10m
+  syncPeriod: 1h
   template:
   - ytt:
       paths:
