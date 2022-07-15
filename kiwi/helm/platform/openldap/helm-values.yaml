@@ -18,13 +18,13 @@ ltb-passwd:
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-ik-am
     hosts:
-    - ltb-passwd.kiwi.ik.am
+    - ltb-passwd.ik.am
     tls:
     - secretName: ltb-passwd-tls
       hosts:
-      - ltb-passwd.kiwi.ik.am
+      - ltb-passwd.ik.am
   ldap:
-    server: ldaps://ldap.kiwi.ik.am:636
+    server: ldaps://ldap.ik.am:636
     searchBase: ou=people,dc=ik,dc=am
     bindDN: cn=admin,dc=ik,dc=am
 customLdifFiles:
@@ -41,11 +41,11 @@ phpldapadmin:
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-ik-am
     hosts:
-    - phpldapadmin.kiwi.ik.am
+    - phpldapadmin.ik.am
     tls:
     - secretName: phpldapadmin-tls
       hosts:
-      - phpldapadmin.kiwi.ik.am
+      - phpldapadmin.ik.am
   env:
     PHPLDAPADMIN_HTTPS: "false"
     PHPLDAPADMIN_LDAP_HOSTS: openldap-stack-ha

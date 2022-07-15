@@ -37,7 +37,7 @@ spec:
             name: openldap-tls
           spec:
             dnsNames:
-            - ldap.kiwi.ik.am
+            - ldap.ik.am
             issuerRef:
               kind: ClusterIssuer
               name: letsencrypt-ik-am
