@@ -15,6 +15,7 @@ spec:
       ref: origin/main
       secretRef:
         name: github
+      subPath: common
   syncPeriod: 168h
   template:
   - sops:
@@ -23,9 +24,9 @@ spec:
           name: pgp-key
   - ytt:
       paths:
-      - common/cluster-issuer
+      - cluster-issuer
       valuesFrom:
-      - path: common/credentials.yaml
+      - path: credentials.yaml
   deploy:
   - kapp:
       rawOptions:
