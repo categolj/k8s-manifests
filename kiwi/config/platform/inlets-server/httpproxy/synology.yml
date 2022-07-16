@@ -1,0 +1,28 @@
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
+metadata:
+  name: synology-ik-am
+  namespace: inlets
+spec:
+  virtualhost:
+    fqdn: synology.ik.am
+    tls:
+      secretName: synology-ik-am-tls
+  routes:
+  - services:
+    - name: inlets-exit
+      port: 6868
+    enableWebsockets: true
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: synology-ik-am
+  namespace: inlets
+spec:
+  secretName: synology-ik-am-tls
+  issuerRef:
+    name: letsencrypt-ik-am
+    kind: ClusterIssuer
+  dnsNames:
+  - synology.ik.am
