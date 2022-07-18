@@ -24,6 +24,7 @@ spec:
       paths:
       - tsunagu-server.yaml
       - tsunagu-server-values.yaml
+      - httpproxy
       valuesFrom:
       - path: tsunagu-server-credentials.yaml
   deploy:
