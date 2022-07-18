@@ -5,8 +5,8 @@ metadata:
   namespace: kapp
   annotations:
     kapp.k14s.io/change-group: "{name}"
-    kapp.k14s.io/change-rule.create-order: "upsert after upserting tanzu-standard-package-repository"
-    kapp.k14s.io/change-rule.delete-order: "delete before deleting tanzu-standard-package-repository"
+    kapp.k14s.io/change-rule.create-order: "upsert after upserting tanzu-standard"
+    kapp.k14s.io/change-rule.delete-order: "delete before deleting tanzu-standard"
 spec:
   syncPeriod: 168h
   serviceAccountName: kapp
