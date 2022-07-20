@@ -25,6 +25,8 @@ spec:
     value: "28"
   - name: SPRING_SQL_INIT_MODE
     value: always
+  - name: SPRING_DATASOURCE_HIKARI_DATASOURCEPROPERTIES_SSLFACTORY
+    value: org.postgresql.ssl.DefaultJavaSSLFactory
   - name: SPRING_PROFILES_ACTIVE
     value: kubernetes
   - name: MANAGEMENT_METRICS_EXPORT_WAVEFRONT_ENABLED
@@ -76,6 +78,11 @@ spec:
       apiVersion: v1
       kind: Secret
       name: translation-config
+  - name: blog-db-tls-ca
+    ref:
+      apiVersion: v1
+      kind: Secret
+      name: blog-db-tls-ca-bindable
   source:
     git:
       ref:

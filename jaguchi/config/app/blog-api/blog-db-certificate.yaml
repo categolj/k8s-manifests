@@ -45,3 +45,70 @@ spec:
     kind: Issuer
     name: blog-db-ca-issuer
   secretName: blog-db-tls
+---
+apiVersion: secretgen.carvel.dev/v1alpha1
+kind: SecretTemplate
+metadata:
+  name: blog-db-tls-ca-bindable
+  namespace: making
+spec:
+  serviceAccountName: certificate-reader
+  inputResources:
+  - name: certificate
+    ref:
+      apiVersion: cert-manager.io/v1
+      kind: Certificate
+      name: blog-db-tls
+  - name: secret
+    ref:
+      apiVersion: v1
+      kind: Secret
+      name: $(.certificate.spec.secretName)
+  template:
+    type: servicebinding.io/ca-certificates
+    stringData:
+      type: ca-certificates
+    data:
+      ca.crt: $(.secret.data.ca\.crt)
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: certificate-reader
+  namespace: making
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: certificate-reader
+  namespace: making
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - cert-manager.io
+  resources:
+  - certificates
+  verbs:
+  - get
+  - list
+  - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: certificate-reader
+  namespace: making
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: certificate-reader
+subjects:
+- kind: ServiceAccount
+  name: certificate-reader

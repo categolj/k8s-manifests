@@ -64,6 +64,11 @@ spec:
       apiVersion: v1
       kind: Secret
       name: blog-config
+  - name: blog-db-tls-ca
+    ref:
+      apiVersion: v1
+      kind: Secret
+      name: blog-db-tls-ca-bindable
   source:
     git:
       ref:
