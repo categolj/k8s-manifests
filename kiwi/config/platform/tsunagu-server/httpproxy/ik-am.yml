@@ -16,12 +16,6 @@ spec:
     - name: tsunagu-server
       port: 80
       weight: 100
-    - name: sorry-server
-      port: 8080
-      weight: 0
-#    - name: blog-api
-#      port: 8080
-#      weight: 0
   - services:
     - name: tsunagu-server
       port: 80
