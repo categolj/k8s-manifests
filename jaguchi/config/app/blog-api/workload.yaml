@@ -18,9 +18,15 @@ spec:
   - name: SPRING_PROFILES_ACTIVE
     value: kubernetes
   - name: BLOG_GITHUB_ACCESS_TOKEN
-    value: "${k8s.bindings.blog-config.github-access-token}"
+    valueFrom:
+      secretKeyRef:
+        name: blog-config
+        key: github-access-token
   - name: BLOG_GITHUB_WEBHOOK_SECRET
-    value: "${k8s.bindings.blog-config.github-webhook-secret}"
+    valueFrom:
+      secretKeyRef:
+        name: blog-config
+        key: github-webhook-secret
   - name: MANAGEMENT_ENDPOINT_HEAPDUMP_ENABLED
     value: "false"
   - name: MANAGEMENT_ENDPOINT_THREADDUMP_ENABLED
@@ -59,11 +65,6 @@ spec:
       apiVersion: v1
       kind: Secret
       name: blog-db
-  - name: blog-config
-    ref:
-      apiVersion: v1
-      kind: Secret
-      name: blog-config
   - name: blog-db-tls-ca
     ref:
       apiVersion: v1
