@@ -16,6 +16,12 @@ spec:
     - name: tsunagu-server
       port: 80
       weight: 100
+  - conditions:
+    - prefix: /note
+    services:
+    - name: note-ui
+      port: 8080
+      weight: 100
   - services:
     - name: tsunagu-server
       port: 80
