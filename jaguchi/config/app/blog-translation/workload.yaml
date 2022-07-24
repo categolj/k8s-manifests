@@ -16,7 +16,10 @@ spec:
   - name: TRANSLATOR_BLOGAPIURL
     value: http://blog-api.making.svc.cluster.local
   - name: TRANSLATOR_GOOGLEAPIKEY
-    value: "${k8s.bindings.translation-config.google-api-key}"
+    valueFrom:
+      secretKeyRef:
+        name: translation-config
+        key: google-api-key
   - name: JAVA_TOOL_OPTIONS
     value: "-XX:ReservedCodeCacheSize=32M -Xss512k -Duser.timezone=Asia/Tokyo -Duser.language=ja -Duser.country=JP -Dfile.encoding=UTF-8"
   - name: SERVER_PORT
@@ -73,11 +76,6 @@ spec:
       apiVersion: v1
       kind: Secret
       name: blog-db
-  - name: translation-config
-    ref:
-      apiVersion: v1
-      kind: Secret
-      name: translation-config
   - name: blog-db-tls-ca
     ref:
       apiVersion: v1
