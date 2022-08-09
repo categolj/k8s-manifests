@@ -30,14 +30,6 @@ spec:
       response: 20s
     retryPolicy:
       count: 3
-  - services:
-    - name: tsunagu-server
-      port: 80
-      weight: 100
-    timeoutPolicy:
-      response: 20s
-    retryPolicy:
-      count: 3
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
