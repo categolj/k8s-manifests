@@ -12,58 +12,32 @@ spec:
   - conditions:
     - prefix: /rsocket
     enableWebsockets: true
-    timeoutPolicy:
-      response: 20s
-    retryPolicy:
-      count: 3
     services:
     - name: tsunagu-server
       port: 80
       weight: 100
-  - conditions:
-    - prefix: /note
     timeoutPolicy:
       response: 20s
     retryPolicy:
       count: 3
-    services:
-    - name: note-ui
-      port: 8080
-      weight: 100
   - conditions:
-    - prefix: /static/css/main.c30b19ad.chunk.css
+    - prefix: /note
     services:
     - name: note-ui
       port: 8080
       weight: 100
-  - conditions:
-    - prefix: /static/css/2.9ce20199.chunk.css
-    services:
-    - name: note-ui
-      port: 8080
-      weight: 100
-  - conditions:
-    - prefix: /static/js/2.c92f3f00.chunk.js
-    services:
-    - name: note-ui
-      port: 8080
-      weight: 100
-  - conditions:
-    - prefix: /static/js/main.0857198f.chunk.js
-    services:
-    - name: note-ui
-      port: 8080
-      weight: 100
-  - conditions:
-    - prefix: /static/media/SourceSansPro
-    services:
-    - name: note-ui
-      port: 8080
-      weight: 100
+    timeoutPolicy:
+      response: 20s
+    retryPolicy:
+      count: 3
   - services:
     - name: tsunagu-server
       port: 80
       weight: 100
+    timeoutPolicy:
+      response: 20s
+    retryPolicy:
+      count: 3
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate

@@ -20,14 +20,14 @@ spec:
       - "*"
       maxAge: "60m"
   routes:
-  - timeoutPolicy:
-      response: 20s
-    retryPolicy:
-      count: 3
-    services:
+  - services:
     - name: note
       port: 8080
       weight: 100
+    timeoutPolicy:
+      response: 20s
+    retryPolicy:
+      count: 3
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
