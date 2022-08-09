@@ -20,9 +20,7 @@ spec:
       response: 20s
     retryPolicy:
       count: 3
-  - conditions:
-    - prefix: /note
-    services:
+  - services:
     - name: note-ui
       port: 8080
       weight: 100
