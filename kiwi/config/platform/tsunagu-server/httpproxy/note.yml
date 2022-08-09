@@ -20,7 +20,11 @@ spec:
       - "*"
       maxAge: "60m"
   routes:
-  - services:
+  - timeoutPolicy:
+      response: 20s
+    retryPolicy:
+      count: 3
+    services:
     - name: note
       port: 8080
       weight: 100
