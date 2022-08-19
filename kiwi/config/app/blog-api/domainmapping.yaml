@@ -7,4 +7,4 @@ spec:
   ref:
     apiVersion: serving.knative.dev/v1
     kind: Service
-    name: blog-ui
+    name: blog-api
