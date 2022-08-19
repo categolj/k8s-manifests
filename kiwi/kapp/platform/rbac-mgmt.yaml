@@ -23,10 +23,6 @@ spec:
             create_namespace: true
             tap:
               enabled: true
-          - namespace: making
-            create_namespace: true
-            tap:
-              enabled: true
   syncPeriod: 1h
   template:
   - ytt:
