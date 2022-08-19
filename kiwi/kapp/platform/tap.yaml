@@ -2,17 +2,25 @@ apiVersion: packaging.carvel.dev/v1alpha1
 kind: PackageInstall
 metadata:
   name: tap
-  namespace: kapp
+  namespace: tap-install
   annotations:
+    tkg.tanzu.vmware.com/tanzu-package-ClusterRole: tap-tap-install-cluster-role
+    tkg.tanzu.vmware.com/tanzu-package-ClusterRoleBinding: tap-tap-install-cluster-rolebinding
+    tkg.tanzu.vmware.com/tanzu-package-Secret: tap-tap-install-values
+    tkg.tanzu.vmware.com/tanzu-package-ServiceAccount: tap-tap-install-sa
     kapp.k14s.io/change-group: "{name}"
     kapp.k14s.io/change-rule.create-order.0: "upsert after upserting tanzu-tap-repository"
     kapp.k14s.io/change-rule.delete-order.0: "delete before deleting tanzu-tap-repository"
-    kapp.k14s.io/change-rule.create-order.1: "upsert after upserting tap-overlays"
-    kapp.k14s.io/change-rule.delete-order.1: "delete before deleting tap-overlays"
-    kapp.k14s.io/change-rule.create-order.2: "upsert after upserting contour"
-    kapp.k14s.io/change-rule.delete-order.2: "delete before deleting contour"
-    kapp.k14s.io/change-rule.create-order.3: "upsert after upserting cert-manager"
-    kapp.k14s.io/change-rule.delete-order.3: "delete before deleting cert-manager"
+    kapp.k14s.io/change-rule.create-order.1: "upsert after upserting tap-rbac"
+    kapp.k14s.io/change-rule.delete-order.1: "delete before deleting tap-rbac"
+    kapp.k14s.io/change-rule.create-order.2: "upsert after upserting tap-values"
+    kapp.k14s.io/change-rule.delete-order.2: "delete before deleting tap-values"
+    kapp.k14s.io/change-rule.create-order.3: "upsert after upserting tap-overlays"
+    kapp.k14s.io/change-rule.delete-order.3: "delete before deleting tap-overlays"
+    kapp.k14s.io/change-rule.create-order.4: "upsert after upserting contour"
+    kapp.k14s.io/change-rule.delete-order.4: "delete before deleting contour"
+    kapp.k14s.io/change-rule.create-order.5: "upsert after upserting cert-manager"
+    kapp.k14s.io/change-rule.delete-order.5: "delete before deleting cert-manager"
 spec:
   syncPeriod: 3h
   serviceAccountName: kapp
@@ -23,23 +31,18 @@ spec:
       prereleases: {}
   values:
   - secretRef:
-      name: tap-kapp-values
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: tap-install
-  annotations:
-    kapp.k14s.io/change-group: "tap-ns"
+      name: tap-tap-install-values
 ---
 apiVersion: v1
 kind: Secret
 metadata:
-  name: tap-kapp-values
-  namespace: kapp
+  name: tap-tap-install-values
+  namespace: tap-install
+  annotations:
+    kapp.k14s.io/change-group: "tap-install-values"
 type: Opaque
 stringData:
-  values.yml: |
+  tap-values.yml: |
     ---
     profile: run
     
@@ -71,11 +74,51 @@ stringData:
     - policy.apps.tanzu.vmware.com
     - services-toolkit.tanzu.vmware.com
 ---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  annotations:
+    tkg.tanzu.vmware.com/tanzu-package: tap-tap-install
+    kapp.k14s.io/change-group: "tap-rbac"
+  name: tap-tap-install-cluster-role
+rules:
+- apiGroups:
+  - '*'
+  resources:
+  - '*'
+  verbs:
+  - '*'
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  annotations:
+    tkg.tanzu.vmware.com/tanzu-package: tap-tap-install
+    kapp.k14s.io/change-group: "tap-rbac"
+  name: tap-tap-install-cluster-rolebinding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: tap-tap-install-cluster-role
+subjects:
+- kind: ServiceAccount
+  name: tap-tap-install-sa
+  namespace: tap-install
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  annotations:
+    tkg.tanzu.vmware.com/tanzu-package: tap-tap-install
+    kapp.k14s.io/change-group: "tap-rbac"
+  name: tap-tap-install-sa
+  namespace: tap-install
+---
 apiVersion: v1
 kind: Secret
 metadata:
   name: cnrs-slim
-  namespace: kapp
+  namespace: tap-install
   annotations:
     kapp.k14s.io/change-group: "tap-overlays"
 type: Opaque
@@ -99,7 +142,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: cnrs-default-tls
-  namespace: kapp
+  namespace: tap-install
   annotations:
     kapp.k14s.io/change-group: "tap-overlays"
 type: Opaque
@@ -144,7 +187,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: tap-telemetry-remove
-  namespace: kapp
+  namespace: tap-install
   annotations:
     kapp.k14s.io/change-group: "tap-overlays"
 type: Opaque
