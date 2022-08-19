@@ -53,7 +53,7 @@ spec:
       rawOptions:
       - --wait-timeout=5m
       - --diff-changes=true
-      - --diff-mask=false
+      - --diff-mask=true
 ---
 apiVersion: packaging.carvel.dev/v1alpha1
 kind: PackageRepository
