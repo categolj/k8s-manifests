@@ -61,6 +61,7 @@ stringData:
       secrets:
       - name: cnrs-default-tls
       - name: cnrs-slim
+      - name: cnrs-autocreate-cluster-domain-claims
     - name: tap-telemetry
       secrets:
       - name: tap-telemetry-remove
@@ -182,6 +183,23 @@ stringData:
       default-external-scheme: https
       #@overlay/match missing_ok=True
       http-protocol: Redirected
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cnrs-autocreate-cluster-domain-claims
+  namespace: tap-install
+  annotations:
+    kapp.k14s.io/change-group: "tap-overlays"
+type: Opaque
+stringData:
+  cnrs-autocreate-cluster-domain-claims.yml: |
+    #@ load("@ytt:overlay", "overlay")
+    #@overlay/match by=overlay.subset({"metadata":{"name":"config-network"}, "kind": "ConfigMap"})
+    ---
+    data:
+      #@overlay/match missing_ok=True
+      autocreate-cluster-domain-claims: "true"
 ---
 apiVersion: v1
 kind: Secret
