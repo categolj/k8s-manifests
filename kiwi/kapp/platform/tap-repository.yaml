@@ -9,6 +9,10 @@ spec:
   syncPeriod: 1h
   serviceAccountName: kapp
   fetch:
+  - git:
+      url: https://github.com/categolj/k8s-manifests.git
+      ref: origin/main
+      subPath: kiwi/config/platform/tap
   - inline:
       paths:
         secret.yaml: |
@@ -51,7 +55,9 @@ spec:
           name: pgp-key
   - ytt:
       paths:
-      - "."
+      - "1"
+      valuesFrom:
+      - path: 0/kiwi/config/platform/tap/tap-credentials.yaml
   deploy:
   - kapp:
       rawOptions:
