@@ -161,6 +161,8 @@ stringData:
     spec:
       dnsNames:
       - #@ "*.{}".format(data.values.domain_name)
+      - #@ "*.{}".format(data.values.domain_name.replace("apps.", ""))
+      - #@ data.values.domain_name.replace("apps.", "")
       issuerRef:
         kind: ClusterIssuer
         name: letsencrypt-ik-am
