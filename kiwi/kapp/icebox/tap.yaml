@@ -26,6 +26,13 @@ spec:
       name: tap-kapp-values
 ---
 apiVersion: v1
+kind: Namespace
+metadata:
+  name: tap-install
+  annotations:
+    kapp.k14s.io/change-group: "tap-ns"
+---
+apiVersion: v1
 kind: Secret
 metadata:
   name: tap-kapp-values
