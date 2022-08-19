@@ -23,7 +23,7 @@ metadata:
     kapp.k14s.io/change-rule.delete-order.5: "delete before deleting cert-manager"
 spec:
   syncPeriod: 3h
-  serviceAccountName: kapp
+  serviceAccountName: tap-tap-install-sa
   packageRef:
     refName: tap.tanzu.vmware.com
     versionSelection:
