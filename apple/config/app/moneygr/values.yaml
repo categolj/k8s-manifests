@@ -1,6 +1,0 @@
-#@data/values
-#@overlay/match-child-defaults missing_ok=True
----
-git_repo: https://github.com/maki-home/moneygr2
-git_commit: 44407528a6d26037633ecdde95037d3bc098bba8
-image_digest: sha256:0032a63e1dcf943aba683b6fa768555e8e5c98a5cb8f961033d5d82c910a2113
