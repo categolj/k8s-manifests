@@ -38,16 +38,6 @@ spec:
                   }
                 }
               }
-        secret-export.yaml: |
-          ---
-          apiVersion: secretgen.carvel.dev/v1alpha1
-          kind: SecretExport
-          metadata:
-            name: tap-registry
-            namespace: kapp
-          spec:
-            toNamespaces:
-            - '*'
   template:
   - sops:
       pgp:
