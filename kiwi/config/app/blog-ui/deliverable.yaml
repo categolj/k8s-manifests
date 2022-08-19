@@ -1,0 +1,19 @@
+apiVersion: carto.run/v1alpha1
+kind: Deliverable
+metadata:
+  labels:
+    app.kubernetes.io/part-of: blog-ui
+    app.tanzu.vmware.com/deliverable-type: web
+  name: blog-ui
+  namespace: blog
+spec:
+  params:
+  - name: gitops_ssh_secret
+    value: git-basic
+  - name: gitops_sub_path
+    value: config/blog/blog-ui
+  source:
+    git:
+      ref:
+        branch: main
+      url: https://github.com/categolj/tap-gitops.git
