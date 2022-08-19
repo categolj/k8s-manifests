@@ -18,7 +18,6 @@ spec:
           name: pgp-key
   - ytt:
       paths:
-      - "-"
       - blog-api
       valuesFrom:
       - path: blog-common/credentials.yaml
