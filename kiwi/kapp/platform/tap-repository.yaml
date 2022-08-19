@@ -57,7 +57,7 @@ spec:
       paths:
       - "1"
       valuesFrom:
-      - path: 0/kiwi/config/platform/tap/tap-credentials.yaml
+      - path: 0/tap-credentials.yaml
   deploy:
   - kapp:
       rawOptions:
