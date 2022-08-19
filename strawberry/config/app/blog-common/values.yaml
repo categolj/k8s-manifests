@@ -1,6 +1,0 @@
-#@data/values
-#@overlay/match-child-defaults missing_ok=True
----
-namespace_suffix: ""
-cluster_issuer_name:
-subdomain:
