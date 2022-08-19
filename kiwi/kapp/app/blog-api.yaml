@@ -1,7 +1,7 @@
 apiVersion: kappctrl.k14s.io/v1alpha1
 kind: App
 metadata:
-  name: blog-ui
+  name: blog-api
   namespace: kapp
 spec:
   serviceAccountName: kapp
@@ -12,9 +12,16 @@ spec:
       subPath: kiwi/config/app
   syncPeriod: 10m
   template:
+  - sops:
+      pgp:
+        privateKeysSecretRef:
+          name: pgp-key
   - ytt:
       paths:
-      - blog-ui
+      - "-"
+      - blog-api
+      valuesFrom:
+      - path: blog-common/credentials.yaml
   deploy:
   - kapp:
       rawOptions:

@@ -1,0 +1,17 @@
+#@ load("@ytt:data", "data")
+apiVersion: v1
+kind: Secret
+metadata:
+  name: blog-db
+  namespace: blog
+  labels:
+    app.kubernetes.io/part-of: blog-api
+type: servicebinding.io/postgresql
+stringData:
+  type: postgresql
+  host: #@ data.values.blog_db.host
+  port: "5432"
+  username: #@ data.values.blog_db.username
+  password: #@ data.values.blog_db.password
+  database: blog
+  sslmode: verify-ca
