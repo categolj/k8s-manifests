@@ -15,7 +15,6 @@ spec:
   - inline:
       paths:
         rbac-mgmt-data-values.yaml: |
-          #@data/values
           ---
           registry_credentials:
             import_from_namespace: tap-install
