@@ -1,0 +1,149 @@
+apiVersion: packaging.carvel.dev/v1alpha1
+kind: PackageInstall
+metadata:
+  name: tap
+  namespace: kapp
+  annotations:
+    kapp.k14s.io/change-group: "{name}"
+    kapp.k14s.io/change-rule.create-order.0: "upsert after upserting tanzu-tap-repository"
+    kapp.k14s.io/change-rule.delete-order.0: "delete before deleting tanzu-tap-repository"
+    kapp.k14s.io/change-rule.create-order.1: "upsert after upserting tap-overlays"
+    kapp.k14s.io/change-rule.delete-order.1: "delete before deleting tap-overlays"
+    kapp.k14s.io/change-rule.create-order.2: "upsert after upserting contour"
+    kapp.k14s.io/change-rule.delete-order.2: "delete before deleting contour"
+    kapp.k14s.io/change-rule.create-order.3: "upsert after upserting cert-manager"
+    kapp.k14s.io/change-rule.delete-order.3: "delete before deleting cert-manager"
+spec:
+  syncPeriod: 3h
+  serviceAccountName: kapp
+  packageRef:
+    refName: tap.tanzu.vmware.com
+    versionSelection:
+      constraints: 1.2.1
+      prereleases: {}
+  values:
+  - secretRef:
+      name: tap-kapp-values
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: tap-kapp-values
+  namespace: kapp
+type: Opaque
+stringData:
+  values.yml: |
+    ---
+    profile: run
+    
+    ceip_policy_disclosed: true
+    
+    cnrs:
+      domain_name: apps.ik.am
+      domain_template: "{{.Name}}-{{.Namespace}}.{{.Domain}}"
+      default_tls_secret: tanzu-system-ingress/cnrs-default-tls
+      provider: local
+    
+    supply_chain: basic
+
+    package_overlays:
+    - name: cnrs
+      secrets:
+      - name: cnrs-default-tls
+      - name: cnrs-slim
+    - name: tap-telemetry
+      secrets:
+      - name: tap-telemetry-remove
+
+    excluded_packages:
+    - cert-manager.tanzu.vmware.com 
+    - contour.tanzu.vmware.com
+    - connector.appliveview.tanzu.vmware.com
+    - sso.apps.tanzu.vmware.com
+    - image-policy-webhook.signing.apps.tanzu.vmware.com
+    - policy.apps.tanzu.vmware.com
+    - services-toolkit.tanzu.vmware.com
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cnrs-slim
+  namespace: kapp
+  annotations:
+    kapp.k14s.io/change-group: "tap-overlays"
+type: Opaque
+stringData:
+  cnrs-slim.yml: |
+    #@ load("@ytt:overlay", "overlay")
+    #@overlay/match by=overlay.subset({"metadata":{"namespace":"knative-eventing"}}), expects="1+"
+    #@overlay/remove
+    ---
+    #@overlay/match by=overlay.subset({"metadata":{"namespace":"knative-sources"}}), expects="1+"
+    #@overlay/remove
+    ---
+    #@overlay/match by=overlay.subset({"metadata":{"namespace":"triggermesh"}}), expects="1+"
+    #@overlay/remove
+    ---
+    #@overlay/match by=overlay.subset({"metadata":{"namespace":"vmware-sources"}}), expects="1+"
+    #@overlay/remove
+    ---
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cnrs-default-tls
+  namespace: kapp
+  annotations:
+    kapp.k14s.io/change-group: "tap-overlays"
+type: Opaque
+stringData:
+  cnrs-default-tls.yml: |
+    #@ load("@ytt:data", "data")
+    #@ load("@ytt:overlay", "overlay")
+    #@ namespace = data.values.ingress.external.namespace
+    ---
+    apiVersion: cert-manager.io/v1
+    kind: Certificate
+    metadata:
+      name: cnrs-default-tls
+      namespace: #@ namespace
+    spec:
+      dnsNames:
+      - #@ "*.{}".format(data.values.domain_name)
+      issuerRef:
+        kind: ClusterIssuer
+        name: letsencrypt-ik-am
+      secretName: cnrs-default-tls
+    ---
+    apiVersion: projectcontour.io/v1
+    kind: TLSCertificateDelegation
+    metadata:
+      name: contour-delegation
+      namespace: #@ namespace
+    spec:
+      delegations:
+      - secretName: cnrs-default-tls
+        targetNamespaces:
+        - "*"
+    #@overlay/match by=overlay.subset({"metadata":{"name":"config-network"}, "kind": "ConfigMap"})
+    ---
+    data:
+      #@overlay/match missing_ok=True
+      default-external-scheme: https
+      #@overlay/match missing_ok=True
+      http-protocol: Redirected
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: tap-telemetry-remove
+  namespace: kapp
+  annotations:
+    kapp.k14s.io/change-group: "tap-overlays"
+type: Opaque
+stringData:
+  tap-telemetry-remove.yml: |
+    #@ load("@ytt:overlay", "overlay")
+    #@overlay/match by=overlay.subset({"metadata":{"namespace":"tap-telemetry"}}), expects="1+"
+    #@overlay/remove
+    ---
