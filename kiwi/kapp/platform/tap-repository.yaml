@@ -17,13 +17,18 @@ spec:
       subPath: kiwi/config/platform/tap
   - inline:
       paths:
+        namespace.yaml: |
+          apiVersion: v1
+          kind: Namespace
+          metadata:
+            name: tap-install
         secret.yaml: |
           #@ load("@ytt:data", "data")
           apiVersion: v1
           kind: Secret
           metadata:
             name: tap-registry
-            namespace: kapp
+            namespace: tap-install
           type: kubernetes.io/dockerconfigjson
           stringData:
             #@yaml/text-templated-strings
@@ -46,7 +51,7 @@ spec:
           kind: SecretExport
           metadata:
             name: tap-registry
-            namespace: kapp
+            namespace: tap-install
           spec:
             toNamespaces:
             - '*'
