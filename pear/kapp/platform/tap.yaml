@@ -45,8 +45,6 @@ stringData:
     ceip_policy_disclosed: true
     
     contour:
-      contour:
-        replicas: 1
       envoy:
         service:
           nodePorts:
