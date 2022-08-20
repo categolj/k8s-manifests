@@ -17,11 +17,6 @@ spec:
       subPath: pear/config/platform/tap
   - inline:
       paths:
-        namespace.yaml: |
-          apiVersion: v1
-          kind: Namespace
-          metadata:
-            name: tap-install
         secret.yaml: |
           #@ load("@ytt:data", "data")
           apiVersion: v1

@@ -12,12 +12,20 @@ spec:
       secretRef:
         name: github
       subPath: pear/kapp
+  - inline:
+      paths:
+        namespace.yaml: |
+          apiVersion: v1
+          kind: Namespace
+          metadata:
+            name: tap-install
   syncPeriod: 10m
   template:
   - ytt:
       paths:
-      - platform
-      - app
+      - 0/platform
+      - 0/app
+      - 1/namespace.yaml
   deploy:
   - kapp:
       rawOptions:
