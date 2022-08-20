@@ -17,10 +17,6 @@ metadata:
     kapp.k14s.io/change-rule.delete-order.2: "delete before deleting tap-values"
     kapp.k14s.io/change-rule.create-order.3: "upsert after upserting tap-overlays"
     kapp.k14s.io/change-rule.delete-order.3: "delete before deleting tap-overlays"
-    kapp.k14s.io/change-rule.create-order.4: "upsert after upserting contour"
-    kapp.k14s.io/change-rule.delete-order.4: "delete before deleting contour"
-    kapp.k14s.io/change-rule.create-order.5: "upsert after upserting cert-manager"
-    kapp.k14s.io/change-rule.delete-order.5: "delete before deleting cert-manager"
 spec:
   syncPeriod: 3h
   serviceAccountName: tap-tap-install-sa
@@ -48,6 +44,19 @@ stringData:
     
     ceip_policy_disclosed: true
     
+    contour:
+      infrastructure_provider: "vsphere"
+      namespace: tanzu-system-ingress
+      contour:
+        replicas: 1
+      envoy:
+        service:
+          type: NodePort
+          externalTrafficPolicy: Local
+          nodePorts:
+            http: 31080
+            https: 31443
+    
     cnrs:
       domain_name: apps.ik.am
       domain_template: "{{.Name}}-{{.Namespace}}.{{.Domain}}"
@@ -67,8 +76,6 @@ stringData:
       - name: tap-telemetry-remove
 
     excluded_packages:
-    - cert-manager.tanzu.vmware.com 
-    - contour.tanzu.vmware.com
     - connector.appliveview.tanzu.vmware.com
     - sso.apps.tanzu.vmware.com
     - image-policy-webhook.signing.apps.tanzu.vmware.com
