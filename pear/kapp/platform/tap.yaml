@@ -49,8 +49,6 @@ stringData:
         replicas: 1
       envoy:
         service:
-          type: NodePort
-          externalTrafficPolicy: Local
           nodePorts:
             http: 31080
             https: 31443
