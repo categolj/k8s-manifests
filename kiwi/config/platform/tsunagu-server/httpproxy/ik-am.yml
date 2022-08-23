@@ -40,14 +40,11 @@ spec:
     - name: note-ui
       port: 8080
       weight: 100
-  - services:
-    - name: tsunagu-server
-      port: 80
-      weight: 100
-    timeoutPolicy:
-      response: 20s
-    retryPolicy:
-      count: 3
+  includes:
+  - name: blog-ui
+    namespace: blog
+    conditions:
+    - prefix: /
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
