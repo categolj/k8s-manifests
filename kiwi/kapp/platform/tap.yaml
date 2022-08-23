@@ -190,8 +190,6 @@ stringData:
     data:
       #@overlay/match missing_ok=True
       default-external-scheme: https
-      #@overlay/match missing_ok=True
-      http-protocol: Redirected
 ---
 apiVersion: v1
 kind: Secret
