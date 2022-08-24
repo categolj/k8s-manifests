@@ -7,11 +7,10 @@ metadata:
   name: blog-ui
   namespace: blog
 spec:
-  env:
-  - name: NEXT_PUBLIC_APP_BLOG_API
-    value: auto
   build:
     env:
+    - name: NEXT_PUBLIC_APP_BLOG_API
+      value: auto
     - name: BP_NODE_RUN_SCRIPTS
       value: build
     - name: BP_NODE_OPTIMIZE_MEMORY
