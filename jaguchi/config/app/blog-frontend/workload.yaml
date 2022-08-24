@@ -18,7 +18,7 @@ spec:
       value: auto
   env:
   - name: BLOGAPI_URL
-    value: http://blog-api.making.svc.cluster.local
+    value: http://blog-api.blog.svc.cluster.local
   - name: COUNTERAPI_URL
     value: http://blog-counter.making.svc.cluster.local
   - name: TRANSLATIONAPI_URL
