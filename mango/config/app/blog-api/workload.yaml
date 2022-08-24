@@ -43,7 +43,7 @@ spec:
       prometheus.io/port: "8081"
       prometheus.io/scrape: "true"
   - name: gitops_branch
-    value: main
+    value: mango
   - name: gitops_commit_message
     value: Bump
   - name: gitops_server_address
