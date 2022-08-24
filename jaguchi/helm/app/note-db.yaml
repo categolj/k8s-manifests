@@ -1,7 +1,0 @@
-auth:
-  database: note
-  username: note
-  existingSecret: note-db
-primary:
-  persistence:
-    size: 8Gi
