@@ -4,6 +4,20 @@ metadata:
   name: blog-api
   namespace: blog
 spec:
+  virtualhost:
+    fqdn: api.ik.am
+    tls:
+      secretName: tanzu-system-ingress/cnrs-default-tls
+    corsPolicy:
+      allowCredentials: true
+      allowOrigin:
+      - "*"
+      allowMethods:
+      - GET
+      - OPTIONS
+      allowHeaders:
+      - "*"
+      maxAge: "60m"
   routes:
   - enableWebsockets: true
     permitInsecure: true
