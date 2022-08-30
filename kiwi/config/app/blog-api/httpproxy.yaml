@@ -20,7 +20,6 @@ spec:
       maxAge: "60m"
   routes:
   - enableWebsockets: true
-    permitInsecure: true
     requestHeadersPolicy:
       set:
       - name: Host
