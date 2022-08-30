@@ -20,6 +20,28 @@ spec:
       - "*"
       maxAge: "60m"
   routes:
+  - conditions:
+    - prefix: /note
+    enableWebsockets: true
+    services:
+    - name: note-ui
+      port: 8080
+      weight: 100
+    timeoutPolicy:
+      response: 20s
+    retryPolicy:
+      count: 3
+  - conditions:
+    - prefix: /static
+    enableWebsockets: true
+    services:
+    - name: note-ui
+      port: 8080
+      weight: 100
+    timeoutPolicy:
+      response: 20s
+    retryPolicy:
+      count: 3
   - services:
     - name: note
       port: 8080
