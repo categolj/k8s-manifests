@@ -33,11 +33,11 @@ spec:
           value: ik.am
       weight: 100
   includes:
-  - name: note-dev-ik-am
+  - name: note-ui
     namespace: note
     conditions:
     - prefix: /note
-  - name: note-dev-ik-am
+  - name: note-ui
     namespace: note
     conditions:
     - prefix: /static

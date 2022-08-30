@@ -20,28 +20,6 @@ spec:
       - "*"
       maxAge: "60m"
   routes:
-  - conditions:
-    - prefix: /note
-    enableWebsockets: true
-    services:
-    - name: note-ui
-      port: 8080
-      weight: 100
-    timeoutPolicy:
-      response: 20s
-    retryPolicy:
-      count: 3
-  - conditions:
-    - prefix: /static
-    enableWebsockets: true
-    services:
-    - name: note-ui
-      port: 8080
-      weight: 100
-    timeoutPolicy:
-      response: 20s
-    retryPolicy:
-      count: 3
   - services:
     - name: note
       port: 8080
@@ -96,3 +74,20 @@ spec:
     kind: ClusterIssuer
   dnsNames:
   - blog.ik.am
+---
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
+metadata:
+  name: note-ui
+  namespace: note
+spec:
+  routes:
+  - services:
+    - name: note-ui
+      port: 8080
+      weight: 100
+    timeoutPolicy:
+      response: 20s
+    retryPolicy:
+      count: 3
+    enableWebsockets: true
