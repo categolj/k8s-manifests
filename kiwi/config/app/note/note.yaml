@@ -2,7 +2,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: note
-  namespace: tsunagu
+  namespace: note
   labels:
     app: note
 spec:
@@ -17,7 +17,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: note
-  namespace: tsunagu
+  namespace: note
 spec:
   replicas: 1
   revisionHistoryLimit: 4
