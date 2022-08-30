@@ -13,9 +13,7 @@ spec:
       allowOrigin:
       - "*"
       allowMethods:
-      - GET
-      - POST
-      - OPTIONS
+      - "*"
       allowHeaders:
       - "*"
       maxAge: "60m"
