@@ -63,3 +63,36 @@ spec:
     kind: ClusterIssuer
   dnsNames:
   - note.dev.ik.am
+---
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
+metadata:
+  name: blog-ik-am
+  namespace: note
+spec:
+  virtualhost:
+    fqdn: blog.ik.am
+    tls:
+      secretName: blog-ik-am-tls
+  routes:
+  - services:
+    - name: note-ui
+      port: 8080
+      weight: 100
+    timeoutPolicy:
+      response: 20s
+    retryPolicy:
+      count: 3
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: blog-ik-am
+  namespace: note
+spec:
+  secretName: blog-ik-am-tls
+  issuerRef:
+    name: letsencrypt-ik-am
+    kind: ClusterIssuer
+  dnsNames:
+  - blog.ik.am
