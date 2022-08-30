@@ -4,6 +4,10 @@ metadata:
   name: blog-ui
   namespace: blog
 spec:
+  virtualhost:
+    fqdn: ik.am
+    tls:
+      secretName: tanzu-system-ingress/cnrs-default-tls
   routes:
   - enableWebsockets: true
     requestHeadersPolicy:
@@ -28,3 +32,9 @@ spec:
         - name: K-Original-Host
           value: ik.am
       weight: 100
+  includes:
+  - name: note-dev-ik-am
+    namespace: note
+    conditions:
+    - prefix: /note
+    - prefix: /static
