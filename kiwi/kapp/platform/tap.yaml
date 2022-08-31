@@ -52,7 +52,7 @@ stringData:
       envoy:
         service:
           type: NodePort
-          externalTrafficPolicy: Local
+          #! externalTrafficPolicy: Local
           nodePorts:
             http: 31080
             https: 31443
