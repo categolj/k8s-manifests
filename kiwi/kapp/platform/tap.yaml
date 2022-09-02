@@ -49,6 +49,8 @@ stringData:
       namespace: tanzu-system-ingress
       contour:
         replicas: 1
+        configFileContents:
+          accesslog-format: json
       envoy:
         service:
           type: NodePort
