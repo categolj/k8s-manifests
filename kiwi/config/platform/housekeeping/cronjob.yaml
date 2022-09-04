@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: housekeeping
+  namespace: housekeeping
+  labels:
+    app: housekeeping
+spec:
+  schedule: "*/5 * * * *"
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 5
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          serviceAccountName: housekeeping
+          containers:
+          - name: housekeeping
+            image: bitnami/kubectl:1.23
+            command:
+            - bash
+            - -ex
+            - -c
+            - |
+              bash -x <(kubectl get pods --all-namespaces | grep ago | awk '{print "kubectl delete --force pod "$2" -n "$1}')
