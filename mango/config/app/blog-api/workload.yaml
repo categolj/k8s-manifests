@@ -35,6 +35,8 @@ spec:
     value: ${info.maven.versions.spring-boot}
   - name: MANAGEMENT_METRICS_TAGS_JAVA_VERSION
     value: ${java.version}
+  - name: OTEL_TRACES_EXPORTER
+    value: logging
   params:
   - name: annotations
     value:
