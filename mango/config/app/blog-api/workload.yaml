@@ -40,6 +40,21 @@ spec:
     value: none
   - name: OTEL_LOGS_EXPORTER
     value: none
+  - name: OTEL_SERVICE_NAME
+    valueFrom:
+      secretKeyRef:
+        name: otel-config
+        key: service-name
+  - name: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
+    valueFrom:
+      secretKeyRef:
+        name: otel-config
+        key: trace-endpoint
+  - name: OTEL_EXPORTER_OTLP_TRACES_HEADERS
+    valueFrom:
+      secretKeyRef:
+        name: otel-config
+        key: trace-headers
   params:
   - name: annotations
     value:
