@@ -58,6 +58,8 @@ spec:
     value: blog-bot
   - name: gitops_ssh_secret
     value: git-basic
+  - name: clusterBuilder
+    value: java-otel
   resources:
     limits:
       memory: 256Mi
