@@ -10,8 +10,8 @@ type: servicebinding.io/postgresql
 stringData:
   type: postgresql
   host: #@ data.values.blog_db.host
-  port: #@ data.values.blog_db.port
+  port: "5432"
   username: #@ data.values.blog_db.username
   password: #@ data.values.blog_db.password
-  database: #@ data.values.blog_db.database
-  sslmode: #@ data.values.blog_db.sslmode
+  database: blog
+  sslmode: verify-ca
