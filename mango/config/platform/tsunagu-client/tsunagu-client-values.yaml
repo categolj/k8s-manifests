@@ -19,3 +19,4 @@ stringData:
       upstream: http://envoy.tanzu-system-ingress.svc.cluster.local
       host_map:
         zipkin.ik.am: zipkin.jaguchi.maki.lol
+        code-server-01.apps.ik.am: code-server-01.apps.jaguchi.maki.lol
