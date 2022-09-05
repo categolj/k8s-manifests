@@ -4,7 +4,8 @@ metadata:
   labels:
     app.kubernetes.io/part-of: blog-api
     apps.tanzu.vmware.com/workload-type: web
-    #! networking.knative.dev/visibility: cluster-local
+  annotations:
+    kapp.k14s.io/disable-original: ""
   name: blog-api
   namespace: blog
 spec:
