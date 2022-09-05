@@ -32,8 +32,6 @@ spec:
     value: "false"
   - name: MANAGEMENT_ENDPOINT_THREADDUMP_ENABLED
     value: "false"
-  - name: MANAGEMENT_METRICS_TAGS_SPRING_BOOT_VERSION
-    value: ${info.maven.versions.spring-boot}
   - name: MANAGEMENT_METRICS_TAGS_JAVA_VERSION
     value: ${java.version}
   - name: OTEL_TRACES_EXPORTER
