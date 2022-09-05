@@ -35,7 +35,7 @@ spec:
   - name: MANAGEMENT_METRICS_TAGS_JAVA_VERSION
     value: ${java.version}
   - name: OTEL_TRACES_EXPORTER
-    value: logging
+    value: otlp
   - name: OTEL_METRICS_EXPORTER
     value: none
   - name: OTEL_LOGS_EXPORTER
