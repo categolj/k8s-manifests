@@ -14,3 +14,7 @@ spec:
     - name: tsunagu-server
       port: 80
       weight: 100
+    timeoutPolicy:
+      response: 60s
+    retryPolicy:
+      count: 3
