@@ -9,5 +9,6 @@ metadata:
 type: Opaque
 stringData:
   service-name: blog-api-dev
+  trace-exporter: #@ data.values.otel.trace.exporter
   trace-endpoint: #@ data.values.otel.trace.endpoint
   trace-headers: #@ "Authorization=Basic {}".format(base64.encode("{}:{}".format(data.values.otel.trace.username, data.values.otel.trace.password)))
