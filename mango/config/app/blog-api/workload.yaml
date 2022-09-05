@@ -90,9 +90,9 @@ spec:
     value: java-otel
   resources:
     limits:
-      memory: 256Mi
+      memory: 320Mi
     requests:
-      memory: 256Mi
+      memory: 320Mi
   serviceClaims:
   - name: blog-db
     ref:
