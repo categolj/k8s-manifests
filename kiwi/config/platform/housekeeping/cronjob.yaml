@@ -20,7 +20,7 @@ spec:
             image: bitnami/kubectl:1.23
             command:
             - bash
-            - -ex
+            - -e
             - -c
             - |
               bash -x <(kubectl get pods --all-namespaces | grep ago | awk '{print "kubectl delete --force pod "$2" -n "$1}')
