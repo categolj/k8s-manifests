@@ -7,8 +7,8 @@ metadata:
     app: housekeeping
 spec:
   schedule: "*/5 * * * *"
-  successfulJobsHistoryLimit: 3
-  failedJobsHistoryLimit: 5
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 2
   jobTemplate:
     spec:
       template:
