@@ -1,0 +1,11 @@
+apiVersion: packaging.carvel.dev/v1alpha1
+kind: PackageRepository
+metadata:
+  name: tsunagu-repository
+  namespace: blog
+  annotations:
+    kapp.k14s.io/change-group: "{name}"
+spec:
+  fetch:
+    imgpkgBundle:
+      image: ghcr.io/making/tsunagu-repo:0.0.1
