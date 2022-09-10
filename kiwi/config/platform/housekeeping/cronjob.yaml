@@ -6,7 +6,7 @@ metadata:
   labels:
     app: housekeeping
 spec:
-  schedule: "*/5 * * * *"
+  schedule: "* * * * *"
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 2
   jobTemplate:
