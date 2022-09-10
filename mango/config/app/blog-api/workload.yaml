@@ -9,6 +9,10 @@ metadata:
   name: blog-api
   namespace: blog
 spec:
+  build:
+    env:
+    - name: BP_JVM_VERSION
+      value: "17"
   env:
   - name: JAVA_TOOL_OPTIONS
     value: "-XX:ReservedCodeCacheSize=32M -Xss512k -Duser.timezone=Asia/Tokyo -Duser.language=ja -Duser.country=JP -Dfile.encoding=UTF-8"
