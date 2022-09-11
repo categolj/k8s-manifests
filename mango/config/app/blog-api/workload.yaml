@@ -110,6 +110,6 @@ spec:
       name: blog-db-tls-ca-bindable
   source:
     git:
-      ref:
-        branch: rsocket
       url: https://github.com/categolj/blog-api
+      ref:
+        branch: main
