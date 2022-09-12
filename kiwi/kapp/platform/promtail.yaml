@@ -31,6 +31,3 @@ spec:
       - --wait-timeout=5m
       - --diff-changes=true
       - --diff-mask=true
-      inspect:
-        rawOptions:
-        - --tree=true
