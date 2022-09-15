@@ -42,6 +42,10 @@ spec:
     value: "false"
   - name: MANAGEMENT_METRICS_TAGS_JAVA_VERSION
     value: ${java.version}
+  - name: INFO_ENV_HOSTNAME
+    value: "${HOSTNAME}"
+  - name: INFO_ENV_K_REVISION
+    value: "${K_REVISION}"
   - name: OTEL_TRACES_EXPORTER
     valueFrom:
       secretKeyRef:
