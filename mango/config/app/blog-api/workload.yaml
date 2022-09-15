@@ -44,6 +44,10 @@ spec:
     value: ${java.version}
   - name: INFO_ENV_HOSTNAME
     value: "${HOSTNAME}"
+  - name: INFO_ENV_K_SERVICE
+    value: "${K_SERVICE}"
+  - name: INFO_ENV_K_CONFIGURATION
+    value: "${K_CONFIGURATION}"
   - name: INFO_ENV_K_REVISION
     value: "${K_REVISION}"
   - name: OTEL_TRACES_EXPORTER
