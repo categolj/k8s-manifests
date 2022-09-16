@@ -4,6 +4,8 @@ metadata:
   labels:
     app.kubernetes.io/part-of: blog-ui
     apps.tanzu.vmware.com/workload-type: web
+    apps.tanzu.vmware.com/has-tests: "true"
+    apps.jaguchi.maki.lol/test-type: node
   annotations:
     kapp.k14s.io/disable-original: ""
   name: blog-ui
