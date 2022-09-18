@@ -23,7 +23,7 @@ spec:
   packageRef:
     refName: tap.tanzu.vmware.com
     versionSelection:
-      constraints: 1.2.1
+      constraints: 1.2.2
       prereleases: {}
   values:
   - secretRef:
