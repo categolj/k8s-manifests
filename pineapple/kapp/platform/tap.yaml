@@ -52,7 +52,7 @@ stringData:
             https: 31443
     
     cnrs:
-      domain_name: apps.ik.am
+      domain_name: pineapple.maki.lol
       domain_template: "{{.Name}}-{{.Namespace}}.{{.Domain}}"
       default_tls_secret: tanzu-system-ingress/cnrs-default-tls
       provider: local
