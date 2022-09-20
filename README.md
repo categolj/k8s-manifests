@@ -10,6 +10,24 @@ kubectl create secret generic -n kapp github --from-file=ssh-privatekey=$HOME/.s
 kubectl create secret generic -n kapp pgp-key --from-file=$HOME/.gnupg/my.pk --dry-run=client -oyaml | kubectl apply -f-
 ```
 
+## Enable blog namespace
+
+```
+GITHUB_USERNAME=making
+GITHUB_API_TOKEN=ghp_******
+NAMESPACE=blog
+
+kubectl delete secret git-basic -n ${NAMESPACE}
+kubectl create secret generic git-basic -n ${NAMESPACE} \
+    --type kubernetes.io/basic-auth \
+    --from-literal=username=${GITHUB_USERNAME} \
+    --from-literal=password=${GITHUB_API_TOKEN} \
+    --dry-run=client -oyaml \
+ | kubectl apply -f- 
+kubectl -n ${NAMESPACE} annotate secret git-basic tekton.dev/git-0=https://github.com --overwrite=true   
+kubectl patch -n ${NAMESPACE} serviceaccount default -p "{\"secrets\":[{\"name\":\"git-basic\"}]}"
+```
+
 ## How to generate GPG keys 
 
 https://carvel.dev/kapp-controller/docs/latest/sops/
