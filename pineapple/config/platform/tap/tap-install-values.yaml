@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: tap-tap-install-values
+  namespace: tap-install
+  annotations:
+    kapp.k14s.io/change-group: "tap-install-values"
+type: Opaque
+stringData:
+  tap-values.yml: |
+    ---
+    profile: run
+    
+    ceip_policy_disclosed: true
+    
+    contour:
+      envoy:
+        service:
+          type: LoadBalancer
+          nodePorts:
+            http: 31080
+            https: 31443
+    
+    cnrs:
+      domain_name: apps.pineapple.maki.lol
+      domain_template: "{{.Name}}-{{.Namespace}}.{{.Domain}}"
+      # default_tls_secret: tanzu-system-ingress/cnrs-default-tls
+      provider: local
+    
+    supply_chain: basic
+
+    package_overlays:
+    - name: contour
+      secrets:
+      - name: contour-loadbalancer-ip
+    - name: cnrs
+      secrets:
+      # - name: cnrs-default-tls
+      - name: cnrs-slim
+      - name: cnrs-autocreate-cluster-domain-claims
+    - name: tap-telemetry
+      secrets:
+      - name: tap-telemetry-remove
+
+    excluded_packages:
+    - connector.appliveview.tanzu.vmware.com
+    - sso.apps.tanzu.vmware.com
+    - image-policy-webhook.signing.apps.tanzu.vmware.com
+    - policy.apps.tanzu.vmware.com
+    - services-toolkit.tanzu.vmware.com
