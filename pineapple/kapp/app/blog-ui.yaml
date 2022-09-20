@@ -13,7 +13,7 @@ spec:
   - git:
       url: https://github.com/categolj/k8s-manifests.git
       ref: origin/main
-      subPath: pear/config/app
+      subPath: pineapple/config/app
   syncPeriod: 10m
   template:
   - ytt:
