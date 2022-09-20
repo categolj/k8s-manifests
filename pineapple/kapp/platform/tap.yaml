@@ -44,6 +44,7 @@ stringData:
     contour:
       envoy:
         service:
+          type: LoadBalancer
           nodePorts:
             http: 31080
             https: 31443
@@ -57,6 +58,9 @@ stringData:
     supply_chain: basic
 
     package_overlays:
+    - name: contour
+      secrets:
+      - name: contour-loadbalancer-ip
     - name: cnrs
       secrets:
       - name: cnrs-default-tls
@@ -220,3 +224,21 @@ stringData:
     #@overlay/match by=overlay.subset({"metadata":{"namespace":"tap-telemetry"}}), expects="1+"
     #@overlay/remove
     ---
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: contour-loadbalancer-ip
+  namespace: tap-install
+  annotations:
+    kapp.k14s.io/change-group: "tap-overlays"
+    kapp.k14s.io/change-rule.delete-order.0: "delete after deleting tap"
+type: Opaque
+stringData:
+  contour-loadbalancer-ip.yml: |
+    #@ load("@ytt:overlay", "overlay")
+    #@overlay/match by=overlay.subset({"kind": "Service", "metadata": {"name": "envoy"}})
+    ---
+    spec:
+      #@overlay/match missing_ok=True
+      loadBalancerIP: 192.168.11.240
