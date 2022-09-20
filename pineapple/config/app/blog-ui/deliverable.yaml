@@ -15,5 +15,5 @@ spec:
   source:
     git:
       ref:
-        branch: main
+        branch: mango
       url: https://github.com/categolj/tap-gitops.git
