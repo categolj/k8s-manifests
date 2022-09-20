@@ -168,7 +168,7 @@ stringData:
       - #@ data.values.domain_name.replace("apps.", "")
       issuerRef:
         kind: ClusterIssuer
-        name: letsencrypt-ik-am
+        name: letsencrypt-maki-lol
       secretName: cnrs-default-tls
     ---
     apiVersion: projectcontour.io/v1
