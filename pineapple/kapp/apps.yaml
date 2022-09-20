@@ -19,6 +19,8 @@ spec:
           kind: Namespace
           metadata:
             name: tap-install
+            annotations:
+              kapp.k14s.io/change-group: init
   syncPeriod: 10m
   template:
   - ytt:
