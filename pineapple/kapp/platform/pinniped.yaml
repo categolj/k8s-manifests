@@ -73,6 +73,13 @@ spec:
                         name: local-user-authenticator
                         port:
                           number: 443
+          webhookauthenticator.yaml: |
+            apiVersion: authentication.concierge.pinniped.dev/v1alpha1
+            kind: WebhookAuthenticator
+            metadata:
+              name: local-user-authenticator
+            spec:
+              endpoint: https://local-user-authenticator.pineapple.maki.lol
   - kbld:
       paths:
       - "-"
