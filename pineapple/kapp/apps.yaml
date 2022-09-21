@@ -26,7 +26,6 @@ spec:
   - ytt:
       paths:
       - 0/platform
-      - 0/app
       - 1/namespace.yaml
   deploy:
   - kapp:

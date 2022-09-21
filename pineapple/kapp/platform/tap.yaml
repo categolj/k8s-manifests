@@ -40,7 +40,7 @@ type: Opaque
 stringData:
   tap-values.yml: |
     ---
-    profile: run
+    profile: full
     
     ceip_policy_disclosed: true
     
@@ -60,6 +60,54 @@ stringData:
     
     supply_chain: basic
 
+    buildservice:
+      kp_default_repository: ghcr.io/jaguchi/build-service
+      kp_default_repository_secret:
+        name: registry-credentials
+        namespace: tap-install
+
+    ootb_supply_chain_basic:
+      registry:
+        server: ghcr.io
+        repository: jaguchi/supply-chain
+      gitops:
+        ssh_secret: ""
+
+    tap_gui:
+      ingressEnabled: true
+      ingressDomain: pineapple.maki.lol
+      service_type: ClusterIP
+      tls:
+        secretName: cnrs-default-tls
+        namespace: tanzu-system-ingress
+      app_config:
+        app:
+          baseUrl: https://tap-gui.pineapple.maki.lol
+        backend:
+          baseUrl: https://tap-gui.pineapple.maki.lol
+          cors:
+            origin: https://tap-gui.pineapple.maki.lol
+
+    accelerator:
+      domain: pineapple.maki.lol
+      ingress:
+        include: true
+        enable_tls: true
+      tls:
+        secret_name: cnrs-default-tls
+        namespace: tanzu-system-ingress
+      server:
+        service_type: ClusterIP
+
+    metadata_store:
+      app_service_type: ClusterIP
+      ingress_enabled: "true"
+      ingress_domain: pineapple.maki.lol
+
+    scanning:
+      metadataStore:
+        url: "" # Disable embedded integration since it's deprecated
+
     package_overlays:
     - name: contour
       secrets:
@@ -72,13 +120,14 @@ stringData:
     - name: tap-telemetry
       secrets:
       - name: tap-telemetry-remove
-
+    - name: metadata-store
+      secrets:
+      - name: metadata-store-ingress-tls
+    
     excluded_packages:
-    - connector.appliveview.tanzu.vmware.com
-    - sso.apps.tanzu.vmware.com
-    - image-policy-webhook.signing.apps.tanzu.vmware.com
-    - policy.apps.tanzu.vmware.com
-    - services-toolkit.tanzu.vmware.com
+    - grype.scanning.apps.tanzu.vmware.com
+    - learningcenter.tanzu.vmware.com
+    - workshops.learningcenter.tanzu.vmware.com
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -238,3 +287,25 @@ stringData:
     spec:
       #@overlay/match missing_ok=True
       loadBalancerIP: 192.168.11.240
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: metadata-store-ingress-tls
+  namespace: tap-install
+  annotations:
+    kapp.k14s.io/change-group: "tap-overlays"
+    kapp.k14s.io/change-rule.delete-order.0: "delete after deleting tap"
+type: Opaque
+stringData:
+  metadata-store-ingress-tls.yml: |
+    #@ load("@ytt:overlay", "overlay")
+    #@overlay/match by=overlay.subset({"metadata":{"name":"metadata-store-ingress"}, "kind": "HTTPProxy"})
+    ---
+    spec:
+      virtualhost:
+        tls:
+          secretName: tanzu-system-ingress/cnrs-default-tls
+    #@overlay/match by=overlay.subset({"metadata":{"name":"ingress-cert"}, "kind": "Certificate"})
+    #@overlay/remove
+    ---
