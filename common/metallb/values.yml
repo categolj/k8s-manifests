@@ -1,5 +1,0 @@
-#@data/values
----
-metallb:
-  start_ip:
-  end_ip:
