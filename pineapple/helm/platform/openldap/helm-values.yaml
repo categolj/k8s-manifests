@@ -12,6 +12,7 @@ logLevel: info
 env:
   LDAP_DOMAIN: ik.am
   LDAP_ORGANISATION: IK.AM
+  LDAP_READONLY_USER: "true"
 ltb-passwd:
   enabled: false
   ingress:
