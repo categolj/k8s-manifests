@@ -17,6 +17,7 @@ spec:
         rbac-mgmt-data-values.yaml: |
           ---
           registry_credentials:
+            name: registry-creds
             import_from_namespace: tap-install
           rolebindings:
           - namespace: blog
