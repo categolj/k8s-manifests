@@ -22,6 +22,15 @@ spec:
       - .
       inline:
         paths:
+          fix-ip.yaml: |
+            #@ load("@ytt:overlay", "overlay")
+            #@overlay/match by=overlay.subset({"kind": "CredentialIssuer", "metadata": {"name": "pinniped-concierge-config"}})
+            ---
+            spec:
+              impersonationProxy:
+                service:
+                  #@overlay/match missing_ok=True
+                  loadBalancerIP: 192.168.11.230
           fix-diff.yaml: |
             #@ load("@ytt:overlay", "overlay")
             #@overlay/match by=overlay.subset({"kind": "CustomResourceDefinition"}), expects="1+"
