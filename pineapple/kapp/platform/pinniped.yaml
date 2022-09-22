@@ -41,6 +41,19 @@ spec:
               selector:
                 app: pinniped-supervisor
           pinniped-supervisor-httpproxy.yaml: |
+            apiVersion: cert-manager.io/v1
+            kind: Certificate
+            metadata:
+              name: pinniped-supervisor
+              namespace: pinniped-supervisor
+            spec:
+              dnsNames:
+              - supervisor.pineapple.maki.lol
+              issuerRef:
+                kind: ClusterIssuer
+                name: letsencrypt-maki-lol
+              secretName: pinniped-supervisor-tls
+            ---
             apiVersion: projectcontour.io/v1
             kind: HTTPProxy
             metadata:
@@ -48,13 +61,23 @@ spec:
               namespace: pinniped-supervisor
             spec:
               virtualhost:
-                fqdn: pinniped-supervisor.pineapple.maki.lol
+                fqdn: supervisor.pineapple.maki.lol
                 tls:
-                  secretName: tanzu-system-ingress/cnrs-default-tls
+                  secretName: pinniped-supervisor-tls
               routes:
               - services:
                 - name: pinniped-supervisor
                   port: 8443
+          federateiondomain.yaml: |
+            apiVersion: config.supervisor.pinniped.dev/v1alpha1
+            kind: FederationDomain
+            metadata:
+              name: pinniped-supervisor-federation-domain
+              namespace: pinniped-supervisor
+            spec:
+              issuer: https://supervisor.pineapple.maki.lol
+              tls:
+                secretName: pinniped-supervisor-tls
           fix-ip.yaml: |
             #@ load("@ytt:overlay", "overlay")
             #@overlay/match by=overlay.subset({"kind": "CredentialIssuer", "metadata": {"name": "pinniped-concierge-config"}})
