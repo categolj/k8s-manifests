@@ -14,6 +14,8 @@ spec:
       url: https://github.com/vmware-tanzu/pinniped/releases/download/v0.19.0/install-pinniped-concierge-crds.yaml
   - http:
       url: https://github.com/vmware-tanzu/pinniped/releases/download/v0.19.0/install-pinniped-concierge-resources.yaml
+  - http:
+      url: https://github.com/vmware-tanzu/pinniped/releases/download/v0.19.0/install-pinniped-supervisor.yaml
   syncPeriod: 6h
   template:
   - ytt:
