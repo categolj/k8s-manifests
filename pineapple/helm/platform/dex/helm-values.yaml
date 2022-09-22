@@ -15,5 +15,6 @@ config:
   enablePasswordDB: false
   oauth2:
     skipApprovalScreen: true
+    passwordConnector: ldap
 ingress:
   enabled: false
