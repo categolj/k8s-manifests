@@ -87,6 +87,19 @@ stringData:
           baseUrl: https://tap-gui.pineapple.maki.lol
           cors:
             origin: https://tap-gui.pineapple.maki.lol
+        auth:
+          environment: development
+          session:
+            secret: opensesami
+          providers:
+            oidc:
+              development:
+                metadataUrl: https://dex.pineapple.maki.lol/.well-known/openid-configuration
+                clientId: tap-gui
+                clientSecret: tap-gui
+                tokenSignedResponseAlg: RS256
+                scope: "openid profile email groups offline_access"
+                prompt: auto
 
     accelerator:
       domain: pineapple.maki.lol
