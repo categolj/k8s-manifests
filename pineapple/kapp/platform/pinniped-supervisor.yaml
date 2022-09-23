@@ -11,7 +11,7 @@ spec:
   serviceAccountName: kapp
   fetch:
   - http:
-      url: https://github.com/vmware-tanzu/pinniped/releases/download/v0.19.0/install-pinniped-supervisor.yaml
+      url: https://github.com/vmware-tanzu/pinniped/releases/download/v0.15.0/install-pinniped-supervisor.yaml
   syncPeriod: 6h
   template:
   - ytt:
@@ -26,14 +26,12 @@ spec:
             metadata:
               name: pinniped-supervisor
               namespace: pinniped-supervisor
-              annotations:
-                projectcontour.io/upstream-protocol.tls: "8443"
             spec:
               ports:
               - name: pinniped-supervisor
-                port: 8443
+                port: 80
                 protocol: TCP
-                targetPort: 8443
+                targetPort: 8080
               selector:
                 app: pinniped-supervisor
           pinniped-supervisor-httpproxy.yaml: |
@@ -63,7 +61,7 @@ spec:
               routes:
               - services:
                 - name: pinniped-supervisor
-                  port: 8443
+                  port: 80
           federateiondomain.yaml: |
             apiVersion: config.supervisor.pinniped.dev/v1alpha1
             kind: FederationDomain
