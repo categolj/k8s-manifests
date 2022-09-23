@@ -10,7 +10,7 @@ spec:
     filter: "&(objectClass=inetOrgPerson)(mail={})"
     attributes:
       username: "mail"
-      uid: "DN"
+      uid: "dn"
   groupSearch:
     base: "cn=users,ou=groups,dc=ik,dc=am"
     filter: "&(objectClass=groupOfUniqueNames)(uniqueMember={})"
