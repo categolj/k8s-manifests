@@ -18,6 +18,15 @@ spec:
       ignoreUnknownComments: true
       paths:
       - .
+      inline:
+        paths:
+          fix-ip.yaml: |
+            #@ load("@ytt:overlay", "overlay")
+            #@overlay/match by=overlay.subset({"kind": "Service", "metadata": {"name": "pomerium-proxy"}})
+            ---
+            spec:
+              #@overlay/match missing_ok=True
+              loadBalancerIP: 192.168.11.241
   - kbld:
       paths:
       - "-"
