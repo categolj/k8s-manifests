@@ -29,7 +29,7 @@ spec:
                name: supervisor-jwt-authenticator
                namespace: pinniped-concierge
             spec:
-               issuer: https://https://supervisor.pineapple.maki.lol
+               issuer: https://supervisor.pineapple.maki.lol
                audience: pineapple
                claims:
                  username: email
