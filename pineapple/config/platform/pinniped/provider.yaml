@@ -1,0 +1,20 @@
+apiVersion: idp.supervisor.pinniped.dev/v1alpha1
+kind: LDAPIdentityProvider
+metadata:
+  name: openldap
+  namespace: pinniped-supervisor
+spec:
+  host: "ldap.pineapple.maki.lol:636"
+  userSearch:
+    base: "ou=people,dc=ik,dc=am"
+    filter: "&(objectClass=inetOrgPerson)(mail={})"
+    attributes:
+      username: "mail"
+      uid: "DN"
+  groupSearch:
+    base: "cn=users,ou=groups,dc=ik,dc=am"
+    filter: "&(objectClass=groupOfUniqueNames)(uniqueMember={})"
+    attributes:
+      groupName: "cn"
+  bind:
+    secretName: openldap-bind-account

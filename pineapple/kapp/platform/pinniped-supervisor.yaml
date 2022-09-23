@@ -12,12 +12,21 @@ spec:
   fetch:
   - http:
       url: https://github.com/vmware-tanzu/pinniped/releases/download/v0.15.0/install-pinniped-supervisor.yaml
+  - git:
+      url: https://github.com/categolj/k8s-manifests.git
+      ref: origin/main
+      subPath: pineapple/config/platform/pinniped
   syncPeriod: 6h
   template:
+  - sops:
+      pgp:
+        privateKeysSecretRef:
+          name: pgp-key
   - ytt:
       ignoreUnknownComments: true
       paths:
-      - .
+      - "0"
+      - "1"
       inline:
         paths:
           pinniped-supervisor-service.yaml: |
