@@ -1,0 +1,92 @@
+apiVersion: kappctrl.k14s.io/v1alpha1
+kind: App
+metadata:
+  name: pinniped-supervisor
+  namespace: kapp
+  annotations:
+    kapp.k14s.io/change-group: "{name}"
+    kapp.k14s.io/change-rule.create-order.0: "upsert after upserting dex"
+    kapp.k14s.io/change-rule.delete-order.0: "delete before deleting dex"
+spec:
+  serviceAccountName: kapp
+  fetch:
+  - http:
+      url: https://github.com/vmware-tanzu/pinniped/releases/download/v0.19.0/install-pinniped-supervisor.yaml
+  syncPeriod: 6h
+  template:
+  - ytt:
+      ignoreUnknownComments: true
+      paths:
+      - .
+      inline:
+        paths:
+          pinniped-supervisor-service.yaml: |
+            apiVersion: v1
+            kind: Service
+            metadata:
+              name: pinniped-supervisor
+              namespace: pinniped-supervisor
+              annotations:
+                projectcontour.io/upstream-protocol.tls: "8443"
+            spec:
+              ports:
+              - name: pinniped-supervisor
+                port: 8443
+                protocol: TCP
+                targetPort: 8443
+              selector:
+                app: pinniped-supervisor
+          pinniped-supervisor-httpproxy.yaml: |
+            apiVersion: cert-manager.io/v1
+            kind: Certificate
+            metadata:
+              name: pinniped-supervisor
+              namespace: pinniped-supervisor
+            spec:
+              dnsNames:
+              - supervisor.pineapple.maki.lol
+              issuerRef:
+                kind: ClusterIssuer
+                name: letsencrypt-maki-lol
+              secretName: pinniped-supervisor-tls
+            ---
+            apiVersion: projectcontour.io/v1
+            kind: HTTPProxy
+            metadata:
+              name: pinniped-supervisor
+              namespace: pinniped-supervisor
+            spec:
+              virtualhost:
+                fqdn: supervisor.pineapple.maki.lol
+                tls:
+                  secretName: pinniped-supervisor-tls
+              routes:
+              - services:
+                - name: pinniped-supervisor
+                  port: 8443
+          federateiondomain.yaml: |
+            apiVersion: config.supervisor.pinniped.dev/v1alpha1
+            kind: FederationDomain
+            metadata:
+              name: pinniped-supervisor-federation-domain
+              namespace: pinniped-supervisor
+            spec:
+              issuer: https://supervisor.pineapple.maki.lol
+              tls:
+                secretName: pinniped-supervisor-tls
+          fix-diff.yaml: |
+            #@ load("@ytt:overlay", "overlay")
+            #@overlay/match by=overlay.subset({"kind": "CustomResourceDefinition"}), expects="1+"
+            ---
+            #! https://github.com/vmware-tanzu/carvel-kapp/issues/395
+            #@overlay/remove
+            status:
+  - kbld:
+      paths:
+      - "-"
+  deploy:
+  - kapp:
+      rawOptions:
+      - --wait-timeout=5m
+      - --diff-changes=true
+      - --diff-mask=true
