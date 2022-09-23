@@ -32,7 +32,7 @@ spec:
                issuer: https://supervisor.pineapple.maki.lol
                audience: pineapple
                claims:
-                 username: mail
+                 username: username
                  groups: groups
           fix-ip.yaml: |
             #@ load("@ytt:overlay", "overlay")
