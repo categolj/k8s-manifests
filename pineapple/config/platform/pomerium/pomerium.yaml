@@ -1,0 +1,24 @@
+apiVersion: ingress.pomerium.io/v1
+kind: Pomerium
+metadata:
+  name: global
+spec:
+  secrets: pomerium/bootstrap
+  authenticate:
+    url: https://authenticate.pomerium.pineapple.maki.lol
+  identityProvider:
+    provider: oidc
+    url: https://dex.pineapple.maki.lol
+    secret: pomerium/idp
+    scopes:
+    - openid
+    - profile
+    - email
+    - groups
+    - offline_access
+    refreshDirectory:
+      #! ignore (https://github.com/pomerium/pomerium/issues/3153)
+      interval: 876000h
+      timeout: 1m
+  certificates:
+  - pomerium/pomerium-wildcard-tls

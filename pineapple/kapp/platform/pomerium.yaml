@@ -12,21 +12,26 @@ spec:
   fetch:
   - http:
       url: https://github.com/pomerium/ingress-controller/raw/v0.18.0/deployment.yaml
+  - git:
+      url: https://github.com/categolj/k8s-manifests.git
+      ref: origin/main
+      subPath: pineapple/config/platform/pomerium
   syncPeriod: 6h
   template:
+  - sops:
+      pgp:
+        privateKeysSecretRef:
+          name: pgp-key
   - ytt:
       ignoreUnknownComments: true
       paths:
-      - .
-      inline:
-        paths:
-          fix-ip.yaml: |
-            #@ load("@ytt:overlay", "overlay")
-            #@overlay/match by=overlay.subset({"kind": "Service", "metadata": {"name": "pomerium-proxy"}})
-            ---
-            spec:
-              #@overlay/match missing_ok=True
-              loadBalancerIP: 192.168.11.241
+      - "0"
+      - 1/pomerium.yaml
+      - 1/idp-secret.yaml
+      - 1/certificate.yaml
+      - 1/fix-service-ip.yaml
+      valuesFrom:
+      - path: 1/pomerium-credentials.yaml
   - kbld:
       paths:
       - "-"
