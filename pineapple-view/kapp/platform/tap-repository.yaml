@@ -1,7 +1,7 @@
 apiVersion: kappctrl.k14s.io/v1alpha1
 kind: App
 metadata:
-  name: tap-registry
+  name: tap-repository
   namespace: kapp
   annotations:
     kapp.k14s.io/change-group: "{name}"
