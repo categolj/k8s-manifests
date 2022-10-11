@@ -1,0 +1,45 @@
+#@ load("@ytt:data", "data")
+apiVersion: v1
+kind: Secret
+metadata:
+  name: tap-tap-install-values
+  namespace: tap-install
+  annotations:
+    kapp.k14s.io/change-group: "tap-install-values"
+type: Opaque
+stringData:
+  #@yaml/text-templated-strings
+  tap-values.yml: |
+    ---
+    profile: build
+
+    ceip_policy_disclosed: true
+
+    buildservice:
+      kp_default_repository: (@= data.values.registry_credentials.server @)/(@= data.values.registry_credentials.username @)/build-service
+      kp_default_repository_secret:
+        name: registry-secret
+        namespace: tap-install  
+      exclude_dependencies: true
+
+    supply_chain: basic
+
+    ootb_supply_chain_basic:
+      registry:
+        server: (@= data.values.registry_credentials.server @)
+        repository: (@= data.values.registry_credentials.username @)/supply-chain
+      gitops:
+        ssh_secret: ""
+
+    scanning:
+      metadataStore:
+        url: "" # Disable embedded integration since it's deprecated
+
+    package_overlays:
+    - name: tap-telemetry
+      secrets:
+      - name: tap-telemetry-remove
+
+    excluded_packages:
+    - grype.scanning.apps.tanzu.vmware.com
+    - contour.tanzu.vmware.com

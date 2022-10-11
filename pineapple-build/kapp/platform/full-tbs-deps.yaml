@@ -1,20 +1,20 @@
 apiVersion: kappctrl.k14s.io/v1alpha1
 kind: App
 metadata:
-  name: tap
+  name: full-tbs-deps
   namespace: kapp
   annotations:
     kapp.k14s.io/change-group: "{name}"
-    kapp.k14s.io/change-rule.create-order.0: "upsert after upserting tap-registry"
-    kapp.k14s.io/change-rule.delete-order.0: "delete before deleting tap-registry"
+    kapp.k14s.io/change-rule.create-order.0: "upsert after upserting tap"
+    kapp.k14s.io/change-rule.delete-order.0: "delete before deleting tap"
 spec:
-  syncPeriod: 1h
+  syncPeriod: 6h
   serviceAccountName: kapp
   fetch:
   - git:
       url: https://github.com/categolj/k8s-manifests.git
       ref: origin/main
-      subPath: pineapple-view/config/platform
+      subPath: pineapple-build/config/platform
   template:
   - sops:
       pgp:
@@ -22,7 +22,7 @@ spec:
           name: pgp-key
   - ytt:
       paths:
-      - tap
+      - full-tbs-deps
       valuesFrom:
       - path: credentials.yaml
   deploy:

@@ -1,0 +1,11 @@
+apiVersion: packaging.carvel.dev/v1alpha1
+kind: PackageRepository
+metadata:
+  name: tbs-full-deps-repository
+  namespace: tap-install
+  annotations:
+    kapp.k14s.io/change-group: "full-tbs-deps-repository"
+spec:
+  fetch:
+    imgpkgBundle:
+      image: registry.tanzu.vmware.com/build-service/full-tbs-deps-package-repo:1.7.1

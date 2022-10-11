@@ -14,7 +14,7 @@ spec:
   - git:
       url: https://github.com/categolj/k8s-manifests.git
       ref: origin/main
-      subPath: pineapple-view/config/platform
+      subPath: pineapple-build/config/platform
   template:
   - sops:
       pgp:
