@@ -1,0 +1,88 @@
+#@ load("@ytt:data", "data")
+apiVersion: v1
+kind: Secret
+metadata:
+  name: tap-tap-install-values
+  namespace: tap-install
+  annotations:
+    kapp.k14s.io/change-group: "tap-install-values"
+type: Opaque
+stringData:
+  #@yaml/text-templated-strings
+  tap-values.yml: |
+    ---
+    profile: view
+    
+    ceip_policy_disclosed: true
+    
+    shared:
+      ingress_domain: view.pineapple.maki.lol
+    
+    contour:
+      infrastructure_provider: "vsphere"
+      namespace: tanzu-system-ingress
+      contour:
+        replicas: 1
+        configFileContents:
+          accesslog-format: json
+      envoy:
+        service:
+          type: LoadBalancer
+      azure:
+        client_id: (@= data.values.azure.client_id @)
+        client_secret: (@= data.values.azure.client_secret @)
+        subscription_id: (@= data.values.azure.subscription_id @)
+        tenant_id: (@= data.values.azure.tenant_id @)
+    
+    tap_gui:
+      service_type: ClusterIP
+      tls:
+        secretName: tap-default-tls
+        namespace: tanzu-system-ingress
+      app_config:
+        backend:
+          database:
+            client: pg
+            connection:
+              host: ${TAP_GUI_DB_SERVICE_HOST}
+              port: ${TAP_GUI_DB_SERVICE_PORT}
+              user: ${POSTGRES_USER}
+              password: ${POSTGRES_PASSWORD}
+        catalog:
+          locations:
+          - type: url
+            target: https://github.com/sample-accelerators/tanzu-java-web-app/blob/main/catalog/catalog-info.yaml
+    
+    appliveview:
+      ingressEnabled: true
+      tls:
+        secretName: tap-default-tls
+        namespace: tanzu-system-ingress
+    
+    accelerator:
+      ingress:
+        include: true
+        enable_tls: true
+      tls:
+        secret_name: tap-default-tls
+        namespace: tanzu-system-ingress
+      server:
+        service_type: ClusterIP
+    
+    package_overlays:
+    - name: contour
+      secrets:
+      - name: contour-loadbalancer-ip
+      - name: contour-default-tls
+    - name: tap-gui
+      secrets:
+      - name: tap-gui-db
+    - name: tap-telemetry
+      secrets:
+      - name: tap-telemetry-remove
+    
+    excluded_packages:
+    - learningcenter.tanzu.vmware.com
+    - workshops.learningcenter.tanzu.vmware.com
+    - api-portal.tanzu.vmware.com
+    - controller.source.apps.tanzu.vmware.com
