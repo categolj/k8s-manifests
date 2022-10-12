@@ -51,7 +51,26 @@ stringData:
           locations:
           - type: url
             target: https://github.com/sample-accelerators/tanzu-java-web-app/blob/main/catalog/catalog-info.yaml
-    
+        kubernetes:
+          serviceLocatorMethod:
+            type: multiTenant
+          clusterLocatorMethods:
+          - type: config
+            clusters:
+            - name: pineapple-run
+              url: (@= data.values.clusters.pineapple.run.url @)
+              authProvider: serviceAccount
+              serviceAccountToken: (@= data.values.clusters.pineapple.run.service_account_token @) 
+              skipTLSVerify: false
+              caData: (@= data.values.clusters.pineapple.run.ca_data @) 
+          - type: config
+            clusters:
+            - name: pineapple-build
+              url: (@= data.values.clusters.pineapple.build.url @)
+              authProvider: serviceAccount
+              serviceAccountToken: (@= data.values.clusters.pineapple.build.service_account_token @) 
+              skipTLSVerify: false
+              caData: (@= data.values.clusters.pineapple.build.ca_data @) 
     appliveview:
       ingressEnabled: true
       tls:
