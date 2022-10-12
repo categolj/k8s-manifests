@@ -20,7 +20,6 @@ stringData:
 
     contour:
       infrastructure_provider: "vsphere"
-      namespace: tanzu-system-ingress
       contour:
         replicas: 1
         configFileContents:
@@ -35,7 +34,6 @@ stringData:
         tenant_id: (@= data.values.azure.tenant_id @)
 
     cnrs:
-      domain_name: run.pineapple.maki.lol
       domain_template: "{{.Name}}-{{.Namespace}}.{{.Domain}}"
       default_tls_secret: tanzu-system-ingress/tap-default-tls
       provider: local
