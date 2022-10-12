@@ -43,6 +43,7 @@ stringData:
     appliveview_connector:
       backend:
         ingressEnabled: true
+        host: appliveview.view.pineapple.maki.lol
 
     api_auto_registration:
       tap_gui_url: https://tap-gui.view.pineapple.maki.lol
