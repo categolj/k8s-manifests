@@ -1,0 +1,20 @@
+---
+registry_credentials:
+  import_from_namespace: tap-install
+rolebindings:
+- namespace: blog
+  create_namespace: true
+  tap:
+    enabled: true
+- namespace: note
+  create_namespace: true
+  tap:
+    enabled: true
+- namespace: demo
+  create_namespace: true
+  tap:
+    enabled: true
+- namespace: playground
+  create_namespace: true
+  tap:
+    enabled: true

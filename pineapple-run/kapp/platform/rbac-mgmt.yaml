@@ -12,29 +12,10 @@ spec:
   fetch:
   - imgpkgBundle:
       image: ghcr.io/making/rbac-mgmt-bundle:0.0.2
-  - inline:
-      paths:
-        rbac-mgmt-data-values.yaml: |
-          ---
-          registry_credentials:
-            import_from_namespace: tap-install
-          rolebindings:
-          - namespace: blog
-            create_namespace: true
-            tap:
-              enabled: true
-          - namespace: note
-            create_namespace: true
-            tap:
-              enabled: true
-          - namespace: demo
-            create_namespace: true
-            tap:
-              enabled: true
-          - namespace: playground
-            create_namespace: true
-            tap:
-              enabled: true
+  - git:
+      url: https://github.com/categolj/k8s-manifests.git
+      ref: origin/main
+      subPath: pineapple-run/config/platform/rbac-mgmt
   syncPeriod: 1h
   template:
   - ytt:
@@ -43,7 +24,7 @@ spec:
       - 0/kapp-config.yaml
       - 0/schema.yaml
       valuesFrom:
-      - path: 1/rbac-mgmt-data-values.yaml
+      - path: 1/values.yaml
   deploy:
   - kapp:
       rawOptions:
