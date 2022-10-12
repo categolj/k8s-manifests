@@ -65,8 +65,6 @@ stringData:
       tls:
         secret_name: tap-default-tls
         namespace: tanzu-system-ingress
-      server:
-        service_type: ClusterIP
     
     package_overlays:
     - name: contour
