@@ -10,6 +10,12 @@ kubectl create secret generic -n kapp github --from-file=ssh-privatekey=$HOME/.s
 kubectl create secret generic -n kapp pgp-key --from-file=$HOME/.gnupg/my.pk --dry-run=client -oyaml | kubectl apply -f-
 ```
 
+Install kapp controller
+
+```
+kubectl apply -f https://github.com/vmware-tanzu/carvel-kapp-controller/releases/download/v0.41.2/release.yml
+```
+
 ## Enable blog namespace
 
 ```
