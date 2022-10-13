@@ -1,0 +1,31 @@
+apiVersion: kappctrl.k14s.io/v1alpha1
+kind: App
+metadata:
+  name: blog-api
+  namespace: kapp
+spec:
+  serviceAccountName: kapp
+  fetch:
+  - git:
+      url: https://github.com/categolj/k8s-manifests.git
+      ref: origin/main
+      subPath: pineapple-run/config/app
+  syncPeriod: 10m
+  template:
+  - sops:
+      pgp:
+        privateKeysSecretRef:
+          name: pgp-key
+  - ytt:
+      paths:
+      - blog-api/deliverable.yaml
+      - blog-api/blog-config.yaml
+      valuesFrom:
+      - path: blog-api/credentials.yaml
+  deploy:
+  - kapp:
+      rawOptions:
+      - --wait-timeout=5m
+      - --diff-changes=true
+      - --diff-mask=true
+      - --app-changes-max-to-keep=3
