@@ -30,7 +30,7 @@ spec:
     value:
       autoscaling.knative.dev/minScale: "1"
   - name: gitops_branch
-    value: mango
+    value: pineapple
   - name: gitops_commit_message
     value: Bump
   - name: gitops_server_address
