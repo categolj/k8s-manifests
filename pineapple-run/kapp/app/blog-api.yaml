@@ -9,7 +9,7 @@ spec:
   - git:
       url: https://github.com/categolj/k8s-manifests.git
       ref: origin/main
-      subPath: pineapple-run/config/app
+      subPath: pineapple-run/config/app/blog-api
   syncPeriod: 10m
   template:
   - sops:
@@ -18,10 +18,10 @@ spec:
           name: pgp-key
   - ytt:
       paths:
-      - blog-api/deliverable.yaml
-      - blog-api/blog-config.yaml
+      - deliverable.yaml
+      - blog-config.yaml
       valuesFrom:
-      - path: blog-api/credentials.yaml
+      - path: credentials.yaml
   deploy:
   - kapp:
       rawOptions:

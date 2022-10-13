@@ -9,12 +9,12 @@ spec:
   - git:
       url: https://github.com/categolj/k8s-manifests.git
       ref: origin/main
-      subPath: pineapple-run/config/app
+      subPath: pineapple-run/config/app/blog-ui
   syncPeriod: 10m
   template:
   - ytt:
       paths:
-      - blog-ui
+      - '.'
   deploy:
   - kapp:
       rawOptions:
