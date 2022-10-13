@@ -1,0 +1,89 @@
+apiVersion: carto.run/v1alpha1
+kind: Workload
+metadata:
+  labels:
+    app.kubernetes.io/part-of: blog-api
+    apps.tanzu.vmware.com/workload-type: web
+    apps.tanzu.vmware.com/has-tests: "true"
+  annotations:
+    kapp.k14s.io/disable-original: ""
+  name: blog-api
+  namespace: blog
+spec:
+  build:
+    env:
+    - name: BP_JVM_VERSION
+      value: "17"
+  env:
+  - name: JAVA_TOOL_OPTIONS
+    value: "-XX:ReservedCodeCacheSize=32M -Xss512k -Duser.timezone=Asia/Tokyo -Duser.language=ja -Duser.country=JP -Dfile.encoding=UTF-8 -Dmanagement.health.probes.enabled=true -Dmanagement.endpoint.health.probes.add-additional-paths=true"
+  - name: BPL_JVM_THREAD_COUNT
+    value: "28"
+  - name: SPRING_RSOCKET_SERVER_FRAGMENTSIZE
+    value: 16MB
+  - name: SPRING_PROFILES_ACTIVE
+    value: kubernetes
+  - name: BLOG_GITHUB_ACCESS_TOKEN
+    valueFrom:
+      secretKeyRef:
+        name: blog-config
+        key: github-access-token
+  - name: BLOG_GITHUB_WEBHOOK_SECRET
+    valueFrom:
+      secretKeyRef:
+        name: blog-config
+        key: github-webhook-secret
+  - name: MANAGEMENT_ENDPOINT_HEAPDUMP_ENABLED
+    value: "false"
+  - name: MANAGEMENT_ENDPOINT_THREADDUMP_ENABLED
+    value: "false"
+  - name: MANAGEMENT_METRICS_TAGS_JAVA_VERSION
+    value: "${java.version}"
+  - name: INFO_ENV_HOSTNAME
+    value: "${HOSTNAME}"
+  - name: INFO_ENV_K_SERVICE
+    value: "${K_SERVICE}"
+  - name: INFO_ENV_K_CONFIGURATION
+    value: "${K_CONFIGURATION}"
+  - name: INFO_ENV_K_REVISION
+    value: "${K_REVISION}"
+  params:
+  - name: testing_pipeline_matching_labels
+    value:
+      apps.tanzu.vmware.com/pipeline: test
+      apps.tanzu.vmware.com/language: java
+  - name: annotations
+    value:
+      autoscaling.knative.dev/minScale: "1"
+      prometheus.io/path: /actuator/prometheus
+      prometheus.io/port: "8081"
+      prometheus.io/scrape: "true"
+  - name: gitops_branch
+    value: pineapple
+  - name: gitops_ssh_secret
+    value: git-basic
+  - name: gitops_user_email
+    value: makingx+bot@gmail.com
+  - name: gitops_user_name
+    value: making-bot
+  resources:
+    limits:
+      memory: 320Mi
+    requests:
+      memory: 320Mi
+  serviceClaims:
+  - name: blog-db
+    ref:
+      apiVersion: v1
+      kind: Secret
+      name: blog-db
+  - name: blog-db-tls-ca
+    ref:
+      apiVersion: v1
+      kind: Secret
+      name: blog-db-tls-ca-bindable
+  source:
+    git:
+      url: https://github.com/categolj/blog-api
+      ref:
+        branch: main
