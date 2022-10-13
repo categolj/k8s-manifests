@@ -2,7 +2,7 @@ apiVersion: kappctrl.k14s.io/v1alpha1
 kind: App
 metadata:
   name: blog-ui-parent
-  namespace: blog
+  namespace: kapp
 spec:
   serviceAccountName: kapp
   fetch:
