@@ -6,7 +6,6 @@ metadata:
     app.kubernetes.io/part-of: blog-ui
     app.tanzu.vmware.com/deliverable-type: web
     apps.tanzu.vmware.com/has-tests: "true"
-    apps.tanzu.vmware.com/language: node
     apps.tanzu.vmware.com/workload-type: web
     carto.run/cluster-template-name: deliverable-template
     carto.run/resource-name: deliverable
