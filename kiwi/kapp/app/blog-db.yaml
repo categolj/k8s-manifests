@@ -1,7 +1,7 @@
 apiVersion: kappctrl.k14s.io/v1alpha1
 kind: App
 metadata:
-  name: blog-api
+  name: blog-db
   namespace: kapp
 spec:
   serviceAccountName: kapp
@@ -9,7 +9,7 @@ spec:
   - git:
       url: https://github.com/categolj/k8s-manifests.git
       ref: origin/main
-      subPath: kiwi/config/app/blog-api
+      subPath: kiwi/config/app/blog-db
   syncPeriod: 10m
   template:
   - sops:
@@ -18,10 +18,8 @@ spec:
           name: pgp-key
   - ytt:
       paths:
-      - deliverable.yaml
-      - blog-config.yaml
-      - httpproxy.yaml
-      - otel-config.yaml
+      - blog-db.yaml
+      - blog-db-tls-ca-bindable.yaml
       valuesFrom:
       - path: credentials.yaml
   deploy:
