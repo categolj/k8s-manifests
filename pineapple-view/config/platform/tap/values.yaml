@@ -62,15 +62,19 @@ stringData:
               authProvider: serviceAccount
               serviceAccountToken: (@= data.values.clusters.pineapple.run.service_account_token @) 
               skipTLSVerify: false
-              caData: (@= data.values.clusters.pineapple.run.ca_data @) 
-          - type: config
-            clusters:
+              caData: (@= data.values.clusters.pineapple.run.ca_data @)
             - name: pineapple-build
               url: (@= data.values.clusters.pineapple.build.url @)
               authProvider: serviceAccount
               serviceAccountToken: (@= data.values.clusters.pineapple.build.service_account_token @) 
               skipTLSVerify: false
-              caData: (@= data.values.clusters.pineapple.build.ca_data @) 
+              caData: (@= data.values.clusters.pineapple.build.ca_data @)
+            - name: kiwi-run
+              url: (@= data.values.clusters.kiwi.run.url @)
+              authProvider: serviceAccount
+              serviceAccountToken: (@= data.values.clusters.kiwi.run.service_account_token @) 
+              skipTLSVerify: false
+              caData: (@= data.values.clusters.kiwi.run.ca_data @)    
     appliveview:
       ingressEnabled: true
       tls:
