@@ -43,10 +43,12 @@ stringData:
     profile: run
     
     ceip_policy_disclosed: true
-    
+
+    shared:
+      ingress_domain: apps.ik.am
+
     contour:
       infrastructure_provider: "vsphere"
-      namespace: tanzu-system-ingress
       contour:
         replicas: 1
         configFileContents:
@@ -60,13 +62,10 @@ stringData:
             https: 31443
     
     cnrs:
-      domain_name: apps.ik.am
       domain_template: "{{.Name}}-{{.Namespace}}.{{.Domain}}"
       default_tls_secret: tanzu-system-ingress/cnrs-default-tls
       provider: local
     
-    supply_chain: basic
-
     package_overlays:
     - name: cnrs
       secrets:
@@ -83,6 +82,9 @@ stringData:
     - image-policy-webhook.signing.apps.tanzu.vmware.com
     - policy.apps.tanzu.vmware.com
     - services-toolkit.tanzu.vmware.com
+    - controller.source.apps.tanzu.vmware.com
+    #! - eventing.tanzu.vmware.com
+    #! - apis.apps.tanzu.vmware.com
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
