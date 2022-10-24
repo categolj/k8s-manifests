@@ -1,0 +1,42 @@
+apiVersion: kappctrl.k14s.io/v1alpha1
+kind: App
+metadata:
+  name: velero
+  namespace: bootstrap
+  annotations:
+    kapp.k14s.io/change-group: "{name}"
+spec:
+  serviceAccountName: kapp
+  fetch:
+  - helmChart:
+      name: velero
+      version: 2.32.1
+      repository:
+        url: https://vmware-tanzu.github.io/helm-charts
+  - git:
+      url: git@github.com:categolj/k8s-manifests.git
+      ref: origin/main
+      subPath: pineapple-view
+      secretRef:
+        name: github
+  syncPeriod: 168h
+  template:
+  - sops:
+      pgp:
+        privateKeysSecretRef:
+          name: pgp-key
+  - helmTemplate:
+      path: "0"
+      name: velero
+      namespace: velero
+      valuesFrom:
+      - path: 1/helm/bootstrap/velero/helm-values.yaml
+      - path: 1/helm/bootstrap/velero/helm-credentials.yaml
+  - ytt:
+      paths:
+      - "-"
+      - 1/config/bootstrap/velero
+  deploy:
+  - kapp:
+      rawOptions:
+      - "--diff-changes=true"

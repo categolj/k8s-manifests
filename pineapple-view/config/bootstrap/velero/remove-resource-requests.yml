@@ -1,0 +1,32 @@
+#@ load("@ytt:overlay", "overlay")
+#@overlay/match by=overlay.subset({"kind": "DaemonSet", "metadata": {"name": "restic"}})
+---
+spec:
+  template:
+    spec:
+      containers:
+      #@overlay/match by="name"
+      - name: restic
+        resources:
+          #@overlay/match missing_ok=True
+          #@overlay/remove
+          limits: {}
+          #@overlay/match missing_ok=True
+          #@overlay/remove
+          requests: {}
+---
+#@overlay/match by=overlay.subset({"kind": "Deployment", "metadata": {"name": "velero"}})
+---
+spec:
+  template:
+    spec:
+      containers:
+      #@overlay/match by="name"
+      - name: velero
+        resources:
+          #@overlay/match missing_ok=True
+          #@overlay/remove
+          limits: {}
+          #@overlay/match missing_ok=True
+          #@overlay/remove
+          requests: {}
