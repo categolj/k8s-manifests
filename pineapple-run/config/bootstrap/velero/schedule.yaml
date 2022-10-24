@@ -1,0 +1,26 @@
+apiVersion: velero.io/v1
+kind: Schedule
+metadata:
+  name: backup
+  namespace: velero
+spec:
+  schedule: '@every 24h'
+  template:
+    csiSnapshotTimeout: 0s
+    excludedResources:
+    - orders.acme.cert-manager.io
+    - challenges.acme.cert-manager.io
+    - certificaterequests.cert-manager.io
+    - certificates.cert-manager.io
+    - ingresses.networking.k8s.io
+    - internalpackages.internal.packaging.carvel.dev
+    - internalpackagemetadatas.internal.packaging.carvel.dev
+    includedNamespaces:
+    - kapp
+    - tap-install
+    - blog
+    - note
+    - demo
+    - playground
+    ttl: 168h0m0s
+  useOwnerReferencesInBackup: false
