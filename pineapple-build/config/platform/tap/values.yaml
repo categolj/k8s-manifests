@@ -22,9 +22,9 @@ stringData:
         namespace: tap-install  
       exclude_dependencies: true
 
-    supply_chain: testing
+    supply_chain: testing_scanning
 
-    ootb_supply_chain_testing:
+    ootb_supply_chain_testing_scanning:
       cluster_builder: base-jammy
       registry:
         server: (@= data.values.registry_credentials.server @)
