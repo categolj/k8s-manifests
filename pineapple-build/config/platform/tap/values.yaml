@@ -56,6 +56,9 @@ stringData:
       secrets:
       - name: ootb-templates-send-to-webhook-slack
       - name: ootb-templates-cache-workspace
+    - name: ootb-supply-chain-testing-scanning
+      secrets:
+      - name: ootb-supply-chain-testing-scanning-metadata-store-secrets
 
     excluded_packages:
     - grype.scanning.apps.tanzu.vmware.com
