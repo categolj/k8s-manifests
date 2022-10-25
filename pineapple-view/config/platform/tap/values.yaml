@@ -74,7 +74,8 @@ stringData:
               authProvider: serviceAccount
               serviceAccountToken: (@= data.values.clusters.kiwi.run.service_account_token @) 
               skipTLSVerify: false
-              caData: (@= data.values.clusters.kiwi.run.ca_data @)    
+              caData: (@= data.values.clusters.kiwi.run.ca_data @)
+
     appliveview:
       ingressEnabled: true
       tls:
@@ -88,7 +89,10 @@ stringData:
       tls:
         secret_name: tap-default-tls
         namespace: tanzu-system-ingress
-    
+
+    metadata_store:
+      ns_for_export_app_cert: "*"
+
     package_overlays:
     - name: contour
       secrets:
