@@ -81,6 +81,7 @@ stringData:
             changeOrigin: true
             secure: false
             headers:
+              #! kubectl get secret -n metadata-store metadata-store-read-client -otemplate='{{.data.token | base64decode}}' --context tap-view
               Authorization: "Bearer (@= data.values.metadata_store.token @)"
               X-Custom-Source: project-star
     appliveview:
