@@ -10,6 +10,8 @@ spec:
   params:
   - name: source-url
   - name: source-revision
+  - name: slack-webhook-secret
+  - name: slack-test-failure-message
 #!  workspaces:
 #!  - name: cache
   tasks:
@@ -57,3 +59,17 @@ spec:
           cd `mktemp -d`
           curl -s $(params.source-url) | tar -m -xzvf -
           ./mvnw clean test -V --no-transfer-progress
+  finally:
+  - name: notify-test-failure
+    when:
+    - input: $(tasks.test.status)
+      operator: in
+      values: [ "Failed" ]
+    taskRef:
+      kind: ClusterTask
+      name: send-to-webhook-slack
+    params:
+    - name: webhook-secret
+      value: $(params.slack-webhook-secret)
+    - name: message
+      value: $(params.slack-test-failure-message)

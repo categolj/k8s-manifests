@@ -25,6 +25,13 @@ spec:
     value:
       apps.tanzu.vmware.com/pipeline: test
       apps.tanzu.vmware.com/language: node
+  - name: testing_pipeline_params
+    value:
+      slack-webhook-secret: slack-webhook
+      slack-test-failure-message: |
+        🚨 [blog-ui] Test Failed!
+        https://tap-gui.view.pineapple.maki.lol/supply-chain/pineapple-build/blog/blog-ui
+
   - name: annotations
     value:
       autoscaling.knative.dev/minScale: "1"
