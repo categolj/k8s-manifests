@@ -52,6 +52,9 @@ stringData:
     - name: tap-telemetry
       secrets:
       - name: tap-telemetry-remove
+    - name: ootb-templates
+      secrets:
+      - name: ootb-templates-send-to-channel-slack
 
     excluded_packages:
     - grype.scanning.apps.tanzu.vmware.com
