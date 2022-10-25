@@ -75,7 +75,14 @@ stringData:
               serviceAccountToken: (@= data.values.clusters.kiwi.run.service_account_token @) 
               skipTLSVerify: false
               caData: (@= data.values.clusters.kiwi.run.ca_data @)
-
+        proxy:
+          /metadata-store:
+            target: https://metadata-store-app.metadata-store:8443/api/v1
+            changeOrigin: true
+            secure: false
+            headers:
+              Authorization: "Bearer (@= data.values.metadata_store.token @)"
+              X-Custom-Source: project-star
     appliveview:
       ingressEnabled: true
       tls:
