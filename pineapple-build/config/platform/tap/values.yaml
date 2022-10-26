@@ -54,7 +54,6 @@ stringData:
       - name: tap-telemetry-remove
     - name: ootb-templates
       secrets:
-      - name: ootb-templates-send-to-webhook-slack
       - name: ootb-templates-cache-workspace
 
     excluded_packages:
