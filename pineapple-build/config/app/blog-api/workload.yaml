@@ -58,7 +58,7 @@ spec:
       slack-webhook-secret: slack-webhook
       slack-test-failure-message: |
         🚨 [blog-api] Test Failed!
-        https://tap-gui.view.pineapple.maki.lol/supply-chain/pineapple-build/blog/blog-api
+        https://tap-gui.view.pineapple.maki.lol/supply-chain/pineapple-build/blog/blog-api/source-tester
 
   - name: annotations
     value:
