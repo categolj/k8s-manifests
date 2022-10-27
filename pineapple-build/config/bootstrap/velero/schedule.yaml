@@ -11,8 +11,6 @@ spec:
     - orders.acme.cert-manager.io
     - challenges.acme.cert-manager.io
     - certificaterequests.cert-manager.io
-    - certificates.cert-manager.io
-    - ingresses.networking.k8s.io
     - internalpackages.internal.packaging.carvel.dev
     - internalpackagemetadatas.internal.packaging.carvel.dev
     includedNamespaces:
