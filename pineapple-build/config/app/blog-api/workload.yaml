@@ -16,6 +16,8 @@ spec:
     - name: BP_JVM_VERSION
       value: "17"
   env:
+  - name: SPRING_DATASOURCE_HIKARI_DATASOURCEPROPERTIES_SSLFACTORY
+    value: org.postgresql.ssl.LibPQFactory
   - name: SPRING_DATASOURCE_HIKARI_DATASOURCEPROPERTIES_SSLCERT
     value: /bindings/blog-db-tls-ca/ca.crt
   - name: JAVA_TOOL_OPTIONS
