@@ -25,7 +25,7 @@ stringData:
     supply_chain: testing_scanning
 
     ootb_supply_chain_testing_scanning:
-      cluster_builder: base-jammy
+      #! cluster_builder: base-jammy
       registry:
         server: (@= data.values.registry_credentials.server @)
         repository: (@= data.values.registry_credentials.username @)/supply-chain
