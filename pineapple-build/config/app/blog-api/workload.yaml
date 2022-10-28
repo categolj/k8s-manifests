@@ -16,6 +16,9 @@ spec:
     - name: BP_JVM_VERSION
       value: "17"
   env:
+    #! workaround for ALV
+  - name: SPRING_MVC_PATHMATCH_MATCHINGSTRATEGY
+    value: ant_path_matcher
   - name: JAVA_TOOL_OPTIONS
     value: "-XX:ReservedCodeCacheSize=32M -Xss512k -Duser.timezone=Asia/Tokyo -Duser.language=ja -Duser.country=JP -Dfile.encoding=UTF-8 -Dmanagement.health.probes.enabled=true -Dmanagement.endpoint.health.probes.add-additional-paths=true"
   - name: BPL_JVM_THREAD_COUNT
