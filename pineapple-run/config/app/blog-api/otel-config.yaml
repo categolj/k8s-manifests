@@ -8,7 +8,7 @@ metadata:
   namespace: blog
 type: Opaque
 stringData:
-  otel-trace-service-name: blog-api
+  otel-trace-service-name: blog-api-dev
   otel-trace-endpoint: #@ data.values.otel.trace.endpoint
   otel-trace-username: #@ data.values.otel.trace.username
   otel-trace-password: #@ data.values.otel.trace.password

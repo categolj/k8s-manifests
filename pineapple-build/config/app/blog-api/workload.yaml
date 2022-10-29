@@ -16,12 +16,17 @@ spec:
     - name: BP_JVM_VERSION
       value: "17"
   env:
-  - name: SPRING_DATASOURCE_HIKARI_DATASOURCEPROPERTIES_SSLFACTORY
-    value: org.postgresql.ssl.DefaultJavaSSLFactory
   - name: JAVA_TOOL_OPTIONS
     value: "-XX:ReservedCodeCacheSize=32M -Xss512k -Duser.timezone=Asia/Tokyo -Duser.language=ja -Duser.country=JP -Dfile.encoding=UTF-8 -Dmanagement.health.probes.enabled=true -Dmanagement.endpoint.health.probes.add-additional-paths=true"
   - name: BPL_JVM_THREAD_COUNT
     value: "28"
+  - name: SPRING_APPLICATION_NAME
+    valueFrom:
+      secretKeyRef:
+        name: otel-config
+        key: otel-trace-service-name
+  - name: SPRING_DATASOURCE_HIKARI_DATASOURCEPROPERTIES_SSLFACTORY
+    value: org.postgresql.ssl.DefaultJavaSSLFactory
   - name: BLOG_GITHUB_ACCESS_TOKEN
     valueFrom:
       secretKeyRef:
@@ -32,6 +37,21 @@ spec:
       secretKeyRef:
         name: blog-config
         key: github-webhook-secret
+  - name: MANAGEMENT_OTLP_ENDPOINT
+    valueFrom:
+      secretKeyRef:
+        name: otel-config
+        key: otel-trace-endpoint
+  - name: MANAGEMENT_OTLP_BASICAUTH_USERNAME
+    valueFrom:
+      secretKeyRef:
+        name: otel-config
+        key: otel-trace-username
+  - name: MANAGEMENT_OTLP_BASICAUTH_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: otel-config
+        key: otel-trace-password
   - name: MANAGEMENT_METRICS_TAGS_JAVA_VERSION
     value: "${java.version}"
   - name: INFO_ENV_HOSTNAME
