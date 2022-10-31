@@ -92,5 +92,6 @@ stringData:
       - name: tap-telemetry-remove
 
     excluded_packages:
+    - policy.apps.tanzu.vmware.com
     - image-policy-webhook.signing.apps.tanzu.vmware.com
     - eventing.tanzu.vmware.com
