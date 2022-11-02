@@ -1,0 +1,40 @@
+apiVersion: kappctrl.k14s.io/v1alpha1
+kind: App
+metadata:
+  name: prometheus
+  namespace: kapp
+  annotations:
+    kapp.k14s.io/change-group: "{name}"
+spec:
+  serviceAccountName: kapp
+  fetch:
+  - helmChart:
+      name: prometheus
+      version: 15.17.0
+      repository:
+        url: https://prometheus-community.github.io/helm-charts
+  - git:
+      url: https://github.com/categolj/k8s-manifests.git
+      ref: origin/main
+      subPath: pineapple-build
+  syncPeriod: 168h
+  template:
+  - sops:
+      pgp:
+        privateKeysSecretRef:
+          name: pgp-key
+  - helmTemplate:
+      path: "0"
+      name: prometheus
+      namespace: monitoring
+      valuesFrom:
+      - path: 1/helm/platform/prometheus/helm-values.yaml
+      - path: 1/helm/platform/prometheus/helm-credentials.yaml
+  - ytt:
+      paths:
+      - "-"
+      - 1/config/platform/prometheus
+  deploy:
+  - kapp:
+      rawOptions:
+      - "--diff-changes=true"
