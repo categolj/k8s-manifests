@@ -14,6 +14,86 @@ spec:
       port: 6868
     enableWebsockets: true
 ---
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
+metadata:
+  name: vault-synology-ik-am
+  namespace: inlets
+spec:
+  virtualhost:
+    fqdn: vault.synology.ik.am
+    tls:
+      secretName: synology-ik-am-tls
+  routes:
+  - services:
+    - name: inlets-exit
+      port: 6868
+    enableWebsockets: true
+---
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
+metadata:
+  name: prometheus-synology-ik-am
+  namespace: inlets
+spec:
+  virtualhost:
+    fqdn: prometheus.synology.ik.am
+    tls:
+      secretName: synology-ik-am-tls
+  routes:
+  - services:
+    - name: inlets-exit
+      port: 6868
+    enableWebsockets: true
+---
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
+metadata:
+  name: alertmanager-synology-ik-am
+  namespace: inlets
+spec:
+  virtualhost:
+    fqdn: alertmanager.synology.ik.am
+    tls:
+      secretName: synology-ik-am-tls
+  routes:
+  - services:
+    - name: inlets-exit
+      port: 6868
+    enableWebsockets: true
+---
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
+metadata:
+  name: grafana-synology-ik-am
+  namespace: inlets
+spec:
+  virtualhost:
+    fqdn: grafana.synology.ik.am
+    tls:
+      secretName: synology-ik-am-tls
+  routes:
+  - services:
+    - name: inlets-exit
+      port: 6868
+    enableWebsockets: true
+---
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
+metadata:
+  name: appliveview-synology-ik-am
+  namespace: inlets
+spec:
+  virtualhost:
+    fqdn: appliveview.synology.ik.am
+    tls:
+      secretName: synology-ik-am-tls
+  routes:
+  - services:
+    - name: inlets-exit
+      port: 6868
+    enableWebsockets: true
+---
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
@@ -26,6 +106,7 @@ spec:
     kind: ClusterIssuer
   dnsNames:
   - synology.ik.am
+  - "*.synology.ik.am"
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
