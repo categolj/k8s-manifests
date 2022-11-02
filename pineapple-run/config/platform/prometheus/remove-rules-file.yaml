@@ -1,0 +1,13 @@
+#@ load("@ytt:overlay", "overlay")
+#@ load("@ytt:yaml", "yaml")
+
+#@ def config_overlay():
+#@overlay/remove
+rule_files:
+#@ end
+
+#@overlay/match by=overlay.subset({"kind":"ConfigMap","metadata":{"name":"prometheus-server"}})
+---
+data:
+  #@overlay/replace via=lambda left,right: yaml.encode(overlay.apply(yaml.decode(left), config_overlay()))
+  prometheus.yml:
