@@ -31,17 +31,18 @@ kubectl apply -f https://github.com/vmware-tanzu/carvel-kapp-controller/releases
 ```
 GITHUB_USERNAME=making
 GITHUB_API_TOKEN=ghp_******
-NAMESPACE=blog
 
-kubectl delete secret git-basic -n ${NAMESPACE}
-kubectl create secret generic git-basic -n ${NAMESPACE} \
-    --type kubernetes.io/basic-auth \
-    --from-literal=username=${GITHUB_USERNAME} \
-    --from-literal=password=${GITHUB_API_TOKEN} \
-    --dry-run=client -oyaml \
- | kubectl apply -f- 
-kubectl -n ${NAMESPACE} annotate secret git-basic tekton.dev/git-0=https://github.com --overwrite=true   
-kubectl patch -n ${NAMESPACE} serviceaccount default -p "{\"secrets\":[{\"name\":\"git-basic\"}]}"
+for NAMESPACE in $(kubectl get ns -l rbac-mgmt=managed -ojsonpath='{.items[*].metadata.name}');do
+    kubectl delete secret git-basic -n ${NAMESPACE}
+    kubectl create secret generic git-basic -n ${NAMESPACE} \
+        --type kubernetes.io/basic-auth \
+        --from-literal=username=${GITHUB_USERNAME} \
+        --from-literal=password=${GITHUB_API_TOKEN} \
+        --dry-run=client -oyaml \
+     | kubectl apply -f- 
+    kubectl -n ${NAMESPACE} annotate secret git-basic tekton.dev/git-0=https://github.com --overwrite=true   
+    kubectl patch -n ${NAMESPACE} serviceaccount default -p "{\"secrets\":[{\"name\":\"git-basic\"}]}"
+done
 ```
 
 ## How to generate GPG keys 
