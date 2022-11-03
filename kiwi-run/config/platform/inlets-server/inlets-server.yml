@@ -1,0 +1,76 @@
+#@ load("@ytt:data", "data")
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: inlets
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: inlets-exit
+  namespace: inlets
+spec:
+  ports:
+  - name: "6868"
+    port: 6868
+  selector:
+    app: inlets-server
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inlets-server
+  namespace: inlets
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: inlets-server
+  template:
+    metadata:
+      labels:
+        app: inlets-server
+    spec:
+      containers:
+      - name: inlets-server
+        image: ghcr.io/making/inlets:2.7.6
+        ports:
+        - containerPort: 6868
+        command:
+        - inlets
+        - server
+        - --port=6868
+        - --token-from=/var/inlets/token
+        volumeMounts:
+        - name: inlets-token-volume
+          mountPath: /var/inlets/
+        livenessProbe:
+          httpGet:
+            path: /tunnel
+            port: 6868
+            scheme: HTTP
+          initialDelaySeconds: 10
+          timeoutSeconds: 1
+          periodSeconds: 10
+          failureThreshold: 1
+        readinessProbe:
+          tcpSocket:
+            port: 6868
+          initialDelaySeconds: 10
+          timeoutSeconds: 1
+          periodSeconds: 5
+          failureThreshold: 1
+      volumes:
+      - name: inlets-token-volume
+        secret:
+          secretName: inlets-token
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: inlets-token
+  namespace: inlets
+type: Opaque
+stringData:
+  token: #@ data.values.inlets.token
