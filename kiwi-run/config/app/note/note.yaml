@@ -1,0 +1,160 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: note
+  namespace: note
+  labels:
+    app: note
+spec:
+  selector:
+    app: note
+  ports:
+  - protocol: TCP
+    port: 8080
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: note
+  namespace: note
+spec:
+  replicas: 1
+  revisionHistoryLimit: 4
+  selector:
+    matchLabels:
+      app: note
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        kubernetes.io/change-cause: FIXME
+        prometheus.io/path: /actuator/prometheus
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+      labels:
+        app: note
+    spec:
+      containers:
+      - env:
+        - name: SERVER_TOMCAT_MAX_THREADS
+          value: "4"
+        - name: JAVA_OPTS
+          value: -XX:ReservedCodeCacheSize=32M -Xss512k -Duser.timezone=Asia/Tokyo
+            -Dfile.encoding=UTF-8
+        - name: BPL_JVM_THREAD_COUNT
+          value: "20"
+        - name: SPRING_PROFILES_ACTIVE
+          value: kubernetes
+        - name: GITHUB_ACCESS_TOKEN
+          valueFrom:
+            secretKeyRef:
+              key: GITHUB_ACCESS_TOKEN
+              name: note-secret
+        - name: GITHUB_WEBHOOK_SECRET
+          valueFrom:
+            secretKeyRef:
+              key: GITHUB_WEBHOOK_SECRET
+              name: note-secret
+        - name: SPRING_DATASOURCE_URL
+          valueFrom:
+            secretKeyRef:
+              key: SPRING_DATASOURCE_URL
+              name: note-secret
+        - name: SPRING_DATASOURCE_USERNAME
+          valueFrom:
+            secretKeyRef:
+              key: SPRING_DATASOURCE_USERNAME
+              name: note-secret
+        - name: SPRING_DATASOURCE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: SPRING_DATASOURCE_PASSWORD
+              name: note-secret
+        - name: SPRING_SECURITY_USER_NAME
+          valueFrom:
+            secretKeyRef:
+              key: SPRING_SECURITY_USER_NAME
+              name: note-secret
+        - name: SPRING_SECURITY_USER_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: SPRING_SECURITY_USER_PASSWORD
+              name: note-secret
+        - name: SPRING_SENDGRID_API_KEY
+          valueFrom:
+            secretKeyRef:
+              key: SPRING_SENDGRID_API_KEY
+              name: note-secret
+        - name: INFO_K8S_NAMESPACE
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+        - name: INFO_K8S_POD
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.name
+        - name: INFO_K8S_APP
+          value: ${spring.application.name}
+        - name: INFO_JAVA_VERSION
+          value: "${java.vm.version} / ${java.vm.name}"
+        - name: INFO_JAVA_VENDOR
+          value: ${java.vm.vendor}
+        - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+          value: "info,health,prometheus"
+        - name: MANAGEMENT_METRICS_EXPORT_WAVEFRONT_ENABLED
+          value: "false"
+        - name: SPRING_ZIPKIN_ENABLED
+          value: "false"
+        - name: MANAGEMENT_METRICS_EXPORT_PROMETHEUS_RSOCKET_ENABLED
+          value: "false"
+        - name: JWT_SIGNING_KEY
+          value: file:///note-jwt-key/private_key.pem
+        - name: JWT_VERIFIER_KEY
+          value: file:///note-jwt-key/public.pem
+        image: index.docker.io/making/note@sha256:50bfe83cb9f3a6fec9f65adff3bb50f60e49b37c082eecc48c33c7bc89d4c086
+        imagePullPolicy: Always
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /actuator/info
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 180
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 3
+        name: note
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /actuator/health
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 15
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 3
+        resources:
+          limits:
+            memory: 256Mi
+          requests:
+            memory: 256Mi
+        volumeMounts:
+        - mountPath: /note-jwt-key
+          name: note-jwt-key
+          readOnly: true
+      volumes:
+      - name: note-jwt-key
+        secret:
+          secretName: note-jwt-key
+

@@ -1,0 +1,51 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: note-ui
+  namespace: note
+  labels:
+    app: note-ui
+spec:
+  selector:
+    app: note-ui
+  ports:
+  - protocol: TCP
+    port: 8080
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: note-ui
+  namespace: note
+spec:
+  replicas: 1
+  revisionHistoryLimit: 4
+  selector:
+    matchLabels:
+      app: note-ui
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: note-ui
+    spec:
+      containers:
+      - env:
+        - name: PORT
+          value: "8080"
+        image: ghcr.io/categolj/blog-frontend-ui@sha256:1e0e7fe95abe2d1880b71ba3747c0937923873f07be8aac9ff6ed5638c80a794
+        imagePullPolicy: Always
+        name: note-ui
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        resources:
+          limits:
+            memory: 32Mi
+          requests:
+            memory: 32Mi

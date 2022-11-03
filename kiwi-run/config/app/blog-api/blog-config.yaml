@@ -1,0 +1,11 @@
+#@ load("@ytt:data", "data")
+apiVersion: v1
+kind: Secret
+metadata:
+  name: blog-config
+  namespace: blog
+type: Opaque
+stringData:
+  type: blog
+  github-access-token: #@ data.values.github_access_token
+  github-webhook-secret: #@ data.values.github_webhook_secret
