@@ -47,6 +47,11 @@ scrape_configs:
 
 #@overlay/match by=overlay.subset({"kind":"ConfigMap","metadata":{"name":"prometheus-server"}})
 ---
+metadata:
+  #@overlay/match missing_ok=True
+  annotations:
+    #@overlay/match missing_ok=True
+    kapp.k14s.io/versioned: ""
 data:
   #@overlay/replace via=lambda left,right: yaml.encode(overlay.apply(yaml.decode(left), config_overlay()))
   prometheus.yml:
