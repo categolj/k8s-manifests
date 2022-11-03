@@ -1,0 +1,29 @@
+#@ load("@ytt:overlay", "overlay")
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: openldap-tls
+spec:
+  dnsNames:
+  - ldap.ik.am
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt
+  secretName: openldap-tls
+
+#@overlay/match by=overlay.subset({"kind": "StatefulSet", "metadata": {"name": "openldap-stack-ha"}})
+---
+spec:
+  template:
+    spec:
+      initContainers:
+      #@overlay/match by="name"
+      - name: init-chmod-secret
+        image: ellerbrock/alpine-curl-ssl
+        command:
+        #@overlay/match by=overlay.index(2)
+        #@overlay/replace
+        - |
+          set -ex
+          cp -Lr /tmp-certs/* /certs
+          curl -svk https://letsencrypt.org/certs/lets-encrypt-r3.pem > /certs/ca.crt
