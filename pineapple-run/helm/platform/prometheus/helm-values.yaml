@@ -7,6 +7,9 @@ server:
       cluster: pineapple-run
   ingress:
     enabled: false
+  resources:
+    limits:
+      memory: 512Mi
   defaultFlagsOverride:
   - --config.file=/etc/config/prometheus.yml
   - --enable-feature=agent
