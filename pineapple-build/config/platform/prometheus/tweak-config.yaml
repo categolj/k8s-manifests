@@ -10,7 +10,7 @@ scrape_configs:
   #@overlay/match by=overlay.index(0)
   #@overlay/insert after=True
   - action: drop
-    regex: true
+    regex: (.+)
     source_labels:
     - __meta_kubernetes_service_label_networking_internal_knative_dev_serverlessservice
   #@overlay/match by=overlay.subset({"action": "labelmap", "regex":"__meta_kubernetes_service_label_(.+)"})
