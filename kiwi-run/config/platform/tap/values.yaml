@@ -1,0 +1,66 @@
+#@ load("@ytt:data", "data")
+apiVersion: v1
+kind: Secret
+metadata:
+  name: tap-tap-install-values
+  namespace: tap-install
+  annotations:
+    kapp.k14s.io/change-group: "tap-install-values"
+type: Opaque
+stringData:
+  #@yaml/text-templated-strings
+  tap-values.yml: |
+    ---
+    profile: run
+
+    ceip_policy_disclosed: true
+    
+    shared:
+      ingress_domain: apps.ik.am
+
+    contour:
+      infrastructure_provider: "vsphere"
+      contour:
+        replicas: 1
+        configFileContents:
+          accesslog-format: json
+      envoy:
+        service:
+          type: NodePort
+          #! externalTrafficPolicy: Local
+          nodePorts:
+            http: 31080
+            https: 31443
+        hostPorts:
+          enable: true
+      azure:
+        client_id: (@= data.values.azure.client_id @)
+        client_secret: (@= data.values.azure.client_secret @)
+        subscription_id: (@= data.values.azure.subscription_id @)
+        tenant_id: (@= data.values.azure.tenant_id @)
+
+    cnrs:
+      domain_template: "{{.Name}}-{{.Namespace}}.{{.Domain}}"
+      default_tls_secret: tanzu-system-ingress/tap-default-tls
+      provider: local
+
+    package_overlays:
+    - name: contour
+      secrets:
+      - name: contour-default-tls
+    - name: cnrs
+      secrets:
+      - name: cnrs-https
+      - name: cnrs-autocreate-cluster-domain-claims
+    - name: tap-telemetry
+      secrets:
+      - name: tap-telemetry-remove
+
+    excluded_packages:
+    - connector.appliveview.tanzu.vmware.com
+    - sso.apps.tanzu.vmware.com
+    - image-policy-webhook.signing.apps.tanzu.vmware.com
+    - policy.apps.tanzu.vmware.com
+    - controller.source.apps.tanzu.vmware.com
+    - eventing.tanzu.vmware.com
+    - apis.apps.tanzu.vmware.com
