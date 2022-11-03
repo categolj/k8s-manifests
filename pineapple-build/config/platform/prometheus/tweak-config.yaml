@@ -1,0 +1,52 @@
+#@ load("@ytt:overlay", "overlay")
+#@ load("@ytt:yaml", "yaml")
+
+#@ def config_overlay():
+#@overlay/remove
+rule_files:
+scrape_configs:
+#@overlay/match by=overlay.or_op(overlay.subset({"job_name": "kubernetes-service-endpoints"}), overlay.subset({"job_name": "kubernetes-service-endpoints-slow"})), expects="1+"
+- relabel_configs:
+  #@overlay/match by=overlay.index(0)
+  #@overlay/insert after=True
+  - action: drop
+    regex: true
+    source_labels:
+    - __meta_kubernetes_service_label_networking_internal_knative_dev_serverlessservice
+  #@overlay/match by=overlay.subset({"action": "labelmap", "regex":"__meta_kubernetes_service_label_(.+)"})
+  #@overlay/replace
+  - action: replace
+    source_labels:
+    - __meta_kubernetes_service_label_app_kubernetes_io_part_of
+    target_label: app_kubernetes_io_part_of
+  - action: replace
+    source_labels:
+    - __meta_kubernetes_service_label_app_kubernetes_io_component
+    target_label: app_kubernetes_io_component
+  - action: replace
+    source_labels:
+    - __meta_kubernetes_service_label_app
+    target_label: app
+#@overlay/match by=overlay.or_op(overlay.subset({"job_name": "kubernetes-pods"}), overlay.subset({"job_name": "kubernetes-pods-slow"})), expects="1+"
+- relabel_configs:
+  #@overlay/match by=overlay.subset({"action": "labelmap", "regex":"__meta_kubernetes_pod_label_(.+)"})
+  #@overlay/replace
+  - action: replace
+    source_labels:
+    - __meta_kubernetes_pod_label_app_kubernetes_io_part_of
+    target_label: app_kubernetes_io_part_of
+  - action: replace
+    source_labels:
+    - __meta_kubernetes_pod_label_app_kubernetes_io_component
+    target_label: app_kubernetes_io_component
+  - action: replace
+    source_labels:
+    - __meta_kubernetes_pod_label_app
+    target_label: app
+#@ end
+
+#@overlay/match by=overlay.subset({"kind":"ConfigMap","metadata":{"name":"prometheus-server"}})
+---
+data:
+  #@overlay/replace via=lambda left,right: yaml.encode(overlay.apply(yaml.decode(left), config_overlay()))
+  prometheus.yml:
