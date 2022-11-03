@@ -9,7 +9,7 @@ server:
     enabled: false
   resources:
     limits:
-      memory: 640Mi
+      memory: 768Mi
   defaultFlagsOverride:
   - --config.file=/etc/config/prometheus.yml
   - --enable-feature=agent
