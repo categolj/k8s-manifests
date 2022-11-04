@@ -58,6 +58,9 @@ stringData:
     - name: ootb-supply-chain-testing-scanning
       secrets:
       - name: ootb-supply-chain-testing-scanning-remove-source-scanner
+    - name: tekton-pipelines
+      secrets:
+      - name: tekton-pipelines-prometheus
 
     excluded_packages:
     - grype.scanning.apps.tanzu.vmware.com
