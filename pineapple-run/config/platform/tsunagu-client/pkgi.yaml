@@ -1,0 +1,21 @@
+apiVersion: packaging.carvel.dev/v1alpha1
+kind: PackageInstall
+metadata:
+  annotations:
+    kapp.k14s.io/change-group: "{name}"
+    kapp.k14s.io/change-rule.create-order.0: "upsert after upserting tsunagu-package-repository"
+    kapp.k14s.io/change-rule.delete-order.0: "delete before deleting tsunagu-package-repository"
+    kapp.k14s.io/change-rule.create-order.1: "upsert after upserting tsunagu-client-values"
+    kapp.k14s.io/change-rule.delete-order.1: "delete before deleting tsunagu-client-values"
+  name: tsunagu-client
+  namespace: kapp
+spec:
+  packageRef:
+    refName: tsunagu-client.tsunagu.ik.am
+    versionSelection:
+      constraints: 0.0.1
+      prereleases: { }
+  serviceAccountName: kapp
+  values:
+  - secretRef:
+      name: tsunagu-client-values
