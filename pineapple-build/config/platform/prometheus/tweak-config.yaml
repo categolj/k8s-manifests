@@ -27,10 +27,6 @@ scrape_configs:
     source_labels:
     - __meta_kubernetes_service_label_app
     target_label: app
-  - action: replace
-    source_labels:
-    - __meta_kubernetes_pod_label_serving_knative_dev_configuration
-    target_label: serving_knative_dev_configuration
 #@overlay/match by=overlay.or_op(overlay.subset({"job_name": "kubernetes-pods"}), overlay.subset({"job_name": "kubernetes-pods-slow"})), expects="1+"
 - relabel_configs:
   #@overlay/match by=overlay.subset({"action": "labelmap", "regex":"__meta_kubernetes_pod_label_(.+)"})
@@ -47,10 +43,6 @@ scrape_configs:
     source_labels:
     - __meta_kubernetes_pod_label_app
     target_label: app
-  - action: replace
-    source_labels:
-    - __meta_kubernetes_pod_label_serving_knative_dev_configuration
-    target_label: serving_knative_dev_configuration
 #@ end
 
 #@overlay/match by=overlay.subset({"kind":"ConfigMap","metadata":{"name":"prometheus-server"}})
