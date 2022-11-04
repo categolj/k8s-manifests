@@ -38,6 +38,7 @@ spec:
         prometheus.io/port: "8080"
       labels:
         app: note
+        app.kubernetes.io/part-of: note
     spec:
       containers:
       - env:
@@ -106,6 +107,8 @@ spec:
           value: "${java.vm.version} / ${java.vm.name}"
         - name: INFO_JAVA_VENDOR
           value: ${java.vm.vendor}
+        - name: MANAGEMENT_METRICS_TAGS_JAVA_VERSION
+          value: "${java.version}"
         - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
           value: "info,health,prometheus"
         - name: MANAGEMENT_METRICS_EXPORT_WAVEFRONT_ENABLED
