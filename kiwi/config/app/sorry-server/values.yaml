@@ -1,5 +1,0 @@
-#@data/values
-#@overlay/match-child-defaults missing_ok=True
----
-image_name: ghcr.io/making/sorry-server:latest
-image_digest: sha256:9425efa5128efa9bdd5c81d377332e0a5244f6da8ad11489b2a994da0865bf00
