@@ -1,7 +1,0 @@
-#@ load("@ytt:data", "data")
-#@ if/end data.values.keycloak.create_namespace:
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: #@ data.values.keycloak.namespace
