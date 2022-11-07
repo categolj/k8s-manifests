@@ -9,3 +9,4 @@ stringData:
   type: blog
   github-access-token: #@ data.values.github_access_token
   github-webhook-secret: #@ data.values.github_webhook_secret
+  admin-password: #@ data.values.admin_password

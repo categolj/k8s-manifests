@@ -27,6 +27,11 @@ spec:
         key: otel-trace-service-name
   - name: SPRING_DATASOURCE_HIKARI_DATASOURCEPROPERTIES_SSLFACTORY
     value: org.postgresql.ssl.DefaultJavaSSLFactory
+  - name: SPRING_SECURITY_USER_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: blog-config
+        key: admin-password
   - name: BLOG_GITHUB_ACCESS_TOKEN
     valueFrom:
       secretKeyRef:
