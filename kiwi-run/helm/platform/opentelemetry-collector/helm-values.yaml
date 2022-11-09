@@ -1,0 +1,32 @@
+mode: deployment
+
+config:
+  receivers:
+    prometheus: null
+    jaeger: null
+    otlp: null
+    zipkin:
+      endpoint: 0.0.0.0:9411
+  processors:
+    batch: { }
+    memory_limiter: null
+  exporters:
+    logging: { }
+  extensions:
+    health_check: { }
+    memory_ballast: { }
+  service:
+    extensions:
+    - health_check
+    - memory_ballast
+    pipelines:
+      logs: null
+      metrics: null
+      traces:
+        receivers:
+        - zipkin
+        processors:
+        - batch
+        exporters:
+        - logging
+        - otlp
