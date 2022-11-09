@@ -10,6 +10,3 @@ type: Opaque
 stringData:
   otel-trace-service-name: blog-api
   otel-trace-endpoint: #@ data.values.otel.trace.endpoint
-  otel-trace-username: #@ data.values.otel.trace.username
-  otel-trace-password: #@ data.values.otel.trace.password
-  #! trace-headers: #@ "Authorization=Basic {}".format(base64.encode("{}:{}".format(data.values.otel.trace.username, data.values.otel.trace.password)))
