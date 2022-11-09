@@ -42,21 +42,11 @@ spec:
       secretKeyRef:
         name: blog-config
         key: github-webhook-secret
-  - name: MANAGEMENT_OTLP_ENDPOINT
+  - name: MANAGEMENT_ZIPKIN_TRACING_ENDPOINT
     valueFrom:
       secretKeyRef:
         name: otel-config
         key: otel-trace-endpoint
-  - name: MANAGEMENT_OTLP_BASICAUTH_USERNAME
-    valueFrom:
-      secretKeyRef:
-        name: otel-config
-        key: otel-trace-username
-  - name: MANAGEMENT_OTLP_BASICAUTH_PASSWORD
-    valueFrom:
-      secretKeyRef:
-        name: otel-config
-        key: otel-trace-password
   - name: MANAGEMENT_METRICS_TAGS_JAVA_VERSION
     value: "${java.version}"
   - name: INFO_ENV_HOSTNAME
