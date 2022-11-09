@@ -45,6 +45,36 @@ spec:
             metadata:
               #@overlay/match missing_ok=True
               namespace: opentelemetry
+            ---
+            apiVersion: projectcontour.io/v1
+            kind: HTTPProxy
+            metadata:
+              name: zipkin
+              namespace: opentelemetry
+            spec:
+              virtualhost:
+                fqdn: zipkin.run.pineapple.maki.lol
+                corsPolicy:
+                  allowCredentials: true
+                  allowOrigin:
+                  - "*"
+                  allowMethods:
+                  - POST
+                  - OPTIONS
+                  allowHeaders:
+                  - "*"
+                  maxAge: "60m"
+                tls:
+                  secretName: tanzu-system-ingress/tap-default-tls
+              routes:
+              - services:
+                - name: opentelemetry-collector
+                  port: 9411
+                  weight: 100
+                timeoutPolicy:
+                  response: 20s
+                retryPolicy:
+                  count: 3
   deploy:
   - kapp:
       rawOptions:
