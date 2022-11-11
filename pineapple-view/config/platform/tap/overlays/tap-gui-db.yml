@@ -62,7 +62,7 @@ stringData:
             - sh
             - -c
             - |
-              rm -fr /bitnami/postgresql/data/lost+found
+              rm -fr /bitnami/postgresql/lost+found
             volumeMounts:
             - name: tap-gui-db
               mountPath: /bitnami/postgresql
