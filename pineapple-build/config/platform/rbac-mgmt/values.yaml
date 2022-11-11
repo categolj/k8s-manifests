@@ -49,7 +49,7 @@ rolebindings:
   tap:
     enabled: true
     grype:
-      enabled: true
+      enabled: false
       metadata_store:
         url: https://metadata-store.view.pineapple.maki.lol
         caSecret:
