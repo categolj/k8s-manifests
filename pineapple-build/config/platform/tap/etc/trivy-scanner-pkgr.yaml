@@ -1,0 +1,9 @@
+apiVersion: packaging.carvel.dev/v1alpha1
+kind: PackageRepository
+metadata:
+  name: tap-scanner-integrations
+  namespace: tap-install
+spec:
+  fetch:
+    imgpkgBundle:
+      image: ghcr.io/vrabbi-tap/tap-scanning-examples-repo:0.1.0
