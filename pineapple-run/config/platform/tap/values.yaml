@@ -86,6 +86,7 @@ stringData:
     - name: cnrs
       secrets:
       - name: cnrs-https
+      - name: cnrs-tracing
       - name: cnrs-autocreate-cluster-domain-claims
     - name: tap-telemetry
       secrets:
