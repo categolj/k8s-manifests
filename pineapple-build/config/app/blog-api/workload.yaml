@@ -34,12 +34,16 @@ spec:
       secretKeyRef:
         name: blog-config
         key: admin-password
-  - name: BLOG_GITHUB_ACCESS_TOKEN
+  - name: BLOG_GITHUB_CONTENTOWNER
+    value: making
+  - name: BLOG_GITHUB_CONTENTREPO
+    value: blog.ik.am
+  - name: BLOG_GITHUB_ACCESSTOKEN
     valueFrom:
       secretKeyRef:
         name: blog-config
         key: github-access-token
-  - name: BLOG_GITHUB_WEBHOOK_SECRET
+  - name: BLOG_GITHUB_WEBHOOKSECRET
     valueFrom:
       secretKeyRef:
         name: blog-config
