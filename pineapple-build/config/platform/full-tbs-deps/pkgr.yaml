@@ -8,5 +8,5 @@ metadata:
 spec:
   fetch:
     imgpkgBundle:
-      #! imgpkg copy -b registry.tanzu.vmware.com/tanzu-application-platform/full-tbs-deps-package-repo:1.7.4 --to-repo ghcr.io/making/build-service/full-tbs-deps-package-repo
-      image: ghcr.io/making/build-service/full-tbs-deps-package-repo:1.7.4
+      #! imgpkg copy -b registry.tanzu.vmware.com/tanzu-application-platform/full-tbs-deps-package-repo:1.8.2 --to-repo ghcr.io/making/build-service/full-tbs-deps-package-repo
+      image: ghcr.io/making/build-service/full-tbs-deps-package-repo:1.8.2
