@@ -61,6 +61,7 @@ stringData:
     - name: tekton-pipelines
       secrets:
       - name: tekton-pipelines-prometheus
+      - name: tekton-send-to-webhook-slack
 
     excluded_packages:
     - grype.scanning.apps.tanzu.vmware.com
