@@ -99,9 +99,9 @@ spec:
     value: making-bot
   resources:
     limits:
-      memory: 320Mi
+      memory: 512Mi
     requests:
-      memory: 320Mi
+      memory: 512Mi
   serviceClaims:
   - name: blog-db
     ref:
