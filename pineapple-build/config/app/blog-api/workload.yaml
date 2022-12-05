@@ -34,6 +34,16 @@ spec:
       secretKeyRef:
         name: blog-config
         key: admin-password
+  - name: BLOG_TENANT_USERS_0
+    valueFrom:
+      secretKeyRef:
+        name: blog-config
+        key: users-0
+  - name: BLOG_TENANT_USERS_1
+    valueFrom:
+      secretKeyRef:
+        name: blog-config
+        key: users-1
   - name: BLOG_GITHUB_CONTENTOWNER
     value: making
   - name: BLOG_GITHUB_CONTENTREPO

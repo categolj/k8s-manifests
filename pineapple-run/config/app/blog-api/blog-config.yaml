@@ -10,3 +10,5 @@ stringData:
   github-access-token: #@ data.values.github_access_token
   github-webhook-secret: #@ data.values.github_webhook_secret
   admin-password: #@ data.values.admin_password
+  users-0: #@ data.values.users[0]
+  users-1: #@ data.values.users[1]
