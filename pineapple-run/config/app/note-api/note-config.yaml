@@ -1,0 +1,14 @@
+#@ load("@ytt:data", "data")
+apiVersion: v1
+kind: Secret
+metadata:
+  name: note-config
+  namespace: note
+type: Opaque
+stringData:
+  type: note
+  entry-api-url: #@ data.values.entry_api.url
+  entry-api-client-id: #@ data.values.entry_api.client_id
+  entry-api-client-secret: #@ data.values.entry_api.client_secret
+  rsa-private-key.pem: #@ data.values.rsa.private_key
+  rsa-public-key.pem: #@ data.values.rsa.public_key
