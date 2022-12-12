@@ -81,9 +81,9 @@ spec:
     value: making-bot
   resources:
     limits:
-      memory: 512Mi
+      memory: 386Mi
     requests:
-      memory: 512Mi
+      memory: 386Mi
   serviceClaims:
   - name: note-config
     ref:
