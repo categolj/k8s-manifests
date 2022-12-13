@@ -20,14 +20,29 @@ spec:
       - "*"
       maxAge: "60m"
   routes:
-  - services:
-    - name: note
-      port: 8080
-      weight: 100
-    timeoutPolicy:
-      response: 20s
+  - enableWebsockets: true
+    requestHeadersPolicy:
+      set:
+      - name: Host
+        value: note-api.note.svc.cluster.local
     retryPolicy:
-      count: 3
+      count: 2
+      retryOn:
+      - cancelled
+      - connect-failure
+      - refused-stream
+      - resource-exhausted
+      - retriable-status-codes
+      - reset
+    services:
+    - name: note-api
+      port: 80
+      protocol: h2c
+      requestHeadersPolicy:
+        set:
+        - name: K-Original-Host
+          value: note.dev.ik.am
+      weight: 100
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
