@@ -1,0 +1,21 @@
+apiVersion: carto.run/v1alpha1
+kind: Deliverable
+metadata:
+  name: note-api
+  namespace: note
+  labels:
+    app.kubernetes.io/part-of: note-api
+    apps.tanzu.vmware.com/has-tests: "true"
+    apps.tanzu.vmware.com/workload-type: web
+    app.kubernetes.io/component: deliverable
+    app.tanzu.vmware.com/deliverable-type: web
+spec:
+  params:
+  - name: gitops_ssh_secret
+    value: git-basic
+  source:
+    git:
+      url: https://github.com/categolj/tap-gitops.git
+      ref:
+        branch: kiwi
+    subPath: config/note/note-api

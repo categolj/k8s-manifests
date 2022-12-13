@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: note-db-tls-ca-bindable
+  namespace: note
+  labels:
+    app.kubernetes.io/part-of: note-api
+type: servicebinding.io/ca-certificates
+stringData:
+  type: ca-certificates
+  ca.crt: |
+    -----BEGIN CERTIFICATE-----
+    MIIDfzCCAmegAwIBAgIBADANBgkqhkiG9w0BAQsFADB3MS0wKwYDVQQuEyRkZDlh
+    NDI5Ni00N2M3LTQwOTktOTgzOC04YTFmZWIwZDM3M2ExIzAhBgNVBAMTGkdvb2ds
+    ZSBDbG91ZCBTUUwgU2VydmVyIENBMRQwEgYDVQQKEwtHb29nbGUsIEluYzELMAkG
+    A1UEBhMCVVMwHhcNMjIxMjEyMTEwNzA2WhcNMzIxMjA5MTEwODA2WjB3MS0wKwYD
+    VQQuEyRkZDlhNDI5Ni00N2M3LTQwOTktOTgzOC04YTFmZWIwZDM3M2ExIzAhBgNV
+    BAMTGkdvb2dsZSBDbG91ZCBTUUwgU2VydmVyIENBMRQwEgYDVQQKEwtHb29nbGUs
+    IEluYzELMAkGA1UEBhMCVVMwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIB
+    AQCjovCaWYA7dq8gJMu5lBNrKP5FM0bFEd/r3999XtF7REHw89OxlRDelCBZgQFB
+    sWgpVZtoUNShBKgWFfR0PoPEc7Sik60kZaupckxv2UYpdk216ltruLSq7Wt7ZjFu
+    sOz8aADZRs/tMUKgy8cNjzHpM3dsherQ8Os0hYvEzQHjI7Bw0SN4IkEXJ3hPrUZt
+    F+alAbfadEs3rUzod008x9KtvnMs/wEDb54LPteMHFjA7GRZ7tBWWv51bVZj6AeN
+    sYpd/XQTd4Bjbn5S0EliCoONwfMa3K9AjLIqJE7LvWshLp5FpF2b4f1862RnmBos
+    TTcppP6MUsKGbqrNdRIFgy4tAgMBAAGjFjAUMBIGA1UdEwEB/wQIMAYBAf8CAQAw
+    DQYJKoZIhvcNAQELBQADggEBAGyWIVR2du+AP942Jq1ni4CwO15/5sS+ohjnm4e/
+    KJh0pbAeF7A6k/XSbTEPiArPQpiQw7t4EN50faVTmLRj4E80mPubembKYYPH8KQw
+    jkFhniEOdK6vo+kpUinW1ZQdzK7vhIZM3/YRGdoiBn4ODI962ibtX9SvPsK2pyY8
+    SfVsmrt5NVgZFytCZW7Jr9WwjZsHWdgjEx3uJzT75pJawT+jpgibqTat2mwYfE05
+    oFwLIE5xjaXLGW4J9k46uI4SmrgNkDroauILhmYDEZzbtEKgmqyCc8cUoq+pEbxO
+    ysf/GSvfZvvXDrp8HPlXcMnm8o9iuAtk+xZ/dIIQMLZH7c4=
+    -----END CERTIFICATE-----
