@@ -25,7 +25,7 @@ spec:
     value: "${k8s.bindings.note-config.entry-api-client-secret}"
   - name: RSA_PRIVATEKEY
     value: file:/bindings/note-config/rsa-private-key.pem
-  - name: RSA_PUBLICKEU
+  - name: RSA_PUBLICKEY
     value: file:/bindings/note-config/rsa-public-key.pem
   - name: BPL_JVM_THREAD_COUNT
     value: "28"
