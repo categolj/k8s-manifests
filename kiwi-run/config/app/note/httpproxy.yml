@@ -3,6 +3,8 @@ kind: HTTPProxy
 metadata:
   name: note-dev-ik-am
   namespace: note
+  annotations:
+    kapp.k14s.io/noop: ""
 spec:
   virtualhost:
     fqdn: note.dev.ik.am
@@ -34,6 +36,8 @@ kind: Certificate
 metadata:
   name: note-dev-ik-am
   namespace: note
+  annotations:
+    kapp.k14s.io/noop: ""
 spec:
   secretName: note-dev-ik-am-tls
   issuerRef:
