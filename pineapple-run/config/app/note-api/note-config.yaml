@@ -12,3 +12,4 @@ stringData:
   entry-api-client-secret: #@ data.values.entry_api.client_secret
   rsa-private-key.pem: #@ data.values.rsa.private_key
   rsa-public-key.pem: #@ data.values.rsa.public_key
+  sendgrid-api-key: #@ data.values.sendgrid.api_key
