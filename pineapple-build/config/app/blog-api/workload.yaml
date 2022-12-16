@@ -44,6 +44,11 @@ spec:
       secretKeyRef:
         name: blog-config
         key: users-1
+  - name: BLOG_TENANT_USERS_2
+    valueFrom:
+      secretKeyRef:
+        name: blog-config
+        key: users-2
   - name: BLOG_GITHUB_CONTENTOWNER
     value: making
   - name: BLOG_GITHUB_CONTENTREPO
@@ -58,6 +63,20 @@ spec:
       secretKeyRef:
         name: blog-config
         key: github-webhook-secret
+  - name: BLOG_GITHUB_TENANTS_EN_CONTENTOWNER
+    value: making
+  - name: BLOG_GITHUB_TENANTS_EN_CONTENTREPO
+    value: ik.am_en
+  - name: BLOG_GITHUB_TENANTS_EN_ACCESSTOKEN
+    valueFrom:
+      secretKeyRef:
+        name: blog-config
+        key: github-access-token-en
+  - name: BLOG_GITHUB_TENANTS_EN_WEBHOOKSECRET
+    valueFrom:
+      secretKeyRef:
+        name: blog-config
+        key: github-webhook-secret-en
   - name: MANAGEMENT_ZIPKIN_TRACING_ENDPOINT
     valueFrom:
       secretKeyRef:
