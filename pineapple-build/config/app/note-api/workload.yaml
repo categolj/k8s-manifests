@@ -16,7 +16,7 @@ spec:
       value: "17"
   env:
   - name: JAVA_TOOL_OPTIONS
-    value: "-XX:ReservedCodeCacheSize=32M -Xss512k -Duser.timezone=Asia/Tokyo -Duser.language=ja -Duser.country=JP -Dfile.encoding=UTF-8 -Dmanagement.health.probes.enabled=true -Dmanagement.endpoint.health.probes.add-additional-paths=true"
+    value: "-XX:ReservedCodeCacheSize=32M -Xss512k -Duser.timezone=Asia/Tokyo -Dfile.encoding=UTF-8 -Dmanagement.health.probes.enabled=true -Dmanagement.endpoint.health.probes.add-additional-paths=true"
   - name: ENTRY_APIURL
     value: "${k8s.bindings.note-config.entry-api-url}"
   - name: ENTRY_CLIENTID
