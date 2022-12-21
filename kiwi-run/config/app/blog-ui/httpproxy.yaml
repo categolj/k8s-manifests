@@ -32,12 +32,3 @@ spec:
         - name: K-Original-Host
           value: ik.am
       weight: 100
-  includes:
-  - name: note-ui
-    namespace: note
-    conditions:
-    - prefix: /note
-  - name: note-ui
-    namespace: note
-    conditions:
-    - prefix: /static
