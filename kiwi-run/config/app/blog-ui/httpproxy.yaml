@@ -32,3 +32,38 @@ spec:
         - name: K-Original-Host
           value: ik.am
       weight: 100
+---
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
+metadata:
+  name: blog-ui-old
+  namespace: blog
+spec:
+  virtualhost:
+    fqdn: blog.ik.am
+    tls:
+      secretName: tanzu-system-ingress/tap-default-tls
+  routes:
+  - enableWebsockets: true
+    requestHeadersPolicy:
+      set:
+      - name: Host
+        value: blog-ui.blog.svc.cluster.local
+    retryPolicy:
+      count: 2
+      retryOn:
+      - cancelled
+      - connect-failure
+      - refused-stream
+      - resource-exhausted
+      - retriable-status-codes
+      - reset
+    services:
+    - name: blog-ui
+      port: 80
+      protocol: h2c
+      requestHeadersPolicy:
+        set:
+        - name: K-Original-Host
+          value: blog.ik.am
+      weight: 100
