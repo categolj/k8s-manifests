@@ -95,7 +95,7 @@ customConfig:
         if .namespace == "kapp-controller" {
           abort
         }
-        if .app == "backstage" && contains(string!(.err), "acc-server") {
+        if .app == "backstage" && .err != null && contains(string!(.err), "acc-server") {
           abort
         }
         if .app == "envoy" && starts_with(string!(.requested_server_name), "zinc.") {
