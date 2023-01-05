@@ -6,12 +6,12 @@ env:
   valueFrom:
     secretKeyRef:
       name: zinc
-    key: username
+      key: username
 - name: ZINC_PASSWORD
   valueFrom:
     secretKeyRef:
       name: zinc
-    key: password
+      key: password
 customConfig:
   data_dir: /vector-data-dir
   api:
