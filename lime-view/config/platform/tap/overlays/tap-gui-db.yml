@@ -55,8 +55,19 @@ stringData:
           labels:
             app.kubernetes.io/part-of: tap-gui-db
         spec:
+          initContainers:
+          - name: remove-lost-found
+            image: busybox
+            command:
+            - sh
+            - -c
+            - |
+              rm -fr /var/lib/postgresql/data/lost+found
+            volumeMounts:
+            - name: tap-gui-db
+              mountPath: /var/lib/postgresql/data
           containers:
-          - image: bitnami/postgresql:14
+          - image: postgres:14-alpine
             name: postgres
             envFrom:
             - secretRef:
@@ -66,7 +77,7 @@ stringData:
               name: tap-gui-db
             volumeMounts:
             - name: tap-gui-db
-              mountPath: /bitnami/postgresql
+              mountPath: /var/lib/postgresql/data
           volumes:
           - name: tap-gui-db
             persistentVolumeClaim:
@@ -94,7 +105,7 @@ stringData:
         app.kubernetes.io/part-of: tap-gui-db
     spec:
       secretTemplate:
-        type: servicebinding.io/postgresql
+        type: Opaque
         stringData:
           POSTGRES_USER: tap-gui
           POSTGRES_PASSWORD: $(value)
