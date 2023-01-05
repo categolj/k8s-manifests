@@ -95,6 +95,12 @@ customConfig:
         if .namespace == "kapp-controller" {
           abort
         }
+        if .app == "backstage" && contains(string!(.err), "acc-server") {
+          abort
+        }
+        if .app == "envoy" && starts_with(string!(.requested_server_name), "zinc.") {
+          abort
+        }
         del(.kubernetes)
         del(."ecs.version")
         del(."event.dataset")
