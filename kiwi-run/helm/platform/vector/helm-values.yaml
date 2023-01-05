@@ -100,7 +100,7 @@ customConfig:
         del(.kubernetes)
         del(."ecs.version")
         del(."event.dataset")
-        .cluster = "lime-view"
+        .cluster = "kiwi-run"
   sinks:
     # stdout:
     #   type: console
