@@ -97,6 +97,9 @@ customConfig:
         if .namespace == "kapp-controller" {
           abort
         }
+        if .namespace == "openldap" {
+          abort
+        }
         del(.kubernetes)
         del(."ecs.version")
         del(."event.dataset")
