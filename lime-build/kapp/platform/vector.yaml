@@ -1,0 +1,45 @@
+apiVersion: kappctrl.k14s.io/v1alpha1
+kind: App
+metadata:
+  name: vector
+  namespace: kapp
+  annotations:
+    kapp.k14s.io/change-group: "{name}"
+    kapp.k14s.io/disable-original: ""
+spec:
+  serviceAccountName: kapp
+  fetch:
+  - helmChart:
+      name: vector
+      version: 0.18.0
+      repository:
+        url: https://helm.vector.dev
+  - git:
+      url: https://github.com/categolj/k8s-manifests.git
+      ref: origin/main
+      subPath: lime-build
+  syncPeriod: 720h
+  template:
+  - sops:
+      pgp:
+        privateKeysSecretRef:
+          name: pgp-key
+  - helmTemplate:
+      path: "0"
+      name: vector
+      namespace: vector
+      valuesFrom:
+      - path: 1/helm/platform/vector/helm-values.yaml
+  - ytt:
+      paths:
+      - "-"
+      - 1/config/platform/vector
+      valuesFrom:
+      - path: 1/config/platform/credentials.yaml
+  - kbld:
+      paths:
+      - "-"
+  deploy:
+  - kapp:
+      rawOptions:
+      - "--diff-changes=true"
