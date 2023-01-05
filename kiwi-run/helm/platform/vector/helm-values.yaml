@@ -100,9 +100,6 @@ customConfig:
         if .namespace == "openldap" {
           abort
         }
-        if .namespace == "opentelemetry" {
-          abort
-        }
         del(.kubernetes)
         del(."ecs.version")
         del(."event.dataset")

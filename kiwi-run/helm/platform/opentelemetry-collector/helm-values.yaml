@@ -28,5 +28,4 @@ config:
         processors:
         - batch
         exporters:
-        - logging
         - otlp
