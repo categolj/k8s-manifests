@@ -1,0 +1,12 @@
+ingress:
+  enabled: true
+  annotations:
+    projectcontour.io/tls-cert-namespace: tanzu-system-ingress
+  hosts:
+  - host: zinc.view.lime.maki.lol
+    paths:
+    - /
+  tls:
+  - hosts:
+    - zinc.view.lime.maki.lol
+    secretName: tanzu-system-ingress/tap-default-tls

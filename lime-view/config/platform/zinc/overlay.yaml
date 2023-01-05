@@ -1,0 +1,17 @@
+#@ load("@ytt:overlay", "overlay")
+#@ load("@ytt:data", "data")
+
+#@overlay/match by=overlay.subset({"kind":"Pod", "metadata": {"name": "zinc-test-connection"}})
+#@overlay/remove
+---
+
+#@overlay/match by=overlay.subset({"kind":"Secret", "metadata": {"name": "zinc"}})
+---
+stringData:
+  password: #@ data.values.zinc.password
+
+#@overlay/match by=overlay.all, expects="1+"
+---
+metadata:
+  #@overlay/match missing_ok=True
+  namespace: zinc
