@@ -15,3 +15,16 @@ stringData:
 metadata:
   #@overlay/match missing_ok=True
   namespace: zinc
+
+#@overlay/match by=overlay.subset({"kind":"StatefulSet","metadata":{"name":"zinc"}})
+---
+spec:
+  template:
+    spec:
+      containers:
+      #@overlay/match by="name"
+      - name: zinc
+        env:
+        #@overlay/match by="name", missing_ok=True
+        - name: GIN_MODE
+          value: release
