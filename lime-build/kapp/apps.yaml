@@ -1,0 +1,23 @@
+apiVersion: kappctrl.k14s.io/v1alpha1
+kind: App
+metadata:
+  name: apps
+  namespace: kapp
+spec:
+  serviceAccountName: kapp
+  fetch:
+  - git:
+      url: https://github.com/categolj/k8s-manifests.git
+      ref: origin/main
+      subPath: lime-build/kapp
+  syncPeriod: 10m
+  template:
+  - ytt:
+      paths:
+      - platform
+  deploy:
+  - kapp:
+      rawOptions:
+      - --wait-timeout=5m
+      - --diff-changes=true
+      - --diff-mask=false
