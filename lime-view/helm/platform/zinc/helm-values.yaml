@@ -9,4 +9,4 @@ ingress:
   tls:
   - hosts:
     - zinc.view.lime.maki.lol
-    secretName: tanzu-system-ingress/tap-default-tls
+    secretName: tap-default-tls
