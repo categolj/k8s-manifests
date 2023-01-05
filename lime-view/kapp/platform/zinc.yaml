@@ -35,6 +35,9 @@ spec:
       - 1/config/platform/zinc
       valuesFrom:
       - path: 1/config/platform/credentials.yaml
+  - kbld:
+      paths:
+      - "-"
   deploy:
   - kapp:
       rawOptions:
