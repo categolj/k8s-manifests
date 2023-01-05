@@ -55,17 +55,6 @@ stringData:
           labels:
             app.kubernetes.io/part-of: tap-gui-db
         spec:
-          initContainers:
-          - name: remove-lost-found
-            image: busybox
-            command:
-            - sh
-            - -c
-            - |
-              rm -fr /bitnami/postgresql/lost+found
-            volumeMounts:
-            - name: tap-gui-db
-              mountPath: /bitnami/postgresql
           containers:
           - image: bitnami/postgresql:14
             name: postgres
