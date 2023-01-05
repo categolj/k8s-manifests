@@ -1,0 +1,124 @@
+role: Agent
+persistence:
+  enabled: true
+env:
+- name: ZINC_URL
+  valueFrom:
+    secretKeyRef:
+      name: zinc
+      key: url
+- name: ZINC_USERNAME
+  valueFrom:
+    secretKeyRef:
+      name: zinc
+      key: username
+- name: ZINC_PASSWORD
+  valueFrom:
+    secretKeyRef:
+      name: zinc
+      key: password
+customConfig:
+  data_dir: /vector-data-dir
+  api:
+    enabled: true
+    address: 127.0.0.1:8686
+    playground: false
+  sources:
+    kubernetes_logs:
+      type: kubernetes_logs
+  transforms:
+    format:
+      type: remap
+      inputs:
+      - kubernetes_logs
+      drop_on_abort: true
+      source: |
+        if starts_with(string!(.message), "{") {
+          json, err = parse_json(.message)
+          if err == null {
+            . = merge!(. , json)
+          }
+        }
+        if .apiVersion == "audit.k8s.io/v1" { # drop audit log for now
+          abort
+        }
+        klog, err = parse_klog(.message)
+        if err == null {
+          . = merge(. , klog)
+        }
+        if .kubernetes.pod_labels.component != null {
+          .app = .kubernetes.pod_labels.component
+        }
+        if .kubernetes.pod_labels.app != null {
+          .app = .kubernetes.pod_labels.app
+        }
+        if .kubernetes.pod_labels."app.kubernetes.io/part-of" != null {
+          .app = .kubernetes.pod_labels."app.kubernetes.io/part-of"
+        }
+        if .kubernetes.pod_labels."carto.run/workload-name" != null {
+          .workload = .kubernetes.pod_labels."carto.run/workload-name"
+        }
+        if .kubernetes.pod_labels."kpack.io/build" != null {
+          .build = .kubernetes.pod_labels."kpack.io/build"
+        }
+        .node = .kubernetes.pod_node_name
+        .namespace = .kubernetes.pod_namespace
+        .pod = .kubernetes.pod_name
+        .container = .kubernetes.container_name
+        .image = .kubernetes.container_image
+        .ips = .kubernetes.pod_ips
+        if .msg != null {
+          .message = del(.msg)
+        }
+        if ."severity" != null {
+          .level = del(."severity")
+        }
+        if ."log.level" != null {
+          .level = del(."log.level")
+        }
+        if ."log.logger" != null {
+          .logger = del(."log.logger")
+        }
+        if .ts != null {
+          .ts = to_string!(.ts)
+        }
+        if .took != null {
+          .took = to_string!(.took)
+        }
+        if .duration != null {
+          .duration = to_string!(.duration)
+        }
+        if .response_code != null {
+          .response_code = to_string!(.response_code)
+        }
+        if .namespace == "kube-system" {
+          abort
+        }
+        if .namespace == "kapp-controller" {
+          abort
+        }
+        del(.kubernetes)
+        del(."ecs.version")
+        del(."event.dataset")
+        .cluster = "lime-run"
+  sinks:
+    # stdout:
+    #   type: console
+    #   inputs:
+    #   - format
+    #   encoding:
+    #     codec: json
+    zinc:
+      type: elasticsearch
+      inputs:
+      - format
+      mode: bulk
+      api_version: v8
+      endpoints:
+      - ${ZINC_URL}/api
+      auth:
+        strategy: basic
+        user: ${ZINC_USERNAME}
+        password: ${ZINC_PASSWORD}
+      healthcheck:
+        enabled: false
