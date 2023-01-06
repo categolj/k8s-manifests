@@ -138,8 +138,8 @@ customConfig:
       - ${ZINC_URL}/api
       auth:
         strategy: basic
-        user: ${ZINC_USERNAME}
-        password: ${ZINC_PASSWORD}
+        user: "${ZINC_USERNAME}"
+        password: "${ZINC_PASSWORD}"
       healthcheck:
         enabled: false
     loki:
@@ -149,8 +149,8 @@ customConfig:
       endpoint: ${LOKI_URL}
       auth:
         strategy: basic
-        user: ${LOKI_USERNAME}
-        password: ${LOKI_PASSWORD}
+        user: "${LOKI_USERNAME}"
+        password: "${LOKI_PASSWORD}"
       labels:
         cluster: "{{`{{ cluster }}`}}"
         namespace: "{{`{{ namespace }}`}}"
