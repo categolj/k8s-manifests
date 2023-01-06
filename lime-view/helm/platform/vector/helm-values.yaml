@@ -1,6 +1,4 @@
 role: Agent
-persistence:
-  enabled: true
 env:
 - name: ZINC_USERNAME
   valueFrom:
