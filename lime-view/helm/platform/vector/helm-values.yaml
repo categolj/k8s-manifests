@@ -72,7 +72,7 @@ customConfig:
         if ."log.logger" != null {
           .logger = del(."log.logger")
         }
-        if is_string(.duration) && contains(string!(.duration), "ms") {
+        if is_string(.duration) && contains(string!(.duration), "s") {
           .duration = parse_duration!(string!(.duration), "ms")
         }
         if .namespace == "zinc" && .level == "info" {
