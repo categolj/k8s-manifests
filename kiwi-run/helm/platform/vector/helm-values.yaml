@@ -149,7 +149,7 @@ customConfig:
       endpoint: ${LOKI_URL}
       auth:
         strategy: basic
-        user: '{{`"${LOKI_USERNAME}"`}}'
+        user: "{{`${LOKI_USERNAME}`}}"
         password: "${LOKI_PASSWORD}"
       labels:
         cluster: "{{`{{ cluster }}`}}"
