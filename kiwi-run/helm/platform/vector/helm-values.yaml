@@ -164,5 +164,6 @@ customConfig:
         level: "{{`{{ level }}`}}"
         logger: "{{`{{ logger }}`}}"
         message: "{{`{{ message }}`}}"
+      compression: none
       encoding:
         codec: json
