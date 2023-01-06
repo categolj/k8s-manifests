@@ -79,18 +79,6 @@ customConfig:
         if ."log.logger" != null {
           .logger = del(."log.logger")
         }
-        if .ts != null {
-          .ts = to_string!(.ts)
-        }
-        if .took != null {
-          .took = to_string!(.took)
-        }
-        if .duration != null {
-          .duration = to_string!(.duration)
-        }
-        if .response_code != null {
-          .response_code = to_string!(.response_code)
-        }
         if .namespace == "kube-system" {
           abort
         }
@@ -101,6 +89,7 @@ customConfig:
         del(."ecs.version")
         del(."event.dataset")
         .cluster = "lime-run"
+        . = compact(.)
   sinks:
     # stdout:
     #   type: console
