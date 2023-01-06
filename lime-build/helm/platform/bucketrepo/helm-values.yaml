@@ -1,0 +1,4 @@
+secrets:
+  adminUser:
+    username: admin
+    password: changeme
