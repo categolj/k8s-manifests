@@ -169,6 +169,5 @@ customConfig:
         requested_server_name: "{{`{{ requested_server_name }}`}}"
         response_code: "{{`{{ response_code }}`}}"
         user_agent: "{{`{{ user_agent }}`}}"
-      compression: snappy
       encoding:
         codec: json
