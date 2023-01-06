@@ -98,7 +98,7 @@ customConfig:
         if .app == "backstage" && .err != null && contains(string!(.err), "acc-server") {
           abort
         }
-        if .app == "envoy" && starts_with(string!(.requested_server_name), "zinc.") {
+        if .app == "envoy" && .requested_server_name != null && starts_with(string!(.requested_server_name), "zinc.") {
           abort
         }
         del(.kubernetes)
