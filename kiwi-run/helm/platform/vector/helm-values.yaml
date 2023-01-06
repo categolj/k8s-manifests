@@ -15,6 +15,21 @@ env:
     secretKeyRef:
       name: zinc
       key: password
+- name: LOKI_URL
+  valueFrom:
+    secretKeyRef:
+      name: loki
+      key: url
+- name: LOKI_USERNAME
+  valueFrom:
+    secretKeyRef:
+      name: loki
+      key: username
+- name: LOKI_PASSWORD
+  valueFrom:
+    secretKeyRef:
+      name: loki
+      key: password
 customConfig:
   data_dir: /vector-data-dir
   api:
@@ -127,3 +142,33 @@ customConfig:
         password: ${ZINC_PASSWORD}
       healthcheck:
         enabled: false
+    loki:
+      type: loki
+      inputs:
+      - format
+      endpoint: ${LOKI_URL}
+      auth:
+        strategy: basic
+        user: ${LOKI_USERNAME}
+        password: ${LOKI_PASSWORD}
+      labels:
+        cluster: "{{ cluster }}"
+        namespace: "{{ namespace }}"
+        app: "{{ app }}"
+        logger: "{{ logger }}"
+        message: "{{ message }}"
+        container: "{{ container }}"
+        pod: "{{ pod }}"
+        node: "{{ node }}"
+        authority: "{{ authority }}"
+        bytes_received: "{{ bytes_received }}"
+        bytes_sent: "{{ bytes_sent }}"
+        duration: "{{ duration }}"
+        method: "{{ method }}"
+        path: "{{ path }}"
+        requested_server_name: "{{ requested_server_name }}"
+        response_code: "{{ response_code }}"
+        user_agent: "{{ user_agent }}"
+      compression: snappy
+      encoding:
+        codec: json
