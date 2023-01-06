@@ -92,10 +92,13 @@ customConfig:
         if .namespace == "openldap" {
           abort
         }
-        if .namespace == "inlets" && .message != null && contains(string!(.message), "superfluous") {
+        if .namespace == "inlets" && contains(string!(.message), "superfluous") {
           abort
         }
         if is_string(.image) && contains(string!(.image), "tap-packages") && .level == "info" {
+          abort
+        }
+        if .app == "autoscaler" && starts_with(string!(.message), "Failed to update lock") {
           abort
         }
         del(.kubernetes)
