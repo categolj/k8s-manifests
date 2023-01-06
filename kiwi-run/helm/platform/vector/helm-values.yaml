@@ -1,6 +1,4 @@
 role: Agent
-persistence:
-  enabled: false
 env:
 - name: ZINC_URL
   valueFrom:
@@ -98,6 +96,9 @@ customConfig:
           abort
         }
         if .namespace == "openldap" {
+          abort
+        }
+        if .namespace == "inlets" && .message != null && contains(string!(.message), "superfluous") {
           abort
         }
         del(.kubernetes)
