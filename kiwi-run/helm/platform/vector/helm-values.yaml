@@ -77,6 +77,9 @@ customConfig:
         if ."log.logger" != null {
           .logger = del(."log.logger")
         }
+        if is_string(.level) {
+          .level = downcase(string!(.level))
+        }
         if is_string(.duration) && contains(string!(.duration), "s") {
           .duration = parse_duration!(string!(.duration), "ms")
         }
@@ -90,6 +93,9 @@ customConfig:
           abort
         }
         if .namespace == "inlets" && .message != null && contains(string!(.message), "superfluous") {
+          abort
+        }
+        if is_string(.image) && contains(string!(.image), "tap-packages") && .level == "info" {
           abort
         }
         del(.kubernetes)
