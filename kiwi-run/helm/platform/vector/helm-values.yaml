@@ -107,6 +107,9 @@ customConfig:
         if .namespace == "kapp-controller" {
           abort
         }
+        if .namespace == "secretgen-controller" {
+          abort
+        }
         if .namespace == "openldap" {
           abort
         }

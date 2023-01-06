@@ -15,6 +15,21 @@ env:
     secretKeyRef:
       name: zinc
       key: password
+- name: LOKI_URL
+  valueFrom:
+    secretKeyRef:
+      name: loki
+      key: url
+- name: LOKI_USERNAME
+  valueFrom:
+    secretKeyRef:
+      name: loki
+      key: username
+- name: LOKI_PASSWORD
+  valueFrom:
+    secretKeyRef:
+      name: loki
+      key: password
 customConfig:
   data_dir: /vector-data-dir
   api:
@@ -92,6 +107,9 @@ customConfig:
         if .namespace == "kapp-controller" {
           abort
         }
+        if .namespace == "secretgen-controller" {
+          abort
+        }
         if is_string(.image) && contains(string!(.image), "tap-packages") && .level == "info" {
           abort
         }
@@ -103,6 +121,23 @@ customConfig:
         del(."event.dataset")
         .cluster = "lime-run"
         . = compact(.)
+    reduce:
+      type: remap
+      inputs:
+      - format
+      drop_on_abort: true
+      source: |
+        del(.image)
+        del(.ips)
+        del(.downstream_local_address)
+        del(.downstream_remote_address)
+        del(.grpc_status)
+        del(.request_id)
+        del(.response_flags)
+        del(.source_type)
+        del(.upstream_host)
+        del(.upstream_local_address)
+        del(.upstream_service_time)
   sinks:
     # stdout:
     #   type: console
@@ -124,3 +159,25 @@ customConfig:
         password: ${ZINC_PASSWORD}
       healthcheck:
         enabled: false
+    loki:
+      type: loki
+      inputs:
+      - reduce
+      endpoint: ${LOKI_URL}
+      auth:
+        strategy: basic
+        user: "{{`${LOKI_USERNAME}`}}"
+        password: "${LOKI_PASSWORD}"
+      labels:
+        cluster: "{{`{{ cluster }}`}}"
+        node: "{{`{{ node }}`}}"
+        namespace: "{{`{{ namespace }}`}}"
+        pod: "{{`{{ pod }}`}}"
+        app: "{{`{{ app }}`}}"
+        container: "{{`{{ container }}`}}"
+        level: "{{`{{ level }}`}}"
+        logger: "{{`{{ logger }}`}}"
+        message: "{{`{{ message }}`}}"
+      compression: gzip
+      encoding:
+        codec: json
