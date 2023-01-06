@@ -152,23 +152,23 @@ customConfig:
         user: ${LOKI_USERNAME}
         password: ${LOKI_PASSWORD}
       labels:
-        cluster: "{{ cluster }}"
-        namespace: "{{ namespace }}"
-        app: "{{ app }}"
-        logger: "{{ logger }}"
-        message: "{{ message }}"
-        container: "{{ container }}"
-        pod: "{{ pod }}"
-        node: "{{ node }}"
-        authority: "{{ authority }}"
-        bytes_received: "{{ bytes_received }}"
-        bytes_sent: "{{ bytes_sent }}"
-        duration: "{{ duration }}"
-        method: "{{ method }}"
-        path: "{{ path }}"
-        requested_server_name: "{{ requested_server_name }}"
-        response_code: "{{ response_code }}"
-        user_agent: "{{ user_agent }}"
+        cluster: {{`{{ cluster }}`}}
+        namespace: {{`{{ namespace }}`}}
+        app: {{`{{ app }}`}}
+        logger: {{`{{ logger }}`}}
+        message: {{`{{ message }}`}}
+        container: {{`{{ container }}`}}
+        pod: {{`{{ pod }}`}}
+        node: {{`{{ node }}`}}
+        authority: {{`{{ authority }}`}}
+        bytes_received: {{`{{ bytes_received }}`}}
+        bytes_sent: {{`{{ bytes_sent }}`}}
+        duration: {{`{{ duration }}`}}
+        method: {{`{{ method }}`}}
+        path: {{`{{ path }}`}}
+        requested_server_name: {{`{{ requested_server_name }}`}}
+        response_code: {{`{{ response_code }}`}}
+        user_agent: {{`{{ user_agent }}`}}
       compression: snappy
       encoding:
         codec: json
