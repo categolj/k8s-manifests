@@ -104,7 +104,7 @@ customConfig:
         if .b3_trace_id != null {
           .traceId = del(.b3_trace_id)
         }
-        if b3_span_id != null {
+        if .b3_span_id != null {
           .spanId = del(.b3_span_id)
         }
         if is_string(.level) {
