@@ -46,6 +46,9 @@ customConfig:
       - kubernetes_logs
       drop_on_abort: true
       source: |
+        if .file != null {
+          del(.file)
+        }
         if starts_with(string!(.message), "{") {
           json, err = parse_json(.message)
           if err == null {
