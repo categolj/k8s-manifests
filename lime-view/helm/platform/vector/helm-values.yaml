@@ -108,6 +108,9 @@ customConfig:
         if is_string(.duration) && contains(string!(.duration), "s") {
           .duration = parse_duration!(string!(.duration), "ms")
         }
+        if is_string(.ts) && contains(string!(.ts), "T") {
+          .ts = to_unix_timestamp(to_timestamp!(string!(.ts)))
+        }
         if .namespace == "zinc" && .level == "info" {
           abort
         }
