@@ -95,6 +95,18 @@ customConfig:
         if ."log.logger" != null {
           .logger = del(."log.logger")
         }
+        if ."process.thread.name" != null {
+          .thread = del(."process.thread.name")
+        }
+        if ."service.name" != null {
+          .service = del(."service.name")
+        }
+        if .b3_trace_id != null {
+          .traceId = del(.b3_trace_id)
+        }
+        if .b3_span_id != null {
+          .spanId = del(.b3_span_id)
+        }
         if is_string(.level) {
           .level = downcase(string!(.level))
         }
