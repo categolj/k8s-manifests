@@ -124,6 +124,21 @@ customConfig:
         del(."event.dataset")
         .cluster = "kiwi-run"
         . = compact(.)
+    reduce:
+      type: remap
+      inputs:
+      - format
+      drop_on_abort: true
+      source: |
+        del(.image)
+        del(.ips)
+        del(.downstream_local_address)
+        del(.downstream_remote_address)
+        del(.grpc_status)
+        del(.source_type)
+        del(.upstream_host)
+        del(.upstream_local_address)
+        del(.upstream_service_time)
   sinks:
     # stdout:
     #   type: console
@@ -148,7 +163,7 @@ customConfig:
     loki:
       type: loki
       inputs:
-      - format
+      - reduce
       endpoint: ${LOKI_URL}
       auth:
         strategy: basic
