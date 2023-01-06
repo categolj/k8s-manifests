@@ -95,6 +95,12 @@ customConfig:
         if ."log.logger" != null {
           .logger = del(."log.logger")
         }
+        if .b3_trace_id != null {
+          .traceId = del(.b3_trace_id)
+        }
+        if b3_span_id != null {
+          .spanId = del(.b3_span_id)
+        }
         if is_string(.level) {
           .level = downcase(string!(.level))
         }
@@ -144,6 +150,8 @@ customConfig:
         del(.upstream_host)
         del(.upstream_local_address)
         del(.upstream_service_time)
+        del(.b3_sampled)
+        del(.b3_parent_span_id)
   sinks:
     # stdout:
     #   type: console
