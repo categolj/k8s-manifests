@@ -135,6 +135,8 @@ customConfig:
         del(.downstream_local_address)
         del(.downstream_remote_address)
         del(.grpc_status)
+        del(.request_id)
+        del(.response_flags)
         del(.source_type)
         del(.upstream_host)
         del(.upstream_local_address)
