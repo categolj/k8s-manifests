@@ -131,6 +131,9 @@ customConfig:
         if .app == "autoscaler" && starts_with(string!(.message), "Failed to update lock") {
           abort
         }
+        if .namespace == "cert-manager" && contains(string!(.message), "Operation cannot be fulfilled") {
+          abort
+        }
         del(.kubernetes)
         del(."ecs.version")
         del(."event.dataset")
