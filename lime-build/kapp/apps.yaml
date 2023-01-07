@@ -10,12 +10,12 @@ spec:
       url: https://github.com/categolj/k8s-manifests.git
       ref: origin/main
       subPath: lime-build/kapp
-  syncPeriod: 10m
+  syncPeriod: 1h
   template:
   - ytt:
       paths:
-      - platform
       - app
+      - platform
   deploy:
   - kapp:
       rawOptions:
