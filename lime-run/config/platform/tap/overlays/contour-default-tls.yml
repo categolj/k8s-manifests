@@ -27,7 +27,7 @@ stringData:
     spec:
       acme:
         server: https://acme-v02.api.letsencrypt.org/directory
-        email: makingx+pineapple@gmail.com
+        email: makingx+lime@gmail.com
         privateKeySecretRef:
           name: letsencrypt
         solvers:
@@ -50,7 +50,7 @@ stringData:
       namespace: #@ namespace
     spec:
       dnsNames:
-      - #@ "*.run.pineapple.maki.lol"
+      - #@ "*.run.lime.maki.lol"
       issuerRef:
         kind: ClusterIssuer
         name: letsencrypt
