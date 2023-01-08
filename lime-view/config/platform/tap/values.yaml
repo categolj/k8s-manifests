@@ -49,9 +49,9 @@ stringData:
           providers:
             oidc:
               development:
-                metadataUrl: (@= data.values.tap-gui.oidc.issuer @)/.well-known/openid-configuration
-                clientId: (@= data.values.tap-gui.oidc.client_id @)
-                clientSecret: (@= data.values.tap-gui.oidc.client_secret @)
+                metadataUrl: (@= data.values.tap_gui.oidc.issuer @)/.well-known/openid-configuration
+                clientId: (@= data.values.tap_gui.oidc.client_id @)
+                clientSecret: (@= data.values.tap_gui.oidc.client_secret @)
                 tokenSignedResponseAlg: RS256
                 scope: "openid profile"
                 prompt: auto
