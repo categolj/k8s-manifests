@@ -67,39 +67,45 @@ stringData:
           locations:
           - type: url
             target: https://github.com/sample-accelerators/tanzu-java-web-app/blob/main/catalog/catalog-info.yaml
-        #! kubernetes:
-        #!   serviceLocatorMethod:
-        #!     type: multiTenant
-        #!   clusterLocatorMethods:
-        #!   - type: config
-        #!     clusters:
-        #!     - name: lime-run
-        #!       url: (@= data.values.clusters.lime.run.url @)
-        #!       authProvider: serviceAccount
-        #!       serviceAccountToken: (@= data.values.clusters.lime.run.service_account_token @) 
-        #!       skipTLSVerify: false
-        #!       caData: (@= data.values.clusters.lime.run.ca_data @)
-        #!     - name: lime-build
-        #!       url: (@= data.values.clusters.lime.build.url @)
-        #!       authProvider: serviceAccount
-        #!       serviceAccountToken: (@= data.values.clusters.lime.build.service_account_token @) 
-        #!       skipTLSVerify: false
-        #!       caData: (@= data.values.clusters.lime.build.ca_data @)
-        #!     - name: kiwi-run
-        #!       url: (@= data.values.clusters.kiwi.run.url @)
-        #!       authProvider: serviceAccount
-        #!       serviceAccountToken: (@= data.values.clusters.kiwi.run.service_account_token @) 
-        #!       skipTLSVerify: false
-        #!       caData: (@= data.values.clusters.kiwi.run.ca_data @)
-        #! proxy:
-        #!   /metadata-store:
-        #!     target: https://metadata-store-app.metadata-store:8443/api/v1
-        #!     changeOrigin: true
-        #!     secure: false
-        #!     headers:
-        #!       #! kubectl get secret -n metadata-store metadata-store-read-client -otemplate='{{.data.token | base64decode}}' --context tap-view
-        #!       Authorization: "Bearer (@= data.values.metadata_store.token @)"
-        #!       X-Custom-Source: project-star
+        kubernetes:
+          serviceLocatorMethod:
+            type: multiTenant
+          clusterLocatorMethods:
+          - type: config
+            clusters:
+            - name: lime-run
+              #! kubectl config view --minify -o jsonpath='{.clusters[0].cluster.server}' --context lime-run-admin
+              url: (@= data.values.clusters.lime.run.url @)
+              authProvider: serviceAccount
+              #! kubectl -n tap-gui get secret tap-gui-viewer -otemplate='{{index .data "token" | base64decode}}' --context lime-run-admin
+              serviceAccountToken: (@= data.values.clusters.lime.run.service_account_token @) 
+              skipTLSVerify: false
+              #! kubectl -n tap-gui get secret tap-gui-viewer -otemplate='{{index .data "ca.crt"}}' --context lime-run-admin
+              caData: (@= data.values.clusters.lime.run.ca_data @)
+            - name: lime-build
+              #! kubectl config view --minify -o jsonpath='{.clusters[0].cluster.server}' --context lime-build-admin
+              url: (@= data.values.clusters.lime.build.url @)
+              authProvider: serviceAccount
+              #! #! kubectl -n tap-gui get secret tap-gui-viewer -otemplate='{{index .data "token" | base64decode}}' --context lime-build-admin
+              serviceAccountToken: (@= data.values.clusters.lime.build.service_account_token @) 
+              skipTLSVerify: false
+              #! kubectl -n tap-gui get secret tap-gui-viewer -otemplate='{{index .data "ca.crt"}}' --context lime-build-admin
+              caData: (@= data.values.clusters.lime.build.ca_data @)
+            - name: kiwi-run
+              url: (@= data.values.clusters.kiwi.run.url @)
+              authProvider: serviceAccount
+              serviceAccountToken: (@= data.values.clusters.kiwi.run.service_account_token @) 
+              skipTLSVerify: false
+              caData: (@= data.values.clusters.kiwi.run.ca_data @)
+        proxy:
+          /metadata-store:
+            target: https://metadata-store-app.metadata-store:8443/api/v1
+            changeOrigin: true
+            secure: false
+            headers:
+              #! kubectl get secret -n metadata-store metadata-store-read-client -otemplate='{{.data.token | base64decode}}' --context lime-view-admin
+              Authorization: "Bearer (@= data.values.metadata_store.token @)"
+              X-Custom-Source: project-star
     appliveview:
       ingressEnabled: true
       tls:
