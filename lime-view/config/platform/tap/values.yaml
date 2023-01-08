@@ -53,7 +53,7 @@ stringData:
                 clientId: (@= data.values.tap_gui.oidc.client_id @)
                 clientSecret: (@= data.values.tap_gui.oidc.client_secret @)
                 tokenSignedResponseAlg: RS256
-                scope: "openid profile"
+                scope: "openid profile email"
                 prompt: auto
         backend:
           database:
