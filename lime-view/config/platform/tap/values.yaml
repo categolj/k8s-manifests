@@ -42,6 +42,19 @@ stringData:
         secretName: tap-default-tls
         namespace: tanzu-system-ingress
       app_config:
+        auth:
+          environment: development
+          session:
+            secret: opensesami
+          providers:
+            oidc:
+              development:
+                metadataUrl: (@= data.values.tap-gui.oidc.issuer @)/.well-known/openid-configuration
+                clientId: (@= data.values.tap-gui.oidc.client_id @)
+                clientSecret: (@= data.values.tap-gui.oidc.client_secret @)
+                tokenSignedResponseAlg: RS256
+                scope: "openid profile"
+                prompt: auto
         backend:
           database:
             client: pg
