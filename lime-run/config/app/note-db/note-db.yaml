@@ -1,0 +1,17 @@
+#@ load("@ytt:data", "data")
+apiVersion: v1
+kind: Secret
+metadata:
+  name: note-db
+  namespace: note
+  labels:
+    app.kubernetes.io/part-of: note-api
+type: servicebinding.io/postgresql
+stringData:
+  type: postgresql
+  host: #@ data.values.note_db.host
+  port: "5432"
+  username: #@ data.values.note_db.username
+  password: #@ data.values.note_db.password
+  database: note
+  sslmode: verify-ca
