@@ -24,7 +24,6 @@ spec:
       paths:
       - deliverable.yaml
       - blog-config.yaml
-      - httpproxy.yaml
       - otel-config.yaml
       valuesFrom:
       - path: credentials.yaml
