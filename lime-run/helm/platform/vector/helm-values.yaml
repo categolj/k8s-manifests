@@ -58,6 +58,10 @@ customConfig:
         if .apiVersion == "audit.k8s.io/v1" { # drop audit log for now
           abort
         }
+        logfmt, err = parse_logfmt(.message)
+        if err == null {
+          . = merge(. , logfmt)
+        }
         klog, err = parse_klog(.message)
         if err == null {
           . = merge(. , klog)
