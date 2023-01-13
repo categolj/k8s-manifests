@@ -73,6 +73,10 @@ spec:
       prometheus.io/path: /actuator/prometheus
       prometheus.io/port: "8081"
       prometheus.io/scrape: "true"
+  - name: buildServiceBindings
+    value:
+    - kind: Secret
+      name: settings-xml
   - name: gitops_branch
     value: lime
   - name: gitops_ssh_secret
