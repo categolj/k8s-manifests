@@ -58,6 +58,12 @@ customConfig:
         if .apiVersion == "audit.k8s.io/v1" { # drop audit log for now
           abort
         }
+        if starts_with(string!(.message), "remote=") { # only access log
+          logfmt, err = parse_logfmt(.message)
+          if err == null {
+            . = merge(. , logfmt)
+          }
+        }
         klog, err = parse_klog(.message)
         if err == null {
           . = merge(. , klog)
@@ -109,6 +115,9 @@ customConfig:
         }
         if is_string(.level) {
           .level = downcase(string!(.level))
+        }
+        if is_string(.response_time) {
+          .response_time = parse_int!(.response_time)
         }
         if is_string(.duration) && contains(string!(.duration), "s") {
           .duration = parse_duration!(string!(.duration), "ms")

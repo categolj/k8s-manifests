@@ -165,6 +165,8 @@ customConfig:
         del(.upstream_host)
         del(.upstream_local_address)
         del(.upstream_service_time)
+        del(.b3_sampled)
+        del(.b3_parent_span_id)
   sinks:
     # stdout:
     #   type: console
