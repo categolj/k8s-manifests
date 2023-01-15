@@ -17,6 +17,7 @@ stringData:
     
     shared:
       ingress_domain: view.lime.maki.lol
+      ingress_issuer: letsencrypt
     
     contour:
       infrastructure_provider: "azure"
@@ -38,9 +39,6 @@ stringData:
     
     tap_gui:
       service_type: ClusterIP
-      tls:
-        secretName: tap-default-tls
-        namespace: tanzu-system-ingress
       app_config:
         auth:
           environment: development
