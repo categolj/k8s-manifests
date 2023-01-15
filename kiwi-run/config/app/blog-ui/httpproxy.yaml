@@ -7,7 +7,7 @@ spec:
   virtualhost:
     fqdn: ik.am
     tls:
-      secretName: tanzu-system-ingress/tap-default-tls
+      secretName: blog-ui-tls
   routes:
   - enableWebsockets: true
     requestHeadersPolicy:
@@ -42,7 +42,7 @@ spec:
   virtualhost:
     fqdn: blog.ik.am
     tls:
-      secretName: tanzu-system-ingress/tap-default-tls
+      secretName: blog-ui-tls
   routes:
   - enableWebsockets: true
     requestHeadersPolicy:
@@ -67,3 +67,17 @@ spec:
         - name: K-Original-Host
           value: blog.ik.am
       weight: 100
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: blog-ui
+  namespace: blog
+spec:
+  dnsNames:
+  - ik.am
+  - blog.ik.am
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt
+  secretName: blog-ui-tls
