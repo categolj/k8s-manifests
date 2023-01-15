@@ -7,7 +7,7 @@ spec:
   virtualhost:
     fqdn: api.ik.am
     tls:
-      secretName: tanzu-system-ingress/tap-default-tls
+      secretName: blog-api-tls
     corsPolicy:
       allowCredentials: true
       allowOrigin:
@@ -42,3 +42,16 @@ spec:
         - name: K-Original-Host
           value: api.ik.am
       weight: 100
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: blog-api
+  namespace: blog
+spec:
+  dnsNames:
+  - api.ik.am
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt
+  secretName: blog-api-tls
