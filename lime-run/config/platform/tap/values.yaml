@@ -17,6 +17,7 @@ stringData:
     
     shared:
       ingress_domain: run.lime.maki.lol
+      ingress_issuer: letsencrypt
 
     contour:
       infrastructure_provider: "azure"
