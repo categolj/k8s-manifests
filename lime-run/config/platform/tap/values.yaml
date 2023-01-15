@@ -41,6 +41,7 @@ stringData:
           - "method"
           - "path"
           - "protocol"
+          - "referer=%REQ(REFERER)%"
           - "request_id"
           - "requested_server_name"
           - "response_code"
