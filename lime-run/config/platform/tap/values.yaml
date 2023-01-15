@@ -68,7 +68,7 @@ stringData:
       domain_template: "{{.Name}}-{{.Namespace}}.{{.Domain}}"
       default_tls_secret: tanzu-system-ingress/tap-default-tls
       provider: local
-
+    
     appliveview_connector:
       backend:
         ingressEnabled: true
@@ -114,7 +114,6 @@ stringData:
       - name: contour-default-tls
     - name: cnrs
       secrets:
-      - name: cnrs-https
       - name: cnrs-autocreate-cluster-domain-claims
     - name: tap-telemetry
       secrets:
