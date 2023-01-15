@@ -17,7 +17,6 @@ stringData:
     
     shared:
       ingress_domain: view.pineapple.maki.lol
-      ingress_issuer: letsencrypt
     
     contour:
       infrastructure_provider: "vsphere"
@@ -36,6 +35,9 @@ stringData:
     
     tap_gui:
       service_type: ClusterIP
+      tls:
+        secretName: tap-default-tls
+        namespace: tanzu-system-ingress
       app_config:
         backend:
           database:
