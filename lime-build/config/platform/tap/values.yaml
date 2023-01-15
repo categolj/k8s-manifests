@@ -47,6 +47,9 @@ stringData:
     scanning:
       metadataStore:
         url: "" # Disable embedded integration since it's deprecated
+    
+    springboot_conventions:
+      autoConfigureActuators: true
 
     package_overlays:
     - name: tap-telemetry
