@@ -69,7 +69,6 @@ stringData:
 
     cnrs:
       domain_template: "{{.Name}}-{{.Namespace}}.{{.Domain}}"
-      default_tls_secret: tanzu-system-ingress/tap-default-tls
       provider: local
 
     package_overlays:
