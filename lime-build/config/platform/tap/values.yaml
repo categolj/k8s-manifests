@@ -50,7 +50,94 @@ stringData:
     
     springboot_conventions:
       autoConfigureActuators: true
-
+    
+    namespace_provisioner:
+      additional_sources:
+      - path: _ytt_lib/tekton
+        inline:
+          paths:
+            tekton-pipeline.yaml: |
+              apiVersion: tekton.dev/v1beta1
+              kind: Pipeline
+              metadata:
+                name: maven-test-pipeline
+                namespace: blog
+                labels:
+                  apps.tanzu.vmware.com/pipeline: test
+                  apps.tanzu.vmware.com/language: java
+              spec:
+                params:
+                - name: source-url
+                - name: source-revision
+                - name: slack-webhook-secret
+                - name: slack-test-failure-message
+                workspaces:
+                - name: cache
+                tasks:
+                - name: test
+                  params:
+                  - name: source-url
+                    value: $(params.source-url)
+                  - name: source-revision
+                    value: $(params.source-revision)
+                  workspaces:
+                  - name: cache
+                    workspace: cache
+                  taskSpec:
+                    volumes:
+                    - name: dind-storage
+                      emptyDir: { }
+                    - name: dind-socket
+                      emptyDir: { }
+                    - name: settings-xml
+                      secret:
+                        secretName: settings-xml
+                    params:
+                    - name: source-url
+                    - name: source-revision
+                    workspaces:
+                    - name: cache
+                    sidecars:
+                    - name: docker
+                      image: docker:20.10-dind
+                      securityContext:
+                        privileged: true
+                      volumeMounts:
+                      - mountPath: /var/lib/docker
+                        name: dind-storage
+                      - mountPath: /var/run/
+                        name: dind-socket
+                    steps:
+                    - name: test
+                      image: eclipse-temurin:17
+                      volumeMounts:
+                      - mountPath: /var/run/
+                        name: dind-socket
+                      - mountPath: /opt/maven
+                        name: settings-xml
+                        readOnly: true
+                      script: |-
+                        set -ex
+                        rm -rf ~/.m2
+                        mkdir -p $(workspaces.cache.path)/.m2
+                        ln -fs $(workspaces.cache.path)/.m2 ~/.m2
+                        cd `mktemp -d`
+                        curl -s $(params.source-url) | tar -m -xzvf -
+                        ./mvnw clean test -V -s /opt/maven/settings.xml
+                finally:
+                - name: notify-test-failure
+                  when:
+                  - input: $(tasks.test.status)
+                    operator: in
+                    values: [ "Failed" ]
+                  taskRef:
+                    kind: ClusterTask
+                    name: send-to-webhook-slack
+                  params:
+                  - name: webhook-secret
+                    value: $(params.slack-webhook-secret)
+                  - name: message
+                    value: $(params.slack-test-failure-message)
     package_overlays:
     - name: tap-telemetry
       secrets:
