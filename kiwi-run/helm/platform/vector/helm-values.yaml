@@ -146,6 +146,9 @@ customConfig:
         if .app == "envoy" && .path != null && starts_with(string!(.path), "/api/v2/spans") {
           abort
         }
+        if .app == "envoy" && .requested_server_name != null && starts_with(string!(.requested_server_name), "zipkin") {
+          abort
+        }
         if .app == "autoscaler" && starts_with(string!(.message), "Failed to update lock") {
           abort
         }
