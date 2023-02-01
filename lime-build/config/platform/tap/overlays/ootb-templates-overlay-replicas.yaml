@@ -15,19 +15,19 @@ stringData:
     spec:
       #@overlay/replace via=lambda left, right: "{}\n{}".format(left, '\n'.join(['  {}'.format(x) for x in right.split('\n')]))
       ytt: |
-        #@ if hasattr(data.values.params, "replicas"):
         #@yaml/text-templated-strings
         overlay-replicas.yml: |
+          (@ if hasattr(data.values.params, "replicas"): @)
           #@ load("@ytt:overlay", "overlay")
           #@overlay/match by=overlay.subset({"kind":"Deployment"})
           ---
           spec:
             #@overlay/match missing_ok=True
             replicas: (@= data.values.params.replicas @)
-        #@ end
-        #@ if hasattr(data.values.params, "prefer_existing_replicas") and data.values.params.prefer_existing_replicas:
+          (@ end @)
         #@yaml/text-templated-strings
         prefer-existing-replicas.yml: |
+          (@ if hasattr(data.values.params, "prefer_existing_replicas") and data.values.params.prefer_existing_replicas: @)
           apiVersion: kapp.k14s.io/v1alpha1
           kind: Config
           rebaseRules:
@@ -38,5 +38,5 @@ stringData:
               - apiVersionKindMatcher:
                   kind: Deployment
                   apiVersion: apps/v1
-        #@ end
+          (@ end @)
     #@ end
