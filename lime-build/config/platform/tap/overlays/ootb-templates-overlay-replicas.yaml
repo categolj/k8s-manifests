@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ootb-templates-overlay-replicas
+  namespace: tap-install
+  annotations:
+    kapp.k14s.io/change-group: "tap-overlays"
+type: Opaque
+stringData:
+  overlay-replicas.yml: |
+    #@ load("@ytt:overlay", "overlay")
+    #@overlay/match by=overlay.subset({"kind":"ClusterConfigTemplate", "metadata": {"name": "server-template"}})
+    ---
+    spec:
+      #@overlay/replace via=lambda left, right: "{}\n{}".format(left, '\n'.join(['  {}'.format(x) for x in right.split('\n')]))
+      ytt: |
+        #@ if hasattr(data.values.params, "replicas"):
+        #@yaml/text-templated-strings
+        overlay-replicas.yml: |
+          #@ load("@ytt:overlay", "overlay")
+          #@overlay/match by=overlay.subset({"kind":"Deployment"})
+          ---
+          spec:
+           replicas: (@= data.values.params.replicas @)
+        #@ end

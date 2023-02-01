@@ -58,6 +58,7 @@ stringData:
     - name: ootb-templates
       secrets:
       - name: ootb-templates-cache-workspace
+      - name: ootb-templates-overlay-replicas
     - name: ootb-supply-chain-testing-scanning
       secrets:
       - name: ootb-supply-chain-testing-scanning-remove-source-scanner
