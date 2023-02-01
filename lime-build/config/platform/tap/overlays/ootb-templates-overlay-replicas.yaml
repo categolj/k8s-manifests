@@ -9,7 +9,8 @@ type: Opaque
 stringData:
   overlay-replicas.yml: |
     #@ load("@ytt:overlay", "overlay")
-    #@overlay/match by=overlay.subset({"kind":"ClusterConfigTemplate", "metadata": {"name": "server-template"}})
+    #@ for name in ["server-template", "worker-template"]: 
+    #@overlay/match by=overlay.subset({"kind":"ClusterConfigTemplate", "metadata": {"name": name}})
     ---
     spec:
       #@overlay/replace via=lambda left, right: "{}\n{}".format(left, '\n'.join(['  {}'.format(x) for x in right.split('\n')]))
@@ -24,3 +25,4 @@ stringData:
             #@overlay/match missing_ok=True
             replicas: (@= data.values.params.replicas @)
         #@ end
+    #@ end
