@@ -21,5 +21,6 @@ stringData:
           #@overlay/match by=overlay.subset({"kind":"Deployment"})
           ---
           spec:
-           replicas: (@= data.values.params.replicas @)
+            #@overlay/match missing_ok=True
+            replicas: (@= data.values.params.replicas @)
         #@ end
