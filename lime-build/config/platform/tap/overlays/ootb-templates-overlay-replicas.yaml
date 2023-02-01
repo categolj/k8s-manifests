@@ -25,4 +25,18 @@ stringData:
             #@overlay/match missing_ok=True
             replicas: (@= data.values.params.replicas @)
         #@ end
+        #@ if hasattr(data.values.params, "prefer_existing_replicas") and data.values.params.prefer_existing_replicas:
+        #@yaml/text-templated-strings
+        prefer-existing-replicas.yml: |
+          apiVersion: kapp.k14s.io/v1alpha1
+          kind: Config
+          rebaseRules:
+            - path: [spec, replicas]
+              type: copy
+              sources: [existing, new]
+              resourceMatchers:
+              - apiVersionKindMatcher:
+                  kind: Deployment
+                  apiVersion: apps/v1
+        #@ end
     #@ end
