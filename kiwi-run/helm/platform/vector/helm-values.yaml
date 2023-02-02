@@ -58,7 +58,7 @@ customConfig:
     http:
       type: http_server
       address: 0.0.0.0:9000
-      encoding: text
+      encoding: json
       strict_path: false
   transforms:
     format:
@@ -209,7 +209,7 @@ customConfig:
       inputs:
       - http
       encoding:
-        codec: text
+        codec: json
     zinc:
       type: elasticsearch
       inputs:
