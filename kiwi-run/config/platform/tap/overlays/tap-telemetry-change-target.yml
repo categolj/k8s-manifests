@@ -22,4 +22,4 @@ stringData:
               env:
                 #@overlay/match by="name", missing_ok=True
                 - name: WRITER_TARGET
-                  value: http://vector.vector.svc.cluster.local:9000
+                  value: https://vector.ik.am
