@@ -81,7 +81,7 @@ stringData:
       - name: cnrs-autocreate-cluster-domain-claims
     - name: tap-telemetry
       secrets:
-      - name: tap-telemetry-change-target
+      - name: tap-telemetry-remove
 
     excluded_packages:
     - connector.appliveview.tanzu.vmware.com
