@@ -155,6 +155,9 @@ customConfig:
         if .namespace == "secretgen-controller" {
           abort
         }
+        if .namespace == "tap-telemetry" {
+          abort
+        }
         if .namespace == "openldap" {
           abort
         }
