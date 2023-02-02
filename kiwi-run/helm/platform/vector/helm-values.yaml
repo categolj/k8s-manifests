@@ -39,6 +39,10 @@ customConfig:
   sources:
     kubernetes_logs:
       type: kubernetes_logs
+    http:
+      type: http_server
+      address: 0.0.0.0:9000
+      encoding: text
   transforms:
     format:
       type: remap
@@ -180,12 +184,12 @@ customConfig:
         del(.b3_sampled)
         del(.b3_parent_span_id)
   sinks:
-    # stdout:
-    #   type: console
-    #   inputs:
-    #   - format
-    #   encoding:
-    #     codec: json
+    stdout:
+      type: console
+      inputs:
+      - http
+      encoding:
+        codec: text
     zinc:
       type: elasticsearch
       inputs:
