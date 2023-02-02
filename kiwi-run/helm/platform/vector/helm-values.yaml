@@ -59,6 +59,7 @@ customConfig:
       type: http_server
       address: 0.0.0.0:9000
       encoding: text
+      strict_path: false
   transforms:
     format:
       type: remap
