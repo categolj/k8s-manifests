@@ -125,6 +125,9 @@ customConfig:
         if .namespace == "secretgen-controller" {
           abort
         }
+        if .namespace == "tap-telemetry" {
+          abort
+        }
         if is_string(.image) && contains(string!(.image), "tap-packages") && .level == "info" {
           abort
         }

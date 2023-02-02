@@ -54,7 +54,7 @@ stringData:
     package_overlays:
     - name: tap-telemetry
       secrets:
-      - name: tap-telemetry-remove
+      - name: tap-telemetry-change-target
     - name: ootb-templates
       secrets:
       - name: ootb-templates-cache-workspace
