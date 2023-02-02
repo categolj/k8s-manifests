@@ -50,6 +50,9 @@ stringData:
     
     springboot_conventions:
       autoConfigureActuators: true
+    
+    namespace_provisioner:
+      controller: false
 
     package_overlays:
     - name: tap-telemetry
