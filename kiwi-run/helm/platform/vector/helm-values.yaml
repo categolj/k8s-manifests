@@ -30,6 +30,22 @@ env:
     secretKeyRef:
       name: loki
       key: password
+ingress:
+  enabled: true
+  annotations:
+    projectcontour.io/tls-cert-namespace: tanzu-system-ingress
+  hosts:
+  - host: vector.ik.am
+    paths:
+    - path: /
+      pathType: Prefix
+      port:
+        name: http
+        number: 9000
+  tls:
+  - hosts:
+    - vector.ik.am
+    secretName: tap-default-tls
 customConfig:
   data_dir: /vector-data-dir
   api:
