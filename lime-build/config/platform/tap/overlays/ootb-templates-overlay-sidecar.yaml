@@ -15,4 +15,4 @@ stringData:
       #@overlay/replace via=lambda left, right: left + '        #@ if hasattr(data.values.params, "sidecar") and data.values.params.sidecar:\n        - name: sidecar\n' + '\n'.join(['          {}'.format(x) for x in right.split('\n')])+ '#@ end'
       ytt: |
                 image: busybox
-                command: ["sh","-c","while true; do data; sleep 30; done"]
+                command: ["sh","-c","while true; do date; sleep 30; done"]
