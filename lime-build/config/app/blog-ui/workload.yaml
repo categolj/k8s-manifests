@@ -45,6 +45,19 @@ spec:
     value: makingx+bot@gmail.com
   - name: gitops_user_name
     value: making-bot
+  - name: livenessProbe
+    value:
+      httpGet:
+        path: /aboutme
+        port: 8080
+        scheme: HTTP
+  - name: readinessProbe
+    value:
+      httpGet:
+        path: /aboutme
+        port: 8080
+        scheme: HTTP
+      successThreshold: 1
   resources:
     limits:
       memory: 256Mi
