@@ -12,7 +12,7 @@ stringData:
     #@overlay/match by=overlay.subset({"kind":"ClusterConfigTemplate", "metadata": {"name": "convention-template"}})
     ---
     spec:
-      #@overlay/replace via=lambda left, right: "{}\n{}".format(left, '\n'.join(['          {}'.format(x) for x in right.split('\n')]))
+      #@overlay/replace via=lambda left, right: left.replace("name: workload", "name: workload\n" + '\n'.join(['          {}'.format(x) for x in right.split('\n')]))
       ytt: |
                 #@ if hasattr(data.values.params, "livenessProbe"):
                 livenessProbe: #@ data.values.params.livenessProbe
