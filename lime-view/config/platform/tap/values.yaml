@@ -128,6 +128,7 @@ stringData:
     - name: tap-gui
       secrets:
       - name: tap-gui-db
+      - name: tap-gui-change-fqdn
     - name: metadata-store
       secrets:
       - name: metadata-store-read-only-client
