@@ -239,3 +239,7 @@ stringData:
           kind: Secret
           namespace: tekton-pipelines
           name: tekton-triggers-core-interceptors-certs
+      - kindNamespaceNameMatcher:
+          kind: Secret
+          namespace: tekton-pipelines
+          name: triggers-webhook-certs
