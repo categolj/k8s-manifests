@@ -244,7 +244,7 @@ stringData:
           namespace: tekton-pipelines
           name: triggers-webhook-certs
     - paths: 
-      - [clientConfig, caBundle]
+      - [spec, clientConfig, caBundle]
       type: copy
       sources: [existing, new]
       resourceMatchers:
