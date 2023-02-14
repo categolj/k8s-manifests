@@ -229,15 +229,13 @@ stringData:
     kind: Config
     rebaseRules:
     - paths: 
-      - [data, ca-cert.pem]
-      - [data, server-cert.pem]
-      - [data, server-key.pem]
+      - [data, "ca-cert.pem"]
+      - [data, "server-cert.pem"]
+      - [data, "server-key.pem"]
       type: copy
       sources: [existing, new]
       resourceMatchers:
-      - anyMatcher:
-          matchers:
-          - kindNamespaceNameMatcher:
-              kind: Secret
-              namespace: tekton-pipelines
-              name: tekton-triggers-core-interceptors-certs
+      - kindNamespaceNameMatcher:
+          kind: Secret
+          namespace: tekton-pipelines
+          name: tekton-triggers-core-interceptors-certs
