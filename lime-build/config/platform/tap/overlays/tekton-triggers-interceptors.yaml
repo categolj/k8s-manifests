@@ -224,3 +224,20 @@ stringData:
     # The data is populated at install time.
 
     ---
+    #! Added
+    apiVersion: kapp.k14s.io/v1alpha1
+    kind: Config
+    rebaseRules:
+    - paths: 
+      - [data, ca-cert.pem]
+      - [data, server-cert.pem]
+      - [data, server-key.pem]
+      type: copy
+      sources: [existing, new]
+      resourceMatchers:
+      - anyMatcher:
+          matchers:
+          - kindNamespaceNameMatcher:
+              kind: Secret
+              namespace: tekton-pipelines
+              name: tekton-triggers-core-interceptors-certs
