@@ -243,3 +243,11 @@ stringData:
           kind: Secret
           namespace: tekton-pipelines
           name: triggers-webhook-certs
+    - paths: 
+      - [clientConfig, caBundle]
+      type: copy
+      sources: [existing, new]
+      resourceMatchers:
+      - apiVersionKindMatcher:
+          kind: ClusterInterceptor
+          apiVersion: triggers.tekton.dev/v1alpha1
