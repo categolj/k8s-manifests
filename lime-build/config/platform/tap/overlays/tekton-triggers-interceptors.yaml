@@ -222,7 +222,7 @@ stringData:
         app.kubernetes.io/part-of: tekton-triggers
         triggers.tekton.dev/release: "v0.22.1"
     # The data is populated at install time.
-
+  kapp-config.yml: |
     ---
     #! Added
     apiVersion: kapp.k14s.io/v1alpha1
