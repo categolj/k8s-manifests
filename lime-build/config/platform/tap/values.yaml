@@ -70,8 +70,8 @@ stringData:
       secrets:
       - name: tekton-pipelines-prometheus
       - name: tekton-send-to-webhook-slack
-      - name: tekton-triggers-release
-      - name: tekton-triggers-interceptors
+      #! - name: tekton-triggers-release
+      #! - name: tekton-triggers-interceptors
 
     excluded_packages:
     - grype.scanning.apps.tanzu.vmware.com
