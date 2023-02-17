@@ -40,11 +40,11 @@ rules:
 - apiGroups: [ '' ]
   resources: [ 'pods', 'pods/log', 'services', 'configmaps', 'limitranges' ]
   verbs: [ 'get', 'watch', 'list' ]
+- apiGroups: [ 'metrics.k8s.io' ]
+  resources: [ 'pods' ]
+  verbs: [ 'get', 'watch', 'list' ]
 - apiGroups: [ 'apps' ]
   resources: [ 'deployments', 'replicasets', 'statefulsets', 'daemonsets' ]
-  verbs: [ 'get', 'watch', 'list' ]
-- apiGroups: [ 'batch' ]
-  resources: [ 'cronjobs', 'jobs' ]
   verbs: [ 'get', 'watch', 'list' ]
 - apiGroups: [ 'autoscaling' ]
   resources: [ 'horizontalpodautoscalers' ]
@@ -88,10 +88,6 @@ rules:
   - imagerepositories
   - mavenartifacts
   verbs: [ 'get', 'watch', 'list' ]
-- apiGroups: [ 'conventions.carto.run' ]
-  resources:
-  - podintents
-  verbs: [ 'get', 'watch', 'list' ]
 - apiGroups: [ 'conventions.apps.tanzu.vmware.com' ]
   resources:
   - podintents
@@ -106,6 +102,7 @@ rules:
   - sourcescans
   - imagescans
   - scanpolicies
+  - scantemplates
   verbs: [ 'get', 'watch', 'list' ]
 - apiGroups: [ 'tekton.dev' ]
   resources:
@@ -115,4 +112,11 @@ rules:
 - apiGroups: [ 'kappctrl.k14s.io' ]
   resources:
   - apps
+  verbs: [ 'get', 'watch', 'list' ]
+- apiGroups: [ 'batch' ]
+  resources: [ 'jobs', 'cronjobs' ]
+  verbs: [ 'get', 'watch', 'list' ]
+- apiGroups: [ 'conventions.carto.run' ]
+  resources:
+  - podintents
   verbs: [ 'get', 'watch', 'list' ]
