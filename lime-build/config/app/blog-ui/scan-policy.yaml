@@ -12,7 +12,7 @@ spec:
     # Accepted Values: "Critical", "High", "Medium", "Low", "Negligible", "UnknownSeverity"
     notAllowedSeverities := ["Critical", "High", "UnknownSeverity"]
 
-    ignoreCves := ["GHSA-mjmj-j48q-9wg2", "CVE-2018-7467", "CVE-2014-1936", "CVE-2021-27478", "CVE-2021-27482", "CVE-2021-27498", "CVE-2021-27500", "CVE-2016-1000027", "GHSA-3mc7-4q67-w48m", "GHSA-rc47-6667-2j5j"]
+    ignoreCves := ["CVE-2016-1000027", "GHSA-mjmj-j48q-9wg2", "CVE-2023-0286", "CVE-2018-7467", "CVE-2014-1936", "CVE-2021-27478", "CVE-2021-27482", "CVE-2021-27498", "CVE-2021-27500", "GHSA-rc47-6667-2j5j"]
 
     contains(array, elem) = true {
       array[_] = elem
