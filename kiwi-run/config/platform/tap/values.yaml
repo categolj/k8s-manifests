@@ -23,7 +23,6 @@ stringData:
       infrastructure_provider: "vsphere"
       contour:
         replicas: 1
-        useProxyProtocol: true
         configFileContents:
           accesslog-format: json
           json-fields:
