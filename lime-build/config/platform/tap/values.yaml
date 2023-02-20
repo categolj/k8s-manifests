@@ -30,6 +30,9 @@ stringData:
         server: (@= data.values.registry_credentials.server @)
         repository: (@= data.values.registry_credentials.username @)/supply-chain
       gitops:
+        branch: lime
+        username: making-bot
+        email: makingx+bot@gmail.com
         ssh_secret: ""
         user_name: making-bot
         user_email: makingx+bot@gmail.com
