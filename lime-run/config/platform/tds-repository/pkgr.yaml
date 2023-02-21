@@ -2,7 +2,7 @@ apiVersion: packaging.carvel.dev/v1alpha1
 kind: PackageRepository
 metadata:
   name: tds-repository-1.6.0
-  namespace: tds-install
+  namespace: tds-system
 spec:
   fetch:
     imgpkgBundle:
