@@ -1,0 +1,13 @@
+#@ load("@ytt:data", "data")
+apiVersion: v1
+kind: Secret
+metadata:
+  name: postgres-operator-tds-system-values
+  namespace: tds-system
+  annotations:
+    kapp.k14s.io/change-group: "postgres-operator-values"
+type: Opaque
+stringData:
+  #@yaml/text-templated-strings
+  postgres-operator-values.yml: |
+    #! https://docs.vmware.com/en/VMware-SQL-with-Postgres-for-Kubernetes/2.0/vmware-postgres-k8s/GUID-install-operator.html#customize-the-operator-values

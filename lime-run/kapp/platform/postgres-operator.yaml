@@ -1,0 +1,29 @@
+apiVersion: kappctrl.k14s.io/v1alpha1
+kind: App
+metadata:
+  name: postgres-operator
+  namespace: kapp
+  annotations:
+    kapp.k14s.io/change-group: "{name}"
+    kapp.k14s.io/change-rule.create-order.0: "upsert after upserting tds-repository"
+    kapp.k14s.io/change-rule.delete-order.0: "delete before deleting tds-repository"
+    kapp.k14s.io/change-rule.create-order.1: "upsert after upserting tap"
+    kapp.k14s.io/change-rule.delete-order.1: "delete before deleting tap"
+spec:
+  syncPeriod: 720h
+  serviceAccountName: kapp
+  fetch:
+  - git:
+      url: https://github.com/categolj/k8s-manifests.git
+      ref: origin/main
+      subPath: lime-run/config/platform/postgres-operator
+  template:
+  - ytt:
+      paths:
+      - "."
+  deploy:
+  - kapp:
+      rawOptions:
+      - --wait-timeout=5m
+      - --diff-changes=false
+      - --diff-mask=true
