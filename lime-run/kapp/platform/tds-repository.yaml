@@ -14,7 +14,7 @@ spec:
   - git:
       url: https://github.com/categolj/k8s-manifests.git
       ref: origin/main
-      subPath: lime-run/config/platform
+      subPath: lime-run/config/platform/tds-repository
   template:
   - sops:
       pgp:
@@ -22,7 +22,7 @@ spec:
           name: pgp-key
   - ytt:
       paths:
-      - tds-repository
+      - "."
   deploy:
   - kapp:
       rawOptions:
