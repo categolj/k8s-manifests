@@ -72,6 +72,14 @@ stringData:
       domain_template: "{{.Name}}-{{.Namespace}}.{{.Domain}}"
       provider: local
 
+    appliveview_connector:
+      backend:
+        ingressEnabled: true
+        host: appliveview.view.lime.maki.lol
+
+    api_auto_registration:
+      tap_gui_url: https://tap-gui.view.lime.maki.lol
+
     package_overlays:
     - name: contour
       secrets:
