@@ -14,6 +14,8 @@ spec:
     env:
     - name: BP_JVM_VERSION
       value: "17"
+    - name: BP_JATTACH_ENABLED
+      value: "true"
   env:
   - name: JAVA_TOOL_OPTIONS
     value: "-XX:ReservedCodeCacheSize=32M -Xss512k -Duser.timezone=Asia/Tokyo -Dfile.encoding=UTF-8 -Dmanagement.health.probes.enabled=true -Dmanagement.endpoint.health.probes.add-additional-paths=true"
