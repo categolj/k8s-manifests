@@ -63,7 +63,7 @@ stringData:
       - name: tap-telemetry-remove
     - name: ootb-templates
       secrets:
-      - name: ootb-templates-cache-workspace
+      #! - name: ootb-templates-cache-workspace
       - name: ootb-templates-overlay-replicas
       - name: ootb-templates-overlay-probes
     - name: ootb-supply-chain-testing-scanning
