@@ -45,8 +45,6 @@ spec:
       secretKeyRef:
         name: otel-config
         key: otel-trace-endpoint
-  - name: MANAGEMENT_METRICS_TAGS_JAVA_VERSION
-    value: "${java.version}"
   - name: INFO_ENV_HOSTNAME
     value: "${HOSTNAME}"
   - name: INFO_ENV_K_SERVICE
