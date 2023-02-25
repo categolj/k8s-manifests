@@ -85,13 +85,13 @@ spec:
         name: otel-config
         key: otel-trace-endpoint
   - name: INFO_ENV_HOSTNAME
-    value: "${HOSTNAME}"
+    value: "${HOSTNAME:}"
   - name: INFO_ENV_K_SERVICE
-    value: "${K_SERVICE}"
+    value: "${K_SERVICE:}"
   - name: INFO_ENV_K_CONFIGURATION
-    value: "${K_CONFIGURATION}"
+    value: "${K_CONFIGURATION:}"
   - name: INFO_ENV_K_REVISION
-    value: "${K_REVISION}"
+    value: "${K_REVISION:}"
   params:
   - name: testing_pipeline_matching_labels
     value:
