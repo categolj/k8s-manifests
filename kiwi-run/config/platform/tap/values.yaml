@@ -90,6 +90,9 @@ stringData:
     - name: tap-telemetry
       secrets:
       - name: tap-telemetry-remove
+    - name: tap-auth
+      secrets:
+      - name: tap-auth-deliverable-with-ingress
 
     excluded_packages:
     #! - connector.appliveview.tanzu.vmware.com
