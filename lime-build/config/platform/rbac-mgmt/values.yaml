@@ -34,17 +34,3 @@ rolebindings:
           importFromNamespace: metadata-store-secrets
 - namespace: demo
   create_namespace: true
-  tap:
-    enabled: false
-    orphan: true
-    grype:
-      enabled: true
-      version: 1.4.0
-      metadata_store:
-        url: https://metadata-store.view.lime.maki.lol
-        caSecret:
-          name: store-ca-cert
-          importFromNamespace: metadata-store-secrets
-        authSecret:
-          name: store-auth-token
-          importFromNamespace: metadata-store-secrets
