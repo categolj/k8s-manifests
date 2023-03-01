@@ -55,6 +55,16 @@ stringData:
       metadataStore:
         url: "" # Disable embedded integration since it's deprecated
     
+    grype:
+      metadataStore:
+        url: https://metadata-store.view.lime.maki.lol
+        caSecret:
+          name: store-ca-cert
+          importFromNamespace: metadata-store-secrets
+        authSecret:
+          name: store-auth-token
+          importFromNamespace: metadata-store-secrets
+
     springboot_conventions:
       autoConfigureActuators: true
     
