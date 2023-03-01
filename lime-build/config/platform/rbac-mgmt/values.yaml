@@ -34,3 +34,6 @@ rolebindings:
           importFromNamespace: metadata-store-secrets
 - namespace: demo
   create_namespace: true
+  tap:
+    desired_namespace:
+      enabled: true
