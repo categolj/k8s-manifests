@@ -29,7 +29,7 @@ stringData:
           (@= '\n'.join(['    {}'.format(x) for x in yaml.encode(merge_labels({ "app.kubernetes.io/component": "run", "carto.run/workload-name": data.values.workload.metadata.name })).split('\n')]) @)
           spec:
             tls:
-              - secretName: (@= data.values.workload.metadata.name @)
+              - secretName: (@= data.values.workload.metadata.name @)-tls
                 hosts:
                 - (@= "{}.{}".format(data.values.workload.metadata.name, "INGRESS_DOMAIN") @)
             rules:
