@@ -1,0 +1,52 @@
+apiVersion: carto.run/v1alpha1
+kind: Workload
+metadata:
+  labels:
+    app.kubernetes.io/part-of: survey
+    apps.tanzu.vmware.com/workload-type: server
+    apps.tanzu.vmware.com/has-tests: "true"
+    apps.tanzu.vmware.com/auto-configure-actuators: "false"
+  annotations:
+    kapp.k14s.io/disable-original: ""
+  name: survey
+  namespace: jsug
+spec:
+  build:
+    env:
+    - name: BP_JVM_VERSION
+      value: "8"
+    - name: BP_JATTACH_ENABLED
+      value: "true"
+  env:
+  - name: JAVA_TOOL_OPTIONS
+    value: "-XX:ReservedCodeCacheSize=32M -Xss512k -Duser.timezone=Asia/Tokyo -Dfile.encoding=UTF-8"
+  - name: BPL_JVM_THREAD_COUNT
+    value: "28"
+  - name: SPRING_PROFILES_ACTIVE
+    value: cloud
+  params:
+  - name: annotations
+    value:
+      prometheus.io/path: /actuator/prometheus
+      prometheus.io/port: "8080"
+      prometheus.io/scrape: "true"
+  - name: buildServiceBindings
+    value:
+    - kind: Secret
+      name: settings-xml
+  resources:
+    limits:
+      memory: 500Mi
+    requests:
+      memory: 500Mi
+  serviceClaims:
+  - name: survey-db
+    ref:
+      apiVersion: v1
+      kind: Secret
+      name: survey-db
+  source:
+    git:
+      url: https://github.com/making/jsug-enquete
+      ref:
+        branch: master
