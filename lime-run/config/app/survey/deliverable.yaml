@@ -8,6 +8,8 @@ metadata:
     apps.tanzu.vmware.com/auto-configure-actuators: "false"
     apps.tanzu.vmware.com/has-tests: "true"
     apps.tanzu.vmware.com/workload-type: server
+    kapp.k14s.io/app: "1677893433487879435"
+    kapp.k14s.io/association: v1.ff9d87024c634aa58170fc7501617d25
     app.kubernetes.io/component: deliverable
     app.tanzu.vmware.com/deliverable-type: web
     carto.run/cluster-template-name: external-deliverable-template
