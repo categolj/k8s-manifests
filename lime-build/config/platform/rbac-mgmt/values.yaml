@@ -34,3 +34,9 @@ rolebindings:
           importFromNamespace: metadata-store-secrets
 - namespace: demo
   create_namespace: true
+  namespace_labels:
+    apps.tanzu.vmware.com/tap-ns: ""
+- namespace: jsug
+  create_namespace: true
+  namespace_labels:
+    apps.tanzu.vmware.com/tap-ns: ""
