@@ -2,6 +2,7 @@ apiVersion: carto.run/v1alpha1
 kind: Deliverable
 metadata:
   name: survey
+  namespace: jsug
   labels:
     app.kubernetes.io/part-of: survey
     apps.tanzu.vmware.com/auto-configure-actuators: "false"
