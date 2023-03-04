@@ -1,0 +1,16 @@
+#@ load("@ytt:data", "data")
+apiVersion: v1
+kind: Secret
+metadata:
+  name: survey-db
+  namespace: jsug
+  labels:
+    app.kubernetes.io/part-of: survey
+type: servicebinding.io/mysql
+stringData:
+  type: mysql
+  host: #@ data.values.survey_db.host
+  port: "3306"
+  username: #@ data.values.survey_db.username
+  password: #@ data.values.survey_db.password
+  database: survey
