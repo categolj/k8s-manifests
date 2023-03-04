@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ootb-templates-remove-kapp-labels
+  namespace: tap-install
+  annotations:
+    kapp.k14s.io/change-group: "tap-overlays"
+type: Opaque
+stringData:
+  remove-kapp-labels.yml: |
+    #@ load("@ytt:overlay", "overlay")
+    #@ for name in ["server-template", "worker-template"]: 
+    #@overlay/match by=overlay.subset({"kind":"ClusterConfigTemplate", "metadata": {"name": name}})
+    ---
+    spec:
+    #@overlay/replace via=lambda left, right: "{}\n{}".format(left, '\n'.join(['  {}'.format(x) for x in right.split('\n')]))
+    ytt: |
+    #@yaml/text-templated-strings
+    remove-kapp-labels.yml: |
+      #@ load("@ytt:overlay", "overlay")
+      #@overlay/match by=overlay.subset({"kind": "Deployment"}), expects="0+"
+      ---
+      spec:
+        selector:
+          matchLabels:
+            #@overlay/remove missing_ok=True
+            kapp.k14s.io/app: ""
+            #@overlay/remove missing_ok=True
+            kapp.k14s.io/association: ""
+        template:
+          metadata:
+            labels:
+              #@overlay/remove missing_ok=True
+              kapp.k14s.io/app: ""
+              #@overlay/remove missing_ok=True
+              kapp.k14s.io/association: ""
+      #@overlay/match by=overlay.subset({"kind": "Service"}), expects="0+"
+      ---
+      spec:
+        selector:
+          #@overlay/remove missing_ok=True
+          kapp.k14s.io/app: ""
+          #@overlay/remove missing_ok=True
+          kapp.k14s.io/association: ""
