@@ -190,6 +190,7 @@ stringData:
       - name: ootb-templates-overlay-replicas
       - name: ootb-templates-overlay-probes
       - name: ootb-templates-overlay-ingress
+      - name: ootb-templates-remove-kapp-labels
     - name: ootb-supply-chain-testing-scanning
       secrets:
       - name: ootb-supply-chain-testing-scanning-remove-source-scanner
