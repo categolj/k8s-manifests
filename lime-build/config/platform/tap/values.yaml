@@ -69,7 +69,7 @@ stringData:
       autoConfigureActuators: true
     
     namespace_provisioner:
-      controller: false
+      controller: true
       additional_sources:
       - inline:
           paths:
@@ -118,9 +118,6 @@ stringData:
       - name: tekton-send-to-webhook-slack
       - name: tekton-triggers-release
       - name: tekton-triggers-interceptors
-    - name: namespace-provisioner
-      secrets:
-      - name: namespace-provisioner-desired-namespaces
 
     excluded_packages:
     #! - grype.scanning.apps.tanzu.vmware.com
