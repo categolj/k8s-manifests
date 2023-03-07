@@ -5,22 +5,18 @@ rolebindings:
 - namespace: blog
   create_namespace: true
   tap:
-    enabled: true
+    enabled: false
     orphan: true
 - namespace: note
   create_namespace: true
   tap:
-    enabled: true
+    enabled: false
     orphan: true
 - namespace: demo
   create_namespace: true
   tap:
-    enabled: true
+    enabled: false
     orphan: true
-- namespace: playground
-  create_namespace: true
-  tap:
-    enabled: true
 - namespace: jsug
   create_namespace: true
   namespace_labels:
