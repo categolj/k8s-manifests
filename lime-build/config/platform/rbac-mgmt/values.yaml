@@ -6,6 +6,7 @@ rolebindings:
   create_namespace: true
   tap:
     enabled: true
+    orphan: true
     grype:
       enabled: true
       version: 1.4.0
@@ -21,6 +22,7 @@ rolebindings:
   create_namespace: true
   tap:
     enabled: true
+    orphan: true
     grype:
       enabled: true
       version: 1.4.0
