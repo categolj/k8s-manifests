@@ -4,19 +4,16 @@ registry_credentials:
 rolebindings:
 - namespace: blog
   create_namespace: true
-  tap:
-    enabled: false
-    orphan: true
+  namespace_labels:
+    apps.tanzu.vmware.com/tap-ns: ""
 - namespace: note
   create_namespace: true
-  tap:
-    enabled: false
-    orphan: true
+  namespace_labels:
+    apps.tanzu.vmware.com/tap-ns: ""
 - namespace: demo
   create_namespace: true
-  tap:
-    enabled: false
-    orphan: true
+  namespace_labels:
+    apps.tanzu.vmware.com/tap-ns: ""
 - namespace: jsug
   create_namespace: true
   namespace_labels:
