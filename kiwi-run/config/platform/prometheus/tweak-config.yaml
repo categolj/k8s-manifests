@@ -5,7 +5,10 @@
 #@overlay/remove
 rule_files:
 scrape_configs:
-#@overlay/match by=overlay.or_op(overlay.subset({"job_name": "kubernetes-service-endpoints"}), overlay.subset({"job_name": "kubernetes-service-endpoints-slow"})), expects="1+"
+#@overlay/match by=overlay.not_op(overlay.subset({"job_name": "kubernetes-pods"})), expects="1+"
+#@overlay/remove
+- job_name: {}
+#@overlay/match by=overlay.or_op(overlay.subset({"job_name": "kubernetes-service-endpoints"}), overlay.subset({"job_name": "kubernetes-service-endpoints-slow"})), expects="0+"
 - relabel_configs:
   #@overlay/match by=overlay.index(0)
   #@overlay/insert after=True
