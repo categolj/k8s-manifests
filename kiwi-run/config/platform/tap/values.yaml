@@ -80,6 +80,37 @@ stringData:
     api_auto_registration:
       tap_gui_url: https://tap-gui.view.lime.maki.lol
 
+    namespace_provisioner:
+      controller: true
+      additional_sources:
+      - inline:
+          paths:
+            git-basic.yaml: |
+              ---
+              apiVersion: v1
+              kind: Secret
+              metadata:
+                name: git-basic
+                annotations:
+                  tekton.dev/git-0: https://github.com
+              type: kubernetes.io/basic-auth
+              stringData:
+                username: "(@= data.values.github.username @)"
+                password: "(@= data.values.github.api_token @)"
+        path: _ytt_lib/git-basic
+      - inline:
+          paths:
+            add-git-basic.lib.yaml: |
+              #@ load("@ytt:overlay", "overlay")
+    
+              #@ def customize():
+              #@overlay/match by=overlay.subset({"kind": "ServiceAccount", "metadata": {"name": "default"}}), expects="0+"
+              ---
+              secrets:
+              - name: git-basic
+              #@ end
+        path: _ytt_lib/customize
+
     package_overlays:
     - name: contour
       secrets:
