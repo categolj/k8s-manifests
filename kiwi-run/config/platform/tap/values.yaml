@@ -119,6 +119,7 @@ stringData:
     - name: cnrs
       secrets:
       - name: cnrs-autocreate-cluster-domain-claims
+      - name: cnrs-disable-scrape
     - name: tap-telemetry
       secrets:
       - name: tap-telemetry-remove
