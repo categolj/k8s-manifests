@@ -112,6 +112,9 @@ stringData:
         path: _ytt_lib/customize
 
     package_overlays:
+    - name: cert-manager
+      secrets:
+      - name: cert-manager-disable-scrape
     - name: contour
       secrets:
       - name: contour-default-tls
@@ -120,6 +123,9 @@ stringData:
       secrets:
       - name: cnrs-autocreate-cluster-domain-claims
       - name: cnrs-disable-scrape
+    - name: fluxcd-source-controller
+      secrets:
+      - name: fluxcd-source-controller-disable-scrape
     - name: tap-telemetry
       secrets:
       - name: tap-telemetry-remove
