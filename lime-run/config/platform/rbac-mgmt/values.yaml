@@ -6,14 +6,17 @@ rolebindings:
   create_namespace: true
   tap:
     enabled: true
+    orphan: true
 - namespace: note
   create_namespace: true
   tap:
     enabled: true
+    orphan: true
 - namespace: demo
   create_namespace: true
   tap:
     enabled: true
+    orphan: true
 - namespace: playground
   create_namespace: true
   tap:
