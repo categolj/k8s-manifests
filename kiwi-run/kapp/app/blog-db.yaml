@@ -24,6 +24,7 @@ spec:
       paths:
       - blog-db.yaml
       - blog-db-tls-ca-bindable.yaml
+      - backup.yaml
       valuesFrom:
       - path: credentials.yaml
   deploy:
