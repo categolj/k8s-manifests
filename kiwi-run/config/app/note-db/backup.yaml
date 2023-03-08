@@ -20,7 +20,7 @@ metadata:
   labels:
     jobgroup: postgres-backup
 spec:
-  schedule: "0 9 * * ?"
+  schedule: "0 15 * * ?"
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 3
   concurrencyPolicy: Forbid
