@@ -1,17 +1,6 @@
 apiVersion: packaging.carvel.dev/v1alpha1
 kind: PackageRepository
 metadata:
-  name: tanzu-tap-repository-1.4.0
-  namespace: tap-install
-spec:
-  fetch:
-    imgpkgBundle:
-      #! imgpkg copy -b registry.tanzu.vmware.com/tanzu-application-platform/tap-packages:1.4.0 --to-repo ghcr.io/making/tanzu-application-platform/tap-packages
-      image: ghcr.io/making/tanzu-application-platform/tap-packages:1.4.0
----
-apiVersion: packaging.carvel.dev/v1alpha1
-kind: PackageRepository
-metadata:
   name: tanzu-tap-repository-1.4.1
   namespace: tap-install
 spec:
@@ -19,3 +8,14 @@ spec:
     imgpkgBundle:
       #! imgpkg copy -b registry.tanzu.vmware.com/tanzu-application-platform/tap-packages:1.4.1 --to-repo ghcr.io/making/tanzu-application-platform/tap-packages
       image: ghcr.io/making/tanzu-application-platform/tap-packages:1.4.1
+---
+apiVersion: packaging.carvel.dev/v1alpha1
+kind: PackageRepository
+metadata:
+  name: tanzu-tap-repository-1.4.2
+  namespace: tap-install
+spec:
+  fetch:
+    imgpkgBundle:
+      #! imgpkg copy -b registry.tanzu.vmware.com/tanzu-application-platform/tap-packages:1.4.2 --to-repo ghcr.io/making/tanzu-application-platform/tap-packages
+      image: ghcr.io/making/tanzu-application-platform/tap-packages:1.4.2
