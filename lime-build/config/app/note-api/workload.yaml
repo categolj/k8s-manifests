@@ -78,7 +78,7 @@ spec:
     - kind: Secret
       name: settings-xml
   - name: scanning_image_policy
-    value: note-api
+    value: spring-boot
   resources:
     limits:
       memory: 416Mi
