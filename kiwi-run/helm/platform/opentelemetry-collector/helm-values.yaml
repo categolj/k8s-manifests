@@ -131,6 +131,11 @@ config:
             target_label: app
             replacement: $1
             action: replace
+          kubernetes_sd_configs:
+          - role: pod
+            kubeconfig_file: ""
+            follow_redirects: true
+            enable_http2: true
     jaeger: null
     otlp: null
     zipkin:
