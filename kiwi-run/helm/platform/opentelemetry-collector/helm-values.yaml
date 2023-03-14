@@ -164,7 +164,7 @@ config:
         processors:
         - batch
         exporters:
-        - logging
+        - prometheusremotewrite
       traces:
         receivers:
         - zipkin
