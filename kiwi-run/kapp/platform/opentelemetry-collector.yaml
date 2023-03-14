@@ -73,6 +73,7 @@ spec:
                   count: 3
   deploy:
   - kapp:
+      intoNs: opentelemetry
       rawOptions:
       - --wait-timeout=5m
       - --diff-changes=true
