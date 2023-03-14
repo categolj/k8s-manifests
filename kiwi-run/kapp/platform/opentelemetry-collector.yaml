@@ -41,11 +41,6 @@ spec:
             kind: Namespace
             metadata:
               name: opentelemetry
-            #@overlay/match by=overlay.not_op(overlay.subset({"kind": "Namespace"})), expects="1+"
-            ---
-            metadata:
-              #@overlay/match missing_ok=True
-              namespace: opentelemetry
             ---
             apiVersion: projectcontour.io/v1
             kind: HTTPProxy
