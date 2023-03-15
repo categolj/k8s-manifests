@@ -31,9 +31,9 @@ stringData:
             tls:
               - secretName: (@= data.values.workload.metadata.name @)-tls
                 hosts:
-                - (@= "{}.{}".format(data.values.workload.metadata.name, "INGRESS_DOMAIN") @)
+                - (@= "{}-{}.{}".format(data.values.workload.metadata.name, data.values.workload.metadata.namespace, "INGRESS_DOMAIN") @)
             rules:
-            - host: (@= "{}.{}".format(data.values.workload.metadata.name, "INGRESS_DOMAIN") @)
+            - host: (@= "{}-{}.{}".format(data.values.workload.metadata.name, data.values.workload.metadata.namespace, "INGRESS_DOMAIN") @)
               http:
                 paths:
                 - pathType: Prefix
