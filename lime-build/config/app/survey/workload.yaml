@@ -35,6 +35,8 @@ spec:
     value:
     - kind: Secret
       name: settings-xml
+  - name: clusterBuilder
+    value: base-jammy
   resources:
     limits:
       memory: 500Mi
