@@ -37,6 +37,7 @@ spec:
   - name: annotations
     value:
       autoscaling.knative.dev/minScale: "1"
+      autoscaling.knative.dev/maxScale: "2"
   - name: scanning_image_policy
     value: blog-ui
   - name: livenessProbe
