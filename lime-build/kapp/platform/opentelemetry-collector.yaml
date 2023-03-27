@@ -1,0 +1,51 @@
+apiVersion: kappctrl.k14s.io/v1alpha1
+kind: App
+metadata:
+  name: opentelemetry-collector
+  namespace: kapp
+  annotations:
+    kapp.k14s.io/change-group: "{name}"
+spec:
+  serviceAccountName: kapp
+  fetch:
+  - helmChart:
+      name: opentelemetry-collector
+      version: "0.50.0"
+      repository:
+        url: https://open-telemetry.github.io/opentelemetry-helm-charts
+  - git:
+      url: https://github.com/categolj/k8s-manifests.git
+      ref: origin/main
+      subPath: lime-build/helm/platform/opentelemetry-collector
+  syncPeriod: 168h
+  template:
+  - sops:
+      pgp:
+        privateKeysSecretRef:
+          name: pgp-key
+  - helmTemplate:
+      path: 0/
+      namespace: opentelemetry
+      valuesFrom:
+      - path: 1/helm-values.yaml
+      - path: 1/helm-credentials.yaml
+  - ytt:
+      ignoreUnknownComments: true
+      paths:
+      - "-"
+      inline:
+        paths:
+          overlay.yaml: |
+            #@ load("@ytt:overlay", "overlay")
+            apiVersion: v1
+            kind: Namespace
+            metadata:
+              name: opentelemetry
+  deploy:
+  - kapp:
+      intoNs: opentelemetry
+      rawOptions:
+      - --wait-timeout=5m
+      - --diff-changes=true
+      - --diff-mask=true
+      inspect: {}
