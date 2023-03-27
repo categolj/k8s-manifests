@@ -219,6 +219,12 @@ stringData:
         path: _ytt_lib/customize
 
     package_overlays:
+    - name: cert-manager
+      secrets:
+      - name: cert-manager-disable-scrape
+    - name: fluxcd-source-controller
+      secrets:
+      - name: fluxcd-source-controller-disable-scrape
     - name: tap-telemetry
       secrets:
       - name: tap-telemetry-remove
@@ -235,7 +241,7 @@ stringData:
       - name: ootb-supply-chain-testing-scanning-remove-source-scanner
     - name: tekton-pipelines
       secrets:
-      - name: tekton-pipelines-prometheus
+      #! - name: tekton-pipelines-prometheus
       - name: tekton-send-to-webhook-slack
       - name: tekton-triggers-release
       - name: tekton-triggers-interceptors
