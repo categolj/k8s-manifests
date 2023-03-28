@@ -19,7 +19,11 @@ stringData:
       kp_default_repository: (@= data.values.registry_credentials.server @)/(@= data.values.registry_credentials.username @)/build-service
       kp_default_repository_secret:
         name: registry-secret
-        namespace: tap-install  
+        namespace: tap-install
+      enable_automatic_dependency_updates: true
+      descriptor_name: full
+      tanzunet_username: (@= data.values.tanzunet.username @)
+      tanzunet_password: (@= data.values.tanzunet.password @)
       #! exclude_dependencies: true
 
     supply_chain: testing_scanning
