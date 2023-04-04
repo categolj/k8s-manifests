@@ -111,6 +111,8 @@ spec:
       prometheus.io/path: /actuator/prometheus
       prometheus.io/port: "8081"
       prometheus.io/scrape: "true"
+  - name: clusterBuilder
+    value: base-jammy
   - name: api_descriptor
     value:
       description: Blog Entry API
