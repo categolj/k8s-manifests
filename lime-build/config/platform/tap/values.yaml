@@ -223,6 +223,9 @@ stringData:
         path: _ytt_lib/customize
 
     package_overlays:
+    - name: buildservice
+      secrets:
+      - name: buildservice-customstack
     - name: cert-manager
       secrets:
       - name: cert-manager-disable-scrape
