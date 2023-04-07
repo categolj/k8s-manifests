@@ -1,0 +1,27 @@
+apiVersion: carto.run/v1alpha1
+kind: Deliverable
+metadata:
+  name: backup-db
+  namespace: blog
+  labels:
+    app.kubernetes.io/part-of: backup-db
+    apps.tanzu.vmware.com/workload-type: cronjob
+    app.kubernetes.io/component: deliverable
+    app.tanzu.vmware.com/deliverable-type: web
+    carto.run/cluster-template-name: external-deliverable-template
+    carto.run/resource-name: deliverable
+    carto.run/supply-chain-name: scanning-image-scan-to-url
+    carto.run/template-kind: ClusterTemplate
+    carto.run/template-lifecycle: mutable
+    carto.run/workload-name: backup-db
+    carto.run/workload-namespace: blog
+spec:
+  params:
+  - name: gitops_ssh_secret
+    value: ""
+  source:
+    git:
+      url: https://github.com/categolj/tap-gitops.git
+      ref:
+        branch: kiwi
+    subPath: config/blog/backup-db

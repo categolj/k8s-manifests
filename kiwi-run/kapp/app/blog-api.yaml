@@ -26,6 +26,7 @@ spec:
       - blog-config.yaml
       - httpproxy.yaml
       - otel-config.yaml
+      - backup-db.yaml
       valuesFrom:
       - path: credentials.yaml
   deploy:
