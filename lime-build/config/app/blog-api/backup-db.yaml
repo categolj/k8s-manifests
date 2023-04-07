@@ -11,8 +11,6 @@ spec:
   params:
   - name: schedule
     value: 0 15 * * ?
-  - name: gitops_branch
-    value: kiwi
   - name: command
     value:
     - /bin/bash
