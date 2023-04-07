@@ -27,6 +27,15 @@ stringData:
         #@   labels.update(fixed_values)
         #@   return labels
         #@ end
+    
+        #@ def add_restart_policy(config):
+        #@   values = {}
+        #@   values.update(config)
+        #@   spec = dict(values["spec"])
+        #@   spec.update({"restartPolicy": data.values.params.restartPolicy if hasattr(data.values.params, "restartPolicy") else "Never"})
+        #@   values["spec"] = spec
+        #@   return values
+        #@ end
         
         #@ def delivery():
         apiVersion: batch/v1
@@ -52,7 +61,7 @@ stringData:
               labels: #@ data.values.config.metadata.labels
             spec:
               backoffLimit: 0
-              template: #@ data.values.config
+              template: #@ add_restart_policy(data.values.config)
         #@ end
         
         ---
