@@ -29,46 +29,46 @@ spec:
     value:
       apps.tanzu.vmware.com/pipeline: test
       apps.tanzu.vmware.com/language: skip
-    env:
-    - name: AWS_S3_HOST
-      valueFrom:
-        secretKeyRef:
-          name: backup-s3
-          key: host
-    - name: AWS_ACCESS_KEY
-      valueFrom:
-        secretKeyRef:
-          name: backup-s3
-          key: access_key
-    - name: AWS_ACCESS_SECRET
-      valueFrom:
-        secretKeyRef:
-          name: backup-s3
-          key: access_secret
-    - name: AWS_BUCKET_NAME
-      value: backup-blog-db
-    - name: DB_USER
-      valueFrom:
-        secretKeyRef:
-          name: blog-db
-          key: username
-    - name: DB_HOST
-      valueFrom:
-        secretKeyRef:
-          name: blog-db
-          key: host
-    - name: DB_PORT
-      valueFrom:
-        secretKeyRef:
-          name: blog-db
-          key: port
-    - name: DB_NAME
-      valueFrom:
-        secretKeyRef:
-          name: blog-db
-          key: database
-    - name: PGPASSWORD
-      valueFrom:
-        secretKeyRef:
-          name: blog-db
-          key: password
+  env:
+  - name: AWS_S3_HOST
+    valueFrom:
+      secretKeyRef:
+        name: backup-s3
+        key: host
+  - name: AWS_ACCESS_KEY
+    valueFrom:
+      secretKeyRef:
+        name: backup-s3
+        key: access_key
+  - name: AWS_ACCESS_SECRET
+    valueFrom:
+      secretKeyRef:
+        name: backup-s3
+        key: access_secret
+  - name: AWS_BUCKET_NAME
+    value: backup-blog-db
+  - name: DB_USER
+    valueFrom:
+      secretKeyRef:
+        name: blog-db
+        key: username
+  - name: DB_HOST
+    valueFrom:
+      secretKeyRef:
+        name: blog-db
+        key: host
+  - name: DB_PORT
+    valueFrom:
+      secretKeyRef:
+        name: blog-db
+        key: port
+  - name: DB_NAME
+    valueFrom:
+      secretKeyRef:
+        name: blog-db
+        key: database
+  - name: PGPASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: blog-db
+        key: password
