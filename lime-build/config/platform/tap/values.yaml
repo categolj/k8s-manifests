@@ -33,6 +33,15 @@ stringData:
       ingress_issuer: letsencrypt
 
     ootb_supply_chain_testing_scanning:
+      supported_workloads:
+      - type: web
+        cluster_config_template_name: config-template
+      - type: server
+        cluster_config_template_name: server-template
+      - type: worker
+        cluster_config_template_name: worker-template
+      - type: cronjob
+        cluster_config_template_name: cronjob-template
       #! cluster_builder: base-jammy
       registry:
         server: (@= data.values.registry_credentials.server @)
@@ -243,6 +252,7 @@ stringData:
       - name: ootb-templates-overlay-ingress
       - name: ootb-templates-remove-kapp-labels
       - name: ootb-templates-overlay-pod-anti-affinity
+      - name: ootb-templates-cronjob-template
     - name: ootb-supply-chain-testing-scanning
       secrets:
       - name: ootb-supply-chain-testing-scanning-remove-source-scanner

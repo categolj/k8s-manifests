@@ -1,0 +1,65 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ootb-templates-cronjob-template
+  namespace: tap-install
+  annotations:
+    kapp.k14s.io/change-group: "tap-overlays"
+type: Opaque
+stringData:
+  cronjob-template.yml: |
+    apiVersion: carto.run/v1alpha1
+    kind: ClusterConfigTemplate
+    metadata:
+      name: cronjob-template
+    spec:
+      configPath: .data
+      lifecycle: mutable
+      ytt: |
+        #@ load("@ytt:data", "data")
+        #@ load("@ytt:yaml", "yaml")
+        
+        #@ def merge_labels(fixed_values):
+        #@   labels = {}
+        #@   if hasattr(data.values.workload.metadata, "labels"):
+        #@     labels.update(data.values.workload.metadata.labels)
+        #@   end
+        #@   labels.update(fixed_values)
+        #@   return labels
+        #@ end
+        
+        #@ def delivery():
+        apiVersion: batch/v1
+        kind: CronJob
+        metadata:
+          name: #@ data.values.workload.metadata.name
+          annotations:
+            kapp.k14s.io/update-strategy: "fallback-on-replace"
+            ootb.apps.tanzu.vmware.com/servicebinding-workload: "true"
+            kapp.k14s.io/change-rule: "upsert after upserting servicebinding.io/ServiceBindings"
+          labels: #@ merge_labels({ "app.kubernetes.io/component": "run", "carto.run/workload-name": data.values.workload.metadata.name })
+        spec:
+          schedule: #@ data.values.params.schedule if hasattr(data.values.params, "schedule") else "0 15 * * ?"
+          #@ if/end hasattr(data.values.params, "command"):
+          command: #@ data.values.params.command
+          #@ if/end hasattr(data.values.params, "args"):
+          args: #@ data.values.params.args
+          successfulJobsHistoryLimit: 1
+          failedJobsHistoryLimit: 3
+          concurrencyPolicy: Forbid
+          jobTemplate:
+            metadata:
+              labels: #@ data.values.config.metadata.labels
+            spec:
+              backoffLimit: 0
+              template: #@ data.values.config
+        #@ end
+        
+        ---
+        apiVersion: v1
+        kind: ConfigMap
+        metadata:
+          name: #@ data.values.workload.metadata.name + "-cronjob"
+          labels: #@ merge_labels({ "app.kubernetes.io/component": "config" })
+        data:
+          delivery.yml: #@ yaml.encode(delivery())
