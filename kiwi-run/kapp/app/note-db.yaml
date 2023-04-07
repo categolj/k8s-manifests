@@ -24,7 +24,6 @@ spec:
       paths:
       - note-db.yaml
       - note-db-tls-ca-bindable.yaml
-      - backup.yaml
       valuesFrom:
       - path: credentials.yaml
   deploy:

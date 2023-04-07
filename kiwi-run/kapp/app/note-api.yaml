@@ -25,6 +25,8 @@ spec:
       - deliverable.yaml
       - note-config.yaml
       - otel-config.yaml
+      - backup-db.yaml
+      - backup-s3.yaml
       valuesFrom:
       - path: credentials.yaml
   deploy:
