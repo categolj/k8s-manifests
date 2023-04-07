@@ -132,6 +132,7 @@ stringData:
     - name: tap-auth
       secrets:
       - name: tap-auth-deliverable-with-ingress
+      - name: tap-auth-deliverable-with-cronjob
 
     excluded_packages:
     #! - connector.appliveview.tanzu.vmware.com
