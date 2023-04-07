@@ -4,6 +4,8 @@ metadata:
   labels:
     app.kubernetes.io/part-of: backup-db
     apps.tanzu.vmware.com/workload-type: cronjob
+  annotations:
+    kapp.k14s.io/disable-original: ""
   name: backup-db
   namespace: blog
 spec:
