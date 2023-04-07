@@ -28,11 +28,19 @@ stringData:
         #@   return labels
         #@ end
     
-        #@ def add_restart_policy(config):
+        #@ def update_config(config):
         #@   values = {}
         #@   values.update(config)
         #@   spec = dict(values["spec"])
         #@   spec.update({"restartPolicy": data.values.params.restartPolicy if hasattr(data.values.params, "restartPolicy") else "Never"})
+        #@   workload = dict(spec["containers"][0])
+        #@   if hasattr(data.values.params, "command"):
+        #@     workload.update({"command": data.values.params.command})
+        #@   end
+        #@   if hasattr(data.values.params, "args"):
+        #@     workload.update({"args": data.values.params.args})
+        #@   end
+        #@   spec["containers"][0] = workload
         #@   values["spec"] = spec
         #@   return values
         #@ end
@@ -49,10 +57,6 @@ stringData:
           labels: #@ merge_labels({ "app.kubernetes.io/component": "run", "carto.run/workload-name": data.values.workload.metadata.name })
         spec:
           schedule: #@ data.values.params.schedule if hasattr(data.values.params, "schedule") else "0 15 * * ?"
-          #@ if/end hasattr(data.values.params, "command"):
-          command: #@ data.values.params.command
-          #@ if/end hasattr(data.values.params, "args"):
-          args: #@ data.values.params.args
           successfulJobsHistoryLimit: 1
           failedJobsHistoryLimit: 3
           concurrencyPolicy: Forbid
@@ -61,7 +65,7 @@ stringData:
               labels: #@ data.values.config.metadata.labels
             spec:
               backoffLimit: 0
-              template: #@ add_restart_policy(data.values.config)
+              template: #@ update_config(data.values.config)
         #@ end
         
         ---
