@@ -43,7 +43,7 @@ spec:
         name: backup-s3
         key: host
   - name: S3_BUCKET
-    value: backup-blog-db
+    value: pg-dump-to-s3
   - name: PGDUMP_USERNAME
     valueFrom:
       secretKeyRef:
