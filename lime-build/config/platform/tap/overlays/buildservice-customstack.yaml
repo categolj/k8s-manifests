@@ -32,3 +32,25 @@ stringData:
       packages:
       - name: postgresql-client
         phase: run
+    ---
+    apiVersion: kpack.io/v1alpha2
+    kind: ClusterBuilder
+    metadata:
+      name: base-jammy-postgresql-client
+    spec:
+      order:
+      - group:
+        - id: tanzu-buildpacks/java
+        - id: paketo-buildpacks/opentelemetry
+      - group:
+        - id: tanzu-buildpacks/java
+      serviceAccountRef:
+        name: kp-default-repository-serviceaccount
+        namespace: kpack
+      stack:
+        kind: ClusterStack
+        name: base-jammy-postgresql-client
+      store:
+        kind: ClusterStore
+        name: default
+      tag: ghcr.io/making/build-service:base-jammy-postgresql-client
