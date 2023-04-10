@@ -3,72 +3,74 @@ kind: Workload
 metadata:
   labels:
     app.kubernetes.io/part-of: backup-db
+    apps.tanzu.vmware.com/has-tests: "true"
     apps.tanzu.vmware.com/workload-type: cronjob
   annotations:
     kapp.k14s.io/disable-original: ""
   name: backup-db
   namespace: blog
 spec:
-  image: ghcr.io/categolj/psql-backup:latest
+  source:
+    git:
+      url: https://github.com/making/pg-dump-to-s3
+      ref:
+        branch: main
   params:
-  - name: schedule
-    value: 0 15 * * ?
-  - name: command
-    value:
-    - /bin/bash
-  - name: args
-    value:
-    - -c
-    - |-
-      set -eo pipefail
-      mc config host add -C /tmp backup_host ${AWS_S3_HOST} ${AWS_ACCESS_KEY} ${AWS_ACCESS_SECRET}
-      echo "Backup Started!"
-      pg_dump -U ${DB_USER} -h ${DB_HOST} -p ${DB_PORT} ${DB_NAME} | mc pipe -C /tmp backup_host/${AWS_BUCKET_NAME}/$(date +"%Y")/$(date +"%m")/$(date +"%d")/backup-$(date +"%Y-%m-%d-%H-%M").sql
-      echo "Backup Finished!"
   - name: testing_pipeline_matching_labels
     value:
       apps.tanzu.vmware.com/pipeline: test
       apps.tanzu.vmware.com/language: skip
+  build:
+    env:
+    - name: BP_JVM_VERSION
+      value: "17"
   env:
-  - name: AWS_S3_HOST
-    valueFrom:
-      secretKeyRef:
-        name: backup-s3
-        key: host
-  - name: AWS_ACCESS_KEY
+  - name: BPL_JVM_THREAD_COUNT
+    value: "8"
+  - name: AWS_SECRET_ACCESS_KEY
     valueFrom:
       secretKeyRef:
         name: backup-s3
         key: access_key
-  - name: AWS_ACCESS_SECRET
+  - name: AWS_SECRET_ACCESS_KEY
     valueFrom:
       secretKeyRef:
         name: backup-s3
         key: access_secret
-  - name: AWS_BUCKET_NAME
+  - name: S3_HOSTNAME
+    valueFrom:
+      secretKeyRef:
+        name: backup-s3
+        key: host
+  - name: S3_BUCKET
     value: backup-blog-db
-  - name: DB_USER
+  - name: PGDUMP_USERNAME
     valueFrom:
       secretKeyRef:
         name: blog-db
         key: username
-  - name: DB_HOST
+  - name: PGDUMP_HOST
     valueFrom:
       secretKeyRef:
         name: blog-db
         key: host
-  - name: DB_PORT
+  - name: PGDUMP_PORT
     valueFrom:
       secretKeyRef:
         name: blog-db
         key: port
-  - name: DB_NAME
+  - name: PGDUMP_DATABASE
     valueFrom:
       secretKeyRef:
         name: blog-db
         key: database
-  - name: PGPASSWORD
+  - name: PGDUMP_PASSWORD
     valueFrom:
       secretKeyRef:
         name: blog-db
         key: password
+  - name: MANAGEMENT_ZIPKIN_TRACING_ENDPOINT
+    valueFrom:
+      secretKeyRef:
+        name: otel-config
+        key: otel-trace-endpoint
