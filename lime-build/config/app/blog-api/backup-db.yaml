@@ -21,6 +21,12 @@ spec:
     value:
       apps.tanzu.vmware.com/pipeline: test
       apps.tanzu.vmware.com/language: skip
+  - name: clusterBuilder
+    value: base-jammy-postgresql-client
+  - name: buildServiceBindings
+    value:
+    - kind: Secret
+      name: settings-xml
   build:
     env:
     - name: BP_JVM_VERSION
