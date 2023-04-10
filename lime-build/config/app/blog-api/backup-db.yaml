@@ -30,7 +30,7 @@ spec:
     value: "-Dmanagement.health.probes.enabled=false"
   - name: BPL_JVM_THREAD_COUNT
     value: "8"
-  - name: AWS_SECRET_ACCESS_KEY
+  - name: AWS_ACCESS_KEY_ID
     valueFrom:
       secretKeyRef:
         name: backup-s3
