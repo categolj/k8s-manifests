@@ -5,6 +5,7 @@ metadata:
     app.kubernetes.io/part-of: backup-db
     apps.tanzu.vmware.com/has-tests: "true"
     apps.tanzu.vmware.com/workload-type: cronjob
+    apps.tanzu.vmware.com/auto-configure-actuators: "false"
   annotations:
     kapp.k14s.io/disable-original: ""
   name: backup-db
@@ -25,6 +26,8 @@ spec:
     - name: BP_JVM_VERSION
       value: "17"
   env:
+  - name: JAVA_TOOL_OPTIONS
+    value: "-Dmanagement.health.probes.enabled=false"
   - name: BPL_JVM_THREAD_COUNT
     value: "8"
   - name: AWS_SECRET_ACCESS_KEY
