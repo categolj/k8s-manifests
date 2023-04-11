@@ -15,6 +15,7 @@ metrics:
       basic_auth:
         username: #@ data.values.prometheus.username
         password: #@ data.values.prometheus.password
+      send_exemplars: true
 traces:
   configs:
   #@overlay/match by="name"
