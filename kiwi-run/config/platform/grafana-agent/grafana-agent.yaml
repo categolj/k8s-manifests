@@ -1,0 +1,216 @@
+#@ load("@ytt:overlay", "overlay")
+#@ load("@ytt:yaml", "yaml")
+#@ load("@ytt:data", "data")
+#@ load("@ytt:md5", "md5")
+
+#@ def with_creds():
+metrics:
+  configs:
+  #@overlay/match by="name"
+  - name: default
+    remote_write:
+    #@overlay/match by=overlay.index(0)
+    #@overlay/replace
+    - url: #@ data.values.prometheus.url
+      basic_auth:
+        username: #@ data.values.prometheus.username
+        password: #@ data.values.prometheus.password
+traces:
+  configs:
+  #@overlay/match by="name"
+  - name: default
+    remote_write:
+    #@overlay/match by=overlay.index(0)
+    #@overlay/replace
+    - endpoint: #@ data.values.tempo.endpoint
+      headers: #@ data.values.tempo.headers
+#@ end
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: grafana-agent
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: grafana-agent
+  namespace: grafana-agent
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: grafana-agent
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - nodes
+  - nodes/proxy
+  - services
+  - endpoints
+  - pods
+  - events
+  verbs:
+  - get
+  - list
+  - watch
+- nonResourceURLs:
+  - /metrics
+  verbs:
+  - get
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: grafana-agent
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: grafana-agent
+subjects:
+- kind: ServiceAccount
+  name: grafana-agent
+  namespace: grafana-agent
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: grafana-agent
+  name: grafana-agent
+  namespace: grafana-agent
+spec:
+  clusterIP: None
+  ports:
+  - name: grafana-agent-http-metrics
+    port: 80
+    targetPort: 80
+  - name: grafana-agent-traces-thrift-compact
+    port: 6831
+    protocol: UDP
+    targetPort: 6831
+  - name: grafana-agent-traces-thrift-binary
+    port: 6832
+    protocol: UDP
+    targetPort: 6832
+  - name: grafana-agent-traces-thrift-http
+    port: 14268
+    protocol: TCP
+    targetPort: 14268
+  - name: grafana-agent-traces-thrift-grpc
+    port: 14250
+    protocol: TCP
+    targetPort: 14250
+  - name: grafana-agent-traces-zipkin
+    port: 9411
+    protocol: TCP
+    targetPort: 9411
+  - name: grafana-agent-traces-otlp-grpc
+    port: 4317
+    protocol: TCP
+    targetPort: 4317
+  - name: grafana-agent-traces-otlp-http
+    port: 4318
+    protocol: TCP
+    targetPort: 4318
+  - name: grafana-agent-traces-opencensus
+    port: 55678
+    protocol: TCP
+    targetPort: 55678
+  selector:
+    name: grafana-agent
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: grafana-agent
+  namespace: grafana-agent
+spec:
+  minReadySeconds: 10
+  selector:
+    matchLabels:
+      name: grafana-agent
+  template:
+    metadata:
+      labels:
+        name: grafana-agent
+    spec:
+      containers:
+      - args:
+        - -config.expand-env=true
+        - -config.file=/etc/agent/agent.yaml
+        - -enable-features=integrations-next
+        - -server.http.address=0.0.0.0:80
+        env:
+        - name: HOSTNAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        image: grafana/agent:v0.32.1
+        imagePullPolicy: IfNotPresent
+        name: grafana-agent
+        ports:
+        - containerPort: 80
+          name: http-metrics
+        - containerPort: 6831
+          name: thrift-compact
+          protocol: UDP
+        - containerPort: 6832
+          name: thrift-binary
+          protocol: UDP
+        - containerPort: 14268
+          name: thrift-http
+          protocol: TCP
+        - containerPort: 14250
+          name: thrift-grpc
+          protocol: TCP
+        - containerPort: 9411
+          name: zipkin
+          protocol: TCP
+        - containerPort: 4317
+          name: otlp-grpc
+          protocol: TCP
+        - containerPort: 4318
+          name: otlp-http
+          protocol: TCP
+        - containerPort: 55678
+          name: opencensus
+          protocol: TCP
+        securityContext:
+          privileged: true
+          runAsUser: 0
+        volumeMounts:
+        - mountPath: /etc/agent
+          name: grafana-agent
+        - mountPath: /var/log
+          name: varlog
+        - mountPath: /var/lib/docker/containers
+          name: varlibdockercontainers
+          readOnly: true
+      serviceAccountName: grafana-agent
+      tolerations:
+      - effect: NoSchedule
+        operator: Exists
+      volumes:
+      - configMap:
+          name: grafana-agent
+        name: grafana-agent
+      - hostPath:
+          path: /var/log
+        name: varlog
+      - hostPath:
+          path: /var/lib/docker/containers
+        name: varlibdockercontainers
+  updateStrategy:
+    type: RollingUpdate
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-agent
+  namespace: grafana-agent
+  annotations:
+    kapp.k14s.io/versioned: ""
+data:
+  agent.yaml: #@ yaml.encode(overlay.apply(yaml.decode(data.read("agent.yaml")), with_creds()))
