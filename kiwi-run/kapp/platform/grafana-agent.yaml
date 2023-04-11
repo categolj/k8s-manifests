@@ -28,6 +28,9 @@ spec:
       - path: credentials.yaml
       fileMarks:
       - agent.yaml:type=data
+  - kbld:
+      paths:
+      - "-"
   deploy:
   - kapp:
       rawOptions:
