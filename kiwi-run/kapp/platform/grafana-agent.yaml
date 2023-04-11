@@ -23,6 +23,7 @@ spec:
   - ytt:
       paths:
       - grafana-agent.yaml
+      - httpproxy.yaml
       - agent.yaml
       valuesFrom:
       - path: credentials.yaml

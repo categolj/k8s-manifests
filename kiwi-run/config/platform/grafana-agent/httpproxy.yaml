@@ -1,0 +1,29 @@
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
+metadata:
+  name: zipkin
+  namespace: grafana-agent
+spec:
+  virtualhost:
+    fqdn: zipkin.ik.am
+    corsPolicy:
+      allowCredentials: true
+      allowOrigin:
+      - "*"
+      allowMethods:
+      - POST
+      - OPTIONS
+      allowHeaders:
+      - "*"
+      maxAge: "60m"
+    tls:
+      secretName: tanzu-system-ingress/tap-default-tls
+  routes:
+  - services:
+    - name: grafana-agent
+      port: 9411
+      weight: 100
+    timeoutPolicy:
+      response: 20s
+    retryPolicy:
+      count: 3
