@@ -122,7 +122,7 @@ spec:
     name: grafana-agent
 ---
 apiVersion: apps/v1
-kind: DaemonSet
+kind: Deployment
 metadata:
   name: grafana-agent
   namespace: grafana-agent
@@ -177,33 +177,31 @@ spec:
         - containerPort: 55678
           name: opencensus
           protocol: TCP
-        securityContext:
-          privileged: true
-          runAsUser: 0
+#!        securityContext:
+#!          privileged: true
+#!          runAsUser: 0
         volumeMounts:
         - mountPath: /etc/agent
           name: grafana-agent
-        - mountPath: /var/log
-          name: varlog
-        - mountPath: /var/lib/docker/containers
-          name: varlibdockercontainers
-          readOnly: true
+#!        - mountPath: /var/log
+#!          name: varlog
+#!        - mountPath: /var/lib/docker/containers
+#!          name: varlibdockercontainers
+#!          readOnly: true
       serviceAccountName: grafana-agent
-      tolerations:
-      - effect: NoSchedule
-        operator: Exists
+#!      tolerations:
+#!      - effect: NoSchedule
+#!        operator: Exists
       volumes:
       - configMap:
           name: grafana-agent
         name: grafana-agent
-      - hostPath:
-          path: /var/log
-        name: varlog
-      - hostPath:
-          path: /var/lib/docker/containers
-        name: varlibdockercontainers
-  updateStrategy:
-    type: RollingUpdate
+#!      - hostPath:
+#!          path: /var/log
+#!        name: varlog
+#!      - hostPath:
+#!          path: /var/lib/docker/containers
+#!        name: varlibdockercontainers
 ---
 apiVersion: v1
 kind: ConfigMap
