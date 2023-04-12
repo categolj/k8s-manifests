@@ -98,9 +98,6 @@ stringData:
               caData: (@= data.values.clusters.kiwi.run.ca_data @)
     appliveview:
       ingressEnabled: true
-      tls:
-        secretName: tap-default-tls
-        namespace: tanzu-system-ingress
     
     accelerator:
       ingress:
