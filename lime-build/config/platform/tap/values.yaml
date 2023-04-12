@@ -84,153 +84,19 @@ stringData:
     namespace_provisioner:
       controller: true
       additional_sources:
-      - inline:
-          paths:
-            git-basic.yaml: |
-              ---
-              apiVersion: v1
-              kind: Secret
-              metadata:
-                name: git-basic
-                annotations:
-                  tekton.dev/git-0: https://github.com
-              type: kubernetes.io/basic-auth
-              stringData:
-                username: "(@= data.values.github.username @)"
-                password: "(@= data.values.github.api_token @)"
-        path: _ytt_lib/git-basic
-      - inline:
-          paths:
-            skip-test-pipeline.yaml: |
-              ---
-              apiVersion: tekton.dev/v1beta1
-              kind: Pipeline
-              metadata:
-                name: skip-test-pipeline
-                namespace: blog
-                labels:
-                  apps.tanzu.vmware.com/pipeline: test
-                  apps.tanzu.vmware.com/language: skip
-              spec:
-                params:
-                - name: source-url
-                - name: source-revision
-                tasks:
-                - name: test
-                  params:
-                  - name: source-url
-                    value: $(params.source-url)
-                  - name: source-revision
-                    value: $(params.source-revision)
-                  taskSpec:
-                    params:
-                    - name: source-url
-                    - name: source-revision
-                    steps:
-                    - name: test
-                      image: alpine
-                      script: |-
-                        echo 'skip'
-        path: _ytt_lib/testing
-      - inline:
-          paths:
-            scan-policy.yaml: |
-              ---
-              apiVersion: scanning.apps.tanzu.vmware.com/v1beta1
-              kind: ScanPolicy
-              metadata:
-                labels:
-                  app.kubernetes.io/part-of: enable-in-gui
-                name: scan-policy
-                namespace: demo
-              spec:
-                regoFile: |
-                  package main
-              
-                  # Accepted Values: "Critical", "High", "Medium", "Low", "Negligible", "UnknownSeverity"
-                  notAllowedSeverities := ["UnknownSeverity"]
-              
-                  ignoreCves := ["GHSA-mjmj-j48q-9wg2", "CVE-2023-0286"]
-              
-                  contains(array, elem) = true {
-                    array[_] = elem
-                  } else = false { true }
-              
-                  isSafe(match) {
-                    severities := { e | e := match.ratings.rating.severity } | { e | e := match.ratings.rating[_].severity }
-                    some i
-                    fails := contains(notAllowedSeverities, severities[i])
-                    not fails
-                  }
-              
-                  isSafe(match) {
-                    ignore := contains(ignoreCves, match.id)
-                    ignore
-                  }
-              
-                  deny[msg] {
-                    comps := { e | e := input.bom.components.component } | { e | e := input.bom.components.component[_] }
-                    some i
-                    comp := comps[i]
-                    vulns := { e | e := comp.vulnerabilities.vulnerability } | { e | e := comp.vulnerabilities.vulnerability[_] }
-                    some j
-                    vuln := vulns[j]
-                    ratings := { e | e := vuln.ratings.rating.severity } | { e | e := vuln.ratings.rating[_].severity }
-                    not isSafe(vuln)
-                    msg = sprintf("CVE %s %s %s", [comp.name, vuln.id, ratings])
-                  }
-            spring-boot.yaml: |
-              apiVersion: scanning.apps.tanzu.vmware.com/v1beta1
-              kind: ScanPolicy
-              metadata:
-                name: spring-boot
-                namespace: note
-                labels:
-                  'app.kubernetes.io/part-of': 'enable-in-gui'
-              spec:
-                regoFile: |
-                  package main
-                  # Accepted Values: "Critical", "High", "Medium", "Low", "Negligible", "UnknownSeverity"
-                  notAllowedSeverities := ["Critical", "High", "UnknownSeverity"]
-                  ignoreCves := ["GHSA-mjmj-j48q-9wg2", "GHSA-vvpx-j8f3-3w6h"]
-                  contains(array, elem) = true {
-                    array[_] = elem
-                  } else = false { true }
-                  isSafe(match) {
-                    severities := { e | e := match.ratings.rating.severity } | { e | e := match.ratings.rating[_].severity }
-                    some i
-                    fails := contains(notAllowedSeverities, severities[i])
-                    not fails
-                  }
-                  isSafe(match) {
-                    ignore := contains(ignoreCves, match.id)
-                    ignore
-                  }
-                  deny[msg] {
-                    comps := { e | e := input.bom.components.component } | { e | e := input.bom.components.component[_] }
-                    some i
-                    comp := comps[i]
-                    vulns := { e | e := comp.vulnerabilities.vulnerability } | { e | e := comp.vulnerabilities.vulnerability[_] }
-                    some j
-                    vuln := vulns[j]
-                    ratings := { e | e := vuln.ratings.rating.severity } | { e | e := vuln.ratings.rating[_].severity }
-                    not isSafe(vuln)
-                    msg = sprintf("CVE %s %s %s", [comp.name, vuln.id, ratings])
-                  }
-        path: _ytt_lib/scanning
-      - inline:
-          paths:
-            add-git-basic.lib.yaml: |
-              #@ load("@ytt:overlay", "overlay")
-    
-              #@ def customize():
-              #@overlay/match by=overlay.subset({"kind": "ServiceAccount", "metadata": {"name": "default"}}), expects="0+"
-              ---
-              secrets:
-              - name: git-basic
-              #@ end
-        path: _ytt_lib/customize
-
+      - git:
+          url: https://github.com/categolj/k8s-manifests.git
+          ref: origin/main
+          subPath: git-basic
+        path: common/namespace-provisioner
+      import_data_values_secrets:
+      - name: workload-git-auth
+        namespace: tap-install
+        create_export: true
+      overlay_secrets:
+      - name: workload-git-auth-overlay
+        namespace: tap-install
+        create_export: true
     package_overlays:
     - name: buildservice
       secrets:
