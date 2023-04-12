@@ -83,8 +83,8 @@ stringData:
       - git:
           url: https://github.com/categolj/k8s-manifests.git
           ref: origin/main
-          subPath: git-basic
-        path: common/namespace-provisioner
+          subPath: common/namespace-provisioner
+        path: _ytt_lib/additional
       import_data_values_secrets:
       - name: workload-git-auth
         namespace: tap-install
