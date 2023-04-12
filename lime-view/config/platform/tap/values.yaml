@@ -39,6 +39,7 @@ stringData:
     
     tap_gui:
       service_type: ClusterIP
+      metadataStoreAutoconfiguration: true
       app_config:
         auth:
           environment: development
@@ -95,15 +96,6 @@ stringData:
               serviceAccountToken: (@= data.values.clusters.kiwi.run.service_account_token @) 
               skipTLSVerify: false
               caData: (@= data.values.clusters.kiwi.run.ca_data @)
-        proxy:
-          /metadata-store:
-            target: https://metadata-store-app.metadata-store:8443/api/v1
-            changeOrigin: true
-            secure: false
-            headers:
-              #! kubectl get secret -n metadata-store metadata-store-read-client -otemplate='{{.data.token | base64decode}}' --context lime-view-admin
-              Authorization: "Bearer (@= data.values.metadata_store.token @)"
-              X-Custom-Source: project-star
     appliveview:
       ingressEnabled: true
       tls:
