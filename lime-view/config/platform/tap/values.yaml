@@ -103,9 +103,6 @@ stringData:
       ingress:
         include: true
         enable_tls: true
-      tls:
-        secret_name: tap-default-tls
-        namespace: tanzu-system-ingress
 
     metadata_store:
       ns_for_export_app_cert: "*"
