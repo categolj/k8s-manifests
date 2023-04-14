@@ -92,6 +92,9 @@ stringData:
       - name: workload-git-auth-overlay
         namespace: tap-install
         create_export: true
+      - name: workload-remove-limitrange-overlay
+        namespace: tap-install
+        create_export: true
 
     package_overlays:
     - name: cert-manager
@@ -121,3 +124,5 @@ stringData:
     - image-policy-webhook.signing.apps.tanzu.vmware.com
     - eventing.tanzu.vmware.com
     - sso.apps.tanzu.vmware.com
+    - bitnami.services.tanzu.vmware.com
+    - crossplane.tanzu.vmware.com
