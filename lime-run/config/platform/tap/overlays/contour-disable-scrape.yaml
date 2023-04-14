@@ -10,8 +10,8 @@ stringData:
   contour-disable-scrape.yml: |
     #@ load("@ytt:overlay", "overlay")
 
-    #@ for kind, name in [['DaemonSet', 'envoy'], ['Deployment', 'contour']]:
-    #@overlay/match by=overlay.subset({"kind": kind, "metadata": {"name": name}})
+    #@ for kind, name in [['DaemonSet', 'envoy'], ['Deployment', 'envoy'], ['Deployment', 'contour']]:
+    #@overlay/match by=overlay.subset({"kind": kind, "metadata": {"name": name}}), expects="0+"
     ---
     spec:
       template:
