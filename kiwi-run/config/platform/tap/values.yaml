@@ -54,9 +54,11 @@ stringData:
           - "user_agent"
           - "x_forwarded_for"
       envoy:
+        workload:
+          type: Deployment
+          replicas: 1
         service:
           type: NodePort
-          #! externalTrafficPolicy: Local
           nodePorts:
             http: 31080
             https: 31443
