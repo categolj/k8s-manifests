@@ -1,0 +1,14 @@
+#@ load("@ytt:data", "data")
+apiVersion: v1
+kind: Secret
+metadata:
+  name: workload-git-auth
+  namespace: tap-install
+type: Opaque
+stringData:
+  #@yaml/text-templated-strings
+  content.yaml: |
+    git:
+      host: https://github.com
+      username: "(@= data.values.github.username @)"
+      token: "(@= data.values.github.api_token @)"

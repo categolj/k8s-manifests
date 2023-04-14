@@ -83,33 +83,22 @@ stringData:
     namespace_provisioner:
       controller: true
       additional_sources:
-      - inline:
-          paths:
-            git-basic.yaml: |
-              ---
-              apiVersion: v1
-              kind: Secret
-              metadata:
-                name: git-basic
-                annotations:
-                  tekton.dev/git-0: https://github.com
-              type: kubernetes.io/basic-auth
-              stringData:
-                username: "(@= data.values.github.username @)"
-                password: "(@= data.values.github.api_token @)"
-        path: _ytt_lib/git-basic
-      - inline:
-          paths:
-            add-git-basic.lib.yaml: |
-              #@ load("@ytt:overlay", "overlay")
-    
-              #@ def customize():
-              #@overlay/match by=overlay.subset({"kind": "ServiceAccount", "metadata": {"name": "default"}}), expects="0+"
-              ---
-              secrets:
-              - name: git-basic
-              #@ end
-        path: _ytt_lib/customize
+      - git:
+          url: https://github.com/categolj/k8s-manifests.git
+          ref: origin/main
+          subPath: common/namespace-provisioner/git
+        path: _ytt_lib/additional
+      import_data_values_secrets:
+      - name: workload-git-auth
+        namespace: tap-install
+        create_export: true
+      overlay_secrets:
+      - name: workload-git-auth-overlay
+        namespace: tap-install
+        create_export: true
+      - name: workload-remove-limitrange-overlay
+        namespace: tap-install
+        create_export: true
 
     package_overlays:
     - name: cert-manager
@@ -142,3 +131,5 @@ stringData:
     - controller.source.apps.tanzu.vmware.com
     - eventing.tanzu.vmware.com
     - apis.apps.tanzu.vmware.com
+    - bitnami.services.tanzu.vmware.com
+    - crossplane.tanzu.vmware.com
