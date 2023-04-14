@@ -54,6 +54,9 @@ stringData:
           - "user_agent"
           - "x_forwarded_for"
       envoy:
+        workload:
+          type: Deployment
+          replicas: 1
         service:
           type: LoadBalancer
           loadBalancerIP: 20.48.33.136
