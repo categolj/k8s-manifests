@@ -15,3 +15,12 @@ stringData:
   password: #@ data.values.note_db.password
   database: note
   sslmode: verify-ca
+---
+apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+kind: ClassClaim
+metadata:
+  name: note-db
+  namespace: note
+spec:
+  classRef:
+    name: postgresql

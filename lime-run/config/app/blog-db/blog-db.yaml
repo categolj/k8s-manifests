@@ -15,3 +15,12 @@ stringData:
   password: #@ data.values.blog_db.password
   database: blog
   sslmode: verify-ca
+---
+apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+kind: ClassClaim
+metadata:
+  name: blog-db
+  namespace: blog
+spec:
+  classRef:
+    name: postgresql
