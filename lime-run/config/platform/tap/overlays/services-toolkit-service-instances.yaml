@@ -24,6 +24,6 @@ stringData:
         group: ""
         selector:
           matchLabels:
-            services.apps.tanzu.vmware.com/class: azure-postgres
+            services.apps.tanzu.vmware.com/class: postgresql
       consumingNamespaces:
       - "*"

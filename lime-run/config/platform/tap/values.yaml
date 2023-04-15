@@ -124,6 +124,7 @@ stringData:
       - name: tap-auth-deliverable-with-cronjob
     - name: services-toolkit
       secrets:
+      - name: services-toolkit-service-instances
       - name: services-toolkit-stk-secret-reader
       - name: services-toolkit-postgresql
 
