@@ -6,6 +6,7 @@ metadata:
   namespace: blog
   labels:
     app.kubernetes.io/part-of: blog-api
+    services.apps.tanzu.vmware.com/class: postgresql
 type: servicebinding.io/postgresql
 stringData:
   type: postgresql

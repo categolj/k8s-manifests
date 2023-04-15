@@ -17,4 +17,6 @@ stringData:
         short: Postgresql database
       pool:
         kind: Secret
-        fieldSelector: type=servicebinding.io/postgresql
+        labelSelector:
+          matchLabels:
+            services.apps.tanzu.vmware.com/class: postgresql

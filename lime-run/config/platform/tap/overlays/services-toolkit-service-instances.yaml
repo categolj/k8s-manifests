@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: services-toolkit-service-instances
+  namespace: tap-install
+  annotations:
+    kapp.k14s.io/change-group: "tap-overlays"
+type: Opaque
+stringData:
+  services-toolkit-service-instances.yml: |
+    apiVersion: v1
+    kind: Namespace
+    metadata:
+      name: service-instances
+    ---
+    apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+    kind: ResourceClaimPolicy
+    metadata:
+      name: postgresql
+      namespace: service-instances
+    spec:
+      subject:
+        kind: Secret
+        group: ""
+        selector:
+          matchLabels:
+            services.apps.tanzu.vmware.com/class: azure-postgres
+      consumingNamespaces:
+      - "*"
