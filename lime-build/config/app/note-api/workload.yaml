@@ -93,14 +93,14 @@ spec:
       name: note-config
   - name: note-db
     ref:
-      apiVersion: v1
-      kind: Secret
+      apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+      kind: ClassClaim
       name: note-db
   - name: note-db-tls-ca
     ref:
-      apiVersion: v1
-      kind: Secret
-      name: note-db-tls-ca-bindable
+      apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+      kind: ResourceClaim
+      name: note-db-tls-ca
   source:
     git:
       url: https://github.com/categolj/note-api

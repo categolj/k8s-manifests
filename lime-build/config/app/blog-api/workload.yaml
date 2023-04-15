@@ -135,14 +135,14 @@ spec:
   serviceClaims:
   - name: blog-db
     ref:
-      apiVersion: v1
-      kind: Secret
+      apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+      kind: ClassClaim
       name: blog-db
   - name: blog-db-tls-ca
     ref:
-      apiVersion: v1
-      kind: Secret
-      name: blog-db-tls-ca-bindable
+      apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+      kind: ResourceClaim
+      name: blog-db-tls-ca
   source:
     git:
       url: https://github.com/categolj/blog-api
