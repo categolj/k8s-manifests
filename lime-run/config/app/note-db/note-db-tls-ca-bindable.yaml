@@ -30,3 +30,15 @@ stringData:
     oFwLIE5xjaXLGW4J9k46uI4SmrgNkDroauILhmYDEZzbtEKgmqyCc8cUoq+pEbxO
     ysf/GSvfZvvXDrp8HPlXcMnm8o9iuAtk+xZ/dIIQMLZH7c4=
     -----END CERTIFICATE-----
+---
+apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+kind: ResourceClaim
+metadata:
+  name: note-db-tls-ca
+  namespace: note
+spec:
+  ref:
+    apiVersion: v1
+    kind: Secret
+    name: note-db-tls-ca-bindable
+    namespace: note

@@ -30,3 +30,15 @@ stringData:
     ekKDzdqaTW0etok0xamX36Z7YvBx+VR0q/B69H2oG8VVsP0NcvupMnycWCpR+7n6
     3wui3s7L2jZNJdFFwzS7TUPCUiDYEEsXpdxYWig3i5EnsBE=
     -----END CERTIFICATE-----
+---
+apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+kind: ResourceClaim
+metadata:
+  name: blog-db-tls-ca
+  namespace: blog
+spec:
+  ref:
+    apiVersion: v1
+    kind: Secret
+    name: blog-db-tls-ca-bindable
+    namespace: blog
