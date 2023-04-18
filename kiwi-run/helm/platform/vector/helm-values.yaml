@@ -210,20 +210,20 @@ customConfig:
       - http
       encoding:
         codec: json
-    zinc:
-      type: elasticsearch
-      inputs:
-      - format
-      mode: bulk
-      api_version: v8
-      endpoints:
-      - ${ZINC_URL}/api
-      auth:
-        strategy: basic
-        user: "${ZINC_USERNAME}"
-        password: "${ZINC_PASSWORD}"
-      healthcheck:
-        enabled: false
+#!    zinc:
+#!      type: elasticsearch
+#!      inputs:
+#!      - format
+#!      mode: bulk
+#!      api_version: v8
+#!      endpoints:
+#!      - ${ZINC_URL}/api
+#!      auth:
+#!        strategy: basic
+#!        user: "${ZINC_USERNAME}"
+#!        password: "${ZINC_PASSWORD}"
+#!      healthcheck:
+#!        enabled: false
     loki:
       type: loki
       inputs:
