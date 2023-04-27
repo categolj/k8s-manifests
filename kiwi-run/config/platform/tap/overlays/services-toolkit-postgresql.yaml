@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: services-toolkit-postgresql
+  namespace: tap-install
+  annotations:
+    kapp.k14s.io/change-group: "tap-overlays"
+type: Opaque
+stringData:
+  services-toolkit-postgresql.yml: |
+    apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+    kind: ClusterInstanceClass
+    metadata:
+      name: postgresql
+    spec:
+      description:
+        short: Postgresql database
+      pool:
+        kind: Secret
+        labelSelector:
+          matchLabels:
+            services.apps.tanzu.vmware.com/class: postgresql
