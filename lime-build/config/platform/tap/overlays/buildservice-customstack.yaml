@@ -40,10 +40,7 @@ stringData:
     spec:
       order:
       - group:
-        - id: tanzu-buildpacks/java
-        - id: paketo-buildpacks/opentelemetry
-      - group:
-        - id: tanzu-buildpacks/java
+        - id: tanzu-buildpacks/java-lite
       serviceAccountRef:
         name: kp-default-repository-serviceaccount
         namespace: kpack
