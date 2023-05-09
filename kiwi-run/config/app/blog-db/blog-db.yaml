@@ -6,6 +6,7 @@ metadata:
   namespace: blog
   labels:
     app.kubernetes.io/part-of: blog-api
+    services.apps.tanzu.vmware.com/class: postgresql
 type: servicebinding.io/postgresql
 stringData:
   type: postgresql
@@ -15,3 +16,12 @@ stringData:
   password: #@ data.values.blog_db.password
   database: blog
   sslmode: verify-ca
+---
+apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+kind: ClassClaim
+metadata:
+  name: blog-db
+  namespace: blog
+spec:
+  classRef:
+    name: postgresql

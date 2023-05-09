@@ -6,6 +6,7 @@ metadata:
   namespace: note
   labels:
     app.kubernetes.io/part-of: note-api
+    services.apps.tanzu.vmware.com/class: postgresql
 type: servicebinding.io/postgresql
 stringData:
   type: postgresql
@@ -15,3 +16,12 @@ stringData:
   password: #@ data.values.note_db.password
   database: note
   sslmode: verify-ca
+---
+apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+kind: ClassClaim
+metadata:
+  name: note-db
+  namespace: note
+spec:
+  classRef:
+    name: postgresql
