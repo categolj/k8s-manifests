@@ -32,7 +32,7 @@ spec:
 #!      - name: cache
       steps:
       - name: test
-        image: node:16
+        image: node:18
         script: |-
           set -ex
           # mkdir -p $(workspaces.cache.path)/node_modules
