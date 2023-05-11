@@ -56,7 +56,7 @@ stringData:
       envoy:
         workload:
           type: Deployment
-          replicas: 1
+          replicas: 2
         service:
           type: NodePort
           nodePorts:
