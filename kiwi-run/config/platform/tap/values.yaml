@@ -58,7 +58,7 @@ stringData:
           type: Deployment
           replicas: 2
         service:
-          type: NodePort
+          type: LoadBalancer
           nodePorts:
             http: 31080
             https: 31443
