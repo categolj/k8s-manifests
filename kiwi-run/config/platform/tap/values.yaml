@@ -23,6 +23,7 @@ stringData:
       infrastructure_provider: "vsphere"
       contour:
         replicas: 1
+        useProxyProtocol: true
         configFileContents:
           accesslog-format: json
           json-fields:
@@ -64,6 +65,7 @@ stringData:
             service.beta.kubernetes.io/vultr-loadbalancer-ssl: tap-default-tls
             service.beta.kubernetes.io/vultr-loadbalancer-https-ports: "443"
             service.beta.kubernetes.io/vultr-loadbalancer-ssl-pass-through: "true"
+            service.beta.kubernetes.io/vultr-loadbalancer-proxy-protocol: "true"
           nodePorts:
             http: 31080
             https: 31443
