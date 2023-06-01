@@ -59,6 +59,11 @@ stringData:
           replicas: 2
         service:
           type: LoadBalancer
+          annotations: 
+            service.beta.kubernetes.io/vultr-loadbalancer-protocol: http
+            service.beta.kubernetes.io/vultr-loadbalancer-ssl: tap-default-tls
+            service.beta.kubernetes.io/vultr-loadbalancer-https-ports: "443"
+            service.beta.kubernetes.io/vultr-loadbalancer-ssl-pass-through: "true"
           nodePorts:
             http: 31080
             https: 31443
