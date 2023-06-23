@@ -64,7 +64,7 @@ spec:
           # ln -fs $(workspaces.cache.path)/.m2 ~/.m2
           cd `mktemp -d`
           curl -s $(params.source-url) | tar -m -xzvf -
-          ./mvnw clean test -V -s /opt/maven/settings.xml
+          ./mvnw clean test -V -s /opt/maven/settings.xml --no-transfer-progress
   finally:
   - name: notify-test-failure
     when:
