@@ -75,3 +75,18 @@ spec:
       secretKeyRef:
         name: otel-config
         key: otel-trace-endpoint
+  - name: ALERT_ENABLED
+    value: "true"
+  - name: ALERT_TYPE
+    value: slack
+  - name: ALERT_SLACK_CHANNEL
+    value: alert
+  - name: ALERT_SLACK_USERNAME
+    value: spring-batch
+  - name: ALERT_SLACK_ICONURL
+    value: https://github.com/making/pg-dump-to-s3/assets/106908/5becaa51-11be-4ca5-8763-cd9a5e1014ce
+  - name: ALERT_WEBHOOKURL
+    valueFrom:
+      secretKeyRef:
+        name: backup-s3
+        key: slack_webhook_ur
