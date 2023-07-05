@@ -21,21 +21,11 @@ spec:
     value:
       apps.tanzu.vmware.com/pipeline: test
       apps.tanzu.vmware.com/language: skip
-  - name: clusterBuilder
-    value: base-jammy-postgresql-client
-  - name: buildServiceBindings
-    value:
-    - kind: Secret
-      name: settings-xml
-  build:
-    env:
-    - name: BP_JVM_VERSION
-      value: "17"
+  - name: dockerfile
+    value: Dockerfile
   env:
   - name: JAVA_TOOL_OPTIONS
     value: "-Dmanagement.health.probes.enabled=false"
-  - name: BPL_JVM_THREAD_COUNT
-    value: "8"
   - name: AWS_ACCESS_KEY_ID
     valueFrom:
       secretKeyRef:
