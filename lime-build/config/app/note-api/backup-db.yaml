@@ -89,4 +89,4 @@ spec:
     valueFrom:
       secretKeyRef:
         name: backup-s3
-        key: slack_webhook_ur
+        key: slack_webhook_url
