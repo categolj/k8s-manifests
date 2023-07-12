@@ -12,10 +12,10 @@ spec:
 apiVersion: packaging.carvel.dev/v1alpha1
 kind: PackageRepository
 metadata:
-  name: tanzu-tap-repository-1.5.0
+  name: tanzu-tap-repository-1.6.1-rc.2
   namespace: tap-install
 spec:
   fetch:
     imgpkgBundle:
-      #! imgpkg copy -b registry.tanzu.vmware.com/tanzu-application-platform/tap-packages:1.5.0 --to-repo ghcr.io/making/tanzu-application-platform/tap-packages
-      image: ghcr.io/making/tanzu-application-platform/tap-packages:1.5.0
+      #! imgpkg copy -b registry.tanzu.vmware.com/tanzu-application-platform/tap-packages:1.6.1-rc.2 --to-repo ghcr.io/making/tanzu-application-platform/tap-packages
+      image: ghcr.io/making/tanzu-application-platform/tap-packages:1.6.1-rc.2
