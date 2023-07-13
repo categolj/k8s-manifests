@@ -31,11 +31,6 @@ stringData:
           loadBalancerIP: 20.48.32.179      
           annotations:
             service.beta.kubernetes.io/azure-load-balancer-resource-group: lime
-      azure:
-        client_id: (@= data.values.azure.client_id @)
-        client_secret: (@= data.values.azure.client_secret @)
-        subscription_id: (@= data.values.azure.subscription_id @)
-        tenant_id: (@= data.values.azure.tenant_id @)
     
     tap_gui:
       service_type: ClusterIP
