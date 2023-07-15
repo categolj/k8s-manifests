@@ -115,9 +115,9 @@ stringData:
       - name: ootb-templates-remove-kapp-labels
       - name: ootb-templates-overlay-pod-anti-affinity
       - name: ootb-templates-cronjob-template
-    - name: ootb-supply-chain-testing-scanning
-      secrets:
-      - name: ootb-supply-chain-testing-scanning-remove-source-scanner
+    #! - name: ootb-supply-chain-testing-scanning
+    #!   secrets:
+    #!   - name: ootb-supply-chain-testing-scanning-remove-source-scanner
     - name: tekton-pipelines
       secrets:
       #! - name: tekton-pipelines-prometheus
