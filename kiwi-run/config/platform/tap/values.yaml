@@ -59,7 +59,6 @@ stringData:
         #!   replicas: 2
         service:
           type: LoadBalancer
-          externalTrafficPolicy: Local
           annotations: 
             service.beta.kubernetes.io/vultr-loadbalancer-protocol: http
             service.beta.kubernetes.io/vultr-loadbalancer-ssl: tap-default-tls
