@@ -82,6 +82,8 @@ stringData:
 
     namespace_provisioner:
       controller: true
+      default_parameters:
+        skip_limit_range: true
       additional_sources:
       - git:
           url: https://github.com/categolj/k8s-manifests.git
@@ -94,9 +96,6 @@ stringData:
         create_export: true
       overlay_secrets:
       - name: workload-git-auth-overlay
-        namespace: tap-install
-        create_export: true
-      - name: workload-remove-limitrange-overlay
         namespace: tap-install
         create_export: true
 
