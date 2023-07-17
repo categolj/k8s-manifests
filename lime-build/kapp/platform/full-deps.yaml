@@ -16,9 +16,15 @@ spec:
       ref: origin/main
       subPath: lime-build/config/platform
   template:
+  - sops:
+      pgp:
+        privateKeysSecretRef:
+          name: pgp-key
   - ytt:
       paths:
       - full-deps
+      valuesFrom:
+      - path: credentials.yaml
   deploy:
   - kapp:
       rawOptions:

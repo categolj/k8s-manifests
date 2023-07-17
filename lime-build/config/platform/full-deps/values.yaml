@@ -9,4 +9,10 @@ metadata:
 type: Opaque
 stringData:
   #@yaml/text-templated-strings
-  full-deps-values.yml: ""
+  full-deps-values.yml: |
+    buildservice:
+      kp_default_repository: (@= data.values.registry_credentials.server @)/(@= data.values.registry_credentials.username @)/build-service
+      kp_default_repository_secret:
+        name: registry-secret
+        namespace: tap-install
+      exclude_dependencies: true
