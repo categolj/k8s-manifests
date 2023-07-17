@@ -14,7 +14,8 @@ stringData:
   port: "5432"
   username: #@ data.values.blog_db.username
   password: #@ data.values.blog_db.password
-  database: postgres
+  database: blog
+  sslmode: verify-ca
 ---
 apiVersion: services.apps.tanzu.vmware.com/v1alpha1
 kind: ClassClaim
