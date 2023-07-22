@@ -12,21 +12,21 @@ spec:
 apiVersion: packaging.carvel.dev/v1alpha1
 kind: PackageRepository
 metadata:
-  name: tanzu-tap-repository-1.6.1-rc.2
+  name: tanzu-tap-repository-1.6.1-rc.8
   namespace: tap-install
 spec:
   fetch:
     imgpkgBundle:
-      #! imgpkg copy -b registry.tanzu.vmware.com/tanzu-application-platform/tap-packages:1.6.1-rc.2 --to-repo ghcr.io/making/tanzu-application-platform/tap-packages
-      image: ghcr.io/making/tanzu-application-platform/tap-packages:1.6.1-rc.2
+      #! imgpkg copy -b registry.tanzu.vmware.com/tanzu-application-platform/tap-packages:1.6.1-rc.8 --to-repo ghcr.io/making/tanzu-application-platform/tap-packages
+      image: ghcr.io/making/tanzu-application-platform/tap-packages:1.6.1-rc.8
 ---
 apiVersion: packaging.carvel.dev/v1alpha1
 kind: PackageRepository
 metadata:
-  name: full-deps-repository-1.6.1-rc.2
+  name: full-deps-repository-1.6.1-rc.8
   namespace: tap-install
 spec:
   fetch:
     imgpkgBundle:
-      #! imgpkg copy -b registry.tanzu.vmware.com/tanzu-application-platform/full-deps-package-repo:1.6.1-rc.2 --to-repo ghcr.io/making/tanzu-application-platform/full-deps-package-repo
-      image: ghcr.io/making/tanzu-application-platform/full-deps-package-repo:1.6.1-rc.2
+      #! imgpkg copy -b registry.tanzu.vmware.com/tanzu-application-platform/full-deps-package-repo:1.6.1-rc.8 --to-repo ghcr.io/making/tanzu-application-platform/full-deps-package-repo
+      image: ghcr.io/making/tanzu-application-platform/full-deps-package-repo:1.6.1-rc.8
