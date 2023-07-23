@@ -3,7 +3,7 @@ customTLS:
   enabled: true
   secret: openldap-tls
 service:
-  type: NodePort
+  type: LoadBalancer
   ldapPortNodePort: 30389
   sslLdapPortNodePort: 30636
 persistence:
