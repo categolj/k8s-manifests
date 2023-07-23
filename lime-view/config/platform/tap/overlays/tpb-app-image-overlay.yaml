@@ -17,7 +17,7 @@ stringData:
           containers:
             #@overlay/match by=overlay.subset({"name": "backstage"}),expects="1+"
             #@overlay/match-child-defaults missing_ok=True
-            - image: ghcr.io/making/tdp-configurator@sha256:d2f73c972c05d1063f45bcea7e62c93acc4af062a711e3704c17bbb35fd377a1
+            - image: ghcr.io/making/tdp-configurator@sha256:097d267f3c700b5e1ce561bcfc1b3a0ae24d1b34d917123062bbe94773c4dbfe
             #@overlay/replace
               args:
               - -c
