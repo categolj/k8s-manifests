@@ -109,6 +109,7 @@ stringData:
     - name: tap-gui
       secrets:
       - name: tap-gui-db
+      - name: tpb-app-image-overlay-secret
       #! - name: tap-gui-change-fqdn
     - name: metadata-store
       secrets:
