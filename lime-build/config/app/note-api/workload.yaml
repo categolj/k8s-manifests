@@ -74,6 +74,18 @@ spec:
       prometheus.io/path: /actuator/prometheus
       prometheus.io/port: "8081"
       prometheus.io/scrape: "true"
+  - name: livenessProbe
+    value:
+      httpGet:
+        path: /livez
+        port: 8080
+        scheme: HTTP
+  - name: readinessProbe
+    value:
+      httpGet:
+        path: /readyz
+        port: 8080
+        scheme: HTTP
   - name: buildServiceBindings
     value:
     - kind: Secret
