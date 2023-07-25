@@ -14,8 +14,8 @@ stringData:
   port: "5432"
   username: #@ data.values.note_db.username
   password: #@ data.values.note_db.password
-  database: note
-  sslmode: verify-ca
+  database: postgres
+  sslmode: verify-full
 ---
 apiVersion: services.apps.tanzu.vmware.com/v1alpha1
 kind: ClassClaim
