@@ -66,3 +66,31 @@ docker run --rm -v $HOME/.gnupg:/root/.gnupg --entrypoint gpg maven:3.8.2 --batc
 docker run --rm -v $HOME/.gnupg:/root/.gnupg --entrypoint gpg maven:3.8.2 --list-secret-keys "Toshiaki Maki"
 docker run --rm -v $HOME/.gnupg:/root/.gnupg --entrypoint gpg maven:3.8.2 --armor --export-secret-keys AB2978B9059B0ACD > $HOME/.gnupg/my.pk
 ```
+
+How to restore the GPG env
+
+```
+brew install gnupg 
+
+mkdir -p $HOME/.gnupg
+cat <<EOF > $HOME/.gnupg/conf
+%no-protection
+Key-Type: 1
+Key-Length: 4096
+Subkey-Type: 1
+Subkey-Length: 4096
+Expire-Date: 0
+Name-Comment: kapp-controller-sops
+Name-Real: Toshiaki Maki
+Name-Email: makingx@gmail.com
+EOF
+
+kubectl get secret -n kapp pgp-key -otemplate='{{index .data "my.pk" | base64decode}}' > $HOME/.gnupg/my.pk
+
+gpg --import $HOME/.gnupg/my.pk
+gpg --list-secret-keys "Toshiaki Maki"
+gpg --list-secret-keys --keyid-format LONG 
+
+gpg --edit-key AB2978B9059B0ACD trust quit
+# 5 -> y
+```
