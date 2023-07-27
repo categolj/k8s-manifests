@@ -1,0 +1,46 @@
+#@ load("@ytt:data", "data")
+#@ load("@ytt:base64", "base64")
+#@ load("@ytt:yaml", "yaml")
+#@ load("@ytt:struct", "struct")
+#@ def in_list(key, list):
+#@  return hasattr(data.values.tap_values, key) and (data.values.tap_values[key] in list)
+#@ end
+#@ def get_trivy_values():
+#@   trivy_values = {}
+#@   if hasattr(data.values.tap_values, 'grype') and type(data.values.tap_values.grype) != "NoneType":
+#@     trivy_values = struct.decode(data.values.tap_values.grype)
+#@   end
+#@   trivy_values["namespace"] = data.values.name
+#@   trivy_values["targetImagePullSecret"] = "registries-credentials"
+#@   return trivy_values
+#@ end
+#@ if in_list('supply_chain', ['testing_scanning']) and in_list('profile', ['full', 'build']):
+---
+apiVersion: packaging.carvel.dev/v1alpha1
+kind: PackageInstall
+metadata:
+  name: "trivy-scanner"
+  namespace: tap-install
+  annotations:
+    kapp.k14s.io/create-strategy: fallback-on-update
+spec:
+  packageRef:
+    refName: trivy.scanning.apps.tanzu.vmware.com
+    versionSelection:
+      constraints: "> 0.0.0"
+      prereleases: { }
+  serviceAccountName: tap-install-sa
+  values:
+  - secretRef:
+      name: #@ "trivy-scanner-" + data.values.name
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: "trivy-scanner"
+  namespace: tap-install
+  annotations:
+    kapp.k14s.io/create-strategy: fallback-on-update
+stringData:
+  values.yml: #@ yaml.encode(get_trivy_values())
+#@ end
