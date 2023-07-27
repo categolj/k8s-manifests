@@ -93,6 +93,7 @@ stringData:
               caData: (@= data.values.clusters.kiwi.run.ca_data @)
     appliveview:
       ingressEnabled: true
+      activateSensitiveOperations: true
     
     accelerator:
       ingress:
