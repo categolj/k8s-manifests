@@ -30,3 +30,14 @@ spec:
     imgpkgBundle:
       #! imgpkg copy -b registry.tanzu.vmware.com/tanzu-application-platform/full-deps-package-repo:1.6.1-rc.8 --to-repo ghcr.io/making/tanzu-application-platform/full-deps-package-repo
       image: ghcr.io/making/tanzu-application-platform/full-deps-package-repo:1.6.1-rc.8
+---
+apiVersion: packaging.carvel.dev/v1alpha1
+kind: PackageRepository
+metadata:
+  name: trivy-scanner-repository-0.1.6-alpha.6
+  namespace: tap-install
+spec:
+  fetch:
+    imgpkgBundle:
+      #! imgpkg copy -b projects.registry.vmware.com/tanzu_practice/tap-scanners-package/trivy-repo-scanning-bundle:0.1.6-alpha.6 --to-repo ghcr.io/making/tanzu-application-platform/trivy-repo-scanning-bundle
+      image: ghcr.io/making/tanzu-application-platform/trivy-repo-scanning-bundle:0.1.6-alpha.6
