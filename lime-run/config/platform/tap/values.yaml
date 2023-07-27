@@ -71,6 +71,7 @@ stringData:
         enable: false
 
     appliveview_connector:
+      activateAppLiveViewSecureAccessControl: true
       backend:
         ingressEnabled: true
         host: appliveview.view.lime.maki.lol
