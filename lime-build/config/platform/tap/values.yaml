@@ -29,6 +29,11 @@ stringData:
       ingress_issuer: letsencrypt
 
     ootb_supply_chain_testing_scanning:
+      scanning:
+        image:
+          template: trivy-private-image-scan-template
+        source:
+          template: trivy-blob-source-scan-template
       supported_workloads:
       - type: web
         cluster_config_template_name: config-template
