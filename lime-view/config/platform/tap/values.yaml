@@ -18,6 +18,7 @@ stringData:
     shared:
       ingress_domain: view.lime.maki.lol
       ingress_issuer: letsencrypt
+      activateAppLiveViewSecureAccessControl: true
     
     contour:
       infrastructure_provider: "azure"

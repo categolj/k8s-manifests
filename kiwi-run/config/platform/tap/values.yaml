@@ -18,6 +18,7 @@ stringData:
     shared:
       ingress_domain: apps.ik.am
       ingress_issuer: letsencrypt
+      activateAppLiveViewSecureAccessControl: true
 
     contour:
       infrastructure_provider: "vsphere"
@@ -73,7 +74,6 @@ stringData:
         enable: false
 
     appliveview_connector:
-      activateAppLiveViewSecureAccessControl: true
       backend:
         ingressEnabled: true
         host: appliveview.view.lime.maki.lol
