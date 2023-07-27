@@ -126,5 +126,5 @@ stringData:
       #! - name: tekton-triggers-interceptors
 
     excluded_packages:
-    #! - grype.scanning.apps.tanzu.vmware.com
+    - grype.scanning.apps.tanzu.vmware.com
     - contour.tanzu.vmware.com
