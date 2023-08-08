@@ -35,6 +35,7 @@ stringData:
           - "authority"
           - "bytes_received"
           - "bytes_sent"
+          - "traceparent=%REQ(TRACEPARENT)%"
           - "b3_trace_id=%REQ(X-B3-TRACEID)%"
           - "b3_span_id=%REQ(X-B3-SPANID)%"
           - "b3_parent_span_id=%REQ(X-B3-PARENTSPANID)%"
