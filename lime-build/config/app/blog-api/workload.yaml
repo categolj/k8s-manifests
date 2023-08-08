@@ -17,6 +17,8 @@ spec:
       value: "17"
     - name: BP_JATTACH_ENABLED
       value: "true"
+    - name: BP_MAVEN_BUILD_ARGUMENTS
+      value: "-V -U -Dmaven.test.skip=true --no-transfer-progress package"
   env:
   - name: JAVA_TOOL_OPTIONS
     value: "-XX:ReservedCodeCacheSize=32M -Xss512k -Duser.timezone=Asia/Tokyo -Duser.language=ja -Duser.country=JP -Dfile.encoding=UTF-8 -Dmanagement.health.probes.enabled=true -Dmanagement.endpoint.health.probes.add-additional-paths=true"
