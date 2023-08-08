@@ -109,6 +109,7 @@ stringData:
       - name: contour-default-tls
       - name: contour-disable-scrape
       - name: contour-envoy-pdb
+      - name: contour-update-contour
     - name: cnrs
       secrets:
       - name: cnrs-autocreate-cluster-domain-claims
