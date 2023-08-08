@@ -26,6 +26,10 @@ stringData:
         replicas: 1
         configFileContents:
           accesslog-format: json
+          tracing:
+            includePodDetail: true
+            extensionService: grafana-agent/grafana-agent 
+            serviceName: contour/kiwi-run
           json-fields:
           - "@timestamp"
           - "authority"
