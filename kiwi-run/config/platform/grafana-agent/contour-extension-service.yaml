@@ -1,0 +1,10 @@
+apiVersion: projectcontour.io/v1alpha1
+kind: ExtensionService
+metadata:
+  name: grafana-agent
+  namespace: grafana-agent
+spec:
+  protocol: h2c
+  services:
+  - name: grafana-agent
+    port: 4317
