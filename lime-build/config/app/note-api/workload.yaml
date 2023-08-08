@@ -41,7 +41,7 @@ spec:
   - name: SPRING_SENDGRID_APIKEY
     value: "${k8s.bindings.note-config.sendgrid-api-key}"
   - name: MANAGEMENT_TRACING_PROPAGATION_TYPE
-    value: B3
+    value: W3C,B3
   - name: MANAGEMENT_ZIPKIN_TRACING_ENDPOINT
     valueFrom:
       secretKeyRef:

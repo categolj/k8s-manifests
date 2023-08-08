@@ -32,7 +32,7 @@ spec:
   - name: SPRING_DATASOURCE_HIKARI_DATASOURCEPROPERTIES_SSLFACTORY
     value: org.postgresql.ssl.DefaultJavaSSLFactory
   - name: MANAGEMENT_TRACING_PROPAGATION_TYPE
-    value: B3
+    value: W3C,B3
   - name: SPRING_SECURITY_USER_PASSWORD
     valueFrom:
       secretKeyRef:
