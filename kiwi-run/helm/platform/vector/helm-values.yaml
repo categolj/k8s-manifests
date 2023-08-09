@@ -1,20 +1,20 @@
 role: Agent
 env:
-- name: ZINC_URL
-  valueFrom:
-    secretKeyRef:
-      name: zinc
-      key: url
-- name: ZINC_USERNAME
-  valueFrom:
-    secretKeyRef:
-      name: zinc
-      key: username
-- name: ZINC_PASSWORD
-  valueFrom:
-    secretKeyRef:
-      name: zinc
-      key: password
+#- name: ZINC_URL
+#  valueFrom:
+#    secretKeyRef:
+#      name: zinc
+#      key: url
+#- name: ZINC_USERNAME
+#  valueFrom:
+#    secretKeyRef:
+#      name: zinc
+#      key: username
+#- name: ZINC_PASSWORD
+#  valueFrom:
+#    secretKeyRef:
+#      name: zinc
+#      key: password
 - name: LOKI_URL
   valueFrom:
     secretKeyRef:
@@ -30,6 +30,13 @@ env:
     secretKeyRef:
       name: loki
       key: password
+resources:
+  requests:
+    cpu: 200m
+    memory: 256Mi
+  limits:
+    cpu: 200m
+    memory: 256Mi
 ingress:
   enabled: true
   annotations:
@@ -210,20 +217,20 @@ customConfig:
       - http
       encoding:
         codec: json
-#!    zinc:
-#!      type: elasticsearch
-#!      inputs:
-#!      - format
-#!      mode: bulk
-#!      api_version: v8
-#!      endpoints:
-#!      - ${ZINC_URL}/api
-#!      auth:
-#!        strategy: basic
-#!        user: "${ZINC_USERNAME}"
-#!        password: "${ZINC_PASSWORD}"
-#!      healthcheck:
-#!        enabled: false
+    #!    zinc:
+    #!      type: elasticsearch
+    #!      inputs:
+    #!      - format
+    #!      mode: bulk
+    #!      api_version: v8
+    #!      endpoints:
+    #!      - ${ZINC_URL}/api
+    #!      auth:
+    #!        strategy: basic
+    #!        user: "${ZINC_USERNAME}"
+    #!        password: "${ZINC_PASSWORD}"
+    #!      healthcheck:
+    #!        enabled: false
     loki:
       type: loki
       inputs:
