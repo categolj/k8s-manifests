@@ -104,7 +104,24 @@ stringData:
       - name: workload-git-auth-overlay
         namespace: tap-install
         create_export: true
-
+    
+    cartographer:
+      cartographer:
+        resources:
+          requests:
+            cpu: 100m
+            memory: 200Mi
+    
+    crossplane:
+      resourcesCrossplane:
+        requests:
+          cpu: 100m
+          memory: 200Mi
+      resourcesRBACManager:
+        requests:
+          cpu: 100m
+          memory: 200Mi
+    
     package_overlays:
     - name: cert-manager
       secrets:
