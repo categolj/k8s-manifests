@@ -32,10 +32,8 @@ env:
       key: password
 resources:
   requests:
-    cpu: 200m
     memory: 256Mi
   limits:
-    cpu: 200m
     memory: 256Mi
 ingress:
   enabled: true
