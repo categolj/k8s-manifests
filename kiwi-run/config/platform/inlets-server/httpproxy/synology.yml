@@ -109,6 +109,7 @@ spec:
     - name: inlets-exit
       port: 6868
     enableWebsockets: true
+    response: 180s
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
