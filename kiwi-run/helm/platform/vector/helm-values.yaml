@@ -126,6 +126,8 @@ customConfig:
         }
         if ."log.logger" != null {
           .logger = del(."log.logger")
+        } else if .logger == null {
+          .logger = "-"
         }
         if ."process.thread.name" != null {
           .thread = del(."process.thread.name")
@@ -141,6 +143,8 @@ customConfig:
         }
         if is_string(.level) {
           .level = downcase(string!(.level))
+        } else if .level == null {
+          .level = "-" 
         }
         if is_string(.response_time) {
           .response_time = parse_int!(.response_time)
