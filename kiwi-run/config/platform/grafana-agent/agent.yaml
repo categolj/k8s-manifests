@@ -20,7 +20,7 @@ metrics:
       - targets:
         - node-exporter.synology.ik.am:443
     - job_name: fastcom-exporter
-      scrape_interval: 15m
+      scrape_interval: 10m
       scheme: https
       static_configs:
       - targets:
