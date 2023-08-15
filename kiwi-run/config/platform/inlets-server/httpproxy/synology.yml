@@ -101,7 +101,7 @@ metadata:
   namespace: inlets
 spec:
   virtualhost:
-    fqdn: fastcom-exporter-synology-ik-am
+    fqdn: fastcom-exporter.synology.ik.am
     tls:
       secretName: synology-ik-am-tls
   routes:
