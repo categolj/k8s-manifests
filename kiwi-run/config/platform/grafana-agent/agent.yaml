@@ -25,6 +25,13 @@ metrics:
       static_configs:
       - targets:
         - fastcom-exporter.synology.ik.am:443
+    - job_name: pushgateway
+      scrape_interval: 30s
+      scrape_timeout: 10s
+      scheme: https
+      static_configs:
+      - targets:
+        - pushgateway.ik.am:443
     - job_name: kubernetes-pods
       honor_labels: true
       honor_timestamps: true
