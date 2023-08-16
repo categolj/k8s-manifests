@@ -2,24 +2,24 @@
 apiVersion: packaging.carvel.dev/v1alpha1
 kind: PackageRepository
 metadata:
-  name: tanzu-tap-repository-1.6.1
+  name: tanzu-tap-repository
   namespace: tap-install
 spec:
   fetch:
     imgpkgBundle:
-      #! imgpkg copy -b registry.tanzu.vmware.com/tanzu-application-platform/tap-packages:1.6.1 --to-repo ghcr.io/making/tanzu-application-platform/tap-packages
-      image: ghcr.io/making/tanzu-application-platform/tap-packages:1.6.1
+      #! imgpkg copy -b registry.tanzu.vmware.com/tanzu-application-platform/tap-packages:1.6.2 --to-repo ghcr.io/making/tanzu-application-platform/tap-packages
+      image: ghcr.io/making/tanzu-application-platform/tap-packages:1.6.2
 ---
 apiVersion: packaging.carvel.dev/v1alpha1
 kind: PackageRepository
 metadata:
-  name: full-deps-repository-1.6.1
+  name: full-deps-repository
   namespace: tap-install
 spec:
   fetch:
     imgpkgBundle:
-      #! imgpkg copy -b registry.tanzu.vmware.com/tanzu-application-platform/full-deps-package-repo:1.6.1 --to-repo ghcr.io/making/tanzu-application-platform/full-deps-package-repo
-      image: ghcr.io/making/tanzu-application-platform/full-deps-package-repo:1.6.1
+      #! imgpkg copy -b registry.tanzu.vmware.com/tanzu-application-platform/full-deps-package-repo:1.6.2 --to-repo ghcr.io/making/tanzu-application-platform/full-deps-package-repo
+      image: ghcr.io/making/tanzu-application-platform/full-deps-package-repo:1.6.2
 ---
 apiVersion: packaging.carvel.dev/v1alpha1
 kind: PackageRepository
@@ -29,5 +29,6 @@ metadata:
 spec:
   fetch:
     imgpkgBundle:
+      #! imgpkg tag list -i projects.registry.vmware.com/tanzu_practice/tap-scanners-package/trivy-repo-scanning-bundle | sort -V
       #! imgpkg copy -b projects.registry.vmware.com/tanzu_practice/tap-scanners-package/trivy-repo-scanning-bundle:0.1.6-alpha.6 --to-repo ghcr.io/making/tanzu-application-platform/trivy-repo-scanning-bundle
       image: ghcr.io/making/tanzu-application-platform/trivy-repo-scanning-bundle:0.1.6-alpha.6
