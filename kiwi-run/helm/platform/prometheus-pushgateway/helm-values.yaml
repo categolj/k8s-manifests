@@ -1,0 +1,10 @@
+ingress:
+  enabled: true
+  hosts:
+  - pushgateway.ik.am
+  annotations:
+    projectcontour.io/tls-cert-namespace: tanzu-system-ingress
+  tls:
+  - secretName: tap-default-tls
+    hosts:
+    - pushgateway.ik.am

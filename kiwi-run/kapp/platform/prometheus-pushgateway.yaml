@@ -1,0 +1,36 @@
+apiVersion: kappctrl.k14s.io/v1alpha1
+kind: App
+metadata:
+  name: prometheus-pushgateway
+  namespace: kapp
+  annotations:
+    kapp.k14s.io/change-group: "{name}"
+    kapp.k14s.io/disable-original: ""
+spec:
+  serviceAccountName: kapp
+  fetch:
+  - helmChart:
+      name: prometheus-gateway
+      version: 2.4.0
+      repository:
+        url: https://prometheus-community.github.io/helm-charts
+  - git:
+      url: https://github.com/categolj/k8s-manifests.git
+      ref: origin/main
+      subPath: kiwi-run
+  syncPeriod: 168h
+  template:
+  - helmTemplate:
+      path: "0"
+      name: prometheus-pushgateway
+      namespace: pushgateway
+      valuesFrom:
+      - path: 1/helm/platform/prometheus-pushgateway/helm-values.yaml
+  - ytt:
+      paths:
+      - "-"
+      - 1/config/platform/prometheus-pushgateway
+  deploy:
+  - kapp:
+      rawOptions:
+      - "--diff-changes=true"
