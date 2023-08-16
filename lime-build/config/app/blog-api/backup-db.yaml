@@ -25,7 +25,7 @@ spec:
     value: Dockerfile
   env:
   - name: management.metrics.tags.app_name
-    value: backup-blog-db
+    value: backup-db-blog
   - name: management.prometheus.metrics.export.pushgateway.base-url
     value: https://pushgateway.ik.am
   - name: JAVA_TOOL_OPTIONS
