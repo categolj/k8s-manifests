@@ -26,6 +26,10 @@ spec:
   - name: schedule
     value: 30 15 * * ?
   env:
+  - name: management.metrics.tags.app_name
+    value: backup-note-db
+  - name: management.prometheus.metrics.export.pushgateway.base-url
+    value: https://pushgateway.ik.am
   - name: JAVA_TOOL_OPTIONS
     value: "-Dmanagement.health.probes.enabled=false"
   - name: AWS_ACCESS_KEY_ID

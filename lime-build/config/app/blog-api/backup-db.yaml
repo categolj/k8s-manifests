@@ -24,6 +24,10 @@ spec:
   - name: dockerfile
     value: Dockerfile
   env:
+  - name: management.metrics.tags.app_name
+    value: backup-blog-db
+  - name: management.prometheus.metrics.export.pushgateway.base-url
+    value: https://pushgateway.ik.am
   - name: JAVA_TOOL_OPTIONS
     value: "-Dmanagement.health.probes.enabled=false"
   - name: AWS_ACCESS_KEY_ID
