@@ -14,7 +14,7 @@ spec:
   build:
     env:
     - name: BP_JVM_VERSION
-      value: "17"
+      value: "20"
     - name: BP_JATTACH_ENABLED
       value: "true"
     - name: BP_MAVEN_BUILD_ARGUMENTS
@@ -29,8 +29,6 @@ spec:
       secretKeyRef:
         name: otel-config
         key: otel-trace-service-name
-  - name: SPRING_DATASOURCE_HIKARI_DATASOURCEPROPERTIES_SSLFACTORY
-    value: org.postgresql.ssl.DefaultJavaSSLFactory
   - name: MANAGEMENT_TRACING_PROPAGATION_TYPE
     value: W3C,B3
   - name: SPRING_SECURITY_USER_PASSWORD
