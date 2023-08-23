@@ -16,7 +16,6 @@ stringData:
   password: #@ data.values.blog_db.password
   database: postgres
   sslmode: verify-full
-  sslrootcert: /bindings/blog-db-tls-ca/ca.crt
 ---
 apiVersion: services.apps.tanzu.vmware.com/v1alpha1
 kind: ClassClaim
