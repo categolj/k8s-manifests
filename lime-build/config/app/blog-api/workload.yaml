@@ -14,7 +14,7 @@ spec:
   build:
     env:
     - name: BP_JVM_VERSION
-      value: "20"
+      value: "17"
     - name: BP_JATTACH_ENABLED
       value: "true"
     - name: BP_MAVEN_BUILD_ARGUMENTS
@@ -94,8 +94,6 @@ spec:
     value: "${K_CONFIGURATION:}"
   - name: INFO_ENV_K_REVISION
     value: "${K_REVISION:}"
-  - name: PGSSLROOTCERT
-    value: /bindings/blog-db-tls-ca/ca.crt
   params:
   - name: testing_pipeline_matching_labels
     value:
