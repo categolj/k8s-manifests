@@ -150,11 +150,11 @@ spec:
       apiVersion: services.apps.tanzu.vmware.com/v1alpha1
       kind: ClassClaim
       name: blog-db
-  - name: blog-db-tls-ca
-    ref:
-      apiVersion: services.apps.tanzu.vmware.com/v1alpha1
-      kind: ResourceClaim
-      name: blog-db-tls-ca
+#  - name: blog-db-tls-ca
+#    ref:
+#      apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+#      kind: ResourceClaim
+#      name: blog-db-tls-ca
   source:
     git:
       url: https://github.com/categolj/blog-api
