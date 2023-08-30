@@ -47,6 +47,10 @@ spec:
         key: host
   - name: S3_BUCKET
     value: pg-dump-to-s3
+  - name: S3_FILEPREFIX
+    valueFrom:
+      fieldRef:
+        fieldPath: metadata.namespace
   - name: PGDUMP_USERNAME
     valueFrom:
       secretKeyRef:
