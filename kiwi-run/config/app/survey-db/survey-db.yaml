@@ -1,0 +1,27 @@
+#@ load("@ytt:data", "data")
+apiVersion: v1
+kind: Secret
+metadata:
+  name: survey-db
+  namespace: survey
+  labels:
+    app.kubernetes.io/part-of: survey-api
+    services.apps.tanzu.vmware.com/class: postgresql
+type: servicebinding.io/postgresql
+stringData:
+  type: postgresql
+  host: #@ data.values.survey_db.host
+  port: "5432"
+  username: #@ data.values.survey_db.username
+  password: #@ data.values.survey_db.password
+  database: postgres
+  sslmode: require
+---
+apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+kind: ClassClaim
+metadata:
+  name: survey-db
+  namespace: survey
+spec:
+  classRef:
+    name: postgresql
