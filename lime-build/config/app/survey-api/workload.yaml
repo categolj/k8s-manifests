@@ -29,7 +29,7 @@ spec:
   - name: annotations
     value:
       prometheus.io/path: /actuator/prometheus
-      prometheus.io/port: "8080"
+      prometheus.io/port: "8081"
       prometheus.io/scrape: "true"
   - name: buildServiceBindings
     value:
