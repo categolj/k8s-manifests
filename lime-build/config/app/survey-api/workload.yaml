@@ -23,8 +23,6 @@ spec:
     value: "-XX:ReservedCodeCacheSize=32M -Xss512k -Duser.timezone=Asia/Tokyo -Dfile.encoding=UTF-8 -Dmanagement.health.probes.enabled=true -Dmanagement.endpoint.health.probes.add-additional-paths=true"
   - name: BPL_JVM_THREAD_COUNT
     value: "28"
-  - name: SPRING_PROFILES_ACTIVE
-    value: cloud
   params:
   - name: annotations
     value:
