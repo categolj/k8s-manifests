@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Secret
 metadata:
-  name: buildservice-clusterbuildpack
+  name: base-jammy-builder-clusterbuildpack
   namespace: tap-install
   annotations:
-    kapp.k14s.io/change-group: "tap-overlays"
+    kapp.k14s.io/change-group: "full-deps-overlays"
 type: Opaque
 stringData:
   clusterbuildpack.yml: |
@@ -16,7 +16,7 @@ stringData:
       image: gcr.io/paketo-buildpacks/java
       serviceAccountRef:
         name: dependencies-pull-serviceaccount
-        namespace: tbs-full-deps
+        namespace: tbs-base-jammy-builder
   change-buildpack.yaml: |
     #@ load("@ytt:overlay", "overlay")
     #@overlay/match by=overlay.subset({"metadata":{"name":"default"}, "kind": "ClusterBuilder"})
