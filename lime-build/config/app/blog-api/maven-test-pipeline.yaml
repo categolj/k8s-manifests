@@ -50,7 +50,7 @@ spec:
           name: dind-socket
       steps:
       - name: test
-        image: eclipse-temurin:20
+        image: eclipse-temurin:21
         volumeMounts:
         - mountPath: /var/run/
           name: dind-socket
