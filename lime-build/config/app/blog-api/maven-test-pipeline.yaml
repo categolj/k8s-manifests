@@ -50,7 +50,7 @@ spec:
           name: dind-socket
       steps:
       - name: test
-        image: bellsoft/liberica-openjdk-alpine:21
+        image: bellsoft/liberica-openjdk-debian:21
         volumeMounts:
         - mountPath: /var/run/
           name: dind-socket
