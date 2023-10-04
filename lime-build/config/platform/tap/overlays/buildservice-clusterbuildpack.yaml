@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: buildservice-clusterbuildpack
+  namespace: tap-install
+  annotations:
+    kapp.k14s.io/change-group: "tap-overlays"
+type: Opaque
+stringData:
+  clusterbuildpack.yml: |
+    apiVersion: kpack.io/v1alpha2
+    kind: ClusterBuildpack
+    metadata:
+      name: java-paketo
+    spec:
+      image: gcr.io/paketo-buildpacks/java
+      serviceAccountRef:
+        name: dependencies-pull-serviceaccount
+        namespace: tbs-full-deps
+  change-buildpack.yaml: |
+    #@ load("@ytt:overlay", "overlay")
+    #@overlay/match by=overlay.subset({"metadata":{"name":"default"}, "kind": "ClusterBuilder"})
+    ---
+    spec:
+      order:
+      #@overlay/match by=overlay.subset({"group":[{"id":"tanzu-buildpacks/java"}]})
+      #@overlay/replace
+      - group:
+        - id: paketo-buildpacks/java
