@@ -16,7 +16,7 @@ stringData:
       image: gcr.io/paketo-buildpacks/java
       serviceAccountRef:
         name: dependencies-pull-serviceaccount
-        namespace: tbs-base-jammy-builder
+        namespace: tbs-full-deps
   change-buildpack.yaml: |
     #@ load("@ytt:overlay", "overlay")
     #@overlay/match by=overlay.subset({"metadata":{"name":"default"}, "kind": "ClusterBuilder"})
