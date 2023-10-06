@@ -15,7 +15,7 @@ stringData:
   username: #@ data.values.note_db.username
   password: #@ data.values.note_db.password
   database: postgres
-  sslmode: verify-full
+  sslmode: require
 ---
 apiVersion: services.apps.tanzu.vmware.com/v1alpha1
 kind: ClassClaim
