@@ -16,31 +16,31 @@
 #@ end
 #@ if in_list('supply_chain', ['testing_scanning']) and in_list('profile', ['full', 'build']):
 ---
-apiVersion: packaging.carvel.dev/v1alpha1
-kind: PackageInstall
-metadata:
-  name: "trivy-scanner"
-  namespace: tap-install
-  annotations:
-    kapp.k14s.io/create-strategy: fallback-on-update
-spec:
-  packageRef:
-    refName: trivy.scanning.apps.tanzu.vmware.com
-    versionSelection:
-      constraints: "> 0.0.0"
-      prereleases: { }
-  serviceAccountName: tap-install-sa
-  values:
-  - secretRef:
-      name: #@ "trivy-scanner-" + data.values.name
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: "trivy-scanner"
-  namespace: tap-install
-  annotations:
-    kapp.k14s.io/create-strategy: fallback-on-update
-stringData:
-  values.yml: #@ yaml.encode(get_trivy_values())
+#! apiVersion: packaging.carvel.dev/v1alpha1
+#! kind: PackageInstall
+#! metadata:
+#!   name: "trivy-scanner"
+#!   namespace: tap-install
+#!   annotations:
+#!     kapp.k14s.io/create-strategy: fallback-on-update
+#! spec:
+#!   packageRef:
+#!     refName: trivy.scanning.apps.tanzu.vmware.com
+#!     versionSelection:
+#!       constraints: "> 0.0.0"
+#!       prereleases: { }
+#!   serviceAccountName: tap-install-sa
+#!   values:
+#!   - secretRef:
+#!       name: #@ "trivy-scanner-" + data.values.name
+#! ---
+#! apiVersion: v1
+#! kind: Secret
+#! metadata:
+#!   name: "trivy-scanner"
+#!   namespace: tap-install
+#!   annotations:
+#!     kapp.k14s.io/create-strategy: fallback-on-update
+#! stringData:
+#!   values.yml: #@ yaml.encode(get_trivy_values())
 #@ end
