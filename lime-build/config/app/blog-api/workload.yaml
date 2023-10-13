@@ -14,7 +14,7 @@ spec:
   build:
     env:
     - name: BP_JVM_VERSION
-      value: "21"
+      value: "17"
     - name: BP_JATTACH_ENABLED
       value: "true"
     - name: BP_MAVEN_BUILD_ARGUMENTS
