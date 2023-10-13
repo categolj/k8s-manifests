@@ -12,8 +12,6 @@ spec:
   - name: source-revision
   - name: slack-webhook-secret
   - name: slack-test-failure-message
-#!  workspaces:
-#!  - name: cache
   tasks:
   - name: test
     params:
@@ -21,9 +19,6 @@ spec:
       value: $(params.source-url)
     - name: source-revision
       value: $(params.source-revision)
-#!    workspaces:
-#!    - name: cache
-#!      workspace: cache
     taskSpec:
       volumes:
       - name: dind-storage
@@ -36,8 +31,6 @@ spec:
       params:
       - name: source-url
       - name: source-revision
-#!      workspaces:
-#!      - name: cache
       sidecars:
       - name: docker
         image: docker:20.10-dind
@@ -59,9 +52,6 @@ spec:
           readOnly: true
         script: |-
           set -ex
-          # rm -rf ~/.m2
-          # mkdir -p $(workspaces.cache.path)/.m2
-          # ln -fs $(workspaces.cache.path)/.m2 ~/.m2
           cd `mktemp -d`
           curl -s $(params.source-url) | tar -m -xzvf -
           ./mvnw clean test -V -s /opt/maven/settings.xml --no-transfer-progress
