@@ -31,8 +31,6 @@ spec:
       params:
       - name: source-url
       - name: source-revision
-#!      workspaces:
-#!      - name: cache
       sidecars:
       - name: docker
         image: docker:20.10-dind
