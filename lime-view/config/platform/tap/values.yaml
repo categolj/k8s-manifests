@@ -38,6 +38,7 @@ stringData:
       metadataStoreAutoconfiguration: true
       app_config:
         auth:
+          allowGuestAccess: false
           environment: development
           session:
             secret: opensesami
