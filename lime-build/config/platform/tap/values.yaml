@@ -122,4 +122,5 @@ stringData:
       #! - name: tekton-triggers-interceptors
 
     excluded_packages:
+    - amr-observer.apps.tanzu.vmware.com
     - contour.tanzu.vmware.com
