@@ -24,6 +24,16 @@ spec:
   - name: BPL_JVM_THREAD_COUNT
     value: "28"
   params:
+  - name: testing_pipeline_matching_labels
+    value:
+      apps.tanzu.vmware.com/pipeline: test
+      apps.tanzu.vmware.com/language: java
+  - name: testing_pipeline_params
+    value:
+      slack-webhook-secret: slack-webhook
+      slack-test-failure-message: |
+        🚨 [survey-api] Test Failed!
+        https://tap-gui.view.lime.maki.lol/supply-chain/lime-build/blog/survey-api/source-tester
   - name: annotations
     value:
       prometheus.io/path: /actuator/prometheus
