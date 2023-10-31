@@ -37,6 +37,10 @@ stringData:
       service_type: ClusterIP
       metadataStoreAutoconfiguration: true
       app_config:
+        customize:
+          features:
+            supplyChain:
+              enableTriageUI: true
         auth:
           allowGuestAccess: false
           environment: development
