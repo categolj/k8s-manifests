@@ -102,6 +102,11 @@ rules:
   - sourcescans
   - imagescans
   - scanpolicies
+  - scantemplates
+  verbs: ['get', 'watch', 'list']
+- apiGroups: ['app-scanning.apps.tanzu.vmware.com']
+  resources:
+  - imagevulnerabilityscans
   verbs: ['get', 'watch', 'list']
 - apiGroups: ['tekton.dev']
   resources:
