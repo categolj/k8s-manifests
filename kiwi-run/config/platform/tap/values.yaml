@@ -60,9 +60,9 @@ stringData:
           - "user_agent"
           - "x_forwarded_for"
       envoy:
-        #! workload:
-        #!   type: Deployment
-        #!   replicas: 2
+        workload:
+          type: Deployment
+          replicas: 2
         service:
           type: LoadBalancer
           annotations: 
@@ -131,7 +131,6 @@ stringData:
       - name: contour-default-tls
       - name: contour-disable-scrape
       - name: contour-envoy-pdb
-      - name: contour-update-contour
     - name: cnrs
       secrets:
       - name: cnrs-autocreate-cluster-domain-claims
