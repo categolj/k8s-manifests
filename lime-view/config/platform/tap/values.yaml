@@ -27,6 +27,9 @@ stringData:
         configFileContents:
           accesslog-format: json
       envoy:
+        workload:
+          type: Deployment
+          replicas: 1
         service:
           type: LoadBalancer
           loadBalancerIP: 20.48.32.179      
