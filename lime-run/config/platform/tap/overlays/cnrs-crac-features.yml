@@ -11,7 +11,7 @@ stringData:
     #@ load("@ytt:overlay", "overlay")
     #@overlay/match by=overlay.subset({"metadata":{"name":"config-features"}, "kind": "ConfigMap"})
     ---
+    #@overlay/match-child-defaults missing_ok=True
     data:
-      #@overlay/match missing_ok=True
       kubernetes.containerspec-addcapabilities: "enabled"
       kubernetes.podspec-fieldref: "enabled"
