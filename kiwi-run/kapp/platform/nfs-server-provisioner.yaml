@@ -33,7 +33,7 @@ spec:
   deploy:
   - kapp:
       rawOptions:
-      - "--diff-changes=true
+      - "--diff-changes=true"
       delete:
         #! Force delete PVCs, since StatefulSet does not delete them
         rawOptions:
