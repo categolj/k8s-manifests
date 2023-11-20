@@ -111,6 +111,7 @@ stringData:
       - name: ootb-templates-remove-kapp-labels
       - name: ootb-templates-overlay-pod-anti-affinity
       - name: ootb-templates-cronjob-template
+      - name: ootb-templates-overlay-crac
     #! - name: ootb-supply-chain-testing-scanning
     #!   secrets:
     #!   - name: ootb-supply-chain-testing-scanning-remove-source-scanner
