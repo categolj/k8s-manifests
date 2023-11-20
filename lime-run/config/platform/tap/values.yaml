@@ -110,7 +110,7 @@ stringData:
       secrets:
       - name: cnrs-autocreate-cluster-domain-claims
       - name: cnrs-disable-scrape
-      - name: cnrs-enable-kubernetes-containerspec-addcapabilities
+      - name:  cnrs-crac-features
     - name: fluxcd-source-controller
       secrets:
       - name: fluxcd-source-controller-disable-scrape
