@@ -47,7 +47,7 @@ stringData:
                         fieldPath: metadata.labels['serving.knative.dev/revisionUID']
                   #@overlay/match by="name"
                   - name: CHECKPOINT_RESTORE_FILES_DIR
-                    value: /var/checkpoint-restore/\$(REVISION_NAME)/\$(REVISION_UID)
+                    value: /var/checkpoint-restore/$(REVISION_NAME)/$(REVISION_UID)
                   volumeMounts:
                   - name: checkpoint-restore-cache
                     mountPath: /var/checkpoint-restore
@@ -55,7 +55,7 @@ stringData:
               #@overlay/match by="name"
               - name: checkpoint-restore-cache
                 persistentVolumeClaim:
-                  claimName: #@ data.values.workload.metadata.name
+                  claimName: (@= data.values.workload.metadata.name @)
           (@ end @)
         #@yaml/text-templated-strings
         pvc.yaml: |
@@ -64,7 +64,7 @@ stringData:
           kind: PersistentVolumeClaim
           apiVersion: v1
           metadata:
-            name: #@ data.values.workload.metadata.name
+            name: (@= data.values.workload.metadata.name @)
           spec:
             accessModes:
             - ReadWriteMany
