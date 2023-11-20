@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cnrs-enable-kubernetes-containerspec-addcapabilities
+  namespace: tap-install
+  annotations:
+    kapp.k14s.io/change-group: "tap-overlays"
+type: Opaque
+stringData:
+  cnrs-enable-kubernetes-containerspec-addcapabilities.yml: |
+    #@ load("@ytt:overlay", "overlay")
+    #@overlay/match by=overlay.subset({"metadata":{"name":"config-features"}, "kind": "ConfigMap"})
+    ---
+    data:
+      #@overlay/match missing_ok=True
+      kubernetes.containerspec-addcapabilities: "enabled"
