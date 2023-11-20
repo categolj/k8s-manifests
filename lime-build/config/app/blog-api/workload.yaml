@@ -137,6 +137,8 @@ spec:
       name: settings-xml
   - name: scanning_image_policy
     value: spring-boot
+  - name: crac
+    value: "true"
   resources:
     limits:
       memory: 512Mi
