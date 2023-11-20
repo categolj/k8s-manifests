@@ -15,3 +15,5 @@ stringData:
     data:
       kubernetes.containerspec-addcapabilities: "enabled"
       kubernetes.podspec-fieldref: "enabled"
+      kubernetes.podspec-persistent-volume-claim: "enabled"
+      kubernetes.podspec-persistent-volume-write: "enabled"
