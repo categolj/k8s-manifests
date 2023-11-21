@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cnrs-crac-features
+  namespace: tap-install
+  annotations:
+    kapp.k14s.io/change-group: "tap-overlays"
+type: Opaque
+stringData:
+  cnrs-crac-features.yml: |
+    #@ load("@ytt:overlay", "overlay")
+    #@overlay/match by=overlay.subset({"metadata":{"name":"config-features"}, "kind": "ConfigMap"})
+    ---
+    #@overlay/match-child-defaults missing_ok=True
+    data:
+      kubernetes.containerspec-addcapabilities: enabled
+      kubernetes.podspec-securitycontext: enabled
+      kubernetes.podspec-persistent-volume-claim: enabled
+      kubernetes.podspec-persistent-volume-write: enabled
+      kubernetes.podspec-fieldref: enabled

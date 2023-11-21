@@ -72,6 +72,7 @@ stringData:
             service.beta.kubernetes.io/vultr-loadbalancer-ssl-pass-through: "true"
 
     cnrs:
+      allow_manual_configmap_update: false
       domain_template: "{{.Name}}-{{.Namespace}}.{{.Domain}}"
       lite:
         enable: true
@@ -135,6 +136,7 @@ stringData:
       secrets:
       - name: cnrs-autocreate-cluster-domain-claims
       - name: cnrs-disable-scrape
+      - name: cnrs-crac-features
     - name: fluxcd-source-controller
       secrets:
       - name: fluxcd-source-controller-disable-scrape
@@ -150,7 +152,9 @@ stringData:
       - name: services-toolkit-service-instances
       - name: services-toolkit-stk-secret-reader
       - name: services-toolkit-postgresql
-
+    - name: ootb-templates
+      secrets:
+      - name: ootb-templates-overlay-kapp-options
     excluded_packages:
     #! - connector.appliveview.tanzu.vmware.com
     - sso.apps.tanzu.vmware.com
