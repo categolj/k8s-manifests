@@ -9,13 +9,16 @@ type: Opaque
 stringData:
   overlay-kapp-options.yml: |
     #@ load("@ytt:overlay", "overlay")
-    #@overlay/match by=overlay.subset({"metadata":{"name":"tekton-source-pipelinerun"}, "kind": "ClusterRunTemplate"})
+    #@ load("@ytt:data", "data")
+    #@ load("@ytt:json", "json")
+    
+    #@ def kapp_options():
+    rawOptions:
+    - "--diff-changes=true"
+    #@ end
+    
+    #@overlay/match by=overlay.subset({"kind":"ClusterDeploymentTemplate", "metadata": {"name": "app-deploy"}})
     ---
     spec:
-      template:
-        spec:
-          #@overlay/match missing_ok=True
-          workspaces:
-          - name: cache
-            persistentVolumeClaim:
-              claimName: $(runnable.metadata.name)$-pipeline-cache
+      #@overlay/replace via=lambda left, right: left.replace("kapp: {}", "kapp: " + json.encode(kapp_options()))
+      ytt: |
