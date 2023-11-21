@@ -93,6 +93,8 @@ spec:
   - name: INFO_ENV_K_REVISION
     value: "${K_REVISION:}"
   params:
+  - name: dockerfile
+    value: Dockerfile
   - name: testing_pipeline_matching_labels
     value:
       apps.tanzu.vmware.com/pipeline: test
