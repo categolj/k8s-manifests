@@ -48,7 +48,7 @@ spec:
     valueFrom:
       secretKeyRef:
         name: blog-db
-        key: host
+        key: port
   - name: DB_SSLMODE
     valueFrom:
       secretKeyRef:
