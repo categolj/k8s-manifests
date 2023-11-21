@@ -24,38 +24,6 @@ spec:
     value: "-XX:ReservedCodeCacheSize=32M -Xss512k -Duser.timezone=Asia/Tokyo -Duser.language=ja -Duser.country=JP -Dfile.encoding=UTF-8 -Dmanagement.health.probes.enabled=true -Dmanagement.endpoint.health.probes.add-additional-paths=true"
   - name: BPL_JVM_THREAD_COUNT
     value: "28"
-  - name: SPRING_DATASOURCE_USERNAME
-    valueFrom:
-      secretKeyRef:
-        name: blog-db
-        key: username
-  - name: SPRING_DATASOURCE_PASSWORD
-    valueFrom:
-      secretKeyRef:
-        name: blog-db
-        key: password
-  - name: DB_DATABASE
-    valueFrom:
-      secretKeyRef:
-        name: blog-db
-        key: database
-  - name: DB_HOST
-    valueFrom:
-      secretKeyRef:
-        name: blog-db
-        key: host
-  - name: DB_PORT
-    valueFrom:
-      secretKeyRef:
-        name: blog-db
-        key: host
-  - name: DB_SSLMODE
-    valueFrom:
-      secretKeyRef:
-        name: blog-db
-        key: sslmode
-  - name: SPRING_DATASOURCE_URL
-    value: "jdbc:postgresql://$(DB_HOST):$(DB_PORT)/$(DB_DATABASE)?sslmode=$(DB_SSLMODE)"
   - name: SPRING_APPLICATION_NAME
     valueFrom:
       secretKeyRef:
@@ -176,6 +144,12 @@ spec:
       memory: 512Mi
     requests:
       memory: 512Mi
+  serviceClaims:
+  - name: blog-db
+    ref:
+      apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+      kind: ClassClaim
+      name: blog-db
   source:
     git:
       url: https://github.com/categolj/blog-api
