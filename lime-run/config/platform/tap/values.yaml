@@ -127,7 +127,9 @@ stringData:
       - name: services-toolkit-service-instances
       - name: services-toolkit-stk-secret-reader
       - name: services-toolkit-postgresql
-
+    - name: ootb-templates
+      secrets:
+      - name: ootb-templates-overlay-kapp-options
     excluded_packages:
     - policy.apps.tanzu.vmware.com
     - image-policy-webhook.signing.apps.tanzu.vmware.com
