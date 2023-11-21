@@ -13,7 +13,8 @@ stringData:
     ---
     #@overlay/match-child-defaults missing_ok=True
     data:
-      kubernetes.containerspec-addcapabilities: "enabled"
-      kubernetes.podspec-fieldref: "enabled"
-      kubernetes.podspec-persistent-volume-claim: "enabled"
-      kubernetes.podspec-persistent-volume-write: "enabled"
+      kubernetes.containerspec-addcapabilities: enabled
+      kubernetes.podspec-securitycontext: enabled
+      kubernetes.podspec-persistent-volume-claim: enabled
+      kubernetes.podspec-persistent-volume-write: enabled
+      kubernetes.podspec-fieldref: enabled
