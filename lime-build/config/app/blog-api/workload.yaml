@@ -21,7 +21,7 @@ spec:
       value: "-V -U -Dmaven.test.skip=true --no-transfer-progress package"
   env:
   - name: JAVA_TOOL_OPTIONS
-    value: "-XX:ReservedCodeCacheSize=32M -Xss512k -Duser.timezone=Asia/Tokyo -Duser.language=ja -Duser.country=JP -Dfile.encoding=UTF-8 -Dmanagement.health.probes.enabled=true -Dmanagement.endpoint.health.probes.add-additional-paths=true -Dmanagement.endpoint.health.show-details=always -Dmanagement.endpoints.web.exposure.include=info,health,prometheus -Dserver.shutdown.grace-period=24s"
+    value: "-XX:ReservedCodeCacheSize=32M -Xss512k -Duser.timezone=Asia/Tokyo -Duser.language=ja -Duser.country=JP -Dfile.encoding=UTF-8 -Dmanagement.health.probes.enabled=true -Dmanagement.endpoint.health.probes.add-additional-paths=true"
   - name: BPL_JVM_THREAD_COUNT
     value: "28"
   - name: SPRING_APPLICATION_NAME
@@ -93,8 +93,6 @@ spec:
   - name: INFO_ENV_K_REVISION
     value: "${K_REVISION:}"
   params:
-  - name: dockerfile
-    value: Dockerfile
   - name: testing_pipeline_matching_labels
     value:
       apps.tanzu.vmware.com/pipeline: test
@@ -111,7 +109,7 @@ spec:
       autoscaling.knative.dev/minScale: "1"
       autoscaling.knative.dev/maxScale: "1"
       prometheus.io/path: /actuator/prometheus
-      prometheus.io/port: "8080"
+      prometheus.io/port: "8081"
       prometheus.io/scrape: "true"
   - name: livenessProbe
     value:
@@ -139,8 +137,6 @@ spec:
       name: settings-xml
   - name: scanning_image_policy
     value: spring-boot
-  - name: crac
-    value: "true"
   resources:
     limits:
       memory: 512Mi
