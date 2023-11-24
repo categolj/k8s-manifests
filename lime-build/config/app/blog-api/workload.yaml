@@ -21,7 +21,7 @@ spec:
       value: "-V -U -Dmaven.test.skip=true --no-transfer-progress package"
   env:
   - name: JAVA_TOOL_OPTIONS
-    value: "-XX:ReservedCodeCacheSize=32M -Xss512k -Duser.timezone=Asia/Tokyo -Duser.language=ja -Duser.country=JP -Dfile.encoding=UTF-8 -Dmanagement.health.probes.enabled=true -Dmanagement.endpoint.health.probes.add-additional-paths=true"
+    value: "-XX:ReservedCodeCacheSize=32M -Xss512k -Duser.timezone=Asia/Tokyo -Duser.language=ja -Duser.country=JP -Dfile.encoding=UTF-8"
   - name: BPL_JVM_THREAD_COUNT
     value: "28"
   - name: SPRING_APPLICATION_NAME
@@ -111,18 +111,6 @@ spec:
       prometheus.io/path: /actuator/prometheus
       prometheus.io/port: "8081"
       prometheus.io/scrape: "true"
-  - name: livenessProbe
-    value:
-      httpGet:
-        path: /livez
-        port: 8080
-        scheme: HTTP
-  - name: readinessProbe
-    value:
-      httpGet:
-        path: /readyz
-        port: 8080
-        scheme: HTTP
   - name: api_descriptor
     value:
       description: Blog Entry API
