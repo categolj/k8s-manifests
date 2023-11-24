@@ -18,7 +18,7 @@ spec:
       value: "true"
   env:
   - name: JAVA_TOOL_OPTIONS
-    value: "-XX:ReservedCodeCacheSize=32M -Xss512k -Duser.timezone=Asia/Tokyo -Dfile.encoding=UTF-8 -Dmanagement.health.probes.enabled=true -Dmanagement.endpoint.health.probes.add-additional-paths=true"
+    value: "-XX:ReservedCodeCacheSize=32M -Xss512k -Duser.timezone=Asia/Tokyo -Dfile.encoding=UTF-8"
   - name: ENTRY_APIURL
     value: "${k8s.bindings.note-config.entry-api-url}"
   - name: ENTRY_CLIENTID
@@ -72,18 +72,6 @@ spec:
       prometheus.io/path: /actuator/prometheus
       prometheus.io/port: "8081"
       prometheus.io/scrape: "true"
-  - name: livenessProbe
-    value:
-      httpGet:
-        path: /livez
-        port: 8080
-        scheme: HTTP
-  - name: readinessProbe
-    value:
-      httpGet:
-        path: /readyz
-        port: 8080
-        scheme: HTTP
   - name: buildServiceBindings
     value:
     - kind: Secret
