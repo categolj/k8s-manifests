@@ -79,7 +79,7 @@ spec:
       secretKeyRef:
         name: blog-config
         key: github-webhook-secret-en
-  - name: _ANAGEMENT_ZIPKIN_TRACING_ENDPOINT
+  - name: MANAGEMENT_ZIPKIN_TRACING_ENDPOINT
     valueFrom:
       secretKeyRef:
         name: otel-config
