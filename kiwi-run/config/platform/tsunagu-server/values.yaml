@@ -14,6 +14,7 @@ stringData:
       namespace: tsunagu
       create_namespace: true
       token: (@= data.values.tsunagu.token @)
+      authorization-token: (@= data.values.tsunagu.authorization_token @)
       fqdn: (@= data.values.tsunagu.fqdn @)
       issuer:
         kind: ClusterIssuer
