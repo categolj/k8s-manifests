@@ -1,0 +1,20 @@
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
+metadata:
+  name: openai
+  namespace: tsunagu
+spec:
+  virtualhost:
+    fqdn: openai.ik.am
+    tls:
+      secretName: tanzu-system-ingress/tap-default-tls
+  routes:
+  - enableWebsockets: true
+    services:
+    - name: tsunagu-server
+      port: 80
+      weight: 100
+    timeoutPolicy:
+      response: 120s
+    retryPolicy:
+      count: 3
