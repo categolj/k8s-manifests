@@ -31,6 +31,11 @@ spec:
       secretKeyRef:
         name: backup-s3
         key: access_secret
+  - name: AWS_REGION
+    valueFrom:
+      secretKeyRef:
+        name: backup-s3
+        key: region
   - name: S3_HOSTNAME
     valueFrom:
       secretKeyRef:
