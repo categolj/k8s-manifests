@@ -11,4 +11,5 @@ stringData:
   host: #@ data.values.s3.host
   access_key: #@ data.values.s3.access_key
   access_secret: #@ data.values.s3.access_secret
+  region: apac
   slack_webhook_url: #@ data.values.slack_webhook_url
