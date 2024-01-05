@@ -217,7 +217,7 @@ customConfig:
           abort
         }
         if is_string(.authority) && is_string(.path) {
-          .url = "https://" + .authority + .path
+          .url = "https://" + string!(.authority) + string!(.path)
           del(.authority)
           del(.path)
         }
