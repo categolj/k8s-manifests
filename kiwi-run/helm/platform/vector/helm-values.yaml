@@ -256,8 +256,8 @@ customConfig:
         if .app == "envoy" && .authority != null && starts_with(string!(.authority), "tameru") {
           abort
         }
-        if is_string(.timestamp) {
-          .dt = del(.timestamp)
+        if is_string(."@timestamp") {
+          .dt = del(."@timestamp")
         }
   sinks:
     stdout:
