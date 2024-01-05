@@ -195,7 +195,7 @@ customConfig:
         if is_string(.image) && contains(string!(.image), "tap-packages") && .level == "info" {
           abort
         }
-        if .app == "envoy" && .path != null && starts_with(string!(.path), "/api/v2/spans") {
+        if .app == "envoy" && .path != null && (starts_with(string!(.path), "/v1/secret/metadata/vaultPass") || starts_with(string!(.path), "/api/v2/spans")) {
           abort
         }
         if .app == "envoy" && .requested_server_name != null && starts_with(string!(.requested_server_name), "zipkin") {
