@@ -168,6 +168,12 @@ customConfig:
         if is_string(.ts) && contains(string!(.ts), "T") {
           .ts = to_unix_timestamp(to_timestamp!(string!(.ts)))
         }
+        if is_string(.traceparent) {
+          traceparent_parts = split(string!(.traceparent), "-")
+          .traceId = traceparent_parts[1]
+          .spanId = traceparent_parts[2]
+          del(.traceparent)
+        }
         if .namespace == "kube-system" {
           abort
         }
