@@ -186,7 +186,7 @@ customConfig:
         if .namespace == "pushgateway" {
           abort
         }
-        if .namespace == "inlets" && contains(string!(.message), "superfluous") {
+        if .namespace == "inlets" {
           abort
         }
         if is_string(.image) && contains(string!(.image), "tap-packages") && .level == "info" {
@@ -198,7 +198,7 @@ customConfig:
         if .app == "envoy" && .requested_server_name != null && starts_with(string!(.requested_server_name), "zipkin") {
           abort
         }
-        if .app == "envoy" && .user_agent != null && (starts_with(string!(.user_agent), "synthetic") || starts_with(string!(.user_agent), "GrafanaAgent")) {
+        if .app == "envoy" && .user_agent != null && (starts_with(string!(.user_agent), "synthetic") || starts_with(string!(.user_agent), "GrafanaAgent") || starts_with(string!(.user_agent), "Better")) {
           abort
         }
         if .ua != null && (starts_with(string!(.ua), "synthetic")) {
