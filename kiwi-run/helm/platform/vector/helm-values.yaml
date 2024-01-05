@@ -258,6 +258,8 @@ customConfig:
         }
         if is_string(."@timestamp") {
           .dt = del(."@timestamp")
+        } else if is_string(.timestamp) {
+          .dt = del(.timestamp)
         }
   sinks:
     stdout:
