@@ -30,6 +30,16 @@ env:
     secretKeyRef:
       name: loki
       key: password
+- name: TAMERU_URL
+  valueFrom:
+    secretKeyRef:
+      name: tameru
+      key: url
+- name: TAMERU_TOKEN
+  valueFrom:
+    secretKeyRef:
+      name: tameru
+      key: token
 resources:
   requests:
     memory: 256Mi
@@ -164,10 +174,16 @@ customConfig:
         if .namespace == "secretgen-controller" {
           abort
         }
+        if .namespace == "amr-observer-system" {
+          abort
+        }
         if .namespace == "tap-telemetry" {
           abort
         }
         if .namespace == "openldap" {
+          abort
+        }
+        if .namespace == "pushgateway" {
           abort
         }
         if .namespace == "inlets" && contains(string!(.message), "superfluous") {
@@ -212,6 +228,20 @@ customConfig:
         del(.upstream_service_time)
         del(.b3_sampled)
         del(.b3_parent_span_id)
+    tameru_transform:
+      type: remap
+      inputs:
+      - reduce
+      source: |
+        if .app == "tameru" {
+          abort
+        }
+        if .app == "envoy" && .requested_server_name != null && starts_with(string!(.requested_server_name), "tameru") {
+          abort
+        }
+        if is_string(.timestamp) {
+          .dt = del(.timestamp)
+        }
   sinks:
     stdout:
       type: console
@@ -255,3 +285,14 @@ customConfig:
       compression: gzip
       encoding:
         codec: json
+    tameru:
+      type: http
+      method: post
+      inputs:
+      - tameru_transform
+      uri: ${TAMERU_URL}
+      encoding:
+        codec: json
+      auth:
+        strategy: bearer
+        token: ${TAMERU_TOKEN}
