@@ -94,7 +94,7 @@ customConfig:
         if .apiVersion == "audit.k8s.io/v1" { # drop audit log for now
           abort
         }
-        if starts_with(string!(.message), "remote=") { # only access log
+        if starts_with(string!(.message), "remote=") || starts_with(string!(.message), "time=") { # logfmt pattern
           logfmt, err = parse_logfmt(.message)
           if err == null {
             . = merge(. , logfmt)
@@ -173,6 +173,12 @@ customConfig:
           .traceId = traceparent_parts[1]
           .spanId = traceparent_parts[2]
           del(.traceparent)
+        }
+        if is_string(.time) {
+          .timestamp = del(.time)
+        }
+        if is_string(.msg) {
+          .message = del(.msg)
         }
         if .namespace == "kube-system" {
           abort
