@@ -156,8 +156,11 @@ customConfig:
         } else if .level == null {
           .level = "-" 
         }
-        if is_string(.response_time) {
-          .response_time = parse_int!(.response_time)
+        if is_string(.response_code) {
+          .response_code = parse_int!(.response_code)
+        }
+        if is_string(.duration) {
+          .duration = parse_int!(.duration)
         }
         if is_string(.duration) && contains(string!(.duration), "s") {
           .duration = parse_duration!(string!(.duration), "ms")
