@@ -94,7 +94,7 @@ customConfig:
         if .apiVersion == "audit.k8s.io/v1" { # drop audit log for now
           abort
         }
-        if starts_with(string!(.message), "remote=") || starts_with(string!(.message), "time=") { # logfmt pattern
+        if starts_with(string!(.message), "remote=") || starts_with(string!(.message), "time=") || starts_with(string!(.message), "ts=") { # logfmt pattern
           logfmt, err = parse_logfmt(.message)
           if err == null {
             . = merge(. , logfmt)
@@ -176,6 +176,9 @@ customConfig:
         }
         if is_string(.time) {
           .timestamp = del(.time)
+        }
+        if is_string(.ts) {
+          .timestamp = del(.ts)
         }
         if is_string(.msg) {
           .message = del(.msg)
