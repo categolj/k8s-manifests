@@ -216,6 +216,11 @@ customConfig:
         if .namespace == "cert-manager" && contains(string!(.message), "Operation cannot be fulfilled") {
           abort
         }
+        if is_string(.authority) && is_string(.path) {
+          .url = "https://" + .authority + .path
+          del(.authority)
+          del(.path)
+        }
         del(.kubernetes)
         del(."ecs.version")
         del(."event.dataset")
