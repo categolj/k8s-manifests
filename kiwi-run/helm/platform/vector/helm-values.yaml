@@ -256,7 +256,7 @@ customConfig:
       inputs:
       - reduce
       source: |
-        if .app == "tameru" && .method == "POST" {
+        if .app == "tameru" && (.method == "POST" || .level == "trace") {
           abort
         }
         if .app == "envoy" && .authority != null && starts_with(string!(.authority), "tameru") {
