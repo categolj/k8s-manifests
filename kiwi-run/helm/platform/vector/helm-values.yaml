@@ -256,10 +256,10 @@ customConfig:
       inputs:
       - reduce
       source: |
-        if .app == "tameru" {
+        if .app == "tameru" && .method == "POST" {
           abort
         }
-        if .app == "envoy" && .method == "POST" && .authority != null && starts_with(string!(.authority), "tameru") {
+        if .app == "envoy" && .authority != null && starts_with(string!(.authority), "tameru") {
           abort
         }
         if is_string(."@timestamp") {
