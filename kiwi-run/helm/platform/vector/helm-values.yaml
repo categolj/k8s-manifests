@@ -155,7 +155,8 @@ customConfig:
           .level = downcase(string!(.level))
         } else if .level == null {
           .level = "-" 
-        } else if .app == null {
+        }
+        if .app == null {
           .app = "-" 
         }
         if is_string(.response_code) {
