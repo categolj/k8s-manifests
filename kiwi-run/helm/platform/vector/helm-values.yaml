@@ -288,28 +288,28 @@ customConfig:
     #!        password: "${ZINC_PASSWORD}"
     #!      healthcheck:
     #!        enabled: false
-    loki:
-      type: loki
-      inputs:
-      - reduce
-      endpoint: ${LOKI_URL}
-      auth:
-        strategy: basic
-        user: "{{`${LOKI_USERNAME}`}}"
-        password: "${LOKI_PASSWORD}"
-      labels:
-        cluster: "{{`{{ cluster }}`}}"
-        node: "{{`{{ node }}`}}"
-        namespace: "{{`{{ namespace }}`}}"
-        pod: "{{`{{ pod }}`}}"
-        app: "{{`{{ app }}`}}"
-        container: "{{`{{ container }}`}}"
-        level: "{{`{{ level }}`}}"
-        logger: "{{`{{ logger }}`}}"
-        message: "{{`{{ message }}`}}"
-      compression: gzip
-      encoding:
-        codec: json
+    #! loki:
+    #!   type: loki
+    #!   inputs:
+    #!   - reduce
+    #!   endpoint: ${LOKI_URL}
+    #!   auth:
+    #!     strategy: basic
+    #!     user: "{{`${LOKI_USERNAME}`}}"
+    #!     password: "${LOKI_PASSWORD}"
+    #!   labels:
+    #!     cluster: "{{`{{ cluster }}`}}"
+    #!     node: "{{`{{ node }}`}}"
+    #!     namespace: "{{`{{ namespace }}`}}"
+    #!     pod: "{{`{{ pod }}`}}"
+    #!     app: "{{`{{ app }}`}}"
+    #!     container: "{{`{{ container }}`}}"
+    #!     level: "{{`{{ level }}`}}"
+    #!     logger: "{{`{{ logger }}`}}"
+    #!     message: "{{`{{ message }}`}}"
+    #!   compression: gzip
+    #!   encoding:
+    #!     codec: json
     tameru:
       type: http
       method: post
