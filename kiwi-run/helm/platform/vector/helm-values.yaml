@@ -266,6 +266,9 @@ customConfig:
         if .app == "envoy" && .authority != null && starts_with(string!(.authority), "tameru") {
           abort
         }
+        if .app != "envoy" && .container != "workload" {
+          abort
+        }
         if is_string(."@timestamp") {
           .dt = del(."@timestamp")
         } else if is_string(.timestamp) {
