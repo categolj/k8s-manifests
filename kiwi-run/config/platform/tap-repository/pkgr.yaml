@@ -7,5 +7,5 @@ metadata:
 spec:
   fetch:
     imgpkgBundle:
-      #! imgpkg copy -b registry.tanzu.vmware.com/tanzu-application-platform/tap-packages:1.7.2 --to-repo ghcr.io/making/tanzu-application-platform/tap-packages
-      image: ghcr.io/making/tanzu-application-platform/tap-packages:1.7.2
+      #! imgpkg copy -b registry.tanzu.vmware.com/tanzu-application-platform/tap-packages:1.7.3 --to-repo ghcr.io/making/tanzu-application-platform/tap-packages
+      image: ghcr.io/making/tanzu-application-platform/tap-packages:1.7.3
