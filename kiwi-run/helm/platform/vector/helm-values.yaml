@@ -317,14 +317,14 @@ customConfig:
       compression: gzip
       encoding:
         codec: json
-    tameru:
-      type: http
-      method: post
-      inputs:
-      - tameru_transform
-      uri: ${TAMERU_URL}
-      encoding:
-        codec: json
-      auth:
-        strategy: bearer
-        token: ${TAMERU_TOKEN}
+#    tameru:
+#      type: http
+#      method: post
+#      inputs:
+#      - tameru_transform
+#      uri: ${TAMERU_URL}
+#      encoding:
+#        codec: json
+#      auth:
+#        strategy: bearer
+#        token: ${TAMERU_TOKEN}
