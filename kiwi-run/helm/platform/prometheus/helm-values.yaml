@@ -24,5 +24,7 @@ prometheus-pushgateway:
   enabled: false
 prometheus-node-exporter:
   enabled: true
+  podAnnotations:
+    prometheus.io/scrape: "true"
 kube-state-metrics:
   enabled: false
