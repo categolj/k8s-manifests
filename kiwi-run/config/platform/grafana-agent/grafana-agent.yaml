@@ -16,6 +16,8 @@ metrics:
         username: #@ data.values.prometheus.username
         password: #@ data.values.prometheus.password
       send_exemplars: true
+      tls_config:
+        insecure_skip_verify: true
 traces:
   configs:
   #@overlay/match by="name"
