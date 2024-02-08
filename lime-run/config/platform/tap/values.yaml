@@ -111,7 +111,7 @@ stringData:
       secrets:
       - name: cnrs-autocreate-cluster-domain-claims
       - name: cnrs-disable-scrape
-      - name:  cnrs-crac-features
+      - name: cnrs-crac-features
     - name: fluxcd-source-controller
       secrets:
       - name: fluxcd-source-controller-disable-scrape
@@ -123,6 +123,7 @@ stringData:
       - name: tap-auth-deliverable-with-ingress
       - name: tap-auth-deliverable-with-cronjob
       - name: tap-auth-deliverable-with-pvc
+      - name: tap-auth-deliverable-with-pdb
     - name: services-toolkit
       secrets:
       - name: services-toolkit-service-instances
