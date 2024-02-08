@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ootb-templates-overlay-pdb
+  namespace: tap-install
+  annotations:
+    kapp.k14s.io/change-group: "tap-overlays"
+type: Opaque
+stringData:
+  overlay-pdb.yml: |
+    #@ load("@ytt:overlay", "overlay")
+    #@ load("@ytt:data", "data")
+    #@overlay/match by=overlay.subset({"kind":"ClusterConfigTemplate", "metadata": {"name": "config-template"}})
+    ---
+    spec:
+      #@overlay/replace via=lambda left, right: "{}\n{}".format(left, '\n'.join(['  {}'.format(x) for x in right.split('\n')]))
+      ytt: |
+        #@yaml/text-templated-strings
+        pvc.yaml: |
+          (@ if hasattr(data.values.params, "annotations") and hasattr(data.values.params.annotations, "autoscaling.knative.dev/minScale") and int(getattr(data.values.params.annotations, "autoscaling.knative.dev/minScale")) > 2 : @)
+          ---
+          apiVersion: policy/v1
+          kind: PodDisruptionBudget
+          metadata:
+            name: (@= data.values.workload.metadata.name @)
+          spec:
+            maxUnavailable: 1
+            selector:
+              matchLabels:
+                app.kubernetes.io/part-of: (@= data.values.workload.metadata.name @)
+                app.kubernetes.io/component: run
+          (@ end @)
