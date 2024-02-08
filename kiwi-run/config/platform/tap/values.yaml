@@ -148,6 +148,7 @@ stringData:
       - name: tap-auth-deliverable-with-ingress
       - name: tap-auth-deliverable-with-cronjob
       - name: tap-auth-deliverable-with-pvc
+      - name: tap-auth-deliverable-with-pdb
     - name: services-toolkit
       secrets:
       - name: services-toolkit-service-instances
