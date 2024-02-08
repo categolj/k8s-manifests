@@ -106,7 +106,7 @@ spec:
 
   - name: annotations
     value:
-      autoscaling.knative.dev/minScale: "2"
+      autoscaling.knative.dev/minScale: "1"
       autoscaling.knative.dev/maxScale: "2"
       prometheus.io/path: /actuator/prometheus
       prometheus.io/port: "8081"
