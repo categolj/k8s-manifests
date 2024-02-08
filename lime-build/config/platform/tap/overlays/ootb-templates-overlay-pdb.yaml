@@ -17,7 +17,7 @@ stringData:
       ytt: |
         #@yaml/text-templated-strings
         pdb.yaml: |
-          (@ if hasattr(data.values.params, "annotations") and hasattr(data.values.params.annotations, "autoscaling.knative.dev/minScale") and int(getattr(data.values.params.annotations, "autoscaling.knative.dev/minScale")) > 2 : @)
+          (@ if hasattr(data.values.params, "annotations") and hasattr(data.values.params.annotations, "autoscaling.knative.dev/minScale") and int(getattr(data.values.params.annotations, "autoscaling.knative.dev/minScale")) > 1 : @)
           ---
           apiVersion: policy/v1
           kind: PodDisruptionBudget

@@ -17,7 +17,7 @@ stringData:
       ytt: |
         #@yaml/text-templated-strings
         pod-anti-affinity.yml: |
-          (@ if hasattr(data.values.params, "replicas") and data.values.params.replicas > 2 : @)
+          (@ if hasattr(data.values.params, "replicas") and data.values.params.replicas > 1 : @)
           #@ load("@ytt:overlay", "overlay")
           #@overlay/match by=overlay.subset({"kind": "Deployment"})
           ---
