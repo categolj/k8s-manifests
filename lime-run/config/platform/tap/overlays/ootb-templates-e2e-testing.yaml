@@ -1,0 +1,101 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ootb-templates-e2e-testing
+  namespace: tap-install
+type: Opaque
+stringData:
+  e2e-testing.yaml: |
+    apiVersion: v1
+    kind: Namespace
+    metadata:
+      name: tekton-tasks
+    ---
+    apiVersion: tekton.dev/v1beta1
+    kind: Task
+    metadata:
+      name: e2e-testing
+      namespace: tekton-tasks
+    spec:
+      params:
+      - name: namespace
+        type: string
+      - name: workload-name
+        type: string
+      - name: source-url
+        type: string
+      - name: source-revision
+        type: string
+      steps:
+      - name: e2e-testing
+        image: nicolaka/netshoot
+        script: |
+          #!/bin/bash
+          export WORKLOAD_NAME="$(params.workload-name)"
+          export NAMESPACE="$(params.namespace)"
+          export REVISION="$(params.source-revision)"
+          env | sort
+        securityContext:
+          runAsUser: 0
+    ---
+    #@ load("@ytt:data", "data")
+    apiVersion: carto.run/v1alpha1
+    kind: ClusterTemplate
+    metadata:
+      name: e2e-testing-template
+    spec:
+      params:
+      - name: serviceAccount
+        default: default
+
+      healthRule:
+        singleConditionType: Ready
+
+      lifecycle: tekton
+
+      #@ label_exclusions = "[\"" + "\", \"".join(data.values.label_propagation_exclusions) + "\"]"
+      #@yaml/text-templated-strings
+      ytt: |
+        #@ load("@ytt:data", "data")
+
+        #@ def merge_labels(fixed_values):
+        #@   labels = {}
+        #@   if hasattr(data.values.workload.metadata, "labels"):
+        #@     exclusions = (@= label_exclusions @)
+        #@     for k,v in dict(data.values.workload.metadata.labels).items():
+        #@       if k not in exclusions:
+        #@         labels[k] = v
+        #@       end
+        #@     end
+        #@   end
+        #@   labels.update(fixed_values)
+        #@   return labels
+        #@ end
+
+        ---
+        apiVersion: tekton.dev/v1beta1
+        kind: TaskRun
+        metadata:
+          generateName: #@ data.values.workload.metadata.name + "-e2e-testing-"
+          labels: #@ merge_labels({ "app.kubernetes.io/component": "e2e-testing" })
+        spec:
+          serviceAccountName: #@ data.values.params.serviceAccount
+          taskRef:
+            resolver: cluster
+            params:
+            - name: kind
+              value: task
+            - name: namespace
+              value: tekton-tasks
+            - name: name
+              value: e2e-testing
+          params:
+          - name: namespace
+            value: #@ data.values.workload.metadata.namespace
+          - name: workload-name
+            value: #@ data.values.workload.metadata.name
+          - name: source-url
+            value: #@ data.values.source.url
+          - name: source-revision
+            value: #@ data.values.source.revision

@@ -1,0 +1,22 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ootb-delivery-basic-add-e2e-testing
+  namespace: tap-install
+type: Opaque
+stringData:
+  add-e2e-testing.yaml: |
+    #@ load("@ytt:overlay", "overlay")    
+    #@overlay/match by=overlay.subset({"kind": "ClusterDelivery", "metadata":{"name":"delivery-basic"}}), expects="1+"
+    ---
+    spec:
+      resources:
+      #@overlay/append
+      - name: e2e-test
+        templateRef:
+          kind: ClusterTemplate
+          name: e2e-testing-template
+        sources:
+        - resource: deployer
+          name: source
