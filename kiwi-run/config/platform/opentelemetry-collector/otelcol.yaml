@@ -33,7 +33,7 @@ spec:
       otlp/tempo:
         endpoint: (@= data.values.tempo.url @)
         headers:
-          Authorization: "Basic {}".format(base64.encode("{}:{}".format(data.values.tempo.username, data.values.tempo.password)))
+          Authorization: (@= "Basic {}".format(base64.encode("{}:{}".format(data.values.tempo.username, data.values.tempo.password))) @)
     service:
       pipelines:
         traces:
