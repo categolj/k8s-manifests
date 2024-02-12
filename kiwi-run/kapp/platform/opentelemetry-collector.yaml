@@ -24,6 +24,7 @@ spec:
       paths:
       - namespace.yaml
       - otelcol.yaml
+      - otelcol-extension.yaml
       valuesFrom:
       - path: credentials.yaml
   - kbld:
