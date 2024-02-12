@@ -31,7 +31,7 @@ spec:
         timeout: 10s
     exporters: 
       otlp/tempo:
-        endpoint: (@= data.values.tempo.url @)
+        endpoint: (@= data.values.tempo.endpoint @)
         headers:
           Authorization: (@= "Basic {}".format(base64.encode("{}:{}".format(data.values.tempo.username, data.values.tempo.password))) @)
     service:
