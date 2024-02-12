@@ -1,0 +1,51 @@
+#@ load("@ytt:data", "data")
+---
+apiVersion: opentelemetry.io/v1alpha1
+kind: OpenTelemetryCollector
+metadata:
+  name: otel
+  namespace: opentelemetry
+spec:
+  image: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.94.0
+  #@yaml/text-templated-strings
+  config: |
+    receivers:
+      otlp:
+        protocols:
+          grpc: {}
+          http: {}
+      zipkin: {}
+    processors:
+      filter:
+        # https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/processor/filterprocessor
+        error_mode: ignore
+        traces:
+          span:
+          - IsMatch(attributes["upstream_cluster"], "grafana/.*")
+          - IsMatch(attributes["upstream_cluster"], "tap-gui/.*")
+          - IsMatch(attributes["upstream_cluster"], "appsso/.*")
+          - IsMatch(attributes["http.url"], "https://grafana.*")
+      batch:
+        send_batch_size: 10000
+        timeout: 10s
+    exporters: 
+      otlp/tempo:
+        endpoint: "(@= data.values.tempo.url @)"
+        auth:
+          authenticator: basicauth/tempo
+    service:
+      pipelines:
+        traces:
+          receivers:
+          - otlp
+          - zipkin
+          processors:
+          - filter
+          - batch
+          exporters:
+          - otlp/tempo
+    extensions:
+      basicauth/tempo:
+        client_auth:
+          username: "(@= data.values.tempo.username @)"
+          password: "(@= data.values.tempo.password @)"
