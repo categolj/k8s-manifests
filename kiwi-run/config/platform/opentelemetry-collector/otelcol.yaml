@@ -1,4 +1,5 @@
 #@ load("@ytt:data", "data")
+#@ load("@ytt:base64", "base64")
 ---
 apiVersion: opentelemetry.io/v1alpha1
 kind: OpenTelemetryCollector
@@ -9,11 +10,6 @@ spec:
   image: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.94.0
   #@yaml/text-templated-strings
   config: |
-    extensions:
-      basicauth/tempo:
-        client_auth:
-          username: (@= str(data.values.tempo.username) @)
-          password: (@= data.values.tempo.password @)
     receivers:
       otlp:
         protocols:
@@ -36,8 +32,8 @@ spec:
     exporters: 
       otlp/tempo:
         endpoint: (@= data.values.tempo.url @)
-        auth:
-          authenticator: basicauth/tempo
+        headers:
+          Authorization: "Basic {}".format(base64.encode("{}:{}".format(data.values.tempo.username, data.values.tempo.password)))
     service:
       pipelines:
         traces:
