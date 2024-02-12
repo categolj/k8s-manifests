@@ -30,7 +30,7 @@ spec:
         timeout: 10s
     exporters: 
       otlp/tempo:
-        endpoint: "(@= data.values.tempo.url @)"
+        endpoint: (@= data.values.tempo.url @)
         auth:
           authenticator: basicauth/tempo
     service:
@@ -47,5 +47,5 @@ spec:
     extensions:
       basicauth/tempo:
         client_auth:
-          username: "(@= data.values.tempo.username @)"
-          password: "(@= data.values.tempo.password @)"
+          username: (@= str(data.values.tempo.username) @)
+          password: (@= data.values.tempo.password @)
