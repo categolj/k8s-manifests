@@ -27,9 +27,9 @@ stringData:
         configFileContents:
           accesslog-format: json
           tracing:
-            includePodDetail: true
-            extensionService: grafana-agent/grafana-agent 
-            serviceName: contour/kiwi-run
+            includePodDetail: false
+            extensionService: opentelemetry/otel-collector
+            serviceName: contour
           json-fields:
           - "@timestamp"
           - "authority"
