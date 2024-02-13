@@ -33,6 +33,7 @@ spec:
           - attributes["http.route"] == "/readyz"
           - attributes["user_agent.original"] == "kube-probe//"
           - attributes["user_agent"] == "Knative-Ingress-Probe"
+          - IsMatch(attributes["user_agent"], "kube-probe/.*")
           - attributes["http.user_agent"] == "kube-probe//"
           - name == "OperationHandler.handle"
           - name == "fs readFile"
