@@ -75,7 +75,7 @@ spec:
           - attributes
           - batch
           exporters:
-          - otlp/tempo
+          - otlphttp/grafana_cloud
         logs/k8s_events:
           receivers:
           - k8s_events
