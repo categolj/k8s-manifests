@@ -36,7 +36,7 @@ spec:
           - IsMatch(attributes["user_agent"], "kube-probe/.*")
           - attributes["http.user_agent"] == "kube-probe//"
           - name == "OperationHandler.handle"
-          - name == "fs readFile"
+          - IsMatch(name, "fs .*")
       attributes:
         actions:
         - key: cluster
