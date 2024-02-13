@@ -26,6 +26,16 @@ spec:
           - IsMatch(attributes["upstream_cluster"], "tap-gui/.*")
           - IsMatch(attributes["upstream_cluster"], "appsso/.*")
           - IsMatch(attributes["http.url"], "https://grafana.*")
+          - attributes["http.route"] == "/livez"
+          - attributes["http.route"] == "/readyz"
+          - attributes["user_agent.original"] == "kube-probe//"
+          - attributes["user_agent"] == "Knative-Ingress-Probe"
+          - name == "OperationHandler.handle"
+      attributes:
+        actions:
+        - key: cluster
+          value: (@= data.values.cluster.name @)
+          action: upsert
       batch:
         send_batch_size: 10000
         timeout: 10s
