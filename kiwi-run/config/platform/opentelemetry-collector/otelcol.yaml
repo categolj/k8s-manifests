@@ -52,10 +52,10 @@ spec:
       attributes/loki:
         actions:
         - key: loki.attribute.labels
-          value: cluster, attributes_k8s_namespace_name
+          value: cluster, k8s.namespace.name
           action: upsert
         - key: loki.resource.labels
-          value: resources_k8s_object_kind, resources_k8s_object_name
+          value: k8s.object.kind, k8s.object.name
           action: upsert
       batch:
         send_batch_size: 10000
