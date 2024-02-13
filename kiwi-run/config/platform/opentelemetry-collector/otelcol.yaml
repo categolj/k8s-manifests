@@ -30,6 +30,7 @@ spec:
           - attributes["http.route"] == "/readyz"
           - attributes["user_agent.original"] == "kube-probe//"
           - attributes["user_agent"] == "Knative-Ingress-Probe"
+          - attributes["http.user_agent"] == "kube-probe//"
           - name == "OperationHandler.handle"
       attributes:
         actions:
