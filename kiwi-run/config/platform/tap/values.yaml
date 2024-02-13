@@ -125,7 +125,7 @@ stringData:
       - name: cnrs-autocreate-cluster-domain-claims
       - name: cnrs-disable-scrape
       - name: cnrs-crac-features
-      - name: cnrs-tracing
+      #! - name: cnrs-tracing
     - name: fluxcd-source-controller
       secrets:
       - name: fluxcd-source-controller-disable-scrape
