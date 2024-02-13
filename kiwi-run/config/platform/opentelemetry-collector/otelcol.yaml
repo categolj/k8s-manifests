@@ -16,6 +16,8 @@ spec:
           grpc: {}
           http: {}
       zipkin: {}
+      k8s_events:
+        auth_type: serviceAccount
     processors:
       filter:
         # https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/processor/filterprocessor
@@ -50,8 +52,20 @@ spec:
         endpoint: (@= data.values.tempo.endpoint @)
         headers:
           Authorization: (@= "Basic {}".format(base64.encode("{}:{}".format(data.values.tempo.username, data.values.tempo.password))) @)
+      debug:
+        verbosity: detailed
+        sampling_initial: 5
+        sampling_thereafter: 200
     service:
       pipelines:
+        logs/k8s_events:
+          receivers:
+          - k8s_events
+          processors:
+          - batch
+          - attributes
+          exporters:
+          - debug
         traces:
           receivers:
           - otlp
