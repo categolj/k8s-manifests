@@ -48,18 +48,10 @@ spec:
         send_batch_size: 10000
         timeout: 10s
     exporters: 
-      otlp/tempo:
-        endpoint: (@= data.values.tempo.endpoint @)
-        headers:
-          Authorization: (@= "Basic {}".format(base64.encode("{}:{}".format(data.values.tempo.username, data.values.tempo.password))) @)
       otlphttp/grafana_cloud:
         endpoint: (@= data.values.grafala_cloud_otlp.url @)
         headers:
           Authorization: (@= "Basic {}".format(base64.encode("{}:{}".format(data.values.grafala_cloud_otlp.username, data.values.grafala_cloud_otlp.password))) @)
-      loki:
-        endpoint: (@= "{}/loki/api/v1/push".format(data.values.loki.url) @)
-        headers:
-          Authorization: (@= "Basic {}".format(base64.encode("{}:{}".format(data.values.loki.username, data.values.loki.password))) @)
       debug:
         verbosity: detailed
         sampling_initial: 5
