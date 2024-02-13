@@ -49,6 +49,11 @@ spec:
         - key: cluster
           value: (@= data.values.cluster.name @)
           action: upsert
+      attributes/loki:
+        actions:
+        - key: loki.attribute.labels
+          value: cluster
+          action: upsert
       batch:
         send_batch_size: 10000
         timeout: 10s
@@ -81,5 +86,6 @@ spec:
           processors:
           - batch
           - attributes
+          - attributes/loki
           exporters:
           - otlphttp/grafana_cloud
