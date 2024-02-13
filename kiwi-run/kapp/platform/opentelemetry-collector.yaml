@@ -24,6 +24,7 @@ spec:
       paths:
       - namespace.yaml
       - otelcol.yaml
+      - rbac.yaml
       - otelcol-extension.yaml
       - instrumentation.yaml
       - httpproxy.yaml
