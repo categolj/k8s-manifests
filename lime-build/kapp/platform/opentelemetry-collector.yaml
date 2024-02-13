@@ -25,9 +25,6 @@ spec:
       - namespace.yaml
       - otelcol.yaml
       - rbac.yaml
-      - otelcol-extension.yaml
-      - instrumentation.yaml
-      - httpproxy.yaml
       valuesFrom:
       - path: credentials.yaml
   - kbld:
