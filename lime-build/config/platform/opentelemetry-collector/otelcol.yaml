@@ -176,4 +176,3 @@ spec:
           - attributes
           exporters:
           - prometheusremotewrite
-          - debug
