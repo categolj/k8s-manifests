@@ -52,20 +52,16 @@ spec:
         endpoint: (@= data.values.tempo.endpoint @)
         headers:
           Authorization: (@= "Basic {}".format(base64.encode("{}:{}".format(data.values.tempo.username, data.values.tempo.password))) @)
+      loki:
+        endpoint: (@= "{}/loki/api/v1/push".format(data.values.loki.url) @)
+        headers:
+          Authorization: (@= "Basic {}".format(base64.encode("{}:{}".format(data.values.loki.username, data.values.loki.password))) @)
       debug:
         verbosity: detailed
         sampling_initial: 5
         sampling_thereafter: 200
     service:
       pipelines:
-        logs/k8s_events:
-          receivers:
-          - k8s_events
-          processors:
-          - batch
-          - attributes
-          exporters:
-          - debug
         traces:
           receivers:
           - otlp
@@ -76,3 +72,11 @@ spec:
           - batch
           exporters:
           - otlp/tempo
+        logs/k8s_events:
+          receivers:
+          - k8s_events
+          processors:
+          - batch
+          - attributes
+          exporters:
+          - loki
