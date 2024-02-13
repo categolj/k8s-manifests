@@ -26,6 +26,8 @@ spec:
           - IsMatch(attributes["upstream_cluster"], "tap-gui/.*")
           - IsMatch(attributes["upstream_cluster"], "appsso/.*")
           - IsMatch(attributes["http.url"], "https://grafana.*")
+          - IsMatch(attributes["http.url"], ".*/livez")
+          - IsMatch(attributes["http.url"], ".*/readyz")
           - attributes["http.route"] == "/livez"
           - attributes["http.route"] == "/readyz"
           - attributes["user_agent.original"] == "kube-probe//"
