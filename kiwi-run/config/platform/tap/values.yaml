@@ -29,21 +29,14 @@ stringData:
           tracing:
             includePodDetail: false
             extensionService: opentelemetry/otel-collector
-            serviceName: contour
+            serviceName: envoy
           json-fields:
           - "@timestamp"
           - "authority"
           - "bytes_received"
           - "bytes_sent"
           - "traceparent=%REQ(TRACEPARENT)%"
-          #! - "b3_trace_id=%REQ(X-B3-TRACEID)%"
-          #! - "b3_span_id=%REQ(X-B3-SPANID)%"
-          #! - "b3_parent_span_id=%REQ(X-B3-PARENTSPANID)%"
-          #! - "b3_sampled=%REQ(X-B3-SAMPLED)%"
-          #! - "downstream_local_address"
-          #! - "downstream_remote_address"
           - "duration"
-          #! - "grpc_status"
           - "method"
           - "path"
           - "protocol"
@@ -51,12 +44,7 @@ stringData:
           - "request_id"
           - "requested_server_name"
           - "response_code"
-          #! - "response_flags"
-          #! - "uber_trace_id"
           - "upstream_cluster"
-          #! - "upstream_host"
-          #! - "upstream_local_address"
-          #! - "upstream_service_time"
           - "user_agent"
           - "x_forwarded_for"
       envoy:
