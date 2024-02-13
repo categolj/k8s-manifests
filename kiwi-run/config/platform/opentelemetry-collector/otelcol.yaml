@@ -52,6 +52,7 @@ spec:
           - zipkin
           processors:
           - filter
+          - attributes
           - batch
           exporters:
           - otlp/tempo
