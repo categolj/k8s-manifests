@@ -148,6 +148,8 @@ spec:
         endpoint: (@= data.values.prometheus.url @)
         auth:
           authenticator: basicauth/prometheus
+        tls:
+          insecure_skip_verify: true
       debug:
         verbosity: detailed
         sampling_initial: 5
