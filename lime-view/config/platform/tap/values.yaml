@@ -112,9 +112,16 @@ stringData:
       ns_for_export_app_cert: "*"
 
     package_overlays:
+    - name: cert-manager
+      secrets:
+      - name: cert-manager-disable-scrape
     - name: contour
       secrets:
       - name: contour-default-tls
+      - name: contour-disable-scrape
+    - name: fluxcd-source-controller
+      secrets:
+      - name: fluxcd-source-controller-disable-scrape
     - name: tap-gui
       secrets:
       - name: tap-gui-db
