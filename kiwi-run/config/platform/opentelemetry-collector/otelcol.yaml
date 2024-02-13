@@ -28,6 +28,7 @@ spec:
           - IsMatch(attributes["http.url"], "https://grafana.*")
           - IsMatch(attributes["http.url"], ".*/livez")
           - IsMatch(attributes["http.url"], ".*/readyz")
+          - IsMatch(attributes["http.url"], ".*/aboutme")
           - attributes["http.route"] == "/livez"
           - attributes["http.route"] == "/readyz"
           - attributes["user_agent.original"] == "kube-probe//"
