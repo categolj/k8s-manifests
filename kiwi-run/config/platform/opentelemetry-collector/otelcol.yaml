@@ -180,6 +180,7 @@ spec:
     service:
       extensions:
       - basicauth/grafana_cloud
+      - basicauth/prometheus
       pipelines:
         traces:
           receivers:
