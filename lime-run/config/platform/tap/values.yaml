@@ -133,10 +133,10 @@ stringData:
     - name: ootb-templates
       secrets:
       - name: ootb-templates-overlay-kapp-options
-      - name: ootb-templates-e2e-testing
-    - name: ootb-delivery-basic
-      secrets:
-      - name: ootb-delivery-basic-add-e2e-testing
+      #! - name: ootb-templates-e2e-testing
+    #! - name: ootb-delivery-basic
+    #!   secrets:
+    #!   - name: ootb-delivery-basic-add-e2e-testing
     excluded_packages:
     - policy.apps.tanzu.vmware.com
     - image-policy-webhook.signing.apps.tanzu.vmware.com
