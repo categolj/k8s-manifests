@@ -167,6 +167,12 @@ spec:
         endpoint: (@= data.values.grafala_cloud_otlp.url @)
         auth:
           authenticator: basicauth/grafana_cloud
+      prometheusremotewrite:
+        endpoint: (@= data.values.prometheus.url @)
+        auth:
+          authenticator: basicauth/prometheus
+        tls:
+          insecure_skip_verify: true
       debug:
         verbosity: detailed
         sampling_initial: 5
