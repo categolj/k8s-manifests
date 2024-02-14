@@ -15,4 +15,4 @@ stringData:
       kp_default_repository_secret:
         name: registry-secret
         namespace: tap-install
-    enable_ubi_builder: false
+    enable_ubi_builder: true
