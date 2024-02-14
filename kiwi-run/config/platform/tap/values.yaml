@@ -118,7 +118,7 @@ stringData:
     - name: contour
       secrets:
       - name: contour-default-tls
-      - name: contour-disable-scrape
+      - name: contour-disable-scrape-except-for-envoy
       - name: contour-envoy-pdb
     - name: cnrs
       secrets:
