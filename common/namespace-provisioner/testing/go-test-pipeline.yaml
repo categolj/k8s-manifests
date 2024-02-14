@@ -1,0 +1,46 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: go-test-pipeline
+  labels:
+    apps.tanzu.vmware.com/pipeline: test
+    apps.tanzu.vmware.com/language: go
+spec:
+  params:
+  - name: source-url
+  - name: source-revision
+  - name: slack-webhook-secret
+  - name: slack-test-failure-message
+  tasks:
+  - name: test
+    params:
+    - name: source-url
+      value: $(params.source-url)
+    - name: source-revision
+      value: $(params.source-revision)
+    taskSpec:
+      params:
+      - name: source-url
+      - name: source-revision
+      steps:
+      - name: test
+        image: golang:1.21
+        script: |-
+          set -ex
+          cd `mktemp -d`
+          curl -s $(params.source-url) | tar -xzvf -
+          go test
+  finally:
+  - name: notify-test-failure
+    when:
+    - input: $(tasks.test.status)
+      operator: in
+      values: [ "Failed" ]
+    taskRef:
+      kind: ClusterTask
+      name: send-to-webhook-slack
+    params:
+    - name: webhook-secret
+      value: $(params.slack-webhook-secret)
+    - name: message
+      value: $(params.slack-test-failure-message)
