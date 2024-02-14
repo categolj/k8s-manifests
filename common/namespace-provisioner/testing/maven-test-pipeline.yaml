@@ -52,7 +52,7 @@ spec:
         script: |-
           set -ex
           cd `mktemp -d`
-          curl -s $(params.source-url) | tar -m -xzvf -
+          curl -s $(params.source-url) | tar -m -xzf -
           ./mvnw clean test -V -s /opt/maven/settings.xml --no-transfer-progress
   finally:
   - name: notify-test-failure

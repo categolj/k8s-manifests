@@ -28,7 +28,7 @@ spec:
         script: |-
           set -ex
           cd `mktemp -d`
-          curl -s $(params.source-url) | tar -xzvf -
+          curl -s $(params.source-url) | tar -xzf -
           yarn install
           yarn lint
   finally:

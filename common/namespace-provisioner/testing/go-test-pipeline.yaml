@@ -26,5 +26,5 @@ spec:
         script: |-
           set -ex
           cd `mktemp -d`
-          curl -s $(params.source-url) | tar -xzvf -
+          curl -s $(params.source-url) | tar -xzf -
           go test
