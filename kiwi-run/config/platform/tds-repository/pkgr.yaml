@@ -1,7 +1,7 @@
 apiVersion: packaging.carvel.dev/v1alpha1
 kind: PackageRepository
 metadata:
-  name: tds-repository-1.13.0
+  name: tds-repository
   namespace: tds-system
 spec:
   fetch:
