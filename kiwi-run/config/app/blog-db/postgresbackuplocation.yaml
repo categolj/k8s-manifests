@@ -1,0 +1,38 @@
+#@ load("@ytt:data", "data")
+---
+apiVersion: sql.tanzu.vmware.com/v1
+kind: PostgresBackupLocation
+metadata:
+  name: blog-db
+  namespace: blog
+spec:
+  retentionPolicy:
+    fullRetention:
+      type: count
+      number: 7
+    diffRetention:
+      number: 7
+  storage:
+    s3:
+      bucket: backup-blog-db
+      region: #@ data.values.s3.region
+      endpoint: #@ data.values.s3.host
+      forcePathStyle: false
+      enableSSL: true
+      secret:
+        name: backup-blog-db-creds
+  additionalParameters: {}
+  backupSync:
+    enabled: true
+  backupIntegrityValidation:
+    enabled: true
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: backup-blog-db-creds
+  namespace: blog
+type: generic
+stringData:
+  accessKeyId: #@ data.values.s3.access_key
+  secretAccessKey: #@ data.values.s3.access_secret

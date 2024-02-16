@@ -27,3 +27,5 @@ spec:
     readReplicas: 1
     podDisruptionBudget:
       enabled: true
+  backupLocation:
+    name: blog-db
