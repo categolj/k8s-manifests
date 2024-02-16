@@ -1,0 +1,28 @@
+apiVersion: packaging.carvel.dev/v1alpha1
+kind: PackageInstall
+metadata:
+  name: postgres-operator
+  namespace: tds-system
+  annotations:
+    tkg.tanzu.vmware.com/tanzu-package-ClusterRole: postgres-operator-tds-system-cluster-role
+    tkg.tanzu.vmware.com/tanzu-package-ClusterRoleBinding: postgres-operator-tds-system-cluster-rolebinding
+    tkg.tanzu.vmware.com/tanzu-package-Secret: postgres-operator-tds-system-values
+    tkg.tanzu.vmware.com/tanzu-package-ServiceAccount: postgres-operator-tds-system-sa
+    kapp.k14s.io/change-group: "{name}"
+    kapp.k14s.io/change-rule.create-order.1: "upsert after upserting postgres-operator-rbac"
+    kapp.k14s.io/change-rule.delete-order.1: "delete before deleting postgres-operator-rbac"
+    kapp.k14s.io/change-rule.create-order.2: "upsert after upserting postgres-operator-values"
+    kapp.k14s.io/change-rule.delete-order.2: "delete before deleting postgres-operator-values"
+    kapp.k14s.io/change-rule.create-order.3: "upsert after upserting postgres-operator-overlays"
+    kapp.k14s.io/change-rule.delete-order.3: "delete before deleting postgres-operator-overlays"
+spec:
+  syncPeriod: 3h
+  serviceAccountName: postgres-operator-tds-system-sa
+  packageRef:
+    refName: postgres-operator.sql.tanzu.vmware.com
+    versionSelection:
+      constraints: "> 0.0.0"
+      prereleases: { }
+  values:
+  - secretRef:
+      name: postgres-operator-tds-system-values
