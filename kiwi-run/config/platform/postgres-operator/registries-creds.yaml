@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  annotations:
+    secretgen.carvel.dev/image-pull-secret: ""
+  name: registries-credentials
+  namespace: tds-system
+type: kubernetes.io/dockerconfigjson
+data: {}
