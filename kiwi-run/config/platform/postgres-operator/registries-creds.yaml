@@ -6,4 +6,5 @@ metadata:
   name: registries-credentials
   namespace: tds-system
 type: kubernetes.io/dockerconfigjson
-data: {}
+stringData:
+  .dockerconfigjson: '{}'
