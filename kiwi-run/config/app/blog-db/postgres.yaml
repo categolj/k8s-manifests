@@ -21,7 +21,7 @@ spec:
         cpu: 0.45
         memory: 450Mi
   pgConfig:
-    dbname: vehicle-db
+    dbname: blog-db
   highAvailability:
     enabled: true
     readReplicas: 1
