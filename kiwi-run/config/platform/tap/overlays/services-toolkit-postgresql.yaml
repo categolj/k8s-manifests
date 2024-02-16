@@ -14,7 +14,7 @@ stringData:
       name: postgresql
     spec:
       description:
-        short: Postgresql database
+        short: Pre-provisioned Postgresql database
       pool:
         kind: Secret
         labelSelector:
