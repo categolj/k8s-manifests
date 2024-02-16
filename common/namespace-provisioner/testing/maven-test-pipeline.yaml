@@ -48,6 +48,12 @@ spec:
           value: /docker-certs
         script: |-
           set -ex
+          env | sort
+          ls -la $DOCKER_CERT_PATH
+          mkdir -p ~/.docker
+          cat <<EOF > ~/.docker/config.json
+          {"auths":{}}}
+          EOF
           cd `mktemp -d`
           curl -s $(params.source-url) | tar -m -xzf -
           ./mvnw clean test -V -s /opt/maven/settings.xml --no-transfer-progress
