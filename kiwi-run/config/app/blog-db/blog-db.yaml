@@ -24,4 +24,4 @@ metadata:
   namespace: blog
 spec:
   classRef:
-    name: postgresql
+    name: postgresql-tanzu
