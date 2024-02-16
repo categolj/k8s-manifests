@@ -1,0 +1,10 @@
+apiVersion: packaging.carvel.dev/v1alpha1
+kind: PackageRepository
+metadata:
+  name: tds-repository-1.13.0
+  namespace: tds-system
+spec:
+  fetch:
+    imgpkgBundle:
+      #! imgpkg copy -b registry.tanzu.vmware.com/packages-for-vmware-tanzu-data-services/tds-packages:1.13.0 --to-repo ghcr.io/making/packages-for-vmware-tanzu-data-services/tds-packages
+      image: ghcr.io/making/packages-for-vmware-tanzu-data-services/tds-packages:1.13.0
