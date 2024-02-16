@@ -67,10 +67,10 @@ stringData:
     cnrs:
       allow_manual_configmap_update: false
       domain_template: "{{.Name}}-{{.Namespace}}.{{.Domain}}"
-      lite:
-        enable: true
-      pdb:
-        enable: false
+      #! lite:
+      #!   enable: true
+      #! pdb:
+      #!   enable: false
 
     appliveview_connector:
       backend:
