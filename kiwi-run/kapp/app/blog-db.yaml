@@ -23,6 +23,7 @@ spec:
   - ytt:
       paths:
       - postgres.yaml
+      - postgresbackuplocation.yaml
       - blog-db.yaml
       - blog-db-tls-ca-bindable.yaml
       valuesFrom:
