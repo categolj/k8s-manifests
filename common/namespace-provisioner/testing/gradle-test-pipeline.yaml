@@ -43,30 +43,4 @@ spec:
           echo '{}' > ~/.docker/config.json
           cd `mktemp -d`
           curl -s $(params.source-url) | tar -m -xzf -
-          cat <<'EOF' > ~/.gradle/init.gradle.kts
-          allprojects { 
-            buildscript { 
-              repositories {
-                maven {
-                    url = uri("http://bucketrepo.bucketrepo.svc.cluster.local/bucketrepo")
-                    isAllowInsecureProtocol = true
-                    credentials {
-                        username = "admin"
-                        password = "changeme"
-                    }
-                }
-              }
-            }
-            repositories { 
-              maven {
-                  url = uri("http://bucketrepo.bucketrepo.svc.cluster.local/bucketrepo")
-                  isAllowInsecureProtocol = true
-                  credentials {
-                      username = "admin"
-                      password = "changeme"
-                  }
-              }
-            }
-          }
-          EOF
           ./gradlew clean test --no-daemon -Dorg.gradle.welcome=never --info | grep -v Downloading
