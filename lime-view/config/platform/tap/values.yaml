@@ -62,9 +62,9 @@ stringData:
           database:
             client: pg
             connection:
-              host: ${TAP_GUI_DB_SERVICE_HOST}
-              port: ${TAP_GUI_DB_SERVICE_PORT}
-              user: ${POSTGRES_USER}
+              host: ${TAP_GUI_DB_POSTGRESQL_SERVICE_HOST}
+              port: ${TAP_GUI_DB_POSTGRESQL_SERVICE_PORT}
+              user: tap-gui
               password: ${POSTGRES_PASSWORD}
         catalog:
           locations:
