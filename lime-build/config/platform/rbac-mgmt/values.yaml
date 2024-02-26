@@ -22,3 +22,7 @@ rolebindings:
   create_namespace: true
   namespace_labels:
     apps.tanzu.vmware.com/tap-ns: ""
+- namespace: retrofacto
+  create_namespace: true
+  namespace_labels:
+    apps.tanzu.vmware.com/tap-ns: ""
