@@ -145,6 +145,7 @@ spec:
           - attributes["user_agent.original"] == "kube-probe//"
           - attributes["user_agent"] == "Knative-Ingress-Probe"
           - IsMatch(attributes["user_agent"], "kube-probe/.*")
+          - IsMatch(attributes["user_agent"], "Prometheus/.*")
           - attributes["http.user_agent"] == "kube-probe//"
           - name == "OperationHandler.handle"
           - IsMatch(name, "fs .*")
