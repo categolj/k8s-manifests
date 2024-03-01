@@ -71,26 +71,26 @@ spec:
             - name: DB_USER
               valueFrom:
                 secretKeyRef:
-                  name: blog-db-app-user-db-secret
+                  name: blog-db
                   key: username
             - name: DB_HOST
               valueFrom:
                 secretKeyRef:
-                  name: blog-db-app-user-db-secret
+                  name: blog-db
                   key: host
             - name: DB_PORT
               valueFrom:
                 secretKeyRef:
-                  name: blog-db-app-user-db-secret
+                  name: blog-db
                   key: port
             - name: DB_NAME
               valueFrom:
                 secretKeyRef:
-                  name: blog-db-app-user-db-secret
+                  name: blog-db
                   key: database
             - name: PGPASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: blog-db-app-user-db-secret
+                  name: blog-db
                   key: password
           restartPolicy: Never
