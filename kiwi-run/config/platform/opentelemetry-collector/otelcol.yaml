@@ -175,6 +175,8 @@ spec:
           authenticator: basicauth/prometheus
         tls:
           insecure_skip_verify: true
+      zipkin:
+        endpoint: (@= data.values.zipkin.url @)
       debug:
         verbosity: detailed
         sampling_initial: 5
@@ -194,6 +196,7 @@ spec:
           - batch
           exporters:
           - otlphttp/grafana_cloud
+          - zipkin
         logs/k8s_events:
           receivers:
           - k8s_events
