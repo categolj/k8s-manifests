@@ -68,7 +68,7 @@ stringData:
       allow_manual_configmap_update: false
       domain_template: "{{.Name}}-{{.Namespace}}.{{.Domain}}"
       lite:
-        enable: true
+        enable: false
       pdb:
         enable: false
 
