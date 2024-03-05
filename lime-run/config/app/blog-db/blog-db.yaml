@@ -11,10 +11,10 @@ type: servicebinding.io/postgresql
 stringData:
   type: postgresql
   host: #@ data.values.blog_db.host
-  port: "5432"
+  port: #@ data.values.blog_db.port
   username: #@ data.values.blog_db.username
   password: #@ data.values.blog_db.password
-  database: postgres
+  database: #@ data.values.blog_db.database
   sslmode: require
 ---
 apiVersion: services.apps.tanzu.vmware.com/v1alpha1
