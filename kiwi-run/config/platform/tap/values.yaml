@@ -75,6 +75,14 @@ stringData:
     api_auto_registration:
       tap_gui_url: https://tap-gui.view.lime.maki.lol
 
+    amr:
+      observer:
+        auth:
+          kubernetes_service_accounts:
+            enable: true
+        cloudevent_handler:
+          endpoint: https://amr-cloudevent-handler.view.lime.maki.lol
+
     namespace_provisioner:
       controller: true
       default_parameters:

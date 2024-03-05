@@ -123,6 +123,14 @@ stringData:
       #! - name: tekton-triggers-release
       #! - name: tekton-triggers-interceptors
 
+    amr:
+      observer:
+        auth:
+          kubernetes_service_accounts:
+            enable: true
+        cloudevent_handler:
+          endpoint: https://amr-cloudevent-handler.view.lime.maki.lol
+
     excluded_packages:
     - amr-observer.apps.tanzu.vmware.com
     - contour.tanzu.vmware.com
