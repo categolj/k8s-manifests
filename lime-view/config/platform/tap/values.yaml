@@ -58,6 +58,17 @@ stringData:
                 tokenSignedResponseAlg: RS256
                 scope: "openid profile email"
                 prompt: auto
+        techdocs:
+          builder: external
+          publisher:
+            type: awsS3
+            awsS3:
+              bucketName: (@= data.values.techdocs.s3.bucket_name @)
+              region: (@= data.values.techdocs.s3.region @)
+              endpoint: (@= data.values.techdocs.s3.endpoint @)
+              credentials:
+                accessKeyId: (@= data.values.techdocs.s3.access_key_id @)
+                secretAccessKey: (@= data.values.techdocs.s3.secret_access_key @)
         backend:
           database:
             client: pg
