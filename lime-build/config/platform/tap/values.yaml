@@ -29,7 +29,7 @@ stringData:
       ingress_issuer: letsencrypt
 
     ootb_supply_chain_testing_scanning:
-      image_scanner_template_name: image-vulnerability-scan-trivy
+      #! image_scanner_template_name: image-vulnerability-scan-trivy
       supported_workloads:
       - type: web
         cluster_config_template_name: config-template
