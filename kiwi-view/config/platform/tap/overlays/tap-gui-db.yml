@@ -1,0 +1,317 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: tap-gui-db
+  namespace: tap-install
+  annotations:
+    kapp.k14s.io/change-group: "tap-overlays"
+type: Opaque
+stringData:
+  tap-gui-db.yml: |
+    #@ load("@ytt:overlay", "overlay")
+    #@overlay/match by=overlay.subset({"kind":"Deployment","metadata":{"name":"server"}})
+    ---
+    spec:
+      #@overlay/match missing_ok=True
+      template:
+        spec:
+          containers:
+          #@overlay/match by="name"
+          - name: backstage
+            #@overlay/match missing_ok=True
+            env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: tap-gui-db
+                  key: password
+    ---
+    #! Source: postgresql/templates/serviceaccount.yaml
+    apiVersion: v1
+    kind: ServiceAccount
+    metadata:
+      name: tap-gui-db-postgresql
+      namespace: "tap-gui"
+      labels:
+        app.kubernetes.io/instance: tap-gui-db
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: postgresql
+        app.kubernetes.io/version: 16.1.0
+        helm.sh/chart: postgresql-13.4.3
+    automountServiceAccountToken: false
+    ---
+    #! Source: postgresql/templates/primary/svc-headless.yaml
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: tap-gui-db-postgresql-hl
+      namespace: "tap-gui"
+      labels:
+        app.kubernetes.io/instance: tap-gui-db
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: postgresql
+        app.kubernetes.io/version: 16.1.0
+        helm.sh/chart: postgresql-13.4.3
+        app.kubernetes.io/component: primary
+      annotations:
+        #! Use this annotation in addition to the actual publishNotReadyAddresses
+        #! field below because the annotation will stop being respected soon but the
+        #! field is broken in some versions of Kubernetes:
+        #! https://github.com/kubernetes/kubernetes/issues/58662
+        service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+    spec:
+      type: ClusterIP
+      clusterIP: None
+      #! We want all pods in the StatefulSet to have their addresses published for
+      #! the sake of the other Postgresql pods even before they're ready, since they
+      #! have to be able to talk to each other in order to become ready.
+      publishNotReadyAddresses: true
+      ports:
+      - name: tcp-postgresql
+        port: 5432
+        targetPort: tcp-postgresql
+      selector:
+        app.kubernetes.io/instance: tap-gui-db
+        app.kubernetes.io/name: postgresql
+        app.kubernetes.io/component: primary
+    ---
+    #! Source: postgresql/templates/primary/svc.yaml
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: tap-gui-db-postgresql
+      namespace: "tap-gui"
+      labels:
+        app.kubernetes.io/instance: tap-gui-db
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: postgresql
+        app.kubernetes.io/version: 16.1.0
+        helm.sh/chart: postgresql-13.4.3
+        app.kubernetes.io/component: primary
+    spec:
+      type: ClusterIP
+      sessionAffinity: None
+      ports:
+      - name: tcp-postgresql
+        port: 5432
+        targetPort: tcp-postgresql
+        nodePort: null
+      selector:
+        app.kubernetes.io/instance: tap-gui-db
+        app.kubernetes.io/name: postgresql
+        app.kubernetes.io/component: primary
+    ---
+    #! Source: postgresql/templates/primary/statefulset.yaml
+    apiVersion: apps/v1
+    kind: StatefulSet
+    metadata:
+      name: tap-gui-db-postgresql
+      namespace: "tap-gui"
+      labels:
+        app.kubernetes.io/instance: tap-gui-db
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: postgresql
+        app.kubernetes.io/version: 16.1.0
+        helm.sh/chart: postgresql-13.4.3
+        app.kubernetes.io/component: primary
+    spec:
+      replicas: 1
+      serviceName: tap-gui-db-postgresql-hl
+      updateStrategy:
+        rollingUpdate: {}
+        type: RollingUpdate
+      selector:
+        matchLabels:
+          app.kubernetes.io/instance: tap-gui-db
+          app.kubernetes.io/name: postgresql
+          app.kubernetes.io/component: primary
+      template:
+        metadata:
+          name: tap-gui-db-postgresql
+          labels:
+            app.kubernetes.io/instance: tap-gui-db
+            app.kubernetes.io/managed-by: Helm
+            app.kubernetes.io/name: postgresql
+            app.kubernetes.io/version: 16.1.0
+            helm.sh/chart: postgresql-13.4.3
+            app.kubernetes.io/component: primary
+        spec:
+          serviceAccountName: tap-gui-db-postgresql
+    
+          automountServiceAccountToken: false
+          affinity:
+            podAffinity:
+    
+            podAntiAffinity:
+              preferredDuringSchedulingIgnoredDuringExecution:
+              - podAffinityTerm:
+                  labelSelector:
+                    matchLabels:
+                      app.kubernetes.io/instance: tap-gui-db
+                      app.kubernetes.io/name: postgresql
+                      app.kubernetes.io/component: primary
+                  topologyKey: kubernetes.io/hostname
+                weight: 1
+            nodeAffinity:
+    
+          securityContext:
+            fsGroup: 1001
+            fsGroupChangePolicy: Always
+            supplementalGroups: []
+            sysctls: []
+          hostNetwork: false
+          hostIPC: false
+          initContainers:
+          - name: init-chmod-data
+            image: docker.io/bitnami/os-shell:11-debian-11-r95
+            imagePullPolicy: "IfNotPresent"
+            resources:
+              limits: {}
+              requests: {}
+            command:
+            - /bin/sh
+            - -ec
+            - |
+              chown 1001:1001 /bitnami/postgresql
+              mkdir -p /bitnami/postgresql/data
+              chmod 700 /bitnami/postgresql/data
+              find /bitnami/postgresql -mindepth 1 -maxdepth 1 -not -name "conf" -not -name ".snapshot" -not -name "lost+found" | \
+                xargs -r chown -R 1001:1001
+              chmod -R 777 /dev/shm
+            securityContext:
+              runAsGroup: 0
+              runAsNonRoot: false
+              runAsUser: 0
+              seLinuxOptions: null
+              seccompProfile:
+                type: RuntimeDefault
+            volumeMounts:
+            - name: data
+              mountPath: /bitnami/postgresql
+            - name: dshm
+              mountPath: /dev/shm
+          containers:
+          - name: postgresql
+            image: docker.io/bitnami/postgresql:16.1.0-debian-11-r24
+            imagePullPolicy: "IfNotPresent"
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                - ALL
+              privileged: false
+              readOnlyRootFilesystem: false
+              runAsNonRoot: true
+              runAsUser: 1001
+              seLinuxOptions: null
+              seccompProfile:
+                type: RuntimeDefault
+            env:
+            - name: BITNAMI_DEBUG
+              value: "false"
+            - name: POSTGRESQL_PORT_NUMBER
+              value: "5432"
+            - name: POSTGRESQL_VOLUME_DIR
+              value: "/bitnami/postgresql"
+            - name: PGDATA
+              value: "/bitnami/postgresql/data"
+            #! Authentication
+            - name: POSTGRES_USER
+              value: "tap-gui"
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: tap-gui-db
+                  key: password
+            - name: POSTGRES_POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: tap-gui-db
+                  key: postgres-password
+            #! Replication
+            #! Initdb
+            #! Standby
+            #! LDAP
+            - name: POSTGRESQL_ENABLE_LDAP
+              value: "no"
+            #! TLS
+            - name: POSTGRESQL_ENABLE_TLS
+              value: "no"
+            #! Audit
+            - name: POSTGRESQL_LOG_HOSTNAME
+              value: "false"
+            - name: POSTGRESQL_LOG_CONNECTIONS
+              value: "false"
+            - name: POSTGRESQL_LOG_DISCONNECTIONS
+              value: "false"
+            - name: POSTGRESQL_PGAUDIT_LOG_CATALOG
+              value: "off"
+            #! Others
+            - name: POSTGRESQL_CLIENT_MIN_MESSAGES
+              value: "error"
+            - name: POSTGRESQL_SHARED_PRELOAD_LIBRARIES
+              value: "pgaudit"
+            ports:
+            - name: tcp-postgresql
+              containerPort: 5432
+            livenessProbe:
+              failureThreshold: 6
+              initialDelaySeconds: 30
+              periodSeconds: 10
+              successThreshold: 1
+              timeoutSeconds: 5
+              exec:
+                command:
+                - /bin/sh
+                - -c
+                - exec pg_isready -U "tap-gui" -h 127.0.0.1 -p 5432
+            readinessProbe:
+              failureThreshold: 6
+              initialDelaySeconds: 5
+              periodSeconds: 10
+              successThreshold: 1
+              timeoutSeconds: 5
+              exec:
+                command:
+                - /bin/sh
+                - -c
+                - -e
+                - |
+                  exec pg_isready -U "tap-gui" -h 127.0.0.1 -p 5432
+                  [ -f /opt/bitnami/postgresql/tmp/.initialized ] || [ -f /bitnami/postgresql/.initialized ]
+            resources:
+              limits: {}
+              requests:
+                cpu: 100m
+                memory: 128Mi
+            volumeMounts:
+            - name: dshm
+              mountPath: /dev/shm
+            - name: data
+              mountPath: /bitnami/postgresql
+          volumes:
+          - name: dshm
+            emptyDir:
+              medium: Memory
+      volumeClaimTemplates:
+      - apiVersion: v1
+        kind: PersistentVolumeClaim
+        metadata:
+          name: data
+        spec:
+          accessModes:
+          - "ReadWriteOnce"
+          resources:
+            requests:
+              storage: "1Gi"
+    ---
+    apiVersion: secretgen.k14s.io/v1alpha1
+    kind: Password
+    metadata:
+      name: tap-gui-db
+      namespace: tap-gui
+    spec:
+      secretTemplate:
+        stringData:
+          password: $(value)
+          postgres-password: $(value)
