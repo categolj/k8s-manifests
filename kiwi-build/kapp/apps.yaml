@@ -15,7 +15,7 @@ spec:
   - ytt:
       paths:
       - platform
-      #! - app
+      - app
   deploy:
   - kapp:
       rawOptions:
