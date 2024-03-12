@@ -11,7 +11,7 @@ spec:
   serviceAccountName: kapp
   fetch:
   - http:
-      url: https://github.com/open-telemetry/opentelemetry-operator/releases/download/v0.96.0/opentelemetry-operator.yaml
+      url: https://github.com/open-telemetry/opentelemetry-operator/releases/download/v0.95.0/opentelemetry-operator.yaml
   syncPeriod: 6h
   template:
   - ytt: { }
