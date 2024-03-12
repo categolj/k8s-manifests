@@ -119,6 +119,7 @@ stringData:
         enable_tls: true
 
     metadata_store:
+      ns_for_export_app_cert: "*"
       database_request_storage: "2Gi"
       pg_req_cpu: 256m
       pg_req_memory: 256Mi
