@@ -16,7 +16,7 @@ stringData:
     ceip_policy_disclosed: true
     
     shared:
-      ingress_domain: view.lime.maki.lol
+      ingress_domain: view.kiwi.maki.lol
       ingress_issuer: letsencrypt
       activateAppLiveViewSecureAccessControl: true
     
