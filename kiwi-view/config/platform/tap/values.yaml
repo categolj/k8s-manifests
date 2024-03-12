@@ -118,6 +118,9 @@ stringData:
         include: true
         enable_tls: true
 
+    metadata_store:
+      database_request_storage: "2Gi"
+
     package_overlays:
     - name: cert-manager
       secrets:
