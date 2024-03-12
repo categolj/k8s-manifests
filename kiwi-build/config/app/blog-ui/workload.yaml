@@ -1,0 +1,56 @@
+apiVersion: carto.run/v1alpha1
+kind: Workload
+metadata:
+  labels:
+    app.kubernetes.io/part-of: blog-ui
+    apps.tanzu.vmware.com/workload-type: web
+    apps.tanzu.vmware.com/has-tests: "true"
+  annotations:
+    kapp.k14s.io/disable-original: ""
+  name: blog-ui
+  namespace: blog
+spec:
+  build:
+    env:
+    - name: NEXT_PUBLIC_APP_BLOG_API
+      value: auto
+    - name: BP_NODE_RUN_SCRIPTS
+      value: build
+    - name: BP_NODE_OPTIMIZE_MEMORY
+      value: "true"
+    - name: NODE_ENV
+      value: production
+  params:
+  - name: testing_pipeline_matching_labels
+    value:
+      apps.tanzu.vmware.com/language: node
+  - name: annotations
+    value:
+      autoscaling.knative.dev/minScale: "1"
+      autoscaling.knative.dev/maxScale: "2"
+      instrumentation.opentelemetry.io/inject-nodejs: opentelemetry/default
+  - name: scanning_image_policy
+    value: nextjs
+  - name: livenessProbe
+    value:
+      httpGet:
+        path: /aboutme
+        port: 8080
+        scheme: HTTP
+  - name: readinessProbe
+    value:
+      httpGet:
+        path: /aboutme
+        port: 8080
+        scheme: HTTP
+      successThreshold: 1
+  resources:
+    limits:
+      memory: 256Mi
+    requests:
+      memory: 256Mi
+  source:
+    git:
+      ref:
+        branch: main
+      url: https://github.com/categolj/blog-ui
