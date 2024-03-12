@@ -1,0 +1,19 @@
+#@ load("@ytt:data", "data")
+apiVersion: v1
+kind: Secret
+metadata:
+  name: full-deps-tap-install-values
+  namespace: tap-install
+  annotations:
+    kapp.k14s.io/change-group: "full-deps-values"
+type: Opaque
+stringData:
+  #@yaml/text-templated-strings
+  full-deps-values.yml: |
+    kp_default_repository: (@= data.values.registry_credentials.server @)/(@= data.values.registry_credentials.username @)/build-service
+    dependency_updates:
+      allow: true
+      scope: all
+      include_packages: [""]
+      exclude_packages: [""]
+    enable_ubi_builder: true
