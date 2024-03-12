@@ -99,10 +99,10 @@ stringData:
       - name: workload-git-auth
         namespace: tap-install
         create_export: true
-      overlay_secrets:
-      - name: workload-git-auth-overlay
-        namespace: tap-install
-        create_export: true
+      default_parameters:
+        supply_chain_service_account:
+          secrets:
+          - git-basic
     package_overlays:
     - name: cert-manager
       secrets:
