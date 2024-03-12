@@ -9,8 +9,6 @@ spec:
   params:
   - name: source-url
   - name: source-revision
-  - name: slack-webhook-secret
-  - name: slack-test-failure-message
   tasks:
   - name: test
     params:
@@ -31,17 +29,3 @@ spec:
           curl -s $(params.source-url) | tar -xzf -
           yarn install
           yarn lint
-  finally:
-  - name: notify-test-failure
-    when:
-    - input: $(tasks.test.status)
-      operator: in
-      values: [ "Failed" ]
-    taskRef:
-      kind: ClusterTask
-      name: send-to-webhook-slack
-    params:
-    - name: webhook-secret
-      value: $(params.slack-webhook-secret)
-    - name: message
-      value: $(params.slack-test-failure-message)
