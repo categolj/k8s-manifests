@@ -70,10 +70,10 @@ stringData:
     appliveview_connector:
       backend:
         ingressEnabled: true
-        host: appliveview.view.lime.maki.lol
+        host: appliveview.view.kiwi.maki.lol
 
     api_auto_registration:
-      tap_gui_url: https://tap-gui.view.lime.maki.lol
+      tap_gui_url: https://tap-gui.view.kiwi.maki.lol
 
     amr:
       observer:
@@ -81,7 +81,7 @@ stringData:
           kubernetes_service_accounts:
             enable: true
         cloudevent_handler:
-          endpoint: https://amr-cloudevent-handler.view.lime.maki.lol
+          endpoint: https://amr-cloudevent-handler.view.kiwi.maki.lol
 
     namespace_provisioner:
       controller: true
