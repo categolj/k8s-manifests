@@ -95,15 +95,15 @@ stringData:
             #!   skipTLSVerify: false
             #!   #! kubectl -n tap-gui get secret tap-gui-viewer -otemplate='{{index .data "ca.crt"}}' --context lime-run-admin
             #!   caData: (@= data.values.clusters.lime.run.ca_data @)
-            #! - name: lime-build
-            #!   #! kubectl config view --minify -o jsonpath='{.clusters[0].cluster.server}' --context lime-build-admin
-            #!   url: (@= data.values.clusters.lime.build.url @)
-            #!   authProvider: serviceAccount
-            #!   #! #! kubectl -n tap-gui get secret tap-gui-viewer -otemplate='{{index .data "token" | base64decode}}' --context lime-build-admin
-            #!   serviceAccountToken: (@= data.values.clusters.lime.build.service_account_token @) 
-            #!   skipTLSVerify: false
-            #!   #! kubectl -n tap-gui get secret tap-gui-viewer -otemplate='{{index .data "ca.crt"}}' --context lime-build-admin
-            #!   caData: (@= data.values.clusters.lime.build.ca_data @)
+            - name: kiwi-build
+              #! kubectl config view --minify -o jsonpath='{.clusters[0].cluster.server}' --context kiwi-build
+              url: (@= data.values.clusters.kiwi.build.url @)
+              authProvider: serviceAccount
+              #! kubectl -n tap-gui get secret tap-gui-viewer -otemplate='{{index .data "token" | base64decode}}' --context kiwi-build
+              serviceAccountToken: (@= data.values.clusters.kiwi.build.service_account_token @) 
+              skipTLSVerify: false
+              #! kubectl -n tap-gui get secret tap-gui-viewer -otemplate='{{index .data "ca.crt"}}' --context kiwi-build
+              caData: (@= data.values.clusters.kiwi.build.ca_data @)
             - name: kiwi-run
               url: (@= data.values.clusters.kiwi.run.url @)
               authProvider: serviceAccount
