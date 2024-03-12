@@ -1,0 +1,35 @@
+---
+apiVersion: packaging.carvel.dev/v1alpha1
+kind: PackageRepository
+metadata:
+  name: tanzu-tap-repository
+  namespace: tap-install
+spec:
+  fetch:
+    imgpkgBundle:
+      #! imgpkg copy -b registry.tanzu.vmware.com/tanzu-application-platform/tap-packages:1.8.0 --to-repo ghcr.io/making/tanzu-application-platform/tap-packages
+      image: ghcr.io/making/tanzu-application-platform/tap-packages:1.8.0
+---
+apiVersion: packaging.carvel.dev/v1alpha1
+kind: PackageRepository
+metadata:
+  name: full-deps-repository
+  namespace: tap-install
+spec:
+  fetch:
+    imgpkgBundle:
+      #! imgpkg copy -b registry.tanzu.vmware.com/tanzu-application-platform/full-deps-package-repo:1.8.0 --to-repo ghcr.io/making/tanzu-application-platform/full-deps-package-repo
+      image: ghcr.io/making/tanzu-application-platform/full-deps-package-repo:1.8.0
+---
+apiVersion: packaging.carvel.dev/v1alpha1
+kind: PackageRepository
+metadata:
+  name: tbs-dependencies-package-repository
+  namespace: tap-install
+spec:
+  fetch:
+    imgpkgBundle:
+      image: registry.tanzu.vmware.com/build-service-dependency-updater/package-repo
+      tagSelection:
+        semver:
+          constraints: 1.8.x
