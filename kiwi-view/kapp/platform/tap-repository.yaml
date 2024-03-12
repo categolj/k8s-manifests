@@ -23,6 +23,8 @@ spec:
   - ytt:
       paths:
       - tap-repository
+      #! valuesFrom:
+      #! - path: credentials.yaml
   deploy:
   - kapp:
       rawOptions:
