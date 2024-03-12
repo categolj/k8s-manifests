@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ootb-templates-overlay-replicas
+  namespace: tap-install
+  annotations:
+    kapp.k14s.io/change-group: "tap-overlays"
+type: Opaque
+stringData:
+  overlay-replicas.yml: |
+    #@ load("@ytt:overlay", "overlay")
+    #@ for name in ["server-template", "worker-template"]: 
+    #@overlay/match by=overlay.subset({"kind":"ClusterConfigTemplate", "metadata": {"name": name}})
+    ---
+    spec:
+      #@overlay/replace via=lambda left, right: "{}\n{}".format(left, '\n'.join(['  {}'.format(x) for x in right.split('\n')]))
+      ytt: |
+        #@yaml/text-templated-strings
+        overlay-replicas.yml: |
+          (@ if hasattr(data.values.params, "replicas"): @)
+          #@ load("@ytt:overlay", "overlay")
+          #@overlay/match by=overlay.subset({"kind":"Deployment"})
+          ---
+          spec:
+            #@overlay/match missing_ok=True
+            replicas: (@= data.values.params.replicas @)
+          (@ end @)
+        #@yaml/text-templated-strings
+        prefer-existing-replicas.yml: |
+          (@ if hasattr(data.values.params, "prefer_existing_replicas") and data.values.params.prefer_existing_replicas: @)
+          apiVersion: kapp.k14s.io/v1alpha1
+          kind: Config
+          rebaseRules:
+            - path: [spec, replicas]
+              type: copy
+              sources: [existing, new]
+              resourceMatchers:
+              - apiVersionKindMatcher:
+                  kind: Deployment
+                  apiVersion: apps/v1
+          (@ end @)
+    #@ end

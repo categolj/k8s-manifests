@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ootb-templates-overlay-probes
+  namespace: tap-install
+  annotations:
+    kapp.k14s.io/change-group: "tap-overlays"
+type: Opaque
+stringData:
+  overlay-probes.yml: |    
+    #@ load("@ytt:overlay", "overlay")
+    #@overlay/match by=overlay.subset({"kind":"ClusterConfigTemplate", "metadata": {"name": "convention-template"}})
+    ---
+    spec:
+      #@overlay/replace via=lambda left, right: left.replace("name: workload", "name: workload\n" + '\n'.join(['          {}'.format(x) for x in right.split('\n')]))
+      ytt: |
+                #@ if hasattr(data.values.params, "livenessProbe"):
+                livenessProbe: #@ data.values.params.livenessProbe
+                #@ end
+                #@ if hasattr(data.values.params, "readinessProbe"):
+                readinessProbe: #@ data.values.params.readinessProbe
+                #@ end

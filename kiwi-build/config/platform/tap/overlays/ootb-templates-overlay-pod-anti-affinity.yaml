@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ootb-templates-overlay-pod-anti-affinity
+  namespace: tap-install
+  annotations:
+    kapp.k14s.io/change-group: "tap-overlays"
+type: Opaque
+stringData:
+  overlay-pod-anti-affinity.yml: |
+    #@ load("@ytt:overlay", "overlay")
+    #@ load("@ytt:data", "data")
+    #@overlay/match by=overlay.subset({"kind":"ClusterConfigTemplate", "metadata": {"name": "server-template"}})
+    ---
+    spec:
+      #@overlay/replace via=lambda left, right: "{}\n{}".format(left, '\n'.join(['  {}'.format(x) for x in right.split('\n')]))
+      ytt: |
+        #@yaml/text-templated-strings
+        pod-anti-affinity.yml: |
+          (@ if hasattr(data.values.params, "replicas") and data.values.params.replicas > 1 : @)
+          #@ load("@ytt:overlay", "overlay")
+          #@overlay/match by=overlay.subset({"kind": "Deployment"})
+          ---
+          spec:
+            #@overlay/match-child-defaults missing_ok=True
+            template:
+              spec:
+                affinity:
+                  podAntiAffinity:
+                    requiredDuringSchedulingIgnoredDuringExecution:
+                    - labelSelector:
+                        matchExpressions:
+                        - key: carto.run/workload-name
+                          operator: In
+                          values:
+                          - (@= data.values.workload.metadata.name @)
+                        - key: app.kubernetes.io/component
+                          operator: In
+                          values:
+                          - run
+                      topologyKey: "kubernetes.io/hostname"
+          (@ end @)
