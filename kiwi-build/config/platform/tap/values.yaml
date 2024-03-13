@@ -86,6 +86,9 @@ stringData:
 
     springboot_conventions:
       autoConfigureActuators: true
+      livenessProbe:
+        initialDelaySeconds: 10
+        failureThreshold: 5
     
     namespace_provisioner:
       controller: false
