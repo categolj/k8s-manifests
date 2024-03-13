@@ -1,0 +1,31 @@
+apiVersion: kappctrl.k14s.io/v1alpha1
+kind: App
+metadata:
+  name: tap-repository
+  namespace: kapp
+  annotations:
+    kapp.k14s.io/change-group: "{name}"
+spec:
+  syncPeriod: 720h
+  serviceAccountName: kapp
+  fetch:
+  - git:
+      url: https://github.com/categolj/k8s-manifests.git
+      ref: origin/main
+      subPath: melon-run/config/platform
+  template:
+  - sops:
+      pgp:
+        privateKeysSecretRef:
+          name: pgp-key
+  - ytt:
+      paths:
+      - tap-repository
+      #! valuesFrom:
+      #! - path: credentials.yaml
+  deploy:
+  - kapp:
+      rawOptions:
+      - --wait-timeout=5m
+      - --diff-changes=false
+      - --diff-mask=true
