@@ -1,0 +1,29 @@
+apiVersion: packaging.carvel.dev/v1alpha1
+kind: PackageInstall
+metadata:
+  name: tap
+  namespace: tap-install
+  annotations:
+    tkg.tanzu.vmware.com/tanzu-package-ClusterRole: tap-tap-install-cluster-role
+    tkg.tanzu.vmware.com/tanzu-package-ClusterRoleBinding: tap-tap-install-cluster-rolebinding
+    tkg.tanzu.vmware.com/tanzu-package-Secret: tap-tap-install-values
+    tkg.tanzu.vmware.com/tanzu-package-ServiceAccount: tap-tap-install-sa
+    kapp.k14s.io/change-group: "{name}"
+    kapp.k14s.io/change-rule.create-order.1: "upsert after upserting tap-rbac"
+    kapp.k14s.io/change-rule.delete-order.1: "delete before deleting tap-rbac"
+    kapp.k14s.io/change-rule.create-order.2: "upsert after upserting tap-values"
+    kapp.k14s.io/change-rule.delete-order.2: "delete before deleting tap-values"
+    kapp.k14s.io/change-rule.create-order.3: "upsert after upserting tap-overlays"
+    kapp.k14s.io/change-rule.delete-order.3: "delete before deleting tap-overlays"
+    ext.packaging.carvel.dev/ytt-paths-from-secret-name.0: tap-add-tekton
+spec:
+  syncPeriod: 3h
+  serviceAccountName: tap-tap-install-sa
+  packageRef:
+    refName: tap.tanzu.vmware.com
+    versionSelection:
+      constraints: "> 0.0.0"
+      prereleases: { }
+  values:
+  - secretRef:
+      name: tap-tap-install-values

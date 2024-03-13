@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ootb-templates-overlay-kapp-options
+  namespace: tap-install
+  annotations:
+    kapp.k14s.io/change-group: "tap-overlays"
+type: Opaque
+stringData:
+  overlay-kapp-options.yml: |
+    #@ load("@ytt:overlay", "overlay")
+    #@ load("@ytt:data", "data")
+    #@ load("@ytt:json", "json")
+    
+    #@ def kapp_options():
+    rawOptions:
+    - "--diff-changes=true"
+    #@ end
+    
+    #@overlay/match by=overlay.subset({"kind":"ClusterDeploymentTemplate", "metadata": {"name": "app-deploy"}})
+    ---
+    spec:
+      #@overlay/replace via=lambda left, right: left.replace("kapp: {}", "kapp: " + json.encode(kapp_options()))
+      ytt: |

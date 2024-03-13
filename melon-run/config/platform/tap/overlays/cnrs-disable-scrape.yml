@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cnrs-disable-scrape
+  namespace: tap-install
+  annotations:
+    kapp.k14s.io/change-group: "tap-overlays"
+type: Opaque
+stringData:
+  cnrs-disable-scrape.yml: |
+    #@ load("@ytt:overlay", "overlay")
+    #@overlay/match by=overlay.subset({"kind":"Deployment","metadata":{"namespace": "knative-serving"}}),expects="1+"
+    ---
+    spec:
+      template:
+        #@overlay/match-child-defaults missing_ok=True
+        metadata:
+          annotations:
+            prometheus.io/scrape: 'false'
+            wavefront.com/scrape: 'false'

@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: tap-auth-deliverable-with-cronjob
+  namespace: tap-install
+  annotations:
+    kapp.k14s.io/change-group: "tap-overlays"
+type: Opaque
+stringData:
+  deliverable-with-cronjob.yml: |
+    #! https://docs.vmware.com/en/VMware-Tanzu-Application-Platform/1.4/tap/workloads-server.html#define-a-workload-type-that-exposes-server-workloads-outside-the-cluster-5
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRole
+    metadata:
+      name: deliverable-with-cronjob
+      labels:
+        apps.tanzu.vmware.com/aggregate-to-deliverable: "true"
+    rules:
+    - apiGroups:
+      - batch
+      resources:
+      - cronjobs
+      verbs:
+      - get
+      - list
+      - watch
+      - create
+      - patch
+      - update
+      - delete
+      - deletecollection

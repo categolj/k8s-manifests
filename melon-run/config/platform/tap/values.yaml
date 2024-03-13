@@ -1,0 +1,152 @@
+#@ load("@ytt:data", "data")
+apiVersion: v1
+kind: Secret
+metadata:
+  name: tap-tap-install-values
+  namespace: tap-install
+  annotations:
+    kapp.k14s.io/change-group: "tap-install-values"
+type: Opaque
+stringData:
+  #@yaml/text-templated-strings
+  tap-values.yml: |
+    ---
+    profile: run
+
+    ceip_policy_disclosed: true
+    
+    shared:
+      ingress_domain: run.melon.maki.lol
+      ingress_issuer: letsencrypt
+      activateAppLiveViewSecureAccessControl: true
+
+    contour:
+      infrastructure_provider: "vsphere"
+      contour:
+        replicas: 1
+        configFileContents:
+          accesslog-format: json
+          json-fields:
+          - "@timestamp"
+          - "authority"
+          - "bytes_received"
+          - "bytes_sent"
+          - "traceparent=%REQ(TRACEPARENT)%"
+          - "duration"
+          - "method"
+          - "path"
+          - "protocol"
+          - "referer=%REQ(REFERER)%"
+          - "request_id"
+          - "requested_server_name"
+          - "response_code"
+          - "upstream_cluster"
+          - "user_agent"
+          - "x_forwarded_for"
+      envoy:
+        workload:
+          type: Deployment
+          replicas: 1
+        service:
+          type: LoadBalancer
+          loadBalancerIP: 192.168.228.180
+
+    cnrs:
+      allow_manual_configmap_update: false
+      domain_template: "{{.Name}}-{{.Namespace}}.{{.Domain}}"
+      lite:
+        enable: true
+      pdb:
+        enable: false
+
+    cartographer:
+      cartographer:
+        resources:
+          requests:
+            cpu: 100m
+            memory: 200Mi
+
+    crossplane:
+      resourcesCrossplane:
+        requests:
+          cpu: 100m
+          memory: 200Mi
+      resourcesRBACManager:
+        requests:
+          cpu: 100m
+          memory: 200Mi
+
+    appliveview_connector:
+      backend:
+        ingressEnabled: true
+        host: appliveview.view.melon.maki.lol
+
+    api_auto_registration:
+      tap_gui_url: https://tap-gui.view.melon.maki.lol
+
+    amr:
+      observer:
+        auth:
+          kubernetes_service_accounts:
+            enable: true
+        cloudevent_handler:
+          endpoint: https://amr-cloudevent-handler.view.melon.maki.lol
+
+    namespace_provisioner:
+      controller: false
+      gitops_install:
+        url: https://github.com/categolj/k8s-manifests.git
+        ref: origin/main
+        subPath: common/namespaces
+      additional_sources:
+      - git:
+          url: https://github.com/categolj/k8s-manifests.git
+          ref: origin/main
+          subPath: common/namespace-provisioner/git
+        path: _ytt_lib/additional
+      import_data_values_secrets:
+      - name: workload-git-auth
+        namespace: tap-install
+        create_export: true
+      default_parameters:
+        skip_limit_range: true
+        supply_chain_service_account:
+          secrets:
+          - git-basic
+
+    package_overlays:
+    - name: cert-manager
+      secrets:
+      - name: cert-manager-disable-scrape
+    - name: contour
+      secrets:
+      - name: contour-default-tls
+      - name: contour-disable-scrape
+    - name: cnrs
+      secrets:
+      - name: cnrs-autocreate-cluster-domain-claims
+      - name: cnrs-disable-scrape
+    - name: fluxcd-source-controller
+      secrets:
+      - name: fluxcd-source-controller-disable-scrape
+    - name: tap-telemetry
+      secrets:
+      - name: tap-telemetry-remove
+    - name: tap-auth
+      secrets:
+      - name: tap-auth-deliverable-with-ingress
+      - name: tap-auth-deliverable-with-cronjob
+      - name: tap-auth-deliverable-with-pvc
+      - name: tap-auth-deliverable-with-pdb
+      - name: tap-auth-deliverable-with-tekton
+    - name: services-toolkit
+      secrets:
+      - name: services-toolkit-postgresql
+    - name: ootb-templates
+      secrets:
+      - name: ootb-templates-overlay-kapp-options
+    excluded_packages:
+    - policy.apps.tanzu.vmware.com
+    - image-policy-webhook.signing.apps.tanzu.vmware.com
+    - eventing.tanzu.vmware.com
+    - sso.apps.tanzu.vmware.com
