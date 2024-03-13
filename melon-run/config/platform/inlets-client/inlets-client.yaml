@@ -31,7 +31,7 @@ spec:
     spec:
       containers:
       - name: inlets-client
-        image: ghcr.io/making/inlets:2.7.6
+        image: ghcr.io/making/inlets@sha256:47b3f4e2b9375a4c951b61eeecba3d5d00747b6fa498a4da0fb710d2414e8e66
         command: [ "inlets" ]
         args:
         - client
