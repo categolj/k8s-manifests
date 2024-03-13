@@ -11,14 +11,14 @@ stringData:
   #@yaml/text-templated-strings
   recursive-nameservers.yml: |
     #@ load("@ytt:overlay", "overlay")
-    #@overlay/match by=overlay.subset({"kind":"Deployment","metadata":{"name":"cert-manager-controller"}})
+    #@overlay/match by=overlay.subset({"kind":"Deployment","metadata":{"name":"cert-manager"}})
     ---
     spec:
       template:
         spec:
           containers:
           #@overlay/match by="name"
-          - name: cert-manager
+          - name: cert-manager-controller
             args:
             #@overlay/append
             - --dns01-recursive-nameservers-only
