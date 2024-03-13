@@ -22,7 +22,7 @@ spec:
           name: pgp-key
   - ytt:
       paths:
-      - inlets-client.yml
+      - inlets-client.yaml
       valuesFrom:
       - path: credentials.yaml
   deploy:
