@@ -1,11 +1,15 @@
 #@ load("@ytt:data", "data")
 #@ load("@ytt:overlay", "overlay")
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: inlets
 ---
 apiVersion: v1
 kind: Secret
 metadata:
   name: inlets-token
-  namespace: gateway
+  namespace: inlets
 type: Opaque
 stringData:
   token: #@ data.values.inlets.token
@@ -14,7 +18,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: inlets-client
-  namespace: gateway
+  namespace: inlets
 spec:
   replicas: 1
   selector:
