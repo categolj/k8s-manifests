@@ -110,6 +110,14 @@ stringData:
               serviceAccountToken: (@= data.values.clusters.kiwi.run.service_account_token @) 
               skipTLSVerify: false
               caData: (@= data.values.clusters.kiwi.run.ca_data @)
+            - name: melon-run
+              url: (@= data.values.clusters.melon.run.url @)
+              authProvider: serviceAccount
+              #! kubectl -n tap-gui get secret tap-gui-viewer -otemplate='{{index .data "token" | base64decode}}' --context melon-run
+              serviceAccountToken: (@= data.values.clusters.melon.run.service_account_token @) 
+              skipTLSVerify: false
+              #! curl -s https://letsencrypt.org/certs/isrgrootx1.pem | base64
+              caData: (@= data.values.clusters.melon.run.ca_data @)
     appliveview:
       ingressEnabled: true
     
