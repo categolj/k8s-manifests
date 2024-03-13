@@ -1,0 +1,40 @@
+apiVersion: kappctrl.k14s.io/v1alpha1
+kind: App
+metadata:
+  name: prometheus-node-exporter
+  namespace: kapp
+  annotations:
+    kapp.k14s.io/change-group: "{name}"
+    kapp.k14s.io/disable-original: ""
+spec:
+  serviceAccountName: kapp
+  fetch:
+  - helmChart:
+      name: prometheus-node-exporter
+      version: 4.30.0
+      repository:
+        url: https://prometheus-community.github.io/helm-charts
+  - git:
+      url: https://github.com/categolj/k8s-manifests.git
+      ref: origin/main
+      subPath: melon-run
+  syncPeriod: 168h
+  template:
+  - sops:
+      pgp:
+        privateKeysSecretRef:
+          name: pgp-key
+  - helmTemplate:
+      path: "0"
+      name: prometheus-node-exporter
+      namespace: node-exporter
+      valuesFrom:
+      - path: 1/helm/platform/prometheus-node-exporter/helm-values.yaml
+  - ytt:
+      paths:
+      - "-"
+      - 1/config/platform/prometheus-node-exporter
+  deploy:
+  - kapp:
+      rawOptions:
+      - "--diff-changes=true"
