@@ -80,6 +80,10 @@ stringData:
       backend:
         ingressEnabled: true
         host: appliveview.view.melon.maki.lol
+      connector:
+        deployment:
+          enabled: true
+          replicas: 1
 
     api_auto_registration:
       tap_gui_url: https://tap-gui.view.melon.maki.lol

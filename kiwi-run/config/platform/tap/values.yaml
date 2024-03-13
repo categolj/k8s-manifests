@@ -71,6 +71,10 @@ stringData:
       backend:
         ingressEnabled: true
         host: appliveview.view.kiwi.maki.lol
+      connector:
+        deployment:
+          enabled: true
+          replicas: 1
 
     api_auto_registration:
       tap_gui_url: https://tap-gui.view.kiwi.maki.lol
