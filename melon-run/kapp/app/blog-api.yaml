@@ -24,10 +24,7 @@ spec:
       paths:
       - deliverable.yaml
       - blog-config.yaml
-      - httpproxy.yaml
       - otel-config.yaml
-      - backup-db.yaml
-      - backup-s3.yaml
       valuesFrom:
       - path: credentials.yaml
   deploy:
