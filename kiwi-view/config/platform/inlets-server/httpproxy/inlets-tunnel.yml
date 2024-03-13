@@ -1,0 +1,30 @@
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
+metadata:
+  name: inlets
+  namespace: inlets
+spec:
+  virtualhost:
+    fqdn: inlets.view.kiwi.maki.lol
+    tls:
+      secretName: inlets-tls
+  routes:
+  - conditions:
+    - prefix: /tunnel
+    enableWebsockets: true
+    services:
+    - name: inlets-exit
+      port: 6868
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: inlets
+  namespace: inlets
+spec:
+  secretName: inlets-tls
+  issuerRef:
+    name: letsencrypt
+    kind: ClusterIssuer
+  dnsNames:
+  - inlets.view.kiwi.maki.lol
