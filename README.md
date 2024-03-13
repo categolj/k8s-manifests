@@ -16,7 +16,7 @@ NAMESPACE=kapp
 kubectl create ns ${NAMESPACE}
 kubectl create -n ${NAMESPACE} sa kapp
 kubectl create clusterrolebinding kapp-cluster-admin-${NAMESPACE} --clusterrole cluster-admin --serviceaccount=${NAMESPACE}:kapp
-kubectl create secret generic -n ${NAMESPACE} github --from-file=ssh-privatekey=$HOME/.ssh/kapp-controller --dry-run=client -oyaml | kubectl apply -f-
+kubectl create secret generic -n ${NAMESPACE} github --from-file=ssh-privatekey=$HOME/.ssh/id_rsa --dry-run=client -oyaml | kubectl apply -f-
 kubectl create secret generic -n ${NAMESPACE} pgp-key --from-file=$HOME/.gnupg/my.pk --dry-run=client -oyaml | kubectl apply -f-
 ```
 
