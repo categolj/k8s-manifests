@@ -135,6 +135,7 @@ stringData:
     - name: cnrs
       secrets:
       - name: cnrs-autocreate-cluster-domain-claims
+      - name: cnrs-gc
       - name: cnrs-disable-scrape
       - name: cnrs-crac-features
       #! - name: cnrs-tracing
