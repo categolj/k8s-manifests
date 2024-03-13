@@ -80,14 +80,14 @@ stringData:
     appliveview_connector:
       backend:
         ingressEnabled: true
-        host: appliveview.view.melon.maki.lol
+        host: appliveview.view.kiwi.maki.lol
       connector:
         deployment:
           enabled: true
           replicas: 1
 
     api_auto_registration:
-      tap_gui_url: https://tap-gui.view.melon.maki.lol
+      tap_gui_url: https://tap-gui.view.kiwi.maki.lol
 
     amr:
       observer:
@@ -95,7 +95,7 @@ stringData:
           kubernetes_service_accounts:
             enable: true
         cloudevent_handler:
-          endpoint: https://amr-cloudevent-handler.view.melon.maki.lol
+          endpoint: https://amr-cloudevent-handler.view.kiwi.maki.lol
 
     namespace_provisioner:
       controller: false
