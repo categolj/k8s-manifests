@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cnrs-gc
+  namespace: tap-install
+type: Opaque
+stringData:
+  cnrs-gc.yaml: |
+    #@ load("@ytt:overlay", "overlay")
+    #@overlay/match by=overlay.subset({"metadata":{"name":"config-gc"}, "kind": "ConfigMap"})
+    ---
+    data:
+      #@overlay/match missing_ok=True
+      min-non-active-revisions: "0"
+      #@overlay/match missing_ok=True
+      max-non-active-revisions: "0"
+      #@overlay/match missing_ok=True
+      retain-since-create-time: "disabled"
+      #@overlay/match missing_ok=True
+      retain-since-last-active-time: "disabled"
