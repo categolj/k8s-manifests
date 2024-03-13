@@ -11,7 +11,7 @@ stringData:
   #@yaml/text-templated-strings
   recursive-nameservers.yml: |
     #@ load("@ytt:overlay", "overlay")
-    #@overlay/match by=overlay.subset({"kind":"Deployment","metadata":{"name":"cert-manager"}})
+    #@overlay/match by=overlay.subset({"kind":"Deployment","metadata":{"name":"cert-manager-controller"}})
     ---
     spec:
       template:
