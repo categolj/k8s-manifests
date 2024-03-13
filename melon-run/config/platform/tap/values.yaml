@@ -67,6 +67,7 @@ stringData:
             memory: 200Mi
 
     crossplane:
+      orphan_resources: false
       resourcesCrossplane:
         requests:
           cpu: 100m
