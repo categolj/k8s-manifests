@@ -122,6 +122,7 @@ stringData:
     - name: cert-manager
       secrets:
       - name: cert-manager-disable-scrape
+      - name: cert-manager-recursive-nameservers
     - name: contour
       secrets:
       - name: contour-default-tls
