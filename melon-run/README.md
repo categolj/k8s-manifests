@@ -4,33 +4,6 @@ kind get kubeconfig --name melon-run | sed 's/kind-melon-run/melon-run/g' > ~/.k
 ```
 
 ```
-kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.14.3/config/manifests/metallb-native.yaml
-kubectl wait --namespace metallb-system \
-             --for=condition=ready pod \
-             --selector=app=metallb \
-             --timeout=90s
-```
-
-```
-kubectl apply -f- << EOF
-apiVersion: metallb.io/v1beta1
-kind: IPAddressPool
-metadata:
-  name: example
-  namespace: metallb-system
-spec:
-  addresses:
-  - 192.168.228.180-192.168.228.189
----
-apiVersion: metallb.io/v1beta1
-kind: L2Advertisement
-metadata:
-  name: empty
-  namespace: metallb-system
-EOF
-```
-
-```
 pivnet download-product-files --product-slug='tanzu-cluster-essentials' --release-version='1.8.0' --glob='tanzu-cluster-essentials-darwin-amd64-*'
 
 TANZUNET_USERNAME=...
@@ -60,7 +33,6 @@ kubectl create secret generic -n ${NAMESPACE} pgp-key --from-file=$HOME/.gnupg/m
 ```
 kubectl apply -f ~/git/k8s-manifests/melon-run/kapp/apps.yaml
 ```
-
 
 ```
 cat <<EOF > ~/git/k8s-manifests/melon-run/docker-compose.yaml
