@@ -22,7 +22,7 @@ collectors:
 - pods
 - replicasets
 #! - replicationcontrollers
-#! - resourcequotas
+- resourcequotas
 - secrets
 - services
 - statefulsets
