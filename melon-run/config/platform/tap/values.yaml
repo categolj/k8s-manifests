@@ -26,10 +26,10 @@ stringData:
         replicas: 1
         configFileContents:
           accesslog-format: json
-          tracing:
-            includePodDetail: false
-            extensionService: opentelemetry/otel-collector
-            serviceName: envoy-dev
+          #! tracing:
+          #!   includePodDetail: false
+          #!   extensionService: opentelemetry/otel-collector
+          #!   serviceName: envoy-dev
           json-fields:
           - "@timestamp"
           - "authority"
