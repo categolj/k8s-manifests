@@ -21,6 +21,7 @@ stringData:
         name: kp-default-repository
         namespace: tap-install
       exclude_dependencies: true
+      generate_slsa_attestation: true
 
     supply_chain: testing_scanning
     
