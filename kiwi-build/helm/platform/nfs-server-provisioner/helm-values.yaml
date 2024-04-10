@@ -1,6 +1,6 @@
 persistence:
   enabled: true
-  size: 10Gi
+  size: 30Gi
   storageClass: vultr-block-storage
 storageClass:
   defaultClass: true
