@@ -188,6 +188,11 @@ spec:
         endpoint: (@= data.values.grafala_cloud_otlp.url @)
         auth:
           authenticator: basicauth/grafana_cloud
+      otlphttp/hdx:
+        endpoint: https://in-otel.hyperdx.io
+        headers:
+          authorization: (@= data.values.hyperdx.api_key @)
+        compression: gzip
       prometheusremotewrite:
         endpoint: (@= data.values.prometheus.url @)
         auth:
@@ -224,7 +229,7 @@ spec:
           - batch
           exporters:
           - otlphttp/grafana_cloud
-          #! - logzio/traces
+          - otlphttp/hdx
         logs/k8s_events:
           receivers:
           - k8s_events
@@ -234,6 +239,7 @@ spec:
           - attributes/loki
           exporters:
           - otlphttp/grafana_cloud
+          - otlphttp/hdx
         metrics:
           receivers:
           - prometheus
@@ -242,4 +248,4 @@ spec:
           - attributes
           exporters:
           - prometheusremotewrite
-          #! - prometheusremotewrite/logzio
+          - otlphttp/hdx
