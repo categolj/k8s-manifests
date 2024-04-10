@@ -224,7 +224,7 @@ spec:
           - batch
           exporters:
           - otlphttp/grafana_cloud
-          - logzio/traces
+          #! - logzio/traces
         logs/k8s_events:
           receivers:
           - k8s_events
@@ -242,4 +242,4 @@ spec:
           - attributes
           exporters:
           - prometheusremotewrite
-          - prometheusremotewrite/logzio
+          #! - prometheusremotewrite/logzio
