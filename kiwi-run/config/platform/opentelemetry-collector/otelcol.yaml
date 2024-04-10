@@ -196,6 +196,9 @@ spec:
           insecure_skip_verify: true
       zipkin:
         endpoint: (@= data.values.zipkin.url @)
+      logzio/traces:
+        account_token: (@= data.values.logzio.tracing.token @)
+        region: (@= data.values.logzio.region @)
       debug:
         verbosity: detailed
         sampling_initial: 5
@@ -215,6 +218,7 @@ spec:
           - batch
           exporters:
           - otlphttp/grafana_cloud
+          - logzio/traces
         logs/k8s_events:
           receivers:
           - k8s_events
