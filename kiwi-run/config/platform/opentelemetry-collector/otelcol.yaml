@@ -248,4 +248,3 @@ spec:
           - attributes
           exporters:
           - prometheusremotewrite
-          - otlphttp/hdx
