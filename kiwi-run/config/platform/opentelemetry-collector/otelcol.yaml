@@ -194,7 +194,7 @@ spec:
           authorization: (@= data.values.hyperdx.api_key @)
         compression: gzip
       otlp/oneuptime:
-        endpoint: https://otlp.oneuptime.com
+        endpoint: https://otlp.oneuptime.com:443
         headers:
           x-oneuptime-service-token: (@= data.values.oneuptime.token @)
       prometheusremotewrite:
