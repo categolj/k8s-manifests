@@ -19,6 +19,10 @@ spec:
         client_auth:
           username: (@= str(data.values.prometheus.username) @)
           password: (@= data.values.prometheus.password @)
+      basicauth/openobserve:
+        client_auth:
+          username: (@= str(data.values.openobserve.username) @)
+          password: (@= data.values.openobserve.password @)
     receivers:
       otlp:
         protocols:
@@ -188,6 +192,10 @@ spec:
         endpoint: (@= data.values.grafala_cloud_otlp.url @)
         auth:
           authenticator: basicauth/grafana_cloud
+      otlphttp/openobserve:
+        endpoint: (@= data.values.openobserve.url @)
+        auth:
+          authenticator: basicauth/openobserve
       otlphttp/hdx:
         endpoint: https://in-otel.hyperdx.io
         headers:
@@ -222,6 +230,7 @@ spec:
       extensions:
       - basicauth/grafana_cloud
       - basicauth/prometheus
+      - basicauth/openobserve
       pipelines:
         traces:
           receivers:
@@ -234,6 +243,7 @@ spec:
           exporters:
           - otlphttp/grafana_cloud
           - otlphttp/hdx
+          - otlphttp/openobserve
         logs/k8s_events:
           receivers:
           - k8s_events
@@ -243,7 +253,7 @@ spec:
           - attributes/loki
           exporters:
           - otlphttp/grafana_cloud
-          - otlphttp/hdx
+          - otlphttp/openobserve
         metrics:
           receivers:
           - prometheus
