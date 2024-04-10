@@ -194,6 +194,12 @@ spec:
           authenticator: basicauth/prometheus
         tls:
           insecure_skip_verify: true
+      prometheusremotewrite/logzio:
+        endpoint: https://(@= data.values.logzio.listener @):8053
+        headers:
+          Authorization: Bearer (@= data.values.logzio.metrics.token @)
+        target_info:
+            enabled: false
       zipkin:
         endpoint: (@= data.values.zipkin.url @)
       logzio/traces:
@@ -236,3 +242,4 @@ spec:
           - attributes
           exporters:
           - prometheusremotewrite
+          - prometheusremotewrite/logzio
