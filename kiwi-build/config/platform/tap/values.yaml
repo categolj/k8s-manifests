@@ -31,6 +31,9 @@ stringData:
 
     ootb_supply_chain_testing_scanning:
       image_scanner_template_name: image-vulnerability-scan-trivy
+      scanning:
+        workspace:
+          size: 1.5Gi
       supported_workloads:
       - type: web
         cluster_config_template_name: config-template
