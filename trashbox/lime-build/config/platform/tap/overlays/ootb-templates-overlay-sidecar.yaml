@@ -7,12 +7,12 @@ metadata:
     kapp.k14s.io/change-group: "tap-overlays"
 type: Opaque
 stringData:
-  overlay-sidecar.yml: |    
+  overlay-sidecar.yml: |
     #@ load("@ytt:overlay", "overlay")
     #@overlay/match by=overlay.subset({"kind":"ClusterConfigTemplate", "metadata": {"name": "convention-template"}})
     ---
     spec:
-      #@overlay/replace via=lambda left, right: left + '        #@ if hasattr(data.values.params, "sidecar") and data.values.params.sidecar:\n        - name: sidecar\n' + '\n'.join(['          {}'.format(x) for x in right.split('\n')])+ '#@ end'
+      #@overlay/replace via=lambda left, right: left + '          #@ if/end hasattr(data.values.params, "sidecar") and data.values.params.sidecar:\n          ports: [{"containerPort":8080,"protocol":"TCP"}]\n' + '        #@ if hasattr(data.values.params, "sidecar") and data.values.params.sidecar:\n        - name: sidecar\n' + '\n'.join(['          {}'.format(x) for x in right.split('\n')])+ '\n        #@ end'
       ytt: |
                 image: busybox
                 command: ["sh","-c","while true; do date; sleep 30; done"]
