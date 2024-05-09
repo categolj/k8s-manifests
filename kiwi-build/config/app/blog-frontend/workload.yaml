@@ -22,7 +22,7 @@ spec:
   - name: JAVA_TOOL_OPTIONS
     value: "-XX:ActiveProcessorCount=2 -XX:ReservedCodeCacheSize=32M -Xss512k -Duser.timezone=Asia/Tokyo -Duser.language=ja -Duser.country=JP -Dfile.encoding=UTF-8"
   - name: BPL_JVM_THREAD_COUNT
-    value: "50"
+    value: "28"
   - name: INFO_ENV_HOSTNAME
     value: "${HOSTNAME:}"
   - name: INFO_ENV_K_SERVICE
@@ -39,6 +39,8 @@ spec:
     value: https://wws.fly.dev/counter
   - name: MANAGEMENT_OTLP_TRACING_ENDPOINT
     value: http://otel-collector.opentelemetry.svc.cluster.local:4318/v1/traces
+  - name: SPRING_THREADS_VIRTUAL_ENABLED
+    value: "true"
   params:
   - name: testing_pipeline_matching_labels
     value:
