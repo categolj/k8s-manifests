@@ -13,7 +13,7 @@ spec:
     requestHeadersPolicy:
       set:
       - name: Host
-        value: blog-ui.blog.svc.cluster.local
+        value: blog-frontend.blog.svc.cluster.local
     retryPolicy:
       count: 2
       retryOn:
@@ -24,7 +24,7 @@ spec:
       - retriable-status-codes
       - reset
     services:
-    - name: blog-ui
+    - name: blog-frontend
       port: 80
       protocol: h2c
       requestHeadersPolicy:
