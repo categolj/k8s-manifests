@@ -39,9 +39,11 @@ spec:
     value: https://wws.fly.dev/counter
   - name: MANAGEMENT_OTLP_TRACING_ENDPOINT
     value: http://otel-collector.opentelemetry.svc.cluster.local:4318/v1/traces
-  - name: SPRING_THREADS_VIRTUAL_ENABLED
-    value: "true"
+  #! - name: SPRING_THREADS_VIRTUAL_ENABLED
+  #!   value: "true"
   params:
+  - name: clusterBuilder
+    value: graalvm-base-jammy
   - name: testing_pipeline_matching_labels
     value:
       apps.tanzu.vmware.com/language: java
