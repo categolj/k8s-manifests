@@ -43,6 +43,9 @@ spec:
         - mountPath: /opt/maven
           name: settings-xml
           readOnly: true
+        env:
+        - name: JAVA_TOOL_OPTIONS
+          value: "-XX:ActiveProcessorCount=1"
         script: |-
           set -ex
           cd `mktemp -d`
