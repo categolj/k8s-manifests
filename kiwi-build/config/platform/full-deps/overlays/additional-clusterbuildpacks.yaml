@@ -1,0 +1,82 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: additional-clusterbuildpacks
+  namespace: tap-install
+  annotations:
+    kapp.k14s.io/change-group: "full-deps-overlays"
+type: Opaque
+stringData:
+  clusterbuildpacks.yml: |
+    apiVersion: kpack.io/v1alpha2
+    kind: ClusterBuildpack
+    metadata:
+      name: graalvm-8.3.8
+    spec:
+      image: gcr.io/paketo-buildpacks/graalvm:8.3.8
+      serviceAccountRef:
+        name: dependencies-pull-serviceaccount
+        namespace: tbs-full-deps
+    ---
+    apiVersion: kpack.io/v1alpha2
+    kind: ClusterBuildpack
+    metadata:
+      name: rust-0.49.0
+    spec:
+      image: paketocommunity/rust:0.49.0
+      serviceAccountRef:
+        name: dependencies-pull-serviceaccount
+        namespace: tbs-full-deps
+  clusterbuilders.yaml: |
+    apiVersion: kpack.io/v1alpha2
+    kind: ClusterBuilder
+    metadata:
+      name: graalvm-base-jammy
+    spec:
+      order:
+      - group:
+        - id: paketo-buildpacks/graalvm
+        - id: tanzu-buildpacks/java
+      serviceAccountRef:
+        name: kp-default-repository-serviceaccount
+        namespace: kpack
+      stack:
+        kind: ClusterStack
+        name: base-jammy
+      tag: ghcr.io/making/build-service:graalvm-base-jammy-builder
+    ---
+    apiVersion: kpack.io/v1alpha2
+    kind: ClusterBuilder
+    metadata:
+      name: rust-base-jammy
+    spec:
+      order:
+      - group:
+        - id: paketo-community/rust
+      - group:
+        - id: paketo-buildpacks/procfile
+      serviceAccountRef:
+        name: kp-default-repository-serviceaccount
+        namespace: kpack
+      stack:
+        kind: ClusterStack
+        name: base-jammy
+      tag: ghcr.io/making/build-service:rust-base-jammy-builder
+    ---
+    apiVersion: kpack.io/v1alpha2
+    kind: ClusterBuilder
+    metadata:
+      name: rust-tiny-jammy
+    spec:
+      order:
+      - group:
+        - id: paketo-community/rust
+      - group:
+        - id: paketo-buildpacks/procfile
+      serviceAccountRef:
+        name: kp-default-repository-serviceaccount
+        namespace: kpack
+      stack:
+        kind: ClusterStack
+        name: tiny-jammy
+      tag: ghcr.io/making/build-service:rust-tiny-jammy-builder
