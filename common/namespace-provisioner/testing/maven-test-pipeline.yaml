@@ -22,6 +22,9 @@ spec:
       - name: settings-xml
         secret:
           secretName: settings-xml
+      - name: npmrc
+        secret:
+          secretName: npmrc
       params:
       - name: source-url
       - name: source-revision
