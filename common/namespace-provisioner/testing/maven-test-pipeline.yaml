@@ -11,6 +11,12 @@ spec:
   - name: source-url
   - name: source-revision
   tasks:
+  - name: license-finder
+    params:
+    - name: source-url
+      value: $(params.source-url)
+    taskRef:
+      name: license-finder
   - name: test
     params:
     - name: source-url
