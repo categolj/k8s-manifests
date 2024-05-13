@@ -1,11 +1,11 @@
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: maven-test-pipeline
+  name: maven-dind-pipeline
   labels:
     apps.tanzu.vmware.com/pipeline: test
     apps.tanzu.vmware.com/language: java
-    apps.tanzu.vmware.com/dind: "false"
+    apps.tanzu.vmware.com/dind: "true"
 spec:
   params:
   - name: source-url
@@ -19,16 +19,28 @@ spec:
       value: $(params.source-revision)
     taskSpec:
       volumes:
+      - name: dind-socket
+        emptyDir: { }
       - name: settings-xml
         secret:
           secretName: settings-xml
       params:
       - name: source-url
       - name: source-revision
+      sidecars:
+      - name: docker
+        image: docker:20.10-dind
+        securityContext:
+          privileged: true
+        volumeMounts:
+        - mountPath: /var/run/
+          name: dind-socket
       steps:
       - name: test
         image: bellsoft/liberica-openjdk-debian:21
         volumeMounts:
+        - mountPath: /var/run/
+          name: dind-socket
         - mountPath: /opt/maven
           name: settings-xml
           readOnly: true
