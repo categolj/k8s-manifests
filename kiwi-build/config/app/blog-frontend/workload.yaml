@@ -45,6 +45,7 @@ spec:
   - name: testing_pipeline_matching_labels
     value:
       apps.tanzu.vmware.com/language: java
+      apps.tanzu.vmware.com/dind: "false"
   - name: annotations
     value:
       autoscaling.knative.dev/minScale: "1"
