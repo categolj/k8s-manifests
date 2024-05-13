@@ -212,7 +212,7 @@ spec:
       zipkin:
         endpoint: (@= data.values.zipkin.url @)/api/v2/spans
         tls:
-          insecure: (@= data.values.zipkin.tls.insecure @)
+          insecure: (@= data.values.zipkin.insecure @)
       debug:
         verbosity: detailed
         sampling_initial: 5
