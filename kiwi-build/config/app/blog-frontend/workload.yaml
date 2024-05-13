@@ -56,7 +56,11 @@ spec:
   - name: buildServiceBindings
     value:
     - kind: Secret
+      apiVersion: v1
       name: settings-xml
+    - kind: Secret
+      apiVersion: v1
+      name: npmrc
   - name: scanning_image_policy
     value: spring-boot
   resources:
