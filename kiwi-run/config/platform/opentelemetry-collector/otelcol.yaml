@@ -244,7 +244,7 @@ spec:
           exporters:
           - otlphttp/grafana_cloud
           - otlphttp/hdx
-          - otlphttp/openobserve
+          #! - otlphttp/openobserve
         logs/k8s_events:
           receivers:
           - k8s_events
@@ -254,7 +254,7 @@ spec:
           - attributes/loki
           exporters:
           - otlphttp/grafana_cloud
-          - otlphttp/openobserve
+          #! - otlphttp/openobserve
         metrics:
           receivers:
           - prometheus
