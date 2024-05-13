@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: npmrc
+type: service.binding/npmrc
+stringData:
+  type: npmrc
+  .npmrc: |
+    registry=http://verdaccio.verdaccio.svc.cluster.local:4873
+    loglevel=warn
+    save-exact=true
