@@ -159,6 +159,7 @@ spec:
           - IsMatch(attributes["upstream_cluster"], "tap-gui/.*")
           - IsMatch(attributes["upstream_cluster"], "appsso/.*")
           - IsMatch(attributes["http.url"], "https://grafana.*")
+          - IsMatch(attributes["http.url"], "https://zipkin.*")
           - IsMatch(attributes["http.url"], ".*/livez")
           - IsMatch(attributes["http.url"], ".*/readyz")
           - IsMatch(attributes["http.url"], ".*/aboutme")
@@ -202,27 +203,16 @@ spec:
         headers:
           authorization: (@= data.values.hyperdx.api_key @)
         compression: gzip
-      otlp/oneuptime:
-        endpoint: https://otlp.oneuptime.com:443
-        headers:
-          x-oneuptime-service-token: (@= data.values.oneuptime.token @)
       prometheusremotewrite:
         endpoint: (@= data.values.prometheus.url @)
         auth:
           authenticator: basicauth/prometheus
         tls:
           insecure_skip_verify: true
-      prometheusremotewrite/logzio:
-        endpoint: https://(@= data.values.logzio.listener @):8053
-        headers:
-          Authorization: Bearer (@= data.values.logzio.metrics.token @)
-        target_info:
-            enabled: false
       zipkin:
-        endpoint: (@= data.values.zipkin.url @)
-      logzio/traces:
-        account_token: (@= data.values.logzio.tracing.token @)
-        region: (@= data.values.logzio.region @)
+        endpoint: (@= data.values.zipkin.url @)/api/v2/spans
+        tls:
+          insecure: (@= data.values.zipkin.tls.insecure @)
       debug:
         verbosity: detailed
         sampling_initial: 5
@@ -231,7 +221,7 @@ spec:
       extensions:
       - basicauth/grafana_cloud
       - basicauth/prometheus
-      - basicauth/openobserve
+      #! - basicauth/openobserve
       pipelines:
         traces:
           receivers:
@@ -244,6 +234,7 @@ spec:
           exporters:
           - otlphttp/grafana_cloud
           - otlphttp/hdx
+          - zipkin
           #! - otlphttp/openobserve
         logs/k8s_events:
           receivers:
