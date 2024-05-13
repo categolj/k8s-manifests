@@ -32,16 +32,15 @@ spec:
         - mountPath: /opt/maven
           name: settings-xml
           readOnly: true
+        - mountPath: /opt/npmrc
+          name: npmrc
+          readOnly: true
         env:
         - name: JAVA_TOOL_OPTIONS
           value: "-XX:ActiveProcessorCount=1"
-        - name: WORKLOAD_NAME
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.labels['carto.run/workload-name']
         script: |-
           set -ex
-          echo ${WORKLOAD_NAME}
           cd `mktemp -d`
           curl -s $(params.source-url) | tar -m -xzf -
+          ln -s /opt/npmrc/.npmrc ${HOME}/.npmrc
           ./mvnw clean test -V -s /opt/maven/settings.xml --no-transfer-progress
