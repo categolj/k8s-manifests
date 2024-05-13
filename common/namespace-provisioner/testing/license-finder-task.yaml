@@ -12,4 +12,4 @@ spec:
       set -ex
       cd `mktemp -d`
       curl -s $(params.source-url) | tar -m -xzf -
-      /LicenseFinder/bin/license_finder
+      license_finder
