@@ -18,6 +18,10 @@ spec:
       value: "true"
     - name: BP_MAVEN_ADDITIONAL_BUILD_ARGUMENTS
       value: "-V -U"
+    - name: BP_JAVA_INSTALL_NODE
+      value: "true"
+    - name: BP_NODE_PROJECT_PATH
+      value: "ui"
   env:
   - name: JAVA_TOOL_OPTIONS
     value: "-XX:+UnlockExperimentalVMOptions -XX:+EnableJVMCI -XX:ActiveProcessorCount=2 -XX:ReservedCodeCacheSize=32M -Xss512k -Duser.timezone=Asia/Tokyo -Duser.language=ja -Duser.country=JP -Dfile.encoding=UTF-8"
