@@ -159,7 +159,7 @@ spec:
           - IsMatch(attributes["upstream_cluster"], "tap-gui/.*")
           - IsMatch(attributes["upstream_cluster"], "appsso/.*")
           - IsMatch(attributes["http.url"], "https://grafana.*")
-          - IsMatch(attributes["http.url"], "https://zipkin.*")
+          - IsMatch(attributes["http.url"], ".*://zipkin.*")
           - IsMatch(attributes["http.url"], ".*/livez")
           - IsMatch(attributes["http.url"], ".*/readyz")
           - IsMatch(attributes["http.url"], ".*/aboutme")
