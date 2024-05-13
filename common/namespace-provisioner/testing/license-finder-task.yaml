@@ -10,7 +10,6 @@ spec:
     name: license-finder
     script: |
       set -ex
-      . ~/.profile
       cd `mktemp -d`
       curl -s $(params.source-url) | tar -m -xzf -
       /LicenseFinder/bin/license_finder
