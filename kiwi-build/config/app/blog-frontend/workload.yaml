@@ -36,7 +36,7 @@ spec:
   - name: NOTEAPI_URL
     value: http://note-api.note.svc.cluster.local
   - name: COUNTERAPI_URL
-    value: https://wws.fly.dev/counter
+    value: http://counter-api.blog.svc.cluster.local/counter
   - name: MANAGEMENT_OTLP_TRACING_ENDPOINT
     value: http://otel-collector.opentelemetry.svc.cluster.local:4318/v1/traces
   - name: SPRING_THREADS_VIRTUAL_ENABLED
