@@ -18,6 +18,9 @@ spec:
   - name: testing_pipeline_matching_labels
     value:
       apps.tanzu.vmware.com/language: skip
+  - name: annotations
+    value:
+      autoscaling.knative.dev/window: 3m
   env:
   - name: RUST_LOG
     value: info
