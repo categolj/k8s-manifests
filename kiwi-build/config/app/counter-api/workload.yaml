@@ -1,0 +1,30 @@
+---
+apiVersion: carto.run/v1alpha1
+kind: Workload
+metadata:
+  labels:
+    app.kubernetes.io/part-of: counter-api
+    apps.tanzu.vmware.com/has-tests: "true"
+    apps.tanzu.vmware.com/workload-type: web
+  name: counter-api
+  namespace: blog
+spec:
+  params:
+  - name: dockerfile
+    value: Dockerfile
+  - name: testing_pipeline_matching_labels
+    value:
+      apps.tanzu.vmware.com/language: skip
+  env:
+  - name: RUST_LOG
+    value: info
+  - name: DATABASE_URL
+    valueFrom:
+      secretKeyRef:
+        name: counter-config
+        key: database-url
+  source:
+    git:
+      ref:
+        branch: main
+      url: https://github.com/categolj/counter-api
