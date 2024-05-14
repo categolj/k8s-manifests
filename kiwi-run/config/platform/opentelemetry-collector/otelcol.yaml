@@ -239,6 +239,7 @@ spec:
           exporters:
           - otlphttp/grafana_cloud
           - otlphttp/hdx
+          - otlp/uptrace
           - zipkin
           #! - otlphttp/openobserve
         logs/k8s_events:
