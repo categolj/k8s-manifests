@@ -148,7 +148,7 @@ spec:
           #!   bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
     processors:
       filter:
-        # https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/processor/filterprocessor
+        #! https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/processor/filterprocessor
         error_mode: ignore
         traces:
           span:
