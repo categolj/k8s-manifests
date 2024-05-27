@@ -8,27 +8,26 @@ metadata:
   namespace: opentelemetry
 spec:
   image: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.101.0
-  #@yaml/text-templated-strings
-  config: |
+  config:
     extensions:
       basicauth/grafana_cloud:
         client_auth:
-          username: (@= str(data.values.grafala_cloud_otlp.username) @)
-          password: (@= data.values.grafala_cloud_otlp.password @)
+          username: #@ str(data.values.grafala_cloud_otlp.username)
+          password: #@ data.values.grafala_cloud_otlp.password
       basicauth/prometheus:
         client_auth:
-          username: (@= str(data.values.prometheus.username) @)
-          password: (@= data.values.prometheus.password @)
+          username: #@ str(data.values.prometheus.username)
+          password: #@ data.values.prometheus.password
       basicauth/openobserve:
         client_auth:
-          username: (@= str(data.values.openobserve.username) @)
-          password: (@= data.values.openobserve.password @)
+          username: #@ str(data.values.openobserve.username)
+          password: #@ data.values.openobserve.password
     receivers:
       otlp:
         protocols:
-          grpc: {}
-          http: {}
-      zipkin: {}
+          grpc: { }
+          http: { }
+      zipkin: { }
       k8s_events:
         auth_type: serviceAccount
       prometheus:
@@ -176,7 +175,7 @@ spec:
       attributes:
         actions:
         - key: cluster
-          value: (@= data.values.cluster.name @)
+          value: #@ data.values.cluster.name
           action: upsert
       attributes/loki:
         actions:
@@ -189,39 +188,39 @@ spec:
       batch:
         send_batch_size: 10000
         timeout: 10s
-    exporters: 
+    exporters:
       otlphttp/grafana_cloud:
-        endpoint: (@= data.values.grafala_cloud_otlp.url @)
+        endpoint: #@ data.values.grafala_cloud_otlp.url
         auth:
           authenticator: basicauth/grafana_cloud
       otlphttp/openobserve:
-        endpoint: (@= data.values.openobserve.url @)
+        endpoint: #@ data.values.openobserve.url
         auth:
           authenticator: basicauth/openobserve
       otlphttp/hdx:
         endpoint: https://in-otel.hyperdx.io
         headers:
-          authorization: (@= data.values.hyperdx.api_key @)
+          authorization: #@ data.values.hyperdx.api_key
         compression: gzip
       otlp/uptrace:
         endpoint: https://otlp.uptrace.dev:4317
         tls: { insecure: false }
         headers:
-          uptrace-dsn: (@= data.values.uptrace.uptrace_dsn @)
+          uptrace-dsn: #@ data.values.uptrace.uptrace_dsn
       otlphttp/lognroll:
         endpoint: https://lognroll.fly.dev
         headers:
           authorization: Bearer changeme
       prometheusremotewrite:
-        endpoint: (@= data.values.prometheus.url @)
+        endpoint: #@ data.values.prometheus.url
         auth:
           authenticator: basicauth/prometheus
         tls:
           insecure_skip_verify: true
       zipkin:
-        endpoint: (@= data.values.zipkin.url @)/api/v2/spans
+        endpoint: #@ data.values.zipkin.url + '/api/v2/spans'
         tls:
-          insecure: (@= str(data.values.zipkin.tls.insecure) @)
+          insecure: #@ str(data.values.zipkin.tls.insecure)
       debug:
         verbosity: detailed
         sampling_initial: 5
