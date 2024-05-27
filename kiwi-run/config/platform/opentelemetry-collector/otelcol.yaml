@@ -208,6 +208,10 @@ spec:
         tls: { insecure: false }
         headers:
           uptrace-dsn: (@= data.values.uptrace.uptrace_dsn @)
+      otlphttp/lognroll:
+        endpoint: https://lognroll.fly.dev
+        headers:
+          authorization: Bearer changeme
       prometheusremotewrite:
         endpoint: (@= data.values.prometheus.url @)
         auth:
@@ -252,6 +256,14 @@ spec:
           exporters:
           - otlphttp/grafana_cloud
           #! - otlphttp/openobserve
+        logs/apps:
+          receivers:
+          - otlp
+          processors:
+          - batch
+          - attributes
+          exporters:
+          - otlphttp/lognroll
         metrics:
           receivers:
           - prometheus
