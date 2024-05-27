@@ -16,7 +16,7 @@ spec:
   java:
     env:
     - name: OTEL_EXPERIMENTAL_RESOURCE_DISABLED_KEYS
-      value: process.command_args,process.executable.path,process.runtime.name,process.runtime.version,process.pid,process.runtime.description,os.type,os.description,host.arch,host.name,service.instance.id,service.version
+      value: process.command_args,process.executable.path,process.runtime.name,process.runtime.version,process.pid,process.runtime.description,os.type,os.description,host.arch,host.name,service.instance.id,service.version,container.id,k8s.replicaset.name,k8s.deployment.name
     - name: OTEL_EXPORTER_OTLP_COMPRESSION
       value: gzip
     - name: OTEL_LOGS_EXPORTER
@@ -25,9 +25,9 @@ spec:
       value: none
     - name: OTEL_TRACES_EXPORTER
       value: none
-    - name: OTEL_INSTRUMENTATION_LOGBACK-APPENDER_EXPERIMENTAL-LOG-ATTRIBUTES
+    - name: OTEL_INSTRUMENTATION_LOGBACKAPPENDER_EXPERIMENTAL-LOGATTRIBUTES
       value: "true"
-    - name: OTEL_INSTRUMENTATION_LOGBACK-APPENDER_EXPERIMENTAL_CAPTURE-KEY-VALUE-PAIR-ATTRIBUTES
+    - name: OTEL_INSTRUMENTATION_LOGBACKAPPENDER_EXPERIMENTAL_CAPTUREKEYVALUEPAIRATTRIBUTES
       value: "true"
   python:
     env:
