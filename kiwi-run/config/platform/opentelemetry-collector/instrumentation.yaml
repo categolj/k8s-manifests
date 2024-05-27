@@ -14,7 +14,6 @@ spec:
     type: parentbased_traceidratio
     argument: "1.0"
   java:
-    image: ghcr.io/making/opentelemetry-operator/autoinstrumentation-java:latest
     env:
     - name: OTEL_EXPERIMENTAL_RESOURCE_DISABLED_KEYS
       value: process.command_args,process.executable.path,process.runtime.name,process.runtime.version,process.pid,process.runtime.description,os.type,os.description,host.arch,host.name,service.instance.id,service.version,container.id,k8s.replicaset.name,k8s.deployment.name
