@@ -7,7 +7,7 @@ metadata:
   name: otel
   namespace: opentelemetry
 spec:
-  image: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.100.1
+  image: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.101.0
   #@yaml/text-templated-strings
   config: |
     extensions:
