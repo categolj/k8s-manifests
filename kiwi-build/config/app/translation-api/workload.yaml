@@ -1,0 +1,83 @@
+apiVersion: carto.run/v1alpha1
+kind: Workload
+metadata:
+  labels:
+    app.kubernetes.io/part-of: translation-api
+    apps.tanzu.vmware.com/workload-type: web
+    apps.tanzu.vmware.com/has-tests: "true"
+  annotations:
+    kapp.k14s.io/disable-original: ""
+  name: translation-api
+  namespace: blog
+spec:
+  build:
+    env:
+    - name: BP_JVM_VERSION
+      value: "21"
+    - name: BP_JATTACH_ENABLED
+      value: "true"
+    - name: BP_MAVEN_ADDITIONAL_BUILD_ARGUMENTS
+      value: "-V -U"
+  env:
+  - name: JAVA_TOOL_OPTIONS
+    value: "-XX:ActiveProcessorCount=2 -XX:ReservedCodeCacheSize=32M -Xss512k -Duser.timezone=Asia/Tokyo -Duser.language=ja -Duser.country=JP -Dfile.encoding=UTF-8"
+  - name: BPL_JVM_THREAD_COUNT
+    value: "28"
+  - name: INFO_ENV_HOSTNAME
+    value: "${HOSTNAME:}"
+  - name: INFO_ENV_K_SERVICE
+    value: "${K_SERVICE:}"
+  - name: INFO_ENV_K_CONFIGURATION
+    value: "${K_CONFIGURATION:}"
+  - name: INFO_ENV_K_REVISION
+    value: "${K_REVISION:}"
+  - name: ENTRY_APIURL
+    value: http://blog-api.blog.svc.cluster.local
+  - name: SPRING_AI_OPENAI_APIKEY
+    valueFrom:
+      secretKeyRef:
+        name: translation-config
+        key: openai-api-key
+  - name: GITHUB_ACCESSTOKEN
+    valueFrom:
+      secretKeyRef:
+        name: translation-config
+        key: github-access-token
+  - name: GITHUB_WEBHOOKSECRET
+    valueFrom:
+      secretKeyRef:
+        name: translation-config
+        key: github-webhook-secret
+  - name: MANAGEMENT_OTLP_TRACING_ENDPOINT
+    value: http://otel-collector.opentelemetry.svc.cluster.local:4318/v1/traces
+  - name: SPRING_THREADS_VIRTUAL_ENABLED
+    value: "true"
+  params:
+  - name: testing_pipeline_matching_labels
+    value:
+      apps.tanzu.vmware.com/language: java
+      apps.tanzu.vmware.com/dind: "false"
+  - name: annotations
+    value:
+      autoscaling.knative.dev/minScale: "0"
+      prometheus.io/path: /actuator/prometheus
+      prometheus.io/port: "8081"
+      prometheus.io/scrape: "true"
+      instrumentation.opentelemetry.io/inject-java: opentelemetry/default
+  - name: buildServiceBindings
+    value:
+    - kind: Secret
+      apiVersion: v1
+      name: settings-xml
+  - name: scanning_image_policy
+    value: spring-boot
+  resources:
+    limits:
+      memory: 512Mi
+    requests:
+      memory: 512Mi
+  source:
+    git:
+      url: https://github.com/categolj/translation-api
+      ref:
+        branch: main
