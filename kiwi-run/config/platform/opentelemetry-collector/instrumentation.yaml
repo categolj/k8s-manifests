@@ -13,6 +13,22 @@ spec:
   sampler:
     type: parentbased_traceidratio
     argument: "1.0"
+  java:
+    env:
+    - name: otel.experimental.resource.disabled.keys
+      value: process.command_args,process.executable.path,process.runtime.name,process.runtime.version,process.pid,process.runtime.description,os.type,os.description,host.arch,host.name,service.instance.id,service.version
+    - name: otel.exporter.otlp.compression
+      value: gzip
+    - name: otel.logs.exporter
+      value: otlp
+    - name: otel.metrics.exporter
+      value: none
+    - name: otel.traces.exporter
+      value: none
+    - name: otel.instrumentation.logback-appender.experimental-log-attributes
+      value: "true"
+    - name: otel.instrumentation.logback-appender.experimental.capture-key-value-pair-attributes
+      value: "true"
   python:
     env:
     #! Required if endpoint is set to 4317.
