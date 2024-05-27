@@ -15,19 +15,19 @@ spec:
     argument: "1.0"
   java:
     env:
-    - name: otel.experimental.resource.disabled.keys
+    - name: OTEL_EXPERIMENTAL_RESOURCE_DISABLED_KEYS
       value: process.command_args,process.executable.path,process.runtime.name,process.runtime.version,process.pid,process.runtime.description,os.type,os.description,host.arch,host.name,service.instance.id,service.version
-    - name: otel.exporter.otlp.compression
+    - name: OTEL_EXPORTER_OTLP_COMPRESSION
       value: gzip
-    - name: otel.logs.exporter
+    - name: OTEL_LOGS_EXPORTER
       value: otlp
-    - name: otel.metrics.exporter
+    - name: OTEL_METRICS_EXPORTER
       value: none
-    - name: otel.traces.exporter
+    - name: OTEL_TRACES_EXPORTER
       value: none
-    - name: otel.instrumentation.logback-appender.experimental-log-attributes
+    - name: OTEL_INSTRUMENTATION_LOGBACK-APPENDER_EXPERIMENTAL-LOG-ATTRIBUTES
       value: "true"
-    - name: otel.instrumentation.logback-appender.experimental.capture-key-value-pair-attributes
+    - name: OTEL_INSTRUMENTATION_LOGBACK-APPENDER_EXPERIMENTAL_CAPTURE-KEY-VALUE-PAIR-ATTRIBUTES
       value: "true"
   python:
     env:
