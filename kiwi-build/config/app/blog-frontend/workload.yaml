@@ -23,6 +23,8 @@ spec:
     value: "-XX:+UnlockExperimentalVMOptions -XX:+EnableJVMCI -XX:ActiveProcessorCount=2 -XX:ReservedCodeCacheSize=32M -Xss512k -Duser.timezone=Asia/Tokyo -Duser.language=ja -Duser.country=JP -Dfile.encoding=UTF-8"
   - name: BPL_JVM_THREAD_COUNT
     value: "28"
+  - name: OTEL_SERVICE_NAME
+    value: blog-frontend
   - name: INFO_ENV_HOSTNAME
     value: "${HOSTNAME:}"
   - name: INFO_ENV_K_SERVICE

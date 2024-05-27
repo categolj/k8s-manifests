@@ -29,6 +29,8 @@ spec:
       secretKeyRef:
         name: otel-config
         key: otel-trace-service-name
+  - name: OTEL_SERVICE_NAME
+    value: blog-api
   - name: SPRING_SECURITY_USER_PASSWORD
     valueFrom:
       secretKeyRef:
