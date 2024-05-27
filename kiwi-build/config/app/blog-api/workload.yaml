@@ -102,6 +102,7 @@ spec:
       prometheus.io/path: /actuator/prometheus
       prometheus.io/port: "8081"
       prometheus.io/scrape: "true"
+      instrumentation.opentelemetry.io/inject-java: opentelemetry/default
   - name: api_descriptor
     value:
       description: Blog Entry API
