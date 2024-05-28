@@ -39,6 +39,8 @@ spec:
     value: http://note-api.note.svc.cluster.local
   - name: COUNTERAPI_URL
     value: http://counter-api.blog.svc.cluster.local/counter
+  - name: MANAGEMENT_OTLP_LOGS_ENDPOINT
+    value: http://otel-collector.opentelemetry.svc.cluster.local:4318/v1/logs
   - name: MANAGEMENT_OTLP_TRACING_ENDPOINT
     value: http://otel-collector.opentelemetry.svc.cluster.local:4318/v1/traces
   - name: SPRING_THREADS_VIRTUAL_ENABLED
@@ -55,7 +57,6 @@ spec:
       prometheus.io/path: /actuator/prometheus
       prometheus.io/port: "8081"
       prometheus.io/scrape: "true"
-      instrumentation.opentelemetry.io/inject-java: opentelemetry/default
   - name: buildServiceBindings
     value:
     - kind: Secret
