@@ -210,7 +210,7 @@ spec:
       otlphttp/lognroll:
         endpoint: https://lognroll.fly.dev
         headers:
-          authorization: Bearer changeme
+          authorization: #@ "Bearer " + data.values.lognroll.token
       prometheusremotewrite:
         endpoint: #@ data.values.prometheus.url
         auth:
