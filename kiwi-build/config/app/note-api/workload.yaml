@@ -38,8 +38,14 @@ spec:
       secretKeyRef:
         name: otel-config
         key: otel-trace-service-name
+  - name: OTEL_SERVICE_NAME
+    value: note-api
   - name: SPRING_SENDGRID_APIKEY
     value: "${k8s.bindings.note-config.sendgrid-api-key}"
+  - name: MANAGEMENT_OTLP_LOGS_ENDPOINT
+    value: http://otel-collector.opentelemetry.svc.cluster.local:4318/v1/logs
+  - name: MANAGEMENT_OPENTELEMETRY_RESOURCEATTRIBUTES_HOSTNAME
+    value: "${HOSTNAME:}"
   - name: MANAGEMENT_ZIPKIN_TRACING_ENDPOINT
     valueFrom:
       secretKeyRef:
