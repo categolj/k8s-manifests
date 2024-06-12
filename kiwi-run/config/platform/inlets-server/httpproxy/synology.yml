@@ -115,22 +115,6 @@ spec:
 apiVersion: projectcontour.io/v1
 kind: HTTPProxy
 metadata:
-  name: minio-synology-ik-am
-  namespace: inlets
-spec:
-  virtualhost:
-    fqdn: minio.synology.ik.am
-    tls:
-      secretName: synology-ik-am-tls
-  routes:
-  - services:
-    - name: inlets-exit
-      port: 6868
-    enableWebsockets: true
----
-apiVersion: projectcontour.io/v1
-kind: HTTPProxy
-metadata:
   name: s3-synology-ik-am
   namespace: inlets
 spec:
