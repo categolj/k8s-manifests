@@ -128,6 +128,22 @@ spec:
       port: 6868
     enableWebsockets: true
 ---
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
+metadata:
+  name: maven-synology-ik-am
+  namespace: inlets
+spec:
+  virtualhost:
+    fqdn: maven.synology.ik.am
+    tls:
+      secretName: synology-ik-am-tls
+  routes:
+  - services:
+    - name: inlets-exit
+      port: 6868
+    enableWebsockets: true
+---
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
