@@ -23,5 +23,5 @@ spec:
   source:
     git:
       ref:
-        branch: melon
+        branch: kiwi
       url: https://github.com/categolj/tap-gitops.git
