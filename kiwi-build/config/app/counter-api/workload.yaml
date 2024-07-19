@@ -20,7 +20,8 @@ spec:
       apps.tanzu.vmware.com/language: skip
   - name: annotations
     value:
-      autoscaling.knative.dev/window: 3m
+      autoscaling.knative.dev/minScale: "1"
+      autoscaling.knative.dev/maxScale: "2"
   env:
   - name: RUST_LOG
     value: info
