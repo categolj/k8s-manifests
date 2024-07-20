@@ -17,26 +17,26 @@ spec:
     - name: source-revision
       value: $(params.source-revision)
     taskSpec:
-      volumes:
-      - name: dind-socket
-        emptyDir: { }
+      # volumes:
+      # - name: dind-socket
+      #   emptyDir: { }
       params:
       - name: source-url
       - name: source-revision
-      sidecars:
-      - name: docker
-        image: docker:20.10-dind
-        securityContext:
-          privileged: true
-        volumeMounts:
-        - mountPath: /var/run/
-          name: dind-socket
+      # sidecars:
+      # - name: docker
+      #   image: docker:20.10-dind
+      #   securityContext:
+      #     privileged: true
+      #   volumeMounts:
+      #   - mountPath: /var/run/
+      #     name: dind-socket
       steps:
       - name: test
         image: gradle:8.5-jdk21
-        volumeMounts:
-        - mountPath: /var/run/
-          name: dind-socket
+        # volumeMounts:
+        # - mountPath: /var/run/
+        #   name: dind-socket
         script: |-
           set -ex
           mkdir -p ~/.docker
