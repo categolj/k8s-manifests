@@ -10,6 +10,9 @@ spec:
   params:
   - name: source-url
   - name: source-revision
+  - name: slack-secret
+  - name: slack-channel
+  - name: slack-text
   tasks:
   - name: test
     params:
@@ -47,3 +50,25 @@ spec:
           curl -s $(params.source-url) | tar -m -xzf -
           ln -s /opt/npmrc/.npmrc ${HOME}/.npmrc
           ./mvnw clean test -V -s /opt/maven/settings.xml --no-transfer-progress
+  finally:
+  - name: notify-test-failure
+    when:
+    - input: $(tasks.test.status)
+      operator: in
+      values: [ "Failed" ]
+    taskRef:
+      resolver: cluster
+      params:
+      - name: kind
+        value: task
+      - name: namespace
+        value: tekton-tasks
+      - name: name
+        value: slack-notify
+    params:
+    - name: channel
+      value: $(params.slack-channel)
+    - name: text
+      value: $(params.slack-text)
+    - name: slack_secret
+      value: $(params.slack-secret)
