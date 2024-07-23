@@ -69,7 +69,7 @@ spec:
       slack-channel: C78V77QCC
       slack-text: |
         🚨 [note-api] Test Failed!
-        https://tap-gui.view.lime.maki.lol/supply-chain/kiwi-build/blog/blog-api/source-tester
+        https://tap-gui.view.kiwi.maki.lol/supply-chain/kiwi-build/note/note-api/source-tester
       slack-secret: slack-token
   - name: annotations
     value:
