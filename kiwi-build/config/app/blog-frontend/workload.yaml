@@ -52,6 +52,13 @@ spec:
     value:
       apps.tanzu.vmware.com/language: java
       apps.tanzu.vmware.com/dind: "false"
+  - name: testing_pipeline_params
+    value:
+      slack-channel: C78V77QCC
+      slack-text: |
+        🚨 [blog-frontend] Test Failed!
+        https://tap-gui.view.lime.maki.lol/supply-chain/kiwi-build/blog/blog-api/source-tester
+      slack-secret: slack-token
   - name: annotations
     value:
       autoscaling.knative.dev/minScale: "1"
