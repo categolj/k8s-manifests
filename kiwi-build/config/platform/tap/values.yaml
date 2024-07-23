@@ -175,6 +175,8 @@ stringData:
       - name: ootb-templates-overlay-pod-anti-affinity
       - name: ootb-templates-cronjob-template
       - name: ootb-templates-overlay-pdb
-
+    - name: tekton-pipelines
+      secrets:
+      - name: tekton-tasks
     excluded_packages:
     - contour.tanzu.vmware.com
