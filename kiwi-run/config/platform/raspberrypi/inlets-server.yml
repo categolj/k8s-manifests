@@ -34,7 +34,7 @@ spec:
     spec:
       containers:
       - name: inlets-server
-        image: ghcr.io/puppetlabs/inlets:3.0.3
+        image: ghcr.io/making/inlets:2.7.6
         ports:
         - containerPort: 6868
         command:
