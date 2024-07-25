@@ -237,7 +237,8 @@ spec:
         auth:
           authenticator: basicauth/prometheus
         tls:
-          insecure_skip_verify: true
+          insecure: true
+          #! insecure_skip_verify: true
       zipkin:
         endpoint: #@ data.values.zipkin.url + '/api/v2/spans'
         tls:
